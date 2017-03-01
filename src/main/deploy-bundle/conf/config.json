@@ -1,0 +1,38 @@
+{
+  "develop.mode": ${develop.mode},
+    "keystore": {
+      "filename": "$KEYSTORE_FILENAME",
+      "password": "$KEYSTORE_PASSWORD"
+    },
+  "server": {
+    "name": "${server.name}",
+    "scheme": "${server.scheme}",
+    "hostname": "${server.hostname}",
+    "port": ${server.port},
+    "allowed.origin.pattern": "${server.allowed.origin.pattern}",
+    "api": {
+      "base": "${server.api.base}"
+    },
+    "assets": {
+      "base": "${server.assets.base}",
+      "allow.listing": ${server.assets.allow.listing}
+    },
+    "root": {
+      "diagram.base": "${root.diagram.base}",
+      "element.base": "${root.element.base}"
+    },
+    "cache.builder.spec": "concurrencyLevel=1,initialCapacity=100,maximumSize=1000,expireAfterAccess=60m",
+    "sim.lagtime": ${server.sim.lagtime}
+  },
+  "mongodb": {
+
+  },
+  "oauth2": {
+    "client.id": "$OAUTH2_CLIENT_ID",
+    "client.secret": "$OAUTH2_CLIENT_SECRET",
+    "site": "https://accounts.google.com",
+    "token.path": "https://www.googleapis.com/oauth2/v3/token",
+    "auth.path": "/o/oauth2/auth",
+    "scope": "email"
+  }
+}

@@ -1,0 +1,819 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the [![Simpatico](https://simpatico.business-engineering.it:8901/assets/img/left_simpatico_small.png)](http://www.simpatico-project.eu/) Collaborative Procedure Designer Server **private** API documentation page.",
+        "version": "1.0.0",
+        "title": "CPD Server",
+        "contact": {
+            "email": "v.cartelli@business-engineering.it"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "${server.hostname}:${server.port}",
+    "basePath": "${server.api.base}",
+    "schemes": [
+        "${server.scheme}"
+    ],
+    "paths": {
+        "/stats/diagram/{diagramId}/eServiceCount": {
+            "get": {
+                "tags": [
+                    "stats"
+                ],
+                "summary": "Fetch the number of e-service in diagram",
+                "description": "Fetches the number of all the _DiagramElements_ that are associated to an e-service and belong to the _Diagram_ identified by **{diagramId}**.",
+                "operationId": "getDiagramEServiceCount",
+                "parameters": [
+                    {
+                        "name": "diagramId",
+                        "in": "path",
+                        "description": "ID of diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "43467de2-9f42-477f-9f00-13b70f53ce24"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/type/list": {
+            "get": {
+                "tags": [
+                    "schema"
+                ],
+                "summary": "List all types",
+                "description": "Retrieves the list of **all known** _Typed_ types.",
+                "operationId": "getTypeList",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/schema/{type}": {
+            "get": {
+                "tags": [
+                    "schema"
+                ],
+                "summary": "Fetch the schema by type",
+                "description": "Fetches the json-schema definition for the given _Typed_ **{type}**.",
+                "operationId": "getSchemaByType",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "type of diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "diagram:element:Shape"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "object",
+                            "description": "the Json Schema Object"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/summary/list": {
+            "get": {
+                "tags": [
+                    "diagram"
+                ],
+                "summary": "List all the diagram summaries",
+                "description": "Retrieves the list of **all** _DiagramSummary_.",
+                "operationId": "getDiagramSummaryList",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/diagram:DiagramSummary"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/summary/notation/{notation}/list": {
+            "get": {
+                "tags": [
+                    "diagram"
+                ],
+                "summary": "List the diagram summary by notation",
+                "description": "Retrieves the list of all _DiagramSummary_ of the given **{notation}**.",
+                "operationId": "getDiagramSummaryListByNotation",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "notation",
+                        "in": "path",
+                        "description": "notation of diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "diagram:notation:FPMN"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/diagram:DiagramSummary"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/{diagramId}": {
+            "get": {
+                "tags": [
+                    "diagram"
+                ],
+                "summary": "Fetch the diagram by diagram ID",
+                "description": "Retrieves the _Diagram_ for the given **{diagramId}**.",
+                "operationId": "getDiagram",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "diagramId",
+                        "in": "path",
+                        "description": "id of Diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "43467de2-9f42-477f-9f00-13b70f53ce24"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/diagram:Diagram"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/{diagramId}/summary": {
+            "get": {
+                "tags": [
+                    "diagram"
+                ],
+                "summary": "Fetch the summary by diagram ID",
+                "description": "Retrieves the _DiagramSummary_ for the given **{diagramId}**.",
+                "operationId": "getDiagramSummary",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "diagramId",
+                        "in": "path",
+                        "description": "ID of diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "43467de2-9f42-477f-9f00-13b70f53ce24"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/diagram:DiagramSummary"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/{diagramId}/elements": {
+            "get": {
+                "tags": [
+                    "diagram"
+                ],
+                "summary": "List the diagram elements by diagram ID",
+                "description": "Retrieves the list of _DiagramElement_ for the given _Diagram_  **{diagramId}**.",
+                "operationId": "getDiagramElements",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "diagramId",
+                        "in": "path",
+                        "description": "ID of diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "43467de2-9f42-477f-9f00-13b70f53ce24"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/diagram:DiagramElement"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/element/{elementId}": {
+            "get": {
+                "tags": [
+                    "diagram"
+                ],
+                "summary": "Fetch the diagram element by ID",
+                "description": "Retrieves the _DiagramElement_ for the given **{elementId}**.",
+                "operationId": "getDiagramElement",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "elementId",
+                        "in": "path",
+                        "description": "ID of diagram",
+                        "required": true,
+                        "type": "string",
+                        "default": "c374b442-4216-4464-a860-ee9007578b25"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/diagram:DiagramElement"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/eService/{eServiceId}/summary": {
+            "get": {
+                "tags": [
+                    "e-service"
+                ],
+                "summary": "Fetch the diagram summary by e-service ID",
+                "description": "Retrieves the _DiagramSummary_ for the given e-service **{eServiceId}**.",
+                "operationId": "getDiagramEServiceSummary",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "eServiceId",
+                        "in": "path",
+                        "description": "id of e-service",
+                        "required": true,
+                        "type": "string",
+                        "default": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/diagram:DiagramSummary"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/diagram/eService/{eServiceId}/element": {
+            "get": {
+                "tags": [
+                    "e-service"
+                ],
+                "summary": "Fetch the diagram element by e-service ID",
+                "description": "Retrieves the _DiagramElement_ associated to the given e-service **{eServiceId}**.",
+                "operationId": "getDiagramEServiceElement",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "eServiceId",
+                        "in": "path",
+                        "description": "id of e-service",
+                        "required": true,
+                        "type": "string",
+                        "default": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/diagram:DiagramElement"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/semantic/list": {
+            "get": {
+                "tags": [
+                    "semantic"
+                ],
+                "summary": "List all the semantic elements",
+                "description": "Retrieves the list of **all** _SemanticElement_.",
+                "operationId": "getSemanticList",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/semantic:SemanticElement"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/semantic/type/{type}/list": {
+            "get": {
+                "tags": [
+                    "semantic"
+                ],
+                "summary": "List all the semantic elements by type",
+                "description": "Retrieves the list of all _SemanticElement_ for the given **{type}**.",
+                "operationId": "getSemanticListByType",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "type of semantic element",
+                        "required": true,
+                        "type": "string",
+                        "default": "semantic:process:Procedure"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/semantic:SemanticElement"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/semantic/{semanticId}": {
+            "get": {
+                "tags": [
+                    "semantic"
+                ],
+                "summary": "Fetch the semantic element by ID",
+                "description": "Fetches the _SemanticElement_ for the given **{semanticId}**.",
+                "operationId": "getSemanticElement",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "semanticId",
+                        "in": "path",
+                        "description": "ID of SemanticElement",
+                        "required": true,
+                        "type": "string",
+                        "default": "a46c29cc-5814-47d0-86a9-22f6d678335a"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/semantic:SemanticElement"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/semantic/{semanticId}/accepts": {
+            "get": {
+                "tags": [
+                    "semantic"
+                ],
+                "summary": "Fetch the accepted childs of the semantic element by ID",
+                "description": "Fetches the _SemanticElement_ **type** acepted as child of the _SemanticElement_ given by **{semanticId}**.",
+                "operationId": "getSemanticElementAccepts",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "semanticId",
+                        "in": "path",
+                        "description": "ID of SemanticElement",
+                        "required": true,
+                        "type": "string",
+                        "default": "c9561247-d5a7-4578-98b9-58021ee68ae0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/semantic:SemanticElement"
+                        }
+                    },
+                    "400": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "basic:Typed": {
+            "title": "Typed",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "type of this Typed"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        },
+        "basic:Entity": {
+            "title": "Entity",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Typed"
+                }
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "ID of this Entity"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "diagram:Diagram": {
+            "title": "Diagram",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Entity"
+                }
+            ],
+            "properties": {
+                "notation": {
+                    "type": "string",
+                    "description": "Notation of this Diagram"
+                },
+                "semanticId": {
+                    "type": "string",
+                    "description": "ID of the SemanticElement associated to this Diagram"
+                },
+                "width": {
+                    "type": "number",
+                    "description": "width of this Diagram's paper"
+                },
+                "height": {
+                    "type": "number",
+                    "description": "height of this Diagram's paper"
+                }
+            },
+            "required": [
+                "notation",
+                "semanticId",
+                "width",
+                "height"
+            ]
+        },
+        "diagram:DiagramSummary": {
+            "title": "DiagramSummary",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Typed"
+                }
+            ],
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "link to the Diagram (with eventually the focused DiagramElement) in the web application"
+                },
+                "svg": {
+                    "type": "string",
+                    "description": "link to the svg image of the Diagram"
+                },
+                "diagramId": {
+                    "type": "string",
+                    "description": "ID of the Diagram"
+                },
+                "notation": {
+                    "type": "string",
+                    "description": "Notation of the Diagram"
+                },
+                "diagramElementId": {
+                    "type": "string",
+                    "description": "optional ID of the focused DiagramElement in the url"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "name of the SemanticElement associated to the Diagram"
+                },
+                "documentation": {
+                    "type": "string",
+                    "description": "name of the SemanticElement associated to the Diagram"
+                }
+            },
+            "required": [
+                "url",
+                "svg",
+                "diagramId",
+                "notation",
+                "name",
+                "documentation"
+            ]
+        },
+        "diagram:DiagramElement": {
+            "title": "DiagramElement",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Entity"
+                }
+            ],
+            "properties": {
+                "diagramId": {
+                    "type": "string",
+                    "description": "ID of the Diagram containing this DiagramElement"
+                },
+                "semanticId": {
+                    "type": "string",
+                    "description": "ID of the associated SemanticElement"
+                },
+                "ownerId": {
+                    "type": "string",
+                    "description": "optional ID of the DiagramElement owning this one (for svg grouping)"
+                },
+                "eServiceId": {
+                    "type": "string",
+                    "description": "optional ID of the e-service associated to this Element"
+                },
+                "label": {
+                    "$ref": "#/definitions/diagram:graphics:Label"
+                }
+            },
+            "required": [
+                "diagramId",
+                "semanticId",
+                "label"
+            ]
+        },
+        "diagram:graphics:Label": {
+            "title": "Label",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Typed"
+                }
+            ],
+            "properties": {
+                "hAlign": {
+                    "type": "string",
+                    "default": "start",
+                    "description": "horizontal alignment of text in this Label",
+                    "enum": [
+                        "start",
+                        "end",
+                        "left",
+                        "right",
+                        "center",
+                        "justify"
+                    ]
+                },
+                "vAlign": {
+                    "type": "string",
+                    "default": "top",
+                    "description": "vertical alignment of text in this Label",
+                    "enum": [
+                        "baseline",
+                        "bottom",
+                        "length",
+                        "middle",
+                        "percentage",
+                        "sub",
+                        "super",
+                        "text-bottom",
+                        "text-top",
+                        "top"
+                    ]
+                },
+                "property": {
+                    "type": "string",
+                    "default": "name",
+                    "description": "SemanticElement's property name to render as text in this Label"
+                },
+                "bounds": {
+                    "$ref": "#/definitions/diagram:graphics:Bounds"
+                }
+            },
+            "required": [
+                "hAlign",
+                "vAlign",
+                "property",
+                "bounds"
+            ]
+        },
+        "diagram:graphics:Bounds": {
+            "title": "Bounds",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Typed"
+                }
+            ],
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "x coordinate of the top-left corner of this Bounds"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "y coordinate of the top-left corner of this Bounds"
+                },
+                "width": {
+                    "type": "number",
+                    "description": "width of this Bounds"
+                },
+                "height": {
+                    "type": "number",
+                    "description": "height of this Bounds"
+                }
+            },
+            "required": [
+                "x",
+                "y",
+                "width",
+                "height"
+            ]
+        },
+        "semantic:SemanticElement": {
+            "title": "SemanticElement",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/basic:Entity"
+                }
+            ],
+            "properties": {
+                "ownerId": {
+                    "type": "string",
+                    "description": "optional ID of the SemanticElement owning this one"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "name of this SemanticElement"
+                },
+                "documentation": {
+                    "type": "string",
+                    "description": "documentation of this SemanticElement"
+                }
+            },
+            "required": [
+                "name",
+                "documentation"
+            ]
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "code",
+                "message"
+            ]
+        }
+    }
+}

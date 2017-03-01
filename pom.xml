@@ -1,0 +1,182 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>it.beng</groupId>
+        <artifactId>microservice-stack</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>cpd-server</artifactId>
+    <packaging>jar</packaging>
+
+    <name>beng Modeler Server</name>
+
+    <properties>
+        <main.verticle>it.beng.modeler.microservice.ModelerConfigVerticle</main.verticle>
+        <metamodel.version>1.0-SNAPSHOT</metamodel.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>develop</id>
+            <properties>
+                <!-- server -->
+                <develop.mode>true</develop.mode>
+                <server.name>Simpatico Modeler Server [DEVELOP MODE]</server.name>
+                <server.scheme>https</server.scheme>
+                <server.hostname>localhost</server.hostname>
+                <server.port>8901</server.port>
+                <server.allowed.origin.pattern>
+                    https?:\/\/(editor\\.swagger\\.io|localhost:8901|localhost:4200)
+                </server.allowed.origin.pattern>
+                <server.api.base>/api</server.api.base>
+                <server.assets.base>/assets</server.assets.base>
+                <server.assets.allow.listing>true</server.assets.allow.listing>
+                <server.sim.lagtime>200</server.sim.lagtime>
+                <!-- ROOT app -->
+                <root.diagram.base>/diagram/{diagramId}</root.diagram.base>
+                <root.element.base>/diagram/{diagramId}/{elementId}</root.element.base>
+                <!-- QAE -->
+                <qae.origin>https://simpatico.morelab.deusto.es/citizenpedia</qae.origin>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <!-- server -->
+                <develop.mode>false</develop.mode>
+                <server.name>Simpatico Modeler Server</server.name>
+                <server.scheme>https</server.scheme>
+                <server.hostname>simpatico.business-engineering.it</server.hostname>
+                <server.port>8901</server.port>
+                <server.allowed.origin.pattern>
+                    https:\/\/simpatico\\.(business-engineering\\.it:${server.port}|morelab\\.deusto\\.es|eng\\.it)
+                </server.allowed.origin.pattern>
+                <server.api.base>/api</server.api.base>
+                <server.assets.base>/assets</server.assets.base>
+                <server.assets.allow.listing>false</server.assets.allow.listing>
+                <server.sim.lagtime>-1</server.sim.lagtime>
+                <!-- ROOT app -->
+                <root.diagram.base>/diagram/{diagramId}</root.diagram.base>
+                <root.element.base>/diagram/{diagramId}/{elementId}</root.element.base>
+                <!-- QAE -->
+                <qae.origin>https://simpatico.morelab.deusto.es/citizenpedia</qae.origin>
+            </properties>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>beng-public</id>
+            <url>http://nexus.business-engineering.it:8081/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>it.beng</groupId>
+                <artifactId>microservice-common</artifactId>
+                <version>${parent.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>it.beng</groupId>
+                <artifactId>metamodel-semantics</artifactId>
+                <version>${metamodel.version}</version>
+                <scope>compile</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>it.beng</groupId>
+            <artifactId>microservice-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-oauth2</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <!-- Guava -->
+        <!--<dependency>-->
+        <!--<groupId>com.google.guava</groupId>-->
+        <!--<artifactId>guava</artifactId>-->
+        <!--<version>21.0</version>-->
+        <!--</dependency>-->
+        <!-- Json Schema v4 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <!-- https://github.com/mbknor/mbknor-jackson-jsonSchema -->
+            <groupId>com.kjetland</groupId>
+            <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>
+            <version>1.0.16</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <!-- 1. copy unfiltered resources -->
+            <!-- 1.1 copy ROOT/assets/**/* into deploy-bundle/assets -->
+            <resource>
+                <directory>src/main/deploy-bundle/web/ROOT/assets</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <targetPath>../deploy-bundle/web/assets</targetPath>
+            </resource>
+            <!-- 1.2 copy all remaining resources except those to be filtered -->
+            <resource>
+                <directory>src/main/deploy-bundle</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>conf/config.json</exclude>
+                    <exclude>web/assets/conf/*.json</exclude>
+                    <exclude>web/assets/swagger/*.json</exclude>
+                    <exclude>web/swagger-ui/swagger.json</exclude>
+                    <!-- this is excluded because already copied into web/assets -->
+                    <exclude>web/ROOT/assets/**/*</exclude>
+                </excludes>
+                <targetPath>../deploy-bundle</targetPath>
+            </resource>
+            <!-- 2. copy filtered resources -->
+            <resource>
+                <directory>src/main/deploy-bundle</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>conf/config.json</include>
+                    <include>web/assets/conf/*.json</include>
+                    <include>web/assets/swagger/*.json</include>
+                    <include>web/swagger-ui/swagger.json</include>
+                </includes>
+                <targetPath>../deploy-bundle</targetPath>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <!-- copy the cluster configuration -->
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <!-- plugin to create a `fat-jar` -->
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

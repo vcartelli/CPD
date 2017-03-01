@@ -1,0 +1,32 @@
+{
+  "server": {
+    "origin": "${server.scheme}://${server.hostname}:${server.port}",
+    "auth": {
+      "href": "/auth",
+      "isAuthenticated": "/isAuthenticated",
+      "getProfile": "/profile",
+      "endpoint": {
+        "login": "/{provider}/login",
+        "logout": "/logout"
+      }
+    },
+    "api": {
+      "href": "/api",
+      "getDiagramSummaryList": "/diagram/summary/list",
+      "getDiagram": "/diagram/{diagramId}",
+      "getSemantic": "/semantic/{semanticId}",
+      "putSemantic": "/semantic/{semanticId}"
+    }
+  },
+  "qae": {
+    "origin": "${qae.origin}",
+    "api": {
+      "href": "/api",
+      "getQuestionCount": "/stats/diagrams/{elementId}"
+    },
+    "endpoint": {
+      "newQuestion": "/questions/create?tags={eServiceId},{diagramId},{elementId},Diagram",
+      "relatedQuestions": "/diagrams/list/{elementId}"
+    }
+  }
+}

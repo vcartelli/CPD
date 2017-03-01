@@ -1,0 +1,178 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the [![Simpatico](https://simpatico.business-engineering.it:8901/assets/img/left_simpatico_small.png)](http://www.simpatico-project.eu/) Collaborative Procedure Designer Server **public** API documentation page.",
+    "version": "1.0.0",
+    "title": "CPD Server",
+    "contact": {
+      "email": "v.cartelli@business-engineering.it"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "${server.hostname}:${server.port}",
+  "basePath": "${server.api.base}",
+  "schemes": [
+    "${server.scheme}"
+  ],
+  "paths": {
+    "/stats/diagram/{diagramId}/eServiceCount": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Fetch the number of e-service in diagram",
+        "description": "Fetches the number of all the _DiagramElements_ that are associated to an e-service and belong to the _Diagram_ identified by **{diagramId}**.",
+        "operationId": "getDiagramEServiceCount",
+        "parameters": [
+          {
+            "name": "diagramId",
+            "in": "path",
+            "description": "ID of diagram",
+            "required": true,
+            "type": "string",
+            "default": "43467de2-9f42-477f-9f00-13b70f53ce24"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/diagram/eService/{eServiceId}/summary": {
+      "get": {
+        "tags": [
+          "e-service"
+        ],
+        "summary": "Fetch the diagram summary by e-service ID",
+        "description": "Retrieves the _DiagramSummary_ for the given e-service **{eServiceId}**.",
+        "operationId": "getDiagramEServiceSummary",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "eServiceId",
+            "in": "path",
+            "description": "id of e-service",
+            "required": true,
+            "type": "string",
+            "default": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/diagram:DiagramSummary"
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "basic:Typed": {
+      "title": "Typed",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "type of this Typed"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "diagram:DiagramSummary": {
+      "title": "DiagramSummary",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/basic:Typed"
+        }
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "link to the Diagram (with eventually the focused DiagramElement) in the web application"
+        },
+        "svg": {
+          "type": "string",
+          "description": "link to the svg image of the Diagram"
+        },
+        "diagramId": {
+          "type": "string",
+          "description": "ID of the Diagram"
+        },
+        "notation": {
+          "type": "string",
+          "description": "Notation of the Diagram"
+        },
+        "diagramElementId": {
+          "type": "string",
+          "description": "optional ID of the focused DiagramElement in the url"
+        },
+        "name": {
+          "type": "string",
+          "description": "name of the SemanticElement associated to the Diagram"
+        },
+        "documentation": {
+          "type": "string",
+          "description": "name of the SemanticElement associated to the Diagram"
+        }
+      },
+      "required": [
+        "url",
+        "svg",
+        "diagramId",
+        "notation",
+        "name",
+        "documentation"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    }
+  }
+}
