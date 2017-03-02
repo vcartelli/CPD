@@ -1,11 +1,8 @@
 ### Private files
-/keystore.sh
-/oauth.sh
-/develop.json
-/deploy-dev.sh
-/web/
-/keystore.jks
-/simpatico.sh
+keystore.sh
+oauth.sh
+web/
+keystore.jks
 
 ### Maven template
 target/
