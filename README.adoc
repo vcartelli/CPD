@@ -26,7 +26,7 @@ The CPD's root folder contains *five* script files:
 * `pom.xml`
 * `deploy.sh`
 
-The files *four* files need to be edited in order to set important parameters. The last one is a script that invokes (or someway makes use of) the first four, and expects some further parameters as input arguments (see <<production, production>> section).
+The first *four* files need to be edited in order to set important parameters. The last one is a script that invokes (or someway makes use of) the first four, and expects some further parameters as input arguments (see <<production, production>> section).
 
 === `self-signed-keystore.sh`
 This is an utility to generate a java keystore storing a self-signed certificate. it has pre-set values to produce a keystore named `keystore.jks` with password `simpatico`. You may run this script to generate a server certificate in the case that you do not already own one. Either the case, make sure to have your server's certificate in the java keystore format (.jks) and placed in the CPD's root folder.
