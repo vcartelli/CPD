@@ -1,0 +1,33 @@
+### Private files
+/keystore.sh
+/oauth.sh
+/develop.json
+/deploy-dev.sh
+/web/
+/keystore.jks
+/simpatico.sh
+
+### Maven template
+target/
+#pom.xml.tag
+#pom.xml.releaseBackup
+#pom.xml.versionsBackup
+#pom.xml.next
+#release.properties
+#dependency-reduced-pom.xml
+#buildNumber.properties
+#.mvn/timing.properties
+
+### IntelliJ IDEA
+.idea
+*.iml
+.DS_Store
+microservice-common/.DS_Store
+microservice-common/.vertx/
+microservice-common/src/main/java/.DS_Store
+microservice-common/src/main/java/it/.DS_Store
+microservice-common/src/main/java/it/beng/.DS_Store
+
+### vert.x
+.vertx/
+
