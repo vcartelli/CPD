@@ -71,7 +71,7 @@
     <repositories>
         <repository>
             <id>beng-public</id>
-            <url>http://nexus.business-engineering.it:8081/repository/maven-public/</url>
+            <url>http://nexus.business-engineering.it/nexus/repository/maven-public/</url>
         </repository>
     </repositories>
 
