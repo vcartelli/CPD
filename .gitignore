@@ -1,6 +1,6 @@
 ### Private files
-/keystore.sh
-/oauth.sh
+/develop.properties
+/production.properties
 /config/
 /web/
 
