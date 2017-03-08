@@ -2,7 +2,7 @@ package it.beng.modeler.model.semantic.organization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import it.beng.modeler.model.basic.Entity;
+import it.beng.modeler.model.Entity;
 import it.beng.modeler.model.semantic.SemanticElement;
 
 import java.util.List;

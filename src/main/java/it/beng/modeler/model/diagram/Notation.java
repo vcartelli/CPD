@@ -1,6 +1,6 @@
 package it.beng.modeler.model.diagram;
 
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Typed;
 
 import java.util.LinkedHashMap;
 import java.util.List;

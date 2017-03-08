@@ -12,24 +12,14 @@ then
   echo "please provide server domain or ip address ex. simpatico.mydomain.com"
   exit 1
 fi
-KEYSTORE_PATH=$3
-if [ -z "$KEYSTORE_PATH" ]
-then
-  echo "please provide keystore's full path for $SERVER"
-  exit 1
-fi
 echo "starting production compilation..."
 # create your own oauth.sh from oauth-example.sh
-mvn clean package -P production; ./keystore.sh; ./oauth.sh;
-echo "copying target to deploy-bundle..."
+mvn clean package -P production
+echo "copying target jar to deploy-bundle..."
 cp target/cpd-server-1.0-SNAPSHOT-fat.jar target/deploy-bundle/cpd-server.jar
-echo "copying keystore to deploy-bundle..."
-cp $KEYSTORE_PATH target/deploy-bundle/
 chmod 754 target/deploy-bundle/*.sh
-echo "creating cpd-server dir..."
-ssh $USER@$SERVER 'if [ ! -d cpd-server ]; then mkdir cpd-server; fi'
-echo "stopping remote server..."
-ssh $USER@$SERVER '~/cpd-server/stop.sh'
+ssh $USER@$SERVER 'if [ ! -d cpd-server ]; then echo "creating cpd-server dir..."; mkdir cpd-server; fi'
+ssh $USER@$SERVER 'if [ -f "~/cpd-server/cpd.pid" ]; then echo "stopping remote server..."; ~/cpd-server/stop.sh; fi'
 echo "deploying to $SERVER..."
 scp -r target/deploy-bundle/* $USER@$SERVER:cpd-server/
 echo "starting remote server..."

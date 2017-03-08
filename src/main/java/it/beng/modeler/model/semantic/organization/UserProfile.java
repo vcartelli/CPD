@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hazelcast.util.MD5Util;
-import io.vertx.core.json.Json;
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Typed;
 import it.beng.modeler.model.semantic.organization.roles.AuthenticationRole;
 import it.beng.modeler.model.semantic.organization.roles.AuthorizationRole;
 
@@ -104,7 +102,7 @@ public class UserProfile implements Typed {
     public AuthenticationRole authenticationRole;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonPropertyDescription("the authorization roles (key: diagramId) associated to this UserProfile")
-    public Map<String, Set<AuthorizationRole>> authorizationRoles;
+    public Map<String, List<AuthorizationRole>> authorizationRoles;
 //    // TODO: load the email from google and append it to the loggedInUser object
 //    // NOTE: the email could be retrieved from Person...
 //    @JsonProperty(required = true)
@@ -114,7 +112,7 @@ public class UserProfile implements Typed {
     protected UserProfile() {
     }
 
-    public UserProfile(String username, String personId, String password, String gender, Name name, String displayName, String language, Image image, AuthenticationRole authenticationRole, Map<String, Set<AuthorizationRole>> authorizationRoles) {
+    public UserProfile(String username, String personId, String password, String gender, Name name, String displayName, String language, Image image, AuthenticationRole authenticationRole, Map<String, List<AuthorizationRole>> authorizationRoles) {
         this.username = username;
         this.personId = personId;
         this.password = password;
@@ -139,12 +137,12 @@ public class UserProfile implements Typed {
             "en",
             null,
             AuthenticationRole.ADMINISTRATOR,
-            new LinkedHashMap<String, Set<AuthorizationRole>>() {
+            new LinkedHashMap<String, List<AuthorizationRole>>() {
                 {
-                    put("*", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.COLLABORATOR)));
-                    put("*", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.EDITOR)));
-                    put("*", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.REVIEWER)));
-                    put("*", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.OWNER)));
+                    put("*", Arrays.asList(AuthorizationRole.COLLABORATOR));
+                    put("*", Arrays.asList(AuthorizationRole.EDITOR));
+                    put("*", Arrays.asList(AuthorizationRole.REVIEWER));
+                    put("*", Arrays.asList(AuthorizationRole.OWNER));
                 }
             }
         );
@@ -158,9 +156,9 @@ public class UserProfile implements Typed {
             "en",
             null,
             AuthenticationRole.CITIZEN,
-            new LinkedHashMap<String, Set<AuthorizationRole>>() {
+            new LinkedHashMap<String, List<AuthorizationRole>>() {
                 {
-                    put("*", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.OBSERVER)));
+                    put("*", Arrays.asList(AuthorizationRole.OBSERVER));
                 }
             }
         );
@@ -174,10 +172,10 @@ public class UserProfile implements Typed {
             "en",
             null,
             AuthenticationRole.CIVIL_SERVANT,
-            new LinkedHashMap<String, Set<AuthorizationRole>>() {
+            new LinkedHashMap<String, List<AuthorizationRole>>() {
                 {
-                    put("43467de2-9f42-477f-9f00-13b70f53ce24", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.EDITOR, AuthorizationRole.REVIEWER)));
-                    put("62c02032-0b13-436c-9a96-00a7e479801b", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.COLLABORATOR)));
+                    put("43467de2-9f42-477f-9f00-13b70f53ce24", Arrays.asList(AuthorizationRole.EDITOR, AuthorizationRole.REVIEWER));
+                    put("62c02032-0b13-436c-9a96-00a7e479801b", Arrays.asList(AuthorizationRole.COLLABORATOR));
                 }
             }
         );
@@ -191,10 +189,10 @@ public class UserProfile implements Typed {
             "en",
             null,
             AuthenticationRole.CIVIL_SERVANT,
-            new LinkedHashMap<String, Set<AuthorizationRole>>() {
+            new LinkedHashMap<String, List<AuthorizationRole>>() {
                 {
-                    put("43467de2-9f42-477f-9f00-13b70f53ce24", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.OWNER)));
-                    put("62c02032-0b13-436c-9a96-00a7e479801b", new LinkedHashSet<>(Arrays.asList(AuthorizationRole.EDITOR, AuthorizationRole.REVIEWER)));
+                    put("43467de2-9f42-477f-9f00-13b70f53ce24", Arrays.asList(AuthorizationRole.OWNER));
+                    put("62c02032-0b13-436c-9a96-00a7e479801b", Arrays.asList(AuthorizationRole.EDITOR, AuthorizationRole.REVIEWER));
                 }
             }
         );

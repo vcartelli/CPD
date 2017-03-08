@@ -1,38 +1,57 @@
 {
-  "develop.mode": ${develop.mode},
-    "keystore": {
-      "filename": "$KEYSTORE_FILENAME",
-      "password": "$KEYSTORE_PASSWORD"
-    },
+  "develop": ${cpd.develop},
+  "keystore": {
+    "filename": "${cpd.keystore.filename}",
+    "password": "${cpd.keystore.password}"
+  },
   "server": {
-    "name": "${server.name}",
-    "scheme": "${server.scheme}",
-    "hostname": "${server.hostname}",
-    "port": ${server.port},
-    "allowed.origin.pattern": "${server.allowed.origin.pattern}",
+    "name": "${cpd.server.name}",
+    "scheme": "${cpd.server.scheme}",
+    "hostname": "${cpd.server.hostname}",
+    "port": ${cpd.server.port},
+    "allowedOriginPattern": "${cpd.server.allowedOriginPattern}",
+    "simLagTime": ${cpd.server.simLagTime},
+    "cacheBuilder": {
+      "concurrencyLevel": ${cpd.server.cacheBuilder.concurrencyLevel},
+      "initialCapacity": ${cpd.server.cacheBuilder.initialCapacity},
+      "maximumSize": ${cpd.server.cacheBuilder.maximumSize},
+      "expireAfterAccess": "${cpd.server.cacheBuilder.expireAfterAccess}"
+    },
+    "auth": {
+      "base": "${cpd.server.auth.base}"
+    },
     "api": {
-      "base": "${server.api.base}"
+      "base": "${cpd.server.api.base}"
     },
     "assets": {
-      "base": "${server.assets.base}",
-      "allow.listing": ${server.assets.allow.listing}
-    },
-    "root": {
-      "diagram.base": "${root.diagram.base}",
-      "element.base": "${root.element.base}"
-    },
-    "cache.builder.spec": "concurrencyLevel=1,initialCapacity=100,maximumSize=1000,expireAfterAccess=60m",
-    "sim.lagtime": ${server.sim.lagtime}
+      "base": "${cpd.server.assets.base}",
+      "allowListing": ${cpd.server.assets.allowListing}
+    }
+  },
+  "webapp": {
+    "loginRoute": "${cpd.webapp.loginRoute}",
+    "diagramRoute": "${cpd.webapp.diagramRoute}"
+  },
+  "qae": {
+    "origin": "${cpd.qae.origin}"
   },
   "mongodb": {
-
+    "host": "${cpd.mongodb.host}",
+    "port": ${cpd.mongodb.port},
+    "username": "${cpd.mongodb.username}",
+    "password": "${cpd.mongodb.password}",
+    "db_name": "${cpd.mongodb.name}",
+    "useObjectId": ${cpd.mongodb.useObjectId},
+    "maxPoolSize": ${cpd.mongodb.maxPoolSize},
+    "maxIdleTimeMS": ${cpd.mongodb.maxIdleTimeMS},
+    "maxLifeTimeMS": ${cpd.mongodb.maxLifeTimeMS}
   },
   "oauth2": {
-    "client.id": "$OAUTH2_CLIENT_ID",
-    "client.secret": "$OAUTH2_CLIENT_SECRET",
-    "site": "https://accounts.google.com",
-    "token.path": "https://www.googleapis.com/oauth2/v3/token",
-    "auth.path": "/o/oauth2/auth",
-    "scope": "email"
+    "client.id": "${cpd.oauth2.client.id}",
+    "client.secret": "${cpd.oauth2.client.secret}",
+    "site": "${cpd.oauth2.site}",
+    "token.path": "${cpd.oauth2.token.path}",
+    "auth.path": "${cpd.oauth2.auth.path}",
+    "scope": "${cpd.oauth2.scope}"
   }
 }

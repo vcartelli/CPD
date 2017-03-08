@@ -1,7 +1,6 @@
 package it.beng.modeler.model.semantic.organization.roles;
 
-import it.beng.modeler.model.basic.Typed;
-import it.beng.modeler.model.semantic.organization.UserProfile;
+import it.beng.modeler.model.Typed;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>

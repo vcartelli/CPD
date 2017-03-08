@@ -1,32 +1,30 @@
 {
   "server": {
-    "origin": "${server.scheme}://${server.hostname}:${server.port}",
+    "origin": "${cpd.server.scheme}://${cpd.server.hostname}:${cpd.server.port}",
     "auth": {
-      "href": "/auth",
-      "isAuthenticated": "/isAuthenticated",
-      "getProfile": "/profile",
-      "endpoint": {
-        "login": "/{provider}/login",
-        "logout": "/logout"
-      }
+      "base": "/auth",
+      "login": "${cpd.server.auth.login}",
+      "logout": "${cpd.server.auth.logout}",
+      "getProfile": "${cpd.server.auth.getProfile}"
     },
     "api": {
-      "href": "/api",
-      "getDiagramSummaryList": "/diagram/summary/list",
-      "getDiagram": "/diagram/{diagramId}",
-      "getSemantic": "/semantic/{semanticId}",
-      "putSemantic": "/semantic/{semanticId}"
+      "base": "${cpd.server.api.base}",
+      "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
+      "getDiagram": "${cpd.server.api.getDiagram}",
+      "getDiagramElements": "${cpd.server.api.getDiagramElements}",
+      "getSemantic": "${cpd.server.api.getSemantic}",
+      "putSemantic": "${cpd.server.api.putSemantic}"
     }
   },
   "qae": {
-    "origin": "${qae.origin}",
+    "origin": "${cpd.qae.origin}",
     "api": {
-      "href": "/api",
-      "getQuestionCount": "/stats/diagrams/{elementId}"
+      "base": "${cpd.qae.api.base}",
+      "getQuestionCount": "${cpd.qae.api.getQuestionCount}"
     },
-    "endpoint": {
-      "newQuestion": "/questions/create?tags={eServiceId},{diagramId},{elementId},Diagram",
-      "relatedQuestions": "/diagrams/list/{elementId}"
+    "link": {
+      "newQuestion": "${cpd.qae.link.newQuestion}",
+      "relatedQuestions": "${cpd.qae.link.relatedQuestions}"
     }
   }
 }

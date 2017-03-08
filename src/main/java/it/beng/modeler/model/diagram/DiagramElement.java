@@ -3,7 +3,7 @@ package it.beng.modeler.model.diagram;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import it.beng.modeler.model.basic.Entity;
+import it.beng.modeler.model.Entity;
 import it.beng.modeler.model.diagram.graphics.Label;
 
 import java.util.List;

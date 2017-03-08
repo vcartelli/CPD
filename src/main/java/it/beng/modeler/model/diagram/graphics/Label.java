@@ -2,7 +2,7 @@ package it.beng.modeler.model.diagram.graphics;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Typed;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>

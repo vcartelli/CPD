@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Typed;
 import it.beng.modeler.model.semantic.organization.UserProfile;
 import it.beng.modeler.model.semantic.organization.roles.AuthenticationRole;
 import it.beng.modeler.model.semantic.organization.roles.AuthorizationRole;
@@ -31,6 +31,7 @@ public class LocalUser extends AbstractUser implements User {
 
     @Override
     protected void doIsPermitted(String role, Handler<AsyncResult<Boolean>> resultHandler) {
+        System.out.println("checking role " + role);
         boolean has = false;
         if (role != null)
             if (role.startsWith(Typed.typePrefix(AuthenticationRole.class)))

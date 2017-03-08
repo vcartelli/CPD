@@ -1,8 +1,8 @@
 package it.beng.modeler.model.semantic.process;
 
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import it.beng.modeler.model.basic.Entity;
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Entity;
+import it.beng.modeler.model.Typed;
 import it.beng.modeler.model.semantic.AcceptMatrix;
 import it.beng.modeler.model.semantic.SemanticElement;
 

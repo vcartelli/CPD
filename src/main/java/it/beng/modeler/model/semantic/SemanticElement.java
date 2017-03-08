@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
-import it.beng.modeler.model.basic.Entity;
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Entity;
+import it.beng.modeler.model.Typed;
 import it.beng.modeler.model.semantic.process.Phase;
 import it.beng.modeler.model.semantic.process.Procedure;
 

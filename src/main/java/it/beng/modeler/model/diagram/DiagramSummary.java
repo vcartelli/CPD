@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import it.beng.modeler.config;
-import it.beng.modeler.model.basic.Entity;
-import it.beng.modeler.model.basic.Typed;
+import it.beng.modeler.model.Entity;
+import it.beng.modeler.model.Typed;
 import it.beng.modeler.model.semantic.SemanticElement;
 
 /**
@@ -29,10 +29,12 @@ public final class DiagramSummary implements Typed {
 
     DiagramSummary(Diagram diagram, String diagramElementId) {
         this.diagram = diagram;
+/*
         if (diagramElementId != null)
             this.url = config.diagramElementHref(this.diagram.id, diagramElementId);
         else
             this.url = config.diagramHref(this.diagram.id);
+*/
         this.svg = config.assetOrigin() + "/svg/" + this.diagram.id + ".svg";
         this.diagramElementId = diagramElementId;
     }

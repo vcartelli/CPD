@@ -22,48 +22,17 @@
     <profiles>
         <profile>
             <id>develop</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <!-- server -->
-                <develop.mode>true</develop.mode>
-                <server.name>Simpatico Modeler Server [DEVELOP MODE]</server.name>
-                <server.scheme>https</server.scheme>
-                <server.hostname>localhost</server.hostname>
-                <server.port>8901</server.port>
-                <server.allowed.origin.pattern>
-                    https?:\/\/(editor\\.swagger\\.io|localhost:8901|localhost:4200)
-                </server.allowed.origin.pattern>
-                <server.api.base>/api</server.api.base>
-                <server.assets.base>/assets</server.assets.base>
-                <server.assets.allow.listing>true</server.assets.allow.listing>
-                <server.sim.lagtime>200</server.sim.lagtime>
-                <!-- ROOT app -->
-                <root.diagram.base>/diagram/{diagramId}</root.diagram.base>
-                <root.element.base>/diagram/{diagramId}/{elementId}</root.element.base>
-                <!-- QAE -->
-                <qae.origin>https://simpatico.morelab.deusto.es/citizenpedia</qae.origin>
+                <config.properties.file>develop.properties</config.properties.file>
             </properties>
         </profile>
         <profile>
             <id>production</id>
             <properties>
-                <!-- server -->
-                <develop.mode>false</develop.mode>
-                <server.name>Simpatico Modeler Server</server.name>
-                <server.scheme>https</server.scheme>
-                <server.hostname>simpatico.business-engineering.it</server.hostname>
-                <server.port>8901</server.port>
-                <server.allowed.origin.pattern>
-                    https:\/\/simpatico\\.(business-engineering\\.it:${server.port}|morelab\\.deusto\\.es|eng\\.it)
-                </server.allowed.origin.pattern>
-                <server.api.base>/api</server.api.base>
-                <server.assets.base>/assets</server.assets.base>
-                <server.assets.allow.listing>false</server.assets.allow.listing>
-                <server.sim.lagtime>-1</server.sim.lagtime>
-                <!-- ROOT app -->
-                <root.diagram.base>/diagram/{diagramId}</root.diagram.base>
-                <root.element.base>/diagram/{diagramId}/{elementId}</root.element.base>
-                <!-- QAE -->
-                <qae.origin>https://simpatico.morelab.deusto.es/citizenpedia</qae.origin>
+                <config.properties.file>production.properties</config.properties.file>
             </properties>
         </profile>
     </profiles>
@@ -80,7 +49,7 @@
             <dependency>
                 <groupId>it.beng</groupId>
                 <artifactId>microservice-common</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.parent.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
@@ -105,6 +74,11 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-oauth2</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-mongo-client</artifactId>
             <version>${vertx.version}</version>
         </dependency>
         <!-- Guava -->
@@ -176,7 +150,34 @@
                 <!-- plugin to create a `fat-jar` -->
                 <artifactId>maven-shade-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>read-properties</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>${config.properties.file}</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

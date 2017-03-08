@@ -1,104 +1,138 @@
-= Collaborative Procedure Designer
+Collaborative Procedure Designer
+================================
+
 The Collaborative Procedure Designer (CPD) is a web application that provides services to draw administrative procedures
 in a collaborative way.
 
+= Getting started
+This is a Java maven project. These instructions will get you a copy of the project up and running on your local machine
+for testing and development purposes. Basically, you can play with the software either for testing (see <<production,
+Production>> section) or for development (see <<development, Development>> section) purpose.
 
-== Getting started 
-This is a maven project. These instructions will get you a copy of the project up and running on your local machine for
-development and testing purposes. Basically, you can play with the software either for testing (see Production section)
-or for development (see Development section) purpose. No matter the use, there
+= Prerequisites
 
-== Prerequisites
-
-The CPD runs on *NIX equipped machines. Before trying to install, make sure the following softwares/runtimes/libraries
+The CPD runs on *nix equipped machines. Before trying to install, make sure the following softwares/runtimes/libraries
 are available at the target machine:
 
 * Java Runtime Environment 8.x
-* MongoDB 3.x
+* MongoDB 3.4
+
+= Configuration
+
+The CPD's root folder contains *four* files to support the configuration:
+
+  1. `example.properties`
+  2. `pom.xml`
+  3. `self-signed-keystore.sh`
+  4. `deploy.sh`
+
+Of these, just the *first* one needs to be used for the actual configuration.
+
+In the following, a description of each file is outlined.
+
+== [[properties]]example.properties
+
+This is an example Java properties file that contains all the configuration parameters for the application.
+
+The maven <<pom,pom.xml>> handles two properties file called `develop.properties` and `production.properties`. Create
+both of them by *making a copy of this file* and replacing the property values accordingly.
+
+Please make sure to overwrite at least the values for this particular properties:
+
+* `cpd.keystore.filename`: the path to the jks keystore file. Can be absolute or relative to the CPD home
+   (e.g. `/home/citizenpedia/cpd-server/keystore.jks` or just `keystore.jks`);
+* `cpd.keystore.password`: the password of the keystore;
+* `cpd.server.hostname`: the hostname or the ip address of the machine executing the application (probably you will
+  leave `localhost` in the `develop.properties` file);
+* `cpd.server.port`: the port to use;
+* `cpd.server.allowedOriginPattern`: this is a *regex pattern* for allowed cross origins calls (remember that in Java
+  properties files the double backslash `\\` must be escaped two times: `\\\\`);
+* `cpd.mongodb.host`, `cpd.mongodb.port`, `cpd.mongodb.username`, `cpd.mongodb.password`: the mongodb properties;
+* `cpd.oauth2.client.id`: the oauth2 client id to use;
+* `cpd.oauth2.client.secret`: the oauth2 client secret to use.
+
+== [[pom]]pom.xml
+
+There are two profile sections of the `pom.xml` file that deserve attention: *production* and *develop*, depending on
+whether the software is going to be built for production or for development purposes. Each profile uses one of the two
+properties files created in the <<properties,previous>> section: `develop.properties` and `production.properties`.
+
+== self-signed-keystore.sh
+
+This is an utility script to generate a Java keystore storing a self-signed certificate. It has pre-set values to
+produce a keystore named +keystore.jks+ with alias `simpatico` and password `simpatico`. You may run this script to
+generate a server certificate in the case that you do not already own one. Either the case, make sure to have your
+server's certificate in the _Java keystore format_ (`.jks`).
+
+The script accepts <alias>, <password> and <filename> as arguments. Type `./self-signed-keystore.sh --help` for details.
+
+After the script is launched, the Java keytool will ask you to fill in the prompts for your organization information.
+When it asks for your first and last name, enter the domain name of the server that users will be entering to connect
+to the CPD server (e.g. www.citizenpedia.com).
+
+== deploy.sh
+
+This script has been added to simplify the deployment of the production CPD version on the remote production server via
+ssh. You can inspect it to understand how the `deploy-bundle` is set up. The script is in charge of compiling the
+production version of the project and copy the produced bundle on the production server (a remote machine).
+
+Please refer to the <<production,next>> section for the prerequisites.
+
+= [[production]]Production
+
+Before launching the `deploy.sh` script, make sure the machine you're running the script is equipped with:
+
+* Java Development Kit 8.x
+* Maven 3
+
+The `deploy.sh` script requires *two* mandatory input parameters:
+
+* the `USERNAME` of the user account to be used on the remote machine. The application will run with that user's
+  privileges;
+* the `SERVER` hostname or ip address of the remote machine where the application will be deployed (this should be equal
+  to the `cpd.server.hostname` property value of the `production.properties` file).
+
+= [[development]]Development
+
+Make sure your development environment is using:
+
+* Java Development Kit 8.x
+* Maven 3
 
 == Configuration
 
-The CPD's root folder contains *five* script files:
+There are extra configuration steps that must be taken for development purpose. The application expects the following
+two directories:
 
-* `self-signed-keystore.sh`
-* `keystore-example.sh`
-* `oauth-example.sh`
-* `pom.xml`
-* `deploy.sh`
+  1. `./conf/`: directory containing the generated `config.json` configuration file; +
+  2. `./web/`: directory containing the static resources to be served.
 
-The first *four* files need to be edited in order to set important parameters. The last one is a script that invokes (or someway makes use of) the first four, and expects some further parameters as input arguments (see <<production, production>> section).
+So, create them as symbolic links on the folder you will launch the application.
 
-=== `self-signed-keystore.sh`
-This is an utility to generate a java keystore storing a self-signed certificate. it has pre-set values to produce a keystore named `keystore.jks` with password `simpatico`. You may run this script to generate a server certificate in the case that you do not already own one. Either the case, make sure to have your server's certificate in the java keystore format (.jks) and placed in the CPD's root folder.
+*Assuming you'll run the launch command from the project root*:
 
-=== `keystore-example.sh`
-This is an example script that guides you through the settings of the keystore parameters that will be fed to the `conf/config.json` file. Please, make a copy of this file, rename the copy with the name `keystore.sh`, edit the new file and make sure to replace the `MY_KEYSTORE_FILENAME` and the `MY_KEYSTORE_PASSWORD` with your own keystore parameters. This script will be automatically run by the `deploy.sh` script, so you do not have to run it on your own.
+  1. `ln -s target/deploy-bundle/conf conf`; +
+  2. `ln -s target/deploy-bundle/web web`.
 
-=== `oauth-example.sh`
-This is an example script that guides you through the settings of the oauth parameters that will be fed to the `conf/config.json`. Please, make a copy of this file, rename the copy with the name `oauth.sh`, edit the new file and make sure to replace the `MY_OAUTH2_CLIENT_ID` and the `MY_OAUTH2_CLIENT_SECRET` with your own oauth2 keys. This script will be automatically run by the `deploy.sh` script, so you do not have to run it on your own.
+The configuration parameters can be changed in the `develop.properties` file (see the <<properties,properties>>
+section).
 
-=== `pom.xml`
+== Compilation
 
-There are two profile sections of the `pom.xml` file that deserve attention: *production* and *develop*. Depending on
-whether the software is being used for production or for development, the relative section needs to be properly
-configured. Specifically, make sure to set:
+`mvn clean (package|install) [-P (develop|production)]`
 
-* The server's hostname and port in the `<server.hostname>` and `<server.port>` tags respectively
-* The allowed origin(s) path (in regex format) in the `<server.allowed.origin.pattern>` tag
+will generate a `cpd-server-[version]-fat.jar` Java *fat jar*, which is a standalone _all-in-one_ executable jar. +
+Maven will take care of the `config.json` file filtering based on the selected profile (‘develop’ or ‘production’) and
+put it in the `target/deploy-bundle/conf` directory for you.
 
-== [[production]]Production
+If no profile is passed to the `mvn` command, maven will default to `develop`.
 
-The `deploy.sh` script has been added to simplify the deployment of the CPD on the remote production server via ssh. You can inspect it to understand how the `deploy-bundle` is set up. The script is in charge of compiling the project and move the application runtime on the production server (a remote machine).
- 
-Before launching the `deploy.sh` script, make sure the machine where you run it is equipped with:
-
-* Java Development Kit 8
-* Maven 3
-
-
-The `deploy.sh` script requires three mandatory input parameters:
-
-* the USERNAME of the user account to be used on the remote machine. The application will run with that user's privileges 
-* the SERVER domain or ip address of the remote machine where the application will be deployed
-* the KEYSTORE's full path on the remote machine
-
-
-== Development
-
-=== Configuration
-
-There are extra configuration steps that must be taken for development purpose. The application expects the following two directories:
-
-`./conf/`: directory containing the `config.json` configuration file; +
-`./web/`: directory containing the static resources to be served.
-
-so, create them as symbolic links on the folder you will launch the application.
-
-*Assuming you'll run the command from the project root*:
-
-`ln -s target/deploy-bundle/conf conf`; +
-`ln -s target/deploy-bundle/web web`.
-
-The configuration parameters can be changed in the `pom.xml` under the ‘develop’ or
- ‘production’ profiles.
-
-=== Compilation
-
-----
-mvn clean (package|install) -P (develop|production)
-----
-will generate a `cpd-server-[version]-fat.jar` java *fat jar*,
-which is a standalone _all-in-one_ executable jar. +
-Maven will take care of filtering the `conf.json` based on the selected profile
-(‘develop’ or ‘production’) and put it in the `target/deploy-bundle/conf` directory
-for you.
-
-=== Execution
+== Execution
 
 `java -jar target/cpd-server-[version]-fat.jar`
 
-Alternatively, you can configure you development environment to launch the application
-by setting these launcher configuration:
+Alternatively, you can configure you development environment to launch the application by setting these launcher
+configuration:
 
 * main class: `it.beng.microservice.common.Launcher`
 * arguments: `run it.beng.modeler.microservice.ModelerConfigVerticle`
