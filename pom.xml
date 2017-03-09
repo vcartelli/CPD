@@ -26,12 +26,14 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <cpd.develop>true</cpd.develop>
                 <config.properties.file>develop.properties</config.properties.file>
             </properties>
         </profile>
         <profile>
             <id>production</id>
             <properties>
+                <cpd.develop>false</cpd.develop>
                 <config.properties.file>production.properties</config.properties.file>
             </properties>
         </profile>
