@@ -1,8 +1,9 @@
 {
   "develop": ${cpd.develop},
-  "keystore": {
-    "filename": "${cpd.keystore.filename}",
-    "password": "${cpd.keystore.password}"
+  "ssl": {
+    "enabled": ${cpd.ssl.enabled},
+    "keyStoreFilename": "${cpd.ssl.keystore.filename}",
+    "keyStorePassword": "${cpd.ssl.keystore.password}"
   },
   "server": {
     "name": "${cpd.server.name}",

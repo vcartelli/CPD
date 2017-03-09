@@ -146,8 +146,8 @@ public final class AuthenticationSubRoute extends SubRoute {
                         .setDefaultHost("localhost")
                         .setDefaultPort(config.server.port)
                         .setKeyStoreOptions(new JksOptions()
-                            .setPath(config.keystore.filename)
-                            .setPassword(config.keystore.password))
+                            .setPath(config.keystore.keyStoreFilename)
+                            .setPassword(config.keystore.keyStorePassword))
 */
                 )
                      .request(HttpMethod.GET, 443, "www.googleapis.com", "/plus/v1/people/" + userId)

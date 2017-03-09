@@ -13,9 +13,10 @@ public final class config {
 
     public static Boolean develop;
 
-    public static final class keystore {
-        public static String filename;
-        public static String password;
+    public static final class ssl {
+        public static boolean enabled;
+        public static String keyStoreFilename;
+        public static String keyStorePassword;
     }
 
     public static final class server {
@@ -68,10 +69,11 @@ public final class config {
 
         JsonObject node;
 
-        /** keystore **/
-        node = main.getJsonObject("keystore");
-        keystore.filename = node.getString("filename");
-        keystore.password = node.getString("password");
+        /** ssl **/
+        node = main.getJsonObject("ssl");
+        ssl.enabled = node.getBoolean("enabled");
+        ssl.keyStoreFilename = node.getString("keyStoreFilename");
+        ssl.keyStorePassword = node.getString("keyStorePassword");
 
         /** server **/
         node = main.getJsonObject("server");
@@ -106,7 +108,7 @@ public final class config {
         /** mongodb **/
         node = main.getJsonObject("mongodb");
         if ("".equals(node.getString("username"))) node.put("username", (String) null);
-        if ("".equals(node.getString("password"))) node.put("password", (String) null);
+        if ("".equals(node.getString("keyStorePassword"))) node.put("keyStorePassword", (String) null);
 
         /** oauth2 **/
         node = main.getJsonObject("oauth2");

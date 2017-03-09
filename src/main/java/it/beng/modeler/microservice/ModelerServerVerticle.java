@@ -58,11 +58,11 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // create cookie and session handler
         router.route().handler(CookieHandler.create());
         router.route().handler(
-            SessionHandler.create(/*ClusteredSessionStore*/LocalSessionStore.create(vertx, "cpd.web.session.map"))
-                          .setSessionCookieName("cpd.web.session")
+            SessionHandler.create(/*ClusteredSessionStore*/LocalSessionStore.create(vertx))
+//                          .setSessionCookieName("cpd.web.session")
                           .setCookieHttpOnlyFlag(true)
-                          .setCookieSecureFlag(true)
-                          .setCookieSecureFlag(true)
+                          .setCookieSecureFlag(config.ssl.enabled)
+                          .setNagHttps(config.ssl.enabled)
                           .setSessionTimeout(TimeUnit.HOURS.toMillis(12))
         );
 
@@ -186,19 +186,22 @@ public class ModelerServerVerticle extends AbstractVerticle {
             }
         });
 
-        vertx.createHttpServer(new HttpServerOptions()
-                .setSsl(true)
-                .setKeyStoreOptions(new JksOptions()
-                    .setPath(config.keystore.filename)
-                    .setPassword(config.keystore.password)
-                )
-                .setTrustStoreOptions(
-                    new JksOptions()
-                        .setPath(config.keystore.filename)
-                        .setPassword(config.keystore.password)
-                )
-//            .setClientAuth(ClientAuth.REQUIRED)
-        )
+        HttpServerOptions serverOptions = new HttpServerOptions();
+        if (config.ssl.enabled)
+            serverOptions.setSsl(true)
+                         .setKeyStoreOptions(new JksOptions()
+                             .setPath(config.ssl.keyStoreFilename)
+                             .setPassword(config.ssl.keyStorePassword)
+                         )
+//                         .setTrustStoreOptions(
+//                             new JksOptions()
+//                                 .setPath(config.ssl.keyStoreFilename)
+//                                 .setPassword(config.ssl.keyStorePassword)
+//                         )
+//                         .setClientAuth(ClientAuth.REQUIRED)
+                ;
+
+        vertx.createHttpServer(serverOptions)
              .requestHandler(router::accept)
              .listen(config.server.port, ar -> {
                      if (ar.succeeded()) {

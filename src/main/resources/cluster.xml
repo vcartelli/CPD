@@ -32,12 +32,11 @@
         <interfaces enabled="false">
             <interface>${cpd.cluster.interface}</interface>
         </interfaces>
-        <!--<ssl enabled="false"/>-->
-        <ssl enabled="true">
+        <ssl enabled="${cpd.ssl.enabled}">
             <factory-class-name>com.hazelcast.nio.ssl.BasicSSLContextFactory</factory-class-name>
             <properties>
-                <property name="keyStore">${cpd.keystore.filename}</property>
-                <property name="keyStorePassword">${cpd.keystore.password}</property>
+                <property name="keyStore">${cpd.ssl.keystore.filename}</property>
+                <property name="keyStorePassword">${cpd.ssl.keystore.password}</property>
             </properties>
         </ssl>
         <socket-interceptor enabled="false"/>

@@ -12,12 +12,7 @@ then
   echo "please provide server domain or ip address ex. simpatico.mydomain.com"
   exit 1
 fi
-echo "starting production compilation..."
-# create your own oauth.sh from oauth-example.sh
-mvn clean package -P production
-echo "copying target jar to deploy-bundle..."
-cp target/cpd-server-1.0-SNAPSHOT-fat.jar target/deploy-bundle/cpd-server.jar
-chmod 754 target/deploy-bundle/*.sh
+./prepare-bundle.sh production
 ssh $USER@$SERVER 'if [ ! -d cpd-server ]; then echo "creating cpd-server dir..."; mkdir cpd-server; fi'
 ssh $USER@$SERVER 'if [ -f "cpd-server/cpd.pid" ]; then echo "stopping remote server..."; ~/cpd-server/stop.sh; fi'
 echo "deploying to $SERVER..."
