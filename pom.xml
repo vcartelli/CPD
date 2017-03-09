@@ -130,7 +130,16 @@
                 </excludes>
                 <targetPath>../deploy-bundle</targetPath>
             </resource>
+            <!-- 1.3 exclude cluster.xml from standard copy (it needs to be filtered) -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>cluster.xml</exclude>
+                </excludes>
+            </resource>
             <!-- 2. copy filtered resources -->
+            <!-- 2.1 filter deploy-bundle resources -->
             <resource>
                 <directory>src/main/deploy-bundle</directory>
                 <filtering>true</filtering>
@@ -141,6 +150,14 @@
                     <include>web/swagger-ui/swagger.json</include>
                 </includes>
                 <targetPath>../deploy-bundle</targetPath>
+            </resource>
+            <!-- 2.1 filter cluster.xml -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>cluster.xml</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
