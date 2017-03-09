@@ -108,7 +108,7 @@ public final class config {
         /** mongodb **/
         node = main.getJsonObject("mongodb");
         if ("".equals(node.getString("username"))) node.put("username", (String) null);
-        if ("".equals(node.getString("keyStorePassword"))) node.put("keyStorePassword", (String) null);
+        if ("".equals(node.getString("password"))) node.put("password", (String) null);
 
         /** oauth2 **/
         node = main.getJsonObject("oauth2");

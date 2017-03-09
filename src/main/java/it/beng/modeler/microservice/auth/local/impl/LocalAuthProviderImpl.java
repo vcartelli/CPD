@@ -37,27 +37,27 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
             return;
         }
 
-        String password = authInfo.getString("keyStorePassword");
+        String password = authInfo.getString("password");
         if (password == null) {
             resultHandler
-                .handle(Future.failedFuture("authInfo must contain keyStorePassword (md5 encoded) in 'keyStorePassword' field"));
+                .handle(Future.failedFuture("authInfo must contain password (md5 encoded) in 'password' field"));
             return;
         }
 
         mongodb.findOne("users", new JsonObject().put("_id", username), new JsonObject(), ar -> {
             if (ar.succeeded()) {
                 JsonObject profile = ar.result();
-                if (profile != null && password.equals(profile.getString("keyStorePassword"))) {
+                if (profile != null && password.equals(profile.getString("password"))) {
                     JsonObject principal = new JsonObject()
                         .put("provider", "local")
                         .put("username", username)
                         .put("profile", profile);
                     resultHandler.handle(Future.succeededFuture(new LocalUser(principal, this)));
                 } else {
-                    resultHandler.handle(Future.failedFuture("Invalid username/keyStorePassword"));
+                    resultHandler.handle(Future.failedFuture("Invalid username/password"));
                 }
             } else {
-                resultHandler.handle(Future.failedFuture("Invalid username/keyStorePassword"));
+                resultHandler.handle(Future.failedFuture("Invalid username/password"));
             }
         });
 

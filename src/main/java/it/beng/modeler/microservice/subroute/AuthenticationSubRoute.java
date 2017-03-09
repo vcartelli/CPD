@@ -140,8 +140,7 @@ public final class AuthenticationSubRoute extends SubRoute {
                 );
 
                 vertx.createHttpClient(
-                    new HttpClientOptions()
-                        .setSsl(true)
+                    new HttpClientOptions().setSsl(true)
 /*
                         .setDefaultHost("localhost")
                         .setDefaultPort(config.server.port)

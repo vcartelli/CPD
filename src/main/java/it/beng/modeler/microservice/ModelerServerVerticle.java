@@ -186,21 +186,19 @@ public class ModelerServerVerticle extends AbstractVerticle {
             }
         });
 
-        HttpServerOptions serverOptions = new HttpServerOptions();
-        if (config.ssl.enabled)
-            serverOptions.setSsl(true)
-                         .setKeyStoreOptions(new JksOptions()
-                             .setPath(config.ssl.keyStoreFilename)
-                             .setPassword(config.ssl.keyStorePassword)
-                         )
-//                         .setTrustStoreOptions(
-//                             new JksOptions()
-//                                 .setPath(config.ssl.keyStoreFilename)
-//                                 .setPassword(config.ssl.keyStorePassword)
-//                         )
-//                         .setClientAuth(ClientAuth.REQUIRED)
+        HttpServerOptions serverOptions = new HttpServerOptions().setSsl(config.ssl.enabled);
+        if (serverOptions.isSsl())
+            serverOptions.setKeyStoreOptions(
+                new JksOptions()
+                    .setPath(config.ssl.keyStoreFilename)
+                    .setPassword(config.ssl.keyStorePassword))
+//            .setTrustStoreOptions(
+//                new JksOptions()
+//                    .setPath(config.ssl.keyStoreFilename)
+//                    .setPassword(config.ssl.keyStorePassword)
+//            )
+//            .setClientAuth(ClientAuth.REQUIRED)
                 ;
-
         vertx.createHttpServer(serverOptions)
              .requestHandler(router::accept)
              .listen(config.server.port, ar -> {
