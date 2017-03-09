@@ -4,7 +4,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.oauth2.OAuth2Auth;
@@ -19,11 +18,8 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.auth.local.impl.LocalUser;
-import it.beng.modeler.model.semantic.organization.roles.AuthenticationRole;
-import it.beng.modeler.model.semantic.organization.roles.AuthorizationRole;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
 
 /**
@@ -32,6 +28,9 @@ import java.util.Base64;
  * @author vince
  */
 public final class AuthenticationSubRoute extends SubRoute {
+
+    private static String AUTHENTICATION_ROLE_CITIZEN = "semantic:organization:roles:AuthenticationRole:citizen";
+    private static JsonObject AUTHORIZATION_ROLES_OBSERVER = new JsonObject("{ \"*\": [ \"semantic:organization:roles:AuthorizationRole:observer\" ] }");
 
     public AuthenticationSubRoute(Vertx vertx, Router router, MongoClient mongodb) {
         super(vertx, router, mongodb);
@@ -160,11 +159,8 @@ public final class AuthenticationSubRoute extends SubRoute {
 //                                System.out.println(json);
                              JsonObject profile = new JsonObject()
                                  .put("token", token)
-                                 .put("authenticationRole", AuthenticationRole.CITIZEN.toString())
-                                 .put("authorizationRoles",
-                                     new JsonObject()
-                                         .put("*", new JsonArray(Arrays.asList(AuthorizationRole.OBSERVER.toString())))
-                                 )
+                                 .put("authenticationRole", AUTHENTICATION_ROLE_CITIZEN)
+                                 .put("authorizationRoles", AUTHORIZATION_ROLES_OBSERVER)
                                  .mergeIn(new JsonObject(json));
                              rc.user().principal()
                                .put("provider", "google")

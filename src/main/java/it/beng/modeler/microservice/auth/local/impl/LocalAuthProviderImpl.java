@@ -4,11 +4,10 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
+import io.vertx.ext.mongo.MongoClient;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
-import it.beng.modeler.model.semantic.organization.UserProfile;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -18,9 +17,13 @@ import it.beng.modeler.model.semantic.organization.UserProfile;
 public class LocalAuthProviderImpl implements LocalAuthProvider {
 
     private final Vertx vertx;
+    private final MongoClient mongodb;
 
     public LocalAuthProviderImpl(Vertx vertx) {
         this.vertx = vertx;
+        this.mongodb = vertx.getOrCreateContext().get("mongodb");
+        if (mongodb == null)
+            throw new IllegalStateException("could not find mongodb in current context");
     }
 
     @Override
@@ -36,17 +39,27 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
 
         String password = authInfo.getString("password");
         if (password == null) {
-            resultHandler.handle(Future.failedFuture("authInfo must contain password (md5 encoded) in 'password' field"));
+            resultHandler
+                .handle(Future.failedFuture("authInfo must contain password (md5 encoded) in 'password' field"));
             return;
         }
 
-        UserProfile profile = UserProfile.get(username);
-        if (profile != null && password.equals(profile.password)) {
-            System.out.println(Json.encodePrettily(profile));
-            resultHandler.handle(Future.succeededFuture(new LocalUser(username, this)));
-        } else {
-            resultHandler.handle(Future.failedFuture("Invalid username/password"));
-        }
+        mongodb.findOne("users", new JsonObject().put("_id", username), new JsonObject(), ar -> {
+            if (ar.succeeded()) {
+                JsonObject profile = ar.result();
+                if (profile != null && password.equals(profile.getString("password"))) {
+                    JsonObject principal = new JsonObject()
+                        .put("provider", "local")
+                        .put("username", username)
+                        .put("profile", profile);
+                    resultHandler.handle(Future.succeededFuture(new LocalUser(principal, this)));
+                } else {
+                    resultHandler.handle(Future.failedFuture("Invalid username/password"));
+                }
+            } else {
+                resultHandler.handle(Future.failedFuture("Invalid username/password"));
+            }
+        });
 
     }
 

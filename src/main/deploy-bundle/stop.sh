@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 if [ -f cpd.pid ]; then
-  echo "cpd-server id going to be killed..."
+  echo "cpd-server is going to be killed..."
   kill $(cat cpd.pid)
   rm cpd.pid
 else

@@ -4,7 +4,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.FindOptions;
@@ -15,11 +14,6 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
-import it.beng.modeler.model.Entity;
-import it.beng.modeler.model.diagram.Diagram;
-import it.beng.modeler.model.diagram.DiagramElement;
-import it.beng.modeler.model.semantic.AcceptMatrix;
-import it.beng.modeler.model.semantic.SemanticElement;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -35,16 +29,20 @@ public final class ApiSubRoute extends SubRoute {
     @Override
     protected void init() {
 
-//        for (String type : Typed.knownTypes()) {
-//            JsonObject document = new JsonObject().put("_id", type).put("schema", new JsonObject(Json.encode(Typed.schema(type))));
-//            mongodb.save("types", toDb(document), ar -> {
-//                if (ar.succeeded()) {
-//                    System.out.println("added: " + document);
-//                } else {
-//                    System.out.println("error: " + ar.cause().getMessage());
-//                }
-//            });
-//        }
+/*
+        for (UserProfile profile : UserProfile.list()) {
+            JsonObject document = new JsonObject(Json.encode(profile));
+            document.put("_id", document.getString("username"));
+            document.remove("username");
+            mongodb.save("users", toDb(document), ar -> {
+                if (ar.succeeded()) {
+                    System.out.println("added: " + document);
+                } else {
+                    System.out.println("error: " + ar.cause().getMessage());
+                }
+            });
+        }
+*/
 
         String api = config.server.api.base;
 
@@ -68,19 +66,13 @@ public final class ApiSubRoute extends SubRoute {
 //              .handler(this::getDiagramSummaryListByCategory);
         router.route(HttpMethod.GET, api + "/diagram/:diagramId")
               .handler(this::getDiagram);
-        router.route(HttpMethod.GET, api + "/diagram/:diagramId/summary")
-              .handler(this::getDiagramSummary);
         router.route(HttpMethod.GET, api + "/diagram/:diagramId/elements")
               .handler(this::getDiagramElements);
 //        router.route(HttpMethod.GET, api + "/diagram/:diagramId/:elementId")
 //              .handler(this::getDiagramElement);
-        router.route(HttpMethod.GET, api + "/diagram/:diagramId/:elementId/displayName")
-              .handler(this::getDiagramElementDisplayName);
 
         router.route(HttpMethod.GET, api + "/diagram/eService/:eServiceId/summary")
               .handler(this::getDiagramEServiceSummary);
-        router.route(HttpMethod.GET, api + "/diagram/eService/:eServiceId/element")
-              .handler(this::getDiagramEServiceElement);
 
         router.route(HttpMethod.GET, api + "/semantic/list")
               .handler(this::getSemanticList);
@@ -90,8 +82,6 @@ public final class ApiSubRoute extends SubRoute {
               .handler(this::getSemanticElement);
         router.put(api + "/semantic/:semanticId")
               .handler(this::putSemanticElement);
-        router.route(HttpMethod.GET, api + "/semantic/:semanticId/accepts")
-              .handler(this::getSemanticElementAccepts);
 
         /*** STATIC RESOURCES (swagger-ui) ***/
 
@@ -108,7 +98,7 @@ public final class ApiSubRoute extends SubRoute {
         simLagTime();
         String diagramId = rc.request().getParam("diagramId");
         JsonObject command = new JsonObject()
-            .put("aggregate", "diagramElements")
+            .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
                     .put("$match", new JsonObject()
@@ -136,14 +126,14 @@ public final class ApiSubRoute extends SubRoute {
         simLagTime();
         String elementId = rc.request().getParam("elementId");
         JsonObject command = new JsonObject()
-            .put("aggregate", "diagramElements")
+            .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
                     .put("$match", new JsonObject()
                         .put("_id", elementId)))
                 .add(new JsonObject()
                     .put("$graphLookup", new JsonObject()
-                        .put("from", "diagramElements")
+                        .put("from", "diagram.elements")
                         .put("startWith", "$_id")
                         .put("connectFromField", "_id")
                         .put("connectToField", "ownerId")
@@ -216,7 +206,7 @@ public final class ApiSubRoute extends SubRoute {
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
                     .put("$lookup", new JsonObject()
-                        .put("from", "semanticElements")
+                        .put("from", "semantic.elements")
                         .put("localField", "semanticId")
                         .put("foreignField", "_id")
                         .put("as", "semantic")))
@@ -266,30 +256,18 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
-    private void getDiagramSummary(RoutingContext rc) {
-        simLagTime();
-        String diagramId = rc.request().getParam("diagramId");
-        HttpServerResponse response = rc.response();
-        Diagram diagram = Entity.get(diagramId, Diagram.class);
-        if (diagram == null) {
-            throw new ResponseError(rc, "diagram " + diagramId + " not found");
-        } else response
-            .putHeader("content-type", "application/json; charset=utf-8")
-            .end(Json.encodePrettily(diagram.summary()));
-    }
-
     private void getDiagramElements(RoutingContext rc) {
         simLagTime();
         String diagramId = rc.request().getParam("diagramId");
         JsonObject command = new JsonObject()
-            .put("aggregate", "diagramElements")
+            .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
                     .put("$match", new JsonObject()
                         .put("diagramId", diagramId)))
                 .add(new JsonObject()
                     .put("$graphLookup", new JsonObject()
-                        .put("from", "diagramElements")
+                        .put("from", "diagram.elements")
                         .put("startWith", "$ownerId")
                         .put("connectFromField", "ownerId")
                         .put("connectToField", "_id")
@@ -316,54 +294,11 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
-/*
-    private void getDiagramElement(RoutingContext rc) {
-        simLagTime();
-        String diagramId = rc.request().getParam("diagramId");
-        String elementId = rc.request().getParam("elementId");
-        HttpServerResponse response = rc.response();
-        DiagramElement element = Entity.get(elementId, DiagramElement.class);
-        if (element == null) {
-            throw new ResponseError(rc, "diagram element " + elementId + " not found");
-        } else response
-            .putHeader("content-type", "application/json; charset=utf-8")
-            .end(Json.encode(element));
-    }
-*/
-
-    private void getDiagramElementDisplayName(RoutingContext rc) {
-        simLagTime();
-        HttpServerResponse response = rc.response();
-        String diagramId = rc.request().getParam("diagramId");
-        Diagram diagram = Entity.get(diagramId, Diagram.class);
-        if (diagram == null) {
-            throw new ResponseError(rc, "diagram " + diagramId + " not found");
-        } else {
-            String elementId = rc.request().getParam("elementId");
-            DiagramElement element = diagram.element(elementId);
-            if (element == null) {
-                throw new ResponseError(rc, "diagram element " + elementId + " not found");
-            } else {
-                SemanticElement diagramSemantic = Entity.get(diagram.semanticId, SemanticElement.class);
-                if (diagramSemantic == null) {
-                    throw new ResponseError(rc, "semantic element " + diagram.semanticId + " not found");
-                }
-                SemanticElement elementSemantic = Entity.get(element.semanticId, SemanticElement.class);
-                if (elementSemantic == null) {
-                    throw new ResponseError(rc, "semantic element " + element.semanticId + " not found");
-                }
-                response
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encode("[" + diagramSemantic.name + "]@[" + elementSemantic.name + "]"));
-            }
-        }
-    }
-
     private void getDiagramEServiceSummary(RoutingContext rc) {
         simLagTime();
         String eServiceId = rc.request().getParam("eServiceId");
         JsonObject command = new JsonObject()
-            .put("aggregate", "diagramElements")
+            .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
                     .put("$match", new JsonObject()
@@ -378,7 +313,7 @@ public final class ApiSubRoute extends SubRoute {
                     .put("$unwind", "$diagram"))
                 .add(new JsonObject()
                     .put("$lookup", new JsonObject()
-                        .put("from", "semanticElements")
+                        .put("from", "semantic.elements")
                         .put("localField", "diagram.semanticId")
                         .put("foreignField", "_id")
                         .put("as", "semantic")))
@@ -415,21 +350,9 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
-    private void getDiagramEServiceElement(RoutingContext rc) {
-        simLagTime();
-        String eServiceId = rc.request().getParam("eServiceId");
-        HttpServerResponse response = rc.response();
-        DiagramElement element = DiagramElement.getByEService(eServiceId);
-        if (element == null) {
-            throw new ResponseError(rc, "diagram element associated to e-service " + eServiceId + " not found");
-        } else response
-            .putHeader("content-type", "application/json; charset=utf-8")
-            .end(Json.encode(element));
-    }
-
     private void getSemanticList(RoutingContext rc) {
         simLagTime();
-        mongodb.find("semanticElements", new JsonObject(), ar -> {
+        mongodb.find("semantic.elements", new JsonObject(), ar -> {
             if (ar.succeeded()) {
                 rc.response()
                   .putHeader("content-type", "application/json; charset=utf-8")
@@ -443,7 +366,7 @@ public final class ApiSubRoute extends SubRoute {
     private void getSemanticListByType(RoutingContext rc) {
         simLagTime();
         String type = rc.request().getParam("type");
-        mongodb.find("semanticElements", new JsonObject().put("type", type), ar -> {
+        mongodb.find("semantic.elements", new JsonObject().put("type", type), ar -> {
             if (ar.succeeded()) {
                 rc.response()
                   .putHeader("content-type", "application/json; charset=utf-8")
@@ -457,7 +380,7 @@ public final class ApiSubRoute extends SubRoute {
     private void getSemanticElement(RoutingContext rc) {
         simLagTime();
         String semanticId = rc.request().getParam("semanticId");
-        mongodb.findOne("semanticElements", new JsonObject().put("_id", semanticId), new JsonObject(), ar -> {
+        mongodb.findOne("semantic.elements", new JsonObject().put("_id", semanticId), new JsonObject(), ar -> {
             if (ar.succeeded()) {
                 rc.response()
                   .putHeader("content-type", "application/json; charset=utf-8")
@@ -466,21 +389,14 @@ public final class ApiSubRoute extends SubRoute {
                 throw new ResponseError(rc, ar.cause());
             }
         });
-//        HttpServerResponse response = rc.response();
-//        SemanticElement element = Entity.get(semanticId, SemanticElement.class);
-//        if (element == null) {
-//            throw new ResponseError(rc, "semantic element " + semanticId + " not found");
-//        } else response
-//            .putHeader("content-type", "application/json; charset=utf-8")
-//            .end(Json.encode(element));
     }
 
     private void putSemanticElement(RoutingContext rc) {
         simLagTime();
         JsonObject json = rc.getBodyAsJson();
-        mongodb.save("semanticElements", toDb(json), ar -> {
+        mongodb.save("semantic.elements", toDb(json), ar -> {
             if (ar.succeeded()) {
-                mongodb.findOne("semanticElements", new JsonObject()
+                mongodb.findOne("semantic.elements", new JsonObject()
                     .put("_id", json.getString("id")), new JsonObject(), s -> {
                     if (s.succeeded()) {
                         rc.response()
@@ -495,18 +411,6 @@ public final class ApiSubRoute extends SubRoute {
                 throw new ResponseError(rc, ar.cause());
             }
         });
-    }
-
-    private void getSemanticElementAccepts(RoutingContext rc) {
-        simLagTime();
-        String semanticId = rc.request().getParam("semanticId");
-        HttpServerResponse response = rc.response();
-        SemanticElement element = Entity.get(semanticId, SemanticElement.class);
-        if (element == null) {
-            throw new ResponseError(rc, "semantic element " + semanticId + " not found");
-        } else response
-            .putHeader("content-type", "application/json; charset=utf-8")
-            .end(Json.encode(AcceptMatrix.accepts(element)));
     }
 
 }

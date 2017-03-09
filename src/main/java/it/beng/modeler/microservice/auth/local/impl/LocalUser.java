@@ -3,15 +3,10 @@ package it.beng.modeler.microservice.auth.local.impl;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
-import it.beng.modeler.model.Typed;
-import it.beng.modeler.model.semantic.organization.UserProfile;
-import it.beng.modeler.model.semantic.organization.roles.AuthenticationRole;
-import it.beng.modeler.model.semantic.organization.roles.AuthorizationRole;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -20,12 +15,14 @@ import it.beng.modeler.model.semantic.organization.roles.AuthorizationRole;
  */
 public class LocalUser extends AbstractUser implements User {
 
-    private String username;
-    private LocalAuthProviderImpl authProvider;
-    private JsonObject principal;
+    private static String AUTHENTICATION_ROLE_PREFIX = "semantic:organization:roles:AuthenticationRole";
+    private static String AUTHORIZATION_ROLE_PREFIX = "semantic:organization:roles:AuthorizationRole";
 
-    public LocalUser(String username, LocalAuthProviderImpl authProvider) {
-        this.username = username;
+    private JsonObject principal;
+    private LocalAuthProviderImpl authProvider;
+
+    public LocalUser(JsonObject principal, LocalAuthProviderImpl authProvider) {
+        this.principal = principal;
         this.authProvider = authProvider;
     }
 
@@ -34,13 +31,13 @@ public class LocalUser extends AbstractUser implements User {
         System.out.println("checking role " + role);
         boolean has = false;
         if (role != null)
-            if (role.startsWith(Typed.typePrefix(AuthenticationRole.class)))
+            if (role.startsWith(AUTHENTICATION_ROLE_PREFIX))
                 has = role.equals(principal().getString("authenticationRole"));
             else {
                 String[] collaborationRole = role.split("|");
                 String diagramId = collaborationRole[0];
                 role = collaborationRole[1];
-                if (role.startsWith(Typed.typePrefix(AuthorizationRole.class)))
+                if (role.startsWith(AUTHORIZATION_ROLE_PREFIX))
                     for (Object item : principal().getJsonObject("authorizationRoles").getJsonArray(diagramId))
                         if (role.equals(item)) {
                             has = true;
@@ -52,12 +49,6 @@ public class LocalUser extends AbstractUser implements User {
 
     @Override
     public JsonObject principal() {
-        if (principal == null) {
-            principal = new JsonObject()
-                .put("provider", "local")
-                .put("username", username)
-                .put("profile", new JsonObject(Json.encode(UserProfile.get(username))));
-        }
         return principal;
     }
 

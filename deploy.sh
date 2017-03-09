@@ -19,7 +19,7 @@ echo "copying target jar to deploy-bundle..."
 cp target/cpd-server-1.0-SNAPSHOT-fat.jar target/deploy-bundle/cpd-server.jar
 chmod 754 target/deploy-bundle/*.sh
 ssh $USER@$SERVER 'if [ ! -d cpd-server ]; then echo "creating cpd-server dir..."; mkdir cpd-server; fi'
-ssh $USER@$SERVER 'if [ -f "~/cpd-server/cpd.pid" ]; then echo "stopping remote server..."; ~/cpd-server/stop.sh; fi'
+ssh $USER@$SERVER 'if [ -f "cpd-server/cpd.pid" ]; then echo "stopping remote server..."; ~/cpd-server/stop.sh; fi'
 echo "deploying to $SERVER..."
 scp -r target/deploy-bundle/* $USER@$SERVER:cpd-server/
 echo "starting remote server..."

@@ -5,10 +5,12 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.JksOptions;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
@@ -18,10 +20,8 @@ import it.beng.modeler.microservice.subroute.ApiSubRoute;
 import it.beng.modeler.microservice.subroute.AssetsSubRoute;
 import it.beng.modeler.microservice.subroute.AuthenticationSubRoute;
 import it.beng.modeler.microservice.subroute.RootSubRoute;
-import it.beng.modeler.model.Typed;
-import it.beng.modeler.model.diagram.Diagram;
-import it.beng.modeler.model.semantic.SemanticElement;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,9 +32,9 @@ import java.util.concurrent.TimeUnit;
 public class ModelerServerVerticle extends AbstractVerticle {
 
     static {
-        Typed.init();
-        Diagram.init();
-        SemanticElement.init();
+//        Typed.init();
+//        Diagram.init();
+//        SemanticElement.init();
     }
 
     @Override
@@ -157,6 +157,9 @@ public class ModelerServerVerticle extends AbstractVerticle {
 
         // create the mongodb client
         MongoClient mongodb = MongoClient.createShared(vertx, config().getJsonObject("mongodb"), "cpd");
+        vertx.getOrCreateContext().put("mongodb", mongodb);
+
+        router.route(HttpMethod.GET, "/create-demo-data").handler(this::crateDemoData);
 
         new AuthenticationSubRoute(vertx, router, mongodb);
         new ApiSubRoute(vertx, router, mongodb);
@@ -207,6 +210,94 @@ public class ModelerServerVerticle extends AbstractVerticle {
                      }
                  }
              );
+    }
+
+    private void crateDemoData(RoutingContext rc) {
+        final String PATH = "web/assets/db/demo-data/";
+        final MongoClient mongodb = vertx.getOrCreateContext().get("mongodb");
+        mongodb.getCollections(ar -> {
+            if (ar.failed()) throw new ResponseError(rc, ar.cause());
+            else {
+                StringBuffer result = new StringBuffer();
+                List<String> collections = ar.result();
+                if (collections.contains("users"))
+                    result.append("users collection already exists (skipped)\n");
+                else {
+                    vertx.fileSystem().readFile(PATH + "users.json", tr -> {
+                        if (tr.succeeded()) {
+                            final JsonArray types = new JsonArray(tr.result().toString());
+                            for (Object o : types.getList()) {
+                                mongodb.save("users", new JsonObject(Json.encode(o)), ur -> {});
+                            }
+                            result.append("users collection written\n");
+                        } else {
+                            throw new ResponseError(rc, tr.cause());
+                        }
+                    });
+                }
+                if (collections.contains("types"))
+                    result.append("types collection already exists (skipped)\n");
+                else {
+                    vertx.fileSystem().readFile(PATH + "types.json", tr -> {
+                        if (tr.succeeded()) {
+                            final JsonArray types = new JsonArray(tr.result().toString());
+                            for (Object o : types.getList()) {
+                                mongodb.save("types", new JsonObject(Json.encode(o)), mr -> {});
+                            }
+                            result.append("types collection written\n");
+                        } else {
+                            throw new ResponseError(rc, tr.cause());
+                        }
+                    });
+                }
+                if (collections.contains("diagrams"))
+                    result.append("diagrams collection already exists (skipped)\n");
+                else {
+                    vertx.fileSystem().readFile(PATH + "diagrams.json", tr -> {
+                        if (tr.succeeded()) {
+                            final JsonArray diagrams = new JsonArray(tr.result().toString());
+                            for (Object o : diagrams.getList()) {
+                                mongodb.save("diagrams", new JsonObject(Json.encode(o)), mr -> {});
+                            }
+                            result.append("diagrams collection written\n");
+                        } else {
+                            throw new ResponseError(rc, tr.cause());
+                        }
+                    });
+                }
+                if (collections.contains("diagram.elements"))
+                    result.append("diagram.elements collection already exists (skipped)\n");
+                else {
+                    vertx.fileSystem().readFile(PATH + "diagram.elements.json", tr -> {
+                        if (tr.succeeded()) {
+                            final JsonArray diagrams = new JsonArray(tr.result().toString());
+                            for (Object o : diagrams.getList()) {
+                                mongodb.save("diagram.elements", new JsonObject(Json.encode(o)), mr -> {});
+                            }
+                            result.append("diagram.elements collection written\n");
+                        } else {
+                            throw new ResponseError(rc, tr.cause());
+                        }
+                    });
+                }
+                if (collections.contains("semantic.elements"))
+                    result.append("semantic.elements collection already exists (skipped)\n");
+                else {
+                    vertx.fileSystem().readFile(PATH + "semantic.elements.json", tr -> {
+                        if (tr.succeeded()) {
+                            final JsonArray diagrams = new JsonArray(tr.result().toString());
+                            for (Object o : diagrams.getList()) {
+                                mongodb.save("semantic.elements", new JsonObject(Json.encode(o)), mr -> {});
+                            }
+                            result.append("semantic.elements collection written\n");
+                        } else {
+                            throw new ResponseError(rc, tr.cause());
+                        }
+                    });
+                }
+                rc.response().end(result.toString());
+            }
+        });
     }
 
 }
