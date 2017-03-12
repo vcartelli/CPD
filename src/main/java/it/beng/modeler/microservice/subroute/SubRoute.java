@@ -2,7 +2,6 @@ package it.beng.modeler.microservice.subroute;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -22,11 +21,16 @@ import java.util.regex.Pattern;
  */
 public abstract class SubRoute {
 
+    protected final String baseHref;
+    protected final String path;
     protected final Vertx vertx;
     protected final Router router;
     protected final MongoClient mongodb;
 
-    public SubRoute(Vertx vertx, Router router, MongoClient mongodb) {
+    public SubRoute(String path, Vertx vertx, Router router, MongoClient mongodb) {
+        this.baseHref = config.server.baseHref;
+        this.path = (path.startsWith("/") ? "" : this.baseHref) + path;
+        System.out.println("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;
         this.mongodb = mongodb;
@@ -117,18 +121,14 @@ public abstract class SubRoute {
         simLagTime(config.server.simLagTime);
     }
 
-    protected static void redirect(HttpServerResponse response, String location) {
-        response
-            .setStatusCode(301)
-            .putHeader("Location", location)
-            .end();
+    public static void redirect(RoutingContext rc, String location) {
+        rc.response()
+          .setStatusCode(302)
+          .putHeader("Location", location)
+          .end();
     }
 
-    protected static boolean isAuthenticated(RoutingContext rc) {
-        return rc.user() != null;
-    }
-
-    protected static String getQueryParameter(String query, String paramName) {
+    public static String getQueryParameter(String query, String paramName) {
         if (query != null && paramName != null)
             for (String s : query.split("&")) {
                 String[] entry = s.split("=");
@@ -137,6 +137,10 @@ public abstract class SubRoute {
                 }
             }
         return null;
+    }
+
+    protected static boolean isAuthenticated(RoutingContext rc) {
+        return rc.user() != null;
     }
 
 }

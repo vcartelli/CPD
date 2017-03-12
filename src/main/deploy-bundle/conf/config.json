@@ -10,6 +10,7 @@
     "scheme": "${cpd.server.scheme}",
     "hostname": "${cpd.server.hostname}",
     "port": ${cpd.server.port},
+    "baseHref": "${cpd.server.baseHref}",
     "allowedOriginPattern": "${cpd.server.allowedOriginPattern}",
     "simLagTime": ${cpd.server.simLagTime},
     "cacheBuilder": {
@@ -19,22 +20,18 @@
       "expireAfterAccess": "${cpd.server.cacheBuilder.expireAfterAccess}"
     },
     "auth": {
-      "base": "${cpd.server.auth.base}"
+      "path": "${cpd.server.auth.path}"
     },
     "api": {
-      "base": "${cpd.server.api.base}"
+      "path": "${cpd.server.api.path}"
     },
     "assets": {
-      "base": "${cpd.server.assets.base}",
       "allowListing": ${cpd.server.assets.allowListing}
     }
   },
   "webapp": {
-    "loginRoute": "${cpd.webapp.loginRoute}",
-    "diagramRoute": "${cpd.webapp.diagramRoute}"
-  },
-  "qae": {
-    "origin": "${cpd.qae.origin}"
+    "routes": [${cpd.webapp.routes}],
+    "diagramPath": "${cpd.webapp.diagramPath}"
   },
   "mongodb": {
     "host": "${cpd.mongodb.host}",
@@ -48,6 +45,7 @@
     "maxLifeTimeMS": ${cpd.mongodb.maxLifeTimeMS}
   },
   "oauth2": {
+    "host": "${cpd.oauth2.host}",
     "client.id": "${cpd.oauth2.client.id}",
     "client.secret": "${cpd.oauth2.client.secret}",
     "site": "${cpd.oauth2.site}",

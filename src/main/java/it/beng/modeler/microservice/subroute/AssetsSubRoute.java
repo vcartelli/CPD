@@ -1,6 +1,7 @@
 package it.beng.modeler.microservice.subroute;
 
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -14,15 +15,13 @@ import it.beng.modeler.config;
 public final class AssetsSubRoute extends SubRoute {
 
     public AssetsSubRoute(Vertx vertx, Router router, MongoClient mongodb) {
-        super(vertx, router, mongodb);
+        super(config.ASSETS_PATH, vertx, router, mongodb);
     }
 
     @Override
     protected void init() {
-        String assets = config.server.assets.base;
-        router.get(assets + "/*").handler(
+        router.route(HttpMethod.GET, path + "*").handler(
             StaticHandler.create("web/assets")
-//                         .setWebRoot("/")
                          .setDirectoryListing(config.server.assets.allowListing));
     }
 

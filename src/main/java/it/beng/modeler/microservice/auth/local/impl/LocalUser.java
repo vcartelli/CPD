@@ -7,6 +7,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
+import it.beng.modeler.config;
+import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -19,16 +21,16 @@ public class LocalUser extends AbstractUser implements User {
     private static String AUTHORIZATION_ROLE_PREFIX = "semantic:organization:roles:AuthorizationRole";
 
     private JsonObject principal;
-    private LocalAuthProviderImpl authProvider;
+    private LocalAuthProvider authProvider;
 
-    public LocalUser(JsonObject principal, LocalAuthProviderImpl authProvider) {
+    public LocalUser(JsonObject principal, LocalAuthProvider authProvider) {
         this.principal = principal;
         this.authProvider = authProvider;
     }
 
     @Override
     protected void doIsPermitted(String role, Handler<AsyncResult<Boolean>> resultHandler) {
-        System.out.println("checking role " + role);
+        if (config.develop) System.out.println("checking role " + role);
         boolean has = false;
         if (role != null)
             if (role.startsWith(AUTHENTICATION_ROLE_PREFIX))
@@ -54,10 +56,10 @@ public class LocalUser extends AbstractUser implements User {
 
     @Override
     public void setAuthProvider(AuthProvider authProvider) {
-        if (authProvider instanceof LocalAuthProviderImpl) {
-            this.authProvider = (LocalAuthProviderImpl) authProvider;
+        if (authProvider instanceof LocalAuthProvider) {
+            this.authProvider = (LocalAuthProvider) authProvider;
         } else {
-            throw new IllegalArgumentException("Not a LocalAuthImpl");
+            throw new IllegalArgumentException(authProvider.getClass() + " is not a LocalAuthProvider");
         }
     }
 

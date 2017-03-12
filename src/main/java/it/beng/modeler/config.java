@@ -2,6 +2,8 @@ package it.beng.modeler;
 
 import io.vertx.core.json.JsonObject;
 
+import java.util.List;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
@@ -11,6 +13,7 @@ public final class config {
 
     private static JsonObject _config;
 
+    public static final String ASSETS_PATH = "assets/";
     public static Boolean develop;
 
     public static final class ssl {
@@ -24,6 +27,7 @@ public final class config {
         public static String scheme;
         public static String hostname;
         public static Integer port;
+        public static String baseHref;
         public static String allowedOriginPattern;
         public static Long simLagTime;
 
@@ -35,32 +39,52 @@ public final class config {
         }
 
         public static class auth {
-            public static String base;
+            public static String path;
         }
 
         public static class api {
-            public static String base;
+            public static String path;
         }
 
         public static class assets {
-            public static String base;
             public static Boolean allowListing;
         }
 
     }
 
     public static class webapp {
-        public static String loginRoute;
-        public static String diagramRoute;
+        public static List<String> routes;
+        public static String diagramPath;
     }
 
     public static class oauth2 {
+        public static String host;
         public static String clientId;
         public static String clientSecret;
         public static String site;
         public static String tokenPath;
         public static String authPath;
         public static String scope;
+    }
+
+    private static String checkBaseHref(String href) {
+        if (href == null)
+            throw new IllegalStateException("href cannot be null!");
+        if (!href.startsWith("/"))
+            throw new IllegalStateException("href MUST start with '/' character!");
+        if (!href.endsWith("/"))
+            throw new IllegalStateException("href MUST end with '/' character!");
+        return href;
+    }
+
+    private static String checkPath(String path) {
+        if (path == null)
+            throw new IllegalStateException("path cannot be null!");
+        if (path.startsWith("/"))
+            throw new IllegalStateException("path CANNOT start with '/' character!");
+        if (!path.endsWith("/"))
+            throw new IllegalStateException("path MUST end with '/' character!");
+        return path;
     }
 
     public static void set(JsonObject main) {
@@ -81,6 +105,7 @@ public final class config {
         server.scheme = node.getString("scheme", "https");
         server.hostname = node.getString("hostname", "localhost");
         server.port = node.getInteger("port", 8901);
+        server.baseHref = checkBaseHref(node.getString("baseHref", "/"));
         server.allowedOriginPattern = node.getString("allowedOriginPattern");
         server.simLagTime = node.getLong("simLagTime", -1L);
         /** server.cacheBuilder **/
@@ -91,19 +116,18 @@ public final class config {
         server.cacheBuilder.expireAfterAccess = node.getString("expireAfterAccess", "60m");
         /** server.auth **/
         node = main.getJsonObject("server").getJsonObject("auth");
-        server.auth.base = node.getString("base", "/auth");
+        server.auth.path = checkPath(node.getString("path", "auth/"));
         /** server.api **/
         node = main.getJsonObject("server").getJsonObject("api");
-        server.api.base = node.getString("base", "/api");
+        server.api.path = checkPath(node.getString("path", "api/"));
         /** server.assets **/
         node = main.getJsonObject("server").getJsonObject("assets");
-        server.assets.base = node.getString("base", "/assets");
         server.assets.allowListing = node.getBoolean("allowListing", false);
 
         /** ROOT app **/
         node = main.getJsonObject("webapp");
-        webapp.loginRoute = node.getString("loginRoute", "/login");
-        webapp.diagramRoute = node.getString("diagramRoute", "/diagram");
+        webapp.routes = node.getJsonArray("routes").getList();
+        webapp.diagramPath = node.getString("diagramPath", "diagram/");
 
         /** mongodb **/
         node = main.getJsonObject("mongodb");
@@ -112,6 +136,7 @@ public final class config {
 
         /** oauth2 **/
         node = main.getJsonObject("oauth2");
+        oauth2.host = node.getString("host");
         oauth2.clientId = node.getString("client.id");
         oauth2.clientSecret = node.getString("client.secret");
         oauth2.site = node.getString("site");
@@ -127,7 +152,7 @@ public final class config {
         return _config;
     }
 
-    public static String rootOrigin() {
+    public static String host() {
         return new StringBuilder()
             .append(server.scheme)
             .append("://")
@@ -137,15 +162,21 @@ public final class config {
             .toString();
     }
 
-    public static String apiOrigin() {
-        return new StringBuilder(rootOrigin())
-            .append(server.api.base)
+    public static String rootHref() {
+        return new StringBuilder(host())
+            .append(server.baseHref)
             .toString();
     }
 
-    public static String assetOrigin() {
-        return new StringBuilder(rootOrigin())
-            .append(server.assets.base)
+    public static String apiHref() {
+        return new StringBuilder(rootHref())
+            .append(server.api.path)
+            .toString();
+    }
+
+    public static String assetsHref() {
+        return new StringBuilder(rootHref())
+            .append(ASSETS_PATH)
             .toString();
     }
 

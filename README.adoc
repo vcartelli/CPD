@@ -52,17 +52,21 @@ Create both of them by *making a copy of this file* and replacing the property v
 
 .*Please make sure to review at least the values for this main properties*:
 
+* `cpd.develop`: please set it to `false` in `develop.properties` and to `true` in `production.properties`;
 * `cpd.ssl.enabled`: `true` or `false` depending on whether you want to use https or http (this can impact on
   `cpd.server.scheme` and `cpd.server.allowedOriginPattern` properties, check and revise them accordingly)
-* `cpd.ssl.keystore.filename` (only if `cpd.ssl.enabled=true`): the path to the jks keystore file. Can be absolute or relative to the CPD home
-   (e.g. `/home/citizenpedia/cpd-server/keystore.jks` or just `keystore.jks`);
+* `cpd.ssl.keystore.filename` (only if `cpd.ssl.enabled=true`): the path to the jks keystore file. Can be absolute or
+  relative to the CPD home (e.g. `/home/citizenpedia/cpd-server/keystore.jks` or just `keystore.jks`);
 * `cpd.ssl.keystore.password` (only if `cpd.ssl.enabled=true`): the password of the keystore;
 * `cpd.server.scheme`: `https` or `http` depending on whether you want to use ssl on unencrypted connections (see
   `cpd.ssl.enabled`).
 * `cpd.server.hostname`: the hostname or the ip address of the machine executing the application (probably you will
   leave `localhost` in the `develop.properties` file and change it only in the `production.properties`);
 * `cpd.server.port`: the port to use;
-* `cpd.server.allowedOriginPattern`: this is a *regex pattern* for allowed cross origins calls (remember that in Java
+* `cpd.server.base`: the *base href* of the server, must start with a `/` (e.g. `/cpd`), or left empty for root path;
+* `cpd.server.allowedOriginPattern`: this is a *regex pattern* for link:http://www.w3.org/TR/cors[CORS] allowed origin
+  calls (use `*` to allow calls from the entire planet, but for security reasons it is always best to put in only the
+  origins that will *actually* use the API, e.g. `http:\\\\/\\\\/localhost:(8080|8901)`, remember that in Java
   properties files the double backslash `\\` must be escaped two times: `\\\\`);
 * `cpd.mongodb.host`: the mongodb hostname;
 * `cpd.mongodb.port`: the mongodb port;
@@ -71,22 +75,31 @@ Create both of them by *making a copy of this file* and replacing the property v
 * `cpd.oauth2.client.id`: the oauth2 client id to use;
 * `cpd.oauth2.client.secret`: the oauth2 client secret to use.
 
+The oauth2 redirect callback to put in your oauth2 provider console must be written in the following form:
+
+`http[s]://<domain>[:<port>]</base>auth/callback?redirect_uri=</base>/auth/<provider>/login/handler`
+
+e.g.
+
+`https://www.citizenpedia.com/cpd/auth/callback?redirect_uri=/cpd/auth/google/login/handler`
+
 == self-signed-keystore.sh
 
 This script uses the JRE keytool utility.
 
-This is an utility script to generate a Java keystore storing a self-signed certificate. It has pre-set values to
-produce a keystore named +keystore.jks+ with alias `simpatico` and password `simpatico`. You may run this script to
-generate a server certificate in the case that you do not already own one. Either the case, make sure to have your
-server's certificate in the _Java keystore format_ (`.jks`).
+This is an utility script to generate a Java keystore storing a self-signed certificate in case you need to test the
+server in ssl (https) mode and don't already own a certificate. It has pre-set values to produce a keystore named
+`keystore.jks` with alias `simpatico` and password `simpatico`. You may run this script to generate a server certificate
+in the case that you do not already own one. Either the case, make sure to have your server's certificate in the _Java
+keystore format_ (`.jks`).
 
 The script accepts <alias>, <password> and <filename> as arguments. Type `./self-signed-keystore.sh --help` for details.
 
-After the script is launched, the Java keytool will ask you to fill in the prompts for your organization information. +
+After the script is launched, the Java keytool will ask you to fill in the prompts for your organization information.
 *When it asks for your first and last name, enter the domain name of the server that users will be entering to connect
 to the CPD server* (e.g. “www.citizenpedia.com”).
 
-== prepare-bundle.sh
+== [[bundle]]prepare-bundle.sh
 
 Before running this script make sure the machine satisfies the <<development,Development prerequisites>>.
 
@@ -105,20 +118,13 @@ If you used a relative path in the `cpd.keystore.filename`, make sure that path 
 
 Before running this script make sure the machine satisfies the <<development,Development prerequisites>>.
 
-This script has been added to simplify the deployment of the production bundle on the remote production server via ssh.
-The script is in charge of compiling the production version of the project and copy the produced bundle in the home of
-the given user under the `cpd-server` directory (e.g. `/home/cpd/cpd-server`). The script will eventually stop any
-running instance of the cpd-server before the ssh copy and always start the new cpd-server after the ssh copy.
+This script has been added to simplify the deployment of the <<bundle,production bundle>> on the remote production
+server via ssh. The script is in charge of compiling the production version of the project and copy the produced bundle
+in the home of the given user under the `cpd-server` directory (e.g. `/home/cpd/cpd-server`). The script will eventually
+stop any running instance of the cpd-server before the ssh copy and always start the new cpd-server after the ssh copy.
 
-Please refer to the <<runtime,Runtime prerequisites>> section for the target machine prerequisites.
-
-= [[production]]Production
-
-Before launching the `deploy.sh` script (or before manually launching the deployed bundle with `start.sh`), make sure
-the machine you're going to execute the server is equipped with:
-
-* Java Runtime Environment 8.x
-* MongoDB 3.4
+Before launching the `deploy.sh` script (or before manually launching the deployed <<bundle,bundle>> with `start.sh`),
+make sure the machine you're going to deploy the server satisfies the <<runtime,Runtime prerequisites>>.
 
 The `deploy.sh` script requires *two* mandatory input parameters:
 

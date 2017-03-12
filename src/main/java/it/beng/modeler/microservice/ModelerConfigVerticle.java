@@ -21,7 +21,7 @@ public class ModelerConfigVerticle extends MicroServiceVerticle {
                 if (ar.succeeded()) {
                     System.out.println("Succesfully deployed ModelerServerVerticle: " + ar.result());
                 } else {
-                    System.out.println("Cannot deploy ModelerServerVerticle: " + ar.cause().getMessage());
+                    System.err.println("Cannot deploy ModelerServerVerticle: " + ar.cause().getMessage());
                 }
             }
         );

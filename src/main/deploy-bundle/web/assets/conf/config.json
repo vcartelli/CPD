@@ -1,14 +1,13 @@
 {
   "server": {
-    "origin": "${cpd.server.scheme}://${cpd.server.hostname}:${cpd.server.port}",
     "auth": {
-      "base": "/auth",
+      "path": "${cpd.server.auth.path}",
       "login": "${cpd.server.auth.login}",
       "logout": "${cpd.server.auth.logout}",
       "getProfile": "${cpd.server.auth.getProfile}"
     },
     "api": {
-      "base": "${cpd.server.api.base}",
+      "path": "${cpd.server.api.path}",
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
       "getDiagram": "${cpd.server.api.getDiagram}",
       "getDiagramElements": "${cpd.server.api.getDiagramElements}",
@@ -17,9 +16,9 @@
     }
   },
   "qae": {
-    "origin": "${cpd.qae.origin}",
+    "href": "${cpd.qae.href}",
     "api": {
-      "base": "${cpd.qae.api.base}",
+      "path": "${cpd.qae.api.path}",
       "getQuestionCount": "${cpd.qae.api.getQuestionCount}"
     },
     "link": {

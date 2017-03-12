@@ -40,8 +40,13 @@ public class ModelerServerVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> startFuture) {
 
-        // Create a router object.
+        final String baseHref = config.server.baseHref;
+
+        // Create a router object
         Router router = Router.router(vertx);
+        // if base href is not root reroute root to base href
+        if (!"/".equals(baseHref))
+            router.route("/").handler(rc -> rc.reroute(baseHref));
 
         // configure CORS origins and allowed methods
         router.route().handler(
@@ -51,15 +56,14 @@ public class ModelerServerVerticle extends AbstractVerticle {
                        .allowedMethod(HttpMethod.PUT)      // update
                        .allowedMethod(HttpMethod.DELETE)   // delete
                        .allowedHeader("X-PINGARUNER")
-                       .allowedHeader("Content-Type")
-        );
+                       .allowedHeader("Content-Type"));
         System.out.println("CORS pattern is: " + config.server.allowedOriginPattern);
 
         // create cookie and session handler
         router.route().handler(CookieHandler.create());
         router.route().handler(
             SessionHandler.create(/*ClusteredSessionStore*/LocalSessionStore.create(vertx))
-//                          .setSessionCookieName("cpd.web.session")
+                          .setSessionCookieName("cpd.web.session")
                           .setCookieHttpOnlyFlag(true)
                           .setCookieSecureFlag(config.ssl.enabled)
                           .setNagHttps(config.ssl.enabled)
@@ -150,7 +154,6 @@ public class ModelerServerVerticle extends AbstractVerticle {
                  IE8+ do not allow opening of attachments in the context of this resource
 */
               .putHeader("X-Download-Options", "noopen");
-            // TODO: logger.debug only
             if (config.develop) System.out.println("[" + rc.request().method() + "] " + rc.request().uri());
             rc.next();
         });
@@ -159,22 +162,22 @@ public class ModelerServerVerticle extends AbstractVerticle {
         MongoClient mongodb = MongoClient.createShared(vertx, config().getJsonObject("mongodb"), "cpd");
         vertx.getOrCreateContext().put("mongodb", mongodb);
 
-        router.route(HttpMethod.GET, "/create-demo-data").handler(this::crateDemoData);
+        router.route(HttpMethod.GET, baseHref + "/create-demo-data").handler(this::crateDemoData);
 
+        // in this order: assets, auth, api, root
+        new AssetsSubRoute(vertx, router, mongodb);
         new AuthenticationSubRoute(vertx, router, mongodb);
         new ApiSubRoute(vertx, router, mongodb);
-        new AssetsSubRoute(vertx, router, mongodb);
         new RootSubRoute(vertx, router, mongodb);
 
         // handle failures
         router.route().failureHandler(rc -> {
             JsonObject error = rc.get("error") != null ? rc.get("error") : ResponseError.json(rc, null);
-            System.err.println(Json.encodePrettily(rc.response()));
             System.err.println("ERROR (" + error.getInteger("statusCode") + "): " + error.encodePrettily());
             switch (rc.statusCode()) {
                 case 404: {
                     // let root application find the resource or show the 404 not found page
-                    rc.reroute("/");
+                    rc.reroute(baseHref + "/");
                     break;
                 }
                 default: {
@@ -203,10 +206,11 @@ public class ModelerServerVerticle extends AbstractVerticle {
              .requestHandler(router::accept)
              .listen(config.server.port, ar -> {
                      if (ar.succeeded()) {
-                         System.out.println("HTTP Server started: " + config.rootOrigin());
+                         System.out.println("HTTP Server started: " + config.host());
                          startFuture.complete();
                      } else {
-                         System.out.println("Cannot start HTTP Server: " + ar.cause().getMessage());
+                         System.err.println("Cannot start HTTP Server: " + config.host() +
+                             ". Cause: " + ar.cause().getMessage());
                          startFuture.fail(ar.cause());
                      }
                  }

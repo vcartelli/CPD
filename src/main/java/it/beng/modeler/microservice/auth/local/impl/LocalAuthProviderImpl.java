@@ -7,7 +7,10 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.mongo.MongoClient;
+import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
+
+import static it.beng.modeler.microservice.subroute.SubRoute.toClient;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -29,18 +32,19 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
     @Override
     public void authenticate(JsonObject authInfo, Handler<AsyncResult<User>> resultHandler) {
 
-        System.out.println("authenticating " + authInfo.encodePrettily());
+        if (config.develop) System.out.println("authenticating " + authInfo.encodePrettily());
 
         String username = authInfo.getString("username");
         if (username == null) {
-            resultHandler.handle(Future.failedFuture("authInfo must contain username in 'username' field"));
+            resultHandler.handle(
+                Future.failedFuture("authInfo must contain username in 'username' field"));
             return;
         }
 
         String password = authInfo.getString("password");
         if (password == null) {
-            resultHandler
-                .handle(Future.failedFuture("authInfo must contain password (md5 encoded) in 'password' field"));
+            resultHandler.handle(
+                Future.failedFuture("authInfo must contain password (md5 encoded) in 'password' field"));
             return;
         }
 

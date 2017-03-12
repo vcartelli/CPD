@@ -15,6 +15,8 @@ import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 
+import java.util.regex.Pattern;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
@@ -23,74 +25,56 @@ import it.beng.modeler.microservice.ResponseError;
 public final class ApiSubRoute extends SubRoute {
 
     public ApiSubRoute(Vertx vertx, Router router, MongoClient mongodb) {
-        super(vertx, router, mongodb);
+        super(config.server.api.path, vertx, router, mongodb);
     }
 
     @Override
     protected void init() {
 
-/*
-        for (UserProfile profile : UserProfile.list()) {
-            JsonObject document = new JsonObject(Json.encode(profile));
-            document.put("_id", document.getString("username"));
-            document.remove("username");
-            mongodb.save("users", toDb(document), ar -> {
-                if (ar.succeeded()) {
-                    System.out.println("added: " + document);
-                } else {
-                    System.out.println("error: " + ar.cause().getMessage());
-                }
-            });
-        }
-*/
+        // allow body handling for all post, put, delete calls to /api/*
+        router.route(path + "*").handler(BodyHandler.create());
 
-        String api = config.server.api.base;
-
-        // allow body hadling for all calls to /api/*
-        router.route(api + "/*").handler(BodyHandler.create());
-        // /stats APIs
-        router.route(HttpMethod.GET, api + "/stats/diagram/:diagramId/eServiceCount")
+        // stats
+        router.route(HttpMethod.GET, path + "stats/diagram/:diagramId/eServiceCount")
               .handler(this::getDiagramEServiceCount);
-        router.route(HttpMethod.GET, api + "/stats/diagram/element/:elementId/eServiceCount")
+        router.route(HttpMethod.GET, path + "stats/diagram/element/:elementId/eServiceCount")
               .handler(this::getDiagramElementEServiceCount);
-        // /type APIs
-        router.route(HttpMethod.GET, api + "/type/ids")
-              .handler(this::getTypeIds);
-        router.route(HttpMethod.GET, api + "/type/:typeId")
-              .handler(this::getType);
-        // /diagram APIs
-        router.route(HttpMethod.GET, api + "/diagram/summary/list")
+
+        // summary
+        router.route(HttpMethod.GET, path + "diagram/eService/:eServiceId/summary")
+              .handler(this::getDiagramEServiceSummary);
+        router.route(HttpMethod.GET, path + "diagram/summary/list")
               .handler(this::getDiagramSummaryList);
 
-//        router.route(HttpMethod.GET, api + "/diagram/summary/category/:category/list")
-//              .handler(this::getDiagramSummaryListByCategory);
-        router.route(HttpMethod.GET, api + "/diagram/:diagramId")
+        // type
+        router.route(HttpMethod.GET, path + "type/ids")
+              .handler(this::getTypeIds);
+        router.route(HttpMethod.GET, path + "type/:typeId")
+              .handler(this::getType);
+
+        // diagram
+        router.route(HttpMethod.GET, path + "diagram/:diagramId")
               .handler(this::getDiagram);
-        router.route(HttpMethod.GET, api + "/diagram/:diagramId/elements")
+        router.route(HttpMethod.GET, path + "diagram/:diagramId/elements")
               .handler(this::getDiagramElements);
-//        router.route(HttpMethod.GET, api + "/diagram/:diagramId/:elementId")
-//              .handler(this::getDiagramElement);
 
-        router.route(HttpMethod.GET, api + "/diagram/eService/:eServiceId/summary")
-              .handler(this::getDiagramEServiceSummary);
-
-        router.route(HttpMethod.GET, api + "/semantic/list")
+        // semantic
+        router.route(HttpMethod.GET, path + "semantic/list")
               .handler(this::getSemanticList);
-        router.route(HttpMethod.GET, api + "/semantic/list/:type")
+        router.route(HttpMethod.GET, path + "semantic/list/:type")
               .handler(this::getSemanticListByType);
-        router.route(HttpMethod.GET, api + "/semantic/:semanticId")
+        router.route(HttpMethod.GET, path + "semantic/:semanticId")
               .handler(this::getSemanticElement);
-        router.put(api + "/semantic/:semanticId")
+        router.put(path + "semantic/:semanticId")
               .handler(this::putSemanticElement);
 
         /*** STATIC RESOURCES (swagger-ui) ***/
 
-        // IMPORTANT!!1: redirect /api to /api/
-        // it MUST be done with regex (must end exactly with "/api") to avoid infinite redirections
-        router.getWithRegex("\\" + api + "$").handler(rc -> {
-            redirect(rc.response(), api + "/");
-        });
-        router.route(HttpMethod.GET, api + "/*").handler(StaticHandler.create("web/swagger-ui"));
+        // IMPORTANT!!1: redirect api to api/
+        // it MUST be done with regex (must end exactly with "api") to avoid infinite redirections
+        router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
+              .handler(rc -> redirect(rc, path));
+        router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/swagger-ui"));
 
     }
 
@@ -110,7 +94,7 @@ public final class ApiSubRoute extends SubRoute {
                         .put("_id", "$diagramId")
                         .put("count", new JsonObject()
                             .put("$sum", 1)))));
-        System.out.println("command: " + command.encodePrettily());
+        if (config.develop) System.out.println("getDiagramEServiceCount command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 rc.response()
@@ -154,7 +138,7 @@ public final class ApiSubRoute extends SubRoute {
                         .put("_id", "$_id")
                         .put("count", new JsonObject()
                             .put("$sum", 1)))));
-        System.out.println("command: " + command.encodePrettily());
+        if (config.develop) System.out.println("getDiagramElementEServiceCount command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 rc.response()
@@ -220,14 +204,14 @@ public final class ApiSubRoute extends SubRoute {
                         .put("documentation", "$semantic.documentation")
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.webapp.diagramRoute + "/")
+                                .add(config.rootHref() + config.webapp.diagramPath)
                                 .add("$_id")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.assetOrigin() + "/svg/")
+                                .add(config.assetsHref() + "svg/")
                                 .add("$_id")
                                 .add(".svg"))))));
-        System.out.println("command: " + command.encodePrettily());
+        if (config.develop) System.out.println("getDiagramSummaryList command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 rc.response()
@@ -282,7 +266,7 @@ public final class ApiSubRoute extends SubRoute {
                 .add(new JsonObject()
                     .put("$project", new JsonObject()
                         .put("level", 0))));
-        System.out.println("command: " + command.encodePrettily());
+        if (config.develop) System.out.println("getDiagramElements command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 rc.response()
@@ -329,16 +313,16 @@ public final class ApiSubRoute extends SubRoute {
                         .put("documentation", "$semantic.documentation")
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.webapp.diagramRoute + "/")
+                                .add(config.rootHref() + config.webapp.diagramPath)
                                 .add("$diagram._id")
                                 .add("/")
                                 .add("$_id")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.assetOrigin() + "/svg/")
+                                .add(config.assetsHref() + "/svg/")
                                 .add("$diagram._id")
                                 .add(".svg"))))));
-        System.out.println("command: " + command.encodePrettily());
+        if (config.develop) System.out.println("getDiagramEServiceSummary command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 rc.response()
@@ -393,6 +377,9 @@ public final class ApiSubRoute extends SubRoute {
 
     private void putSemanticElement(RoutingContext rc) {
         simLagTime();
+        if (!isAuthenticated(rc)) {
+            throw new ResponseError(rc, "user is not authenticated");
+        }
         JsonObject json = rc.getBodyAsJson();
         mongodb.save("semantic.elements", toDb(json), ar -> {
             if (ar.succeeded()) {
