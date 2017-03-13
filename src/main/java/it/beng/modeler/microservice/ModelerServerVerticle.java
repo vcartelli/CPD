@@ -162,7 +162,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
         MongoClient mongodb = MongoClient.createShared(vertx, config().getJsonObject("mongodb"), "cpd");
         vertx.getOrCreateContext().put("mongodb", mongodb);
 
-        router.route(HttpMethod.GET, baseHref + "/create-demo-data").handler(this::crateDemoData);
+        router.route(HttpMethod.GET, baseHref + "create-demo-data").handler(this::crateDemoData);
 
         // in this order: assets, auth, api, root
         new AssetsSubRoute(vertx, router, mongodb);
