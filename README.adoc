@@ -65,8 +65,8 @@ Running from your favourite development environment>>”).
   relative to the CPD home (e.g. `/home/citizenpedia/cpd-server/keystore.jks` or just `keystore.jks`);
 
 IMPORTANT: If you plan to use your own signed certificate, make sure it is given to the application in jsk format. If
-           you don't own a signed certificate, you can create a self signed certificate in jks format by using the
-           <<self-signed,self-signed-keystore.sh>> script.
+           you don't own a signed certificate, you can create a jks self signed one by using the <<self-signed,
+           `self-signed-keystore.sh`>> script.
 
 * `cpd.ssl.keystore.password` (only if `cpd.ssl.enabled=true`): the password of the keystore;
 * `cpd.server.scheme`: `https` or `http` depending on whether you want to use ssl on unencrypted connections (see
@@ -77,7 +77,7 @@ IMPORTANT: If you plan to use your own signed certificate, make sure it is given
 * `cpd.server.baseHref`: the *base href* of the server, must start and end with a `/` character (e.g. `/` or `/cpd/`);
 * `cpd.server.allowedOriginPattern`: this is a *regex pattern* for link:http://www.w3.org/TR/cors[CORS] allowed origin
   calls (use `*` to allow calls from the entire planet, but for security reasons it is always best to put in only the
-  origins that will *actually* use the API (e.g. `http:\\\\/\\\\/localhost:(8080|8901)`);
+  origins that will *actually* use the API, e.g. `http:\\\\/\\\\/localhost:(8080|8901)`;
 
 WARNING: Remember that in Java properties files the double backslash `\\` must be escaped two times: `\\\\`).
 
@@ -89,7 +89,7 @@ WARNING: Remember that in Java properties files the double backslash `\\` must b
 
 NOTE: `cpd.oauth2.host` can differ from `cpd.server.hostname` since the server instance can be running behind a proxy
       server. In this case it is normal to have `cpd.server.hostname=localhost` and
-      `cpd.oauth2.host=<my.public.dns.name>`.
+      `cpd.oauth2.host=<my public domain name>`.
 
 * `cpd.oauth2.client.id`: the oauth2 client id to use;
 * `cpd.oauth2.client.secret`: the oauth2 client secret to use.
@@ -102,7 +102,7 @@ link:https://console.developers.google.com/apis/credentials[Google API Mangement
 and then create the OAuth client ID for the web application.
 
 In order to use google OAuth2 service, you have to add a redirect callback URI for every different `cpd.oauth2.host`
-and/or `cpd.server.baseHref` the user can access the application in the _authorized redirect URI list_.
+and/or `cpd.server.baseHref` the user can utilize to access the application in the _authorized redirect URI list_.
 
 The URI to put in your  console must be written in the following form:
 
@@ -123,19 +123,23 @@ a keystore named `keystore.jks` with alias `simpatico` and password `simpatico`.
 
 After the script is launched, the Java keytool will ask you to fill in the prompts for your organization information.
 *When it asks for your first and last name, enter the domain name of the server that users will be entering to connect
-to the CPD server* (e.g. `www.citizenpedia.com`).
+to the CPD application* (e.g. `www.my-beautiful-site.com`).
 
 === [[bundle]]prepare-bundle.sh
 
-This script creates the bundle ready for deployment. It expects an input parameter between one of these two possible
+This script creates a bundle ready for deployment. It expects an input parameter between one of these two possible
 values: `production` or `develop`. In the case no parameter is given, it will be assumed `production` by default.
 You can inspect the file to understand how the `deploy-bundle` is set up.
 
 The final bundle will be found under the `target/deploy-bundle` directory. That directory can be copied to the target
-machine and renamed to your liking.
+machine and renamed to your liking. The application can then be started and stopped with the provided `start.sh` and
+`stop.sh` scripts respectively.
+
+IMPORTANT: Before manually launching the deployed <<bundle,bundle>> with `start.sh`, make sure the machine you're going
+           to run the server satisfies the <<run-pre,Runtime prerequisites>>.
 
 CAUTION: If the application is configured for ssl and you used a relative path in the `cpd.keystore.filename`, make sure
-         the path is relative to the position of the
+         the path is relative to the files immediately under the deployed bundle.
 
 === [[deploy]]deploy.sh
 
@@ -145,12 +149,11 @@ This script has been added to simplify the deployment of the production bundle b
 2. copying via ssh the produced `deploy-bundle` as `cpd-server` under the home of the given user (i.e.
    `/home/<user>/cpd-server`).
 
-The script will eventually stop any running instance of the application before the ssh copy and always start the newly
+The script will eventually stop the running instance of the application before the ssh copy and always start the newly
 deployed application after the ssh copy.
 
-IMPORTANT: Before launching the `deploy.sh` script (or before manually launching the deployed <<bundle,bundle>> with
-           `start.sh`), make sure the machine you're going to run the server satisfies the <<run-pre,Runtime
-           prerequisites>>.
+IMPORTANT: Before launching the `deploy.sh` script, make sure the ssh target machine you're deploying the application
+           satisfies the <<run-pre,Runtime prerequisites>>.
 
 The `deploy.sh` script requires *two* mandatory input parameters:
 
@@ -163,8 +166,6 @@ WARNING: Never launch the application as `root` user!
   to the `cpd.server.hostname` property value of the `production.properties` file).
 
 = [[run]]Running the application
-
-IMPORTANT: Before running the application make sure the <<run-pre,Runtime prerequisites>> are satisfied.
 
 == [[run-pre]]Runtime prerequisites
 
@@ -185,8 +186,8 @@ In both cases, the application can be stopped using the `stop.sh` script.
 
 == [[ide]]Running from your favourite development environment
 
-Make sure your development environment satisfies both the <<build-pre,Build prerequisites>> and the <<run-pre,
-Running prerequisites>>.
+Make sure your development environment satisfies both the “<<build-pre,Build prerequisites>>” and the “<<run-pre,
+Running prerequisites>>”.
 
 === IDE configuration
 
@@ -203,10 +204,10 @@ So, create them as symbolic links in the directory you will launch the applicati
   1. `ln -s target/deploy-bundle/conf conf`;
   2. `ln -s target/deploy-bundle/web web`.
 
-IMPORTANT: Set the active POM profile to `develop`.
+IMPORTANT: Make sure the active POM profile is `develop`.
 
-The configuration parameters can be changed in the `develop.properties` file (see the <<properties,example.properties>>
-section).
+The configuration parameters can be changed in the `develop.properties` file (see the “<<properties,
+example.properties>>” section).
 
 === Compilation
 
