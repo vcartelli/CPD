@@ -211,7 +211,7 @@ example.properties>>” section).
 
 === Compilation
 
-`mvn clean package [-P develop]`
+  mvn clean package [-P develop]
 
 will generate a `cpd-server-[version]-fat.jar` Java *fat jar*, which is a standalone _all-in-one_ executable jar. +
 Maven will automatically filter the `config.json` file based on the `develop` profile and put it in the
@@ -221,7 +221,7 @@ NOTE: If no profile is passed to the `mvn` command, maven will default to `devel
 
 === Execution
 
-`java -jar target/cpd-server-[version]-fat.jar`
+  java -jar target/cpd-server-[version]-fat.jar
 
 Alternatively, you can configure you development environment to launch the application by setting these launcher
 configuration:
