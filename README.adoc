@@ -91,6 +91,10 @@ NOTE: `cpd.oauth2.host` can differ from `cpd.server.hostname` since the server i
       server. In this case it is normal to have `cpd.server.hostname=localhost` and
       `cpd.oauth2.host=<my public domain name>`.
 
+* `cpd.oauth2.site`: the authorization server site (e.g. `https://accounts.google.com`);
+* `cpd.oauth2.token.path`: the token endpoint (e.g. `https://www.googleapis.com/oauth2/v3/token`);
+* `cpd.oauth2.auth.path`: the path to the authorization endpoint (e.g. `/o/oauth2/auth`);
+* `cpd.oauth2.scope`: the access token scope (e.g. `email`).
 * `cpd.oauth2.client.id`: the oauth2 client id to use;
 * `cpd.oauth2.client.secret`: the oauth2 client secret to use.
 
@@ -123,7 +127,7 @@ a keystore named `keystore.jks` with alias `simpatico` and password `simpatico`.
 
 After the script is launched, the Java keytool will ask you to fill in the prompts for your organization information.
 *When it asks for your first and last name, enter the domain name of the server that users will be entering to connect
-to the CPD application* (e.g. `www.my-beautiful-site.com`).
+to the CPD application* (e.g. `www.my-public-domain.com`).
 
 === [[bundle]]prepare-bundle.sh
 
@@ -135,11 +139,11 @@ The final bundle will be found under the `target/deploy-bundle` directory. That 
 machine and renamed to your liking. The application can then be started and stopped with the provided `start.sh` and
 `stop.sh` scripts respectively.
 
-IMPORTANT: Before manually launching the deployed <<bundle,bundle>> with `start.sh`, make sure the machine you're going
-           to run the server satisfies the <<run-pre,Runtime prerequisites>>.
+IMPORTANT: Before launching the deployed bundle with `start.sh`, make sure the machine you're going to run the server
+           satisfies the <<run-pre,Runtime prerequisites>>.
 
 CAUTION: If the application is configured for ssl and you used a relative path in the `cpd.keystore.filename`, make sure
-         the path is relative to the files immediately under the deployed bundle.
+         the path is relative to the deployed bundle directory root (i.e. where the `start.sh` file is).
 
 === [[deploy]]deploy.sh
 
@@ -166,6 +170,9 @@ WARNING: Never launch the application as `root` user!
   to the `cpd.server.hostname` property value of the `production.properties` file).
 
 = [[run]]Running the application
+
+The following sections describe how to run the application from the <<bundle,deploy bundle>> or from your Integrated
+Development Environment (IDE).
 
 == [[run-pre]]Runtime prerequisites
 
@@ -214,7 +221,7 @@ example.properties>>” section).
   mvn clean package [-P develop]
 
 will generate a `cpd-server-[version]-fat.jar` Java *fat jar*, which is a standalone _all-in-one_ executable jar. +
-Maven will automatically filter the `config.json` file based on the `develop` profile and put it in the
+Maven will automatically filter the `config.json` file based on the `develop.properties` file and put it in the
 `target/deploy-bundle/conf` directory for you.
 
 NOTE: If no profile is passed to the `mvn` command, maven will default to `develop`.
@@ -223,10 +230,16 @@ NOTE: If no profile is passed to the `mvn` command, maven will default to `devel
 
   java -jar target/cpd-server-[version]-fat.jar
 
-Alternatively, you can configure you development environment to launch the application by setting these launcher
-configuration:
+Alternatively, you can configure your IDE to launch the application by setting these run/debug configuration:
 
 * main class: `it.beng.microservice.common.Launcher`
 * arguments: `run it.beng.modeler.microservice.ModelerConfigVerticle`
 
+== Test the application
 
+After running the application, you can check that everything is working by opening in your browser the url you defined
+in the relative <<properties,`.properties`>> file (e.g. `http://localhost:8901/cpd/`).
+
+In order to create some demo data you can use the `/create-demo-data` endpoint (e.g.
+`http://localhost:8901/cpd/create-demo-data`). This will create 3 local users (“citizen”, “civil servant 1” and
+“civil servant 2”, with the same “simpatico” password) and 2 diagrams.
