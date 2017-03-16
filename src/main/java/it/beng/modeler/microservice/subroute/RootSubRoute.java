@@ -25,6 +25,7 @@ public final class RootSubRoute extends SubRoute {
             router.route(HttpMethod.GET, path + route).handler(rc -> {
                 rc.reroute(path);
             });
+            System.out.println(path + route + " will be managed by root web application");
         }
         router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/ROOT")
                                                                       .setDirectoryListing(false)

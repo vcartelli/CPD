@@ -1,6 +1,9 @@
 package it.beng.modeler.microservice.subroute;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
@@ -15,6 +18,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -240,38 +244,25 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
+    private static class Countdown {
+        private int count;
+
+        public Countdown(int count) {
+            this.count = count;
+        }
+
+        public boolean next() {return --count > 0;}
+    }
+
     private void getDiagramElements(RoutingContext rc) {
         simLagTime();
         String diagramId = rc.request().getParam("diagramId");
-        JsonObject command = new JsonObject()
-            .put("aggregate", "diagram.elements")
-            .put("pipeline", new JsonArray()
-                .add(new JsonObject()
-                    .put("$match", new JsonObject()
-                        .put("diagramId", diagramId)))
-                .add(new JsonObject()
-                    .put("$graphLookup", new JsonObject()
-                        .put("from", "diagram.elements")
-                        .put("startWith", "$ownerId")
-                        .put("connectFromField", "ownerId")
-                        .put("connectToField", "_id")
-                        .put("as", "level")))
-                .add(new JsonObject()
-                    .put("$addFields", new JsonObject()
-                        .put("level", new JsonObject()
-                            .put("$size", "$level"))))
-                .add(new JsonObject()
-                    .put("$sort", new JsonObject()
-                        .put("level", 1)))
-                .add(new JsonObject()
-                    .put("$project", new JsonObject()
-                        .put("level", 0))));
-        if (config.develop) System.out.println("getDiagramElements command: " + command.encodePrettily());
-        mongodb.runCommand("aggregate", command, ar -> {
+        JsonObject query = new JsonObject().put("diagramId", diagramId);
+        mongodb.find("diagram.elements", query, ar -> {
             if (ar.succeeded()) {
                 rc.response()
                   .putHeader("content-type", "application/json; charset=utf-8")
-                  .end(toClient(ar.result().getJsonArray("result")));
+                  .end(toClient(ar.result()));
             } else {
                 throw new ResponseError(rc, ar.cause());
             }

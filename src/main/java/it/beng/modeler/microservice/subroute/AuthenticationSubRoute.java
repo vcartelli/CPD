@@ -29,8 +29,8 @@ import java.util.Base64;
  */
 public final class AuthenticationSubRoute extends SubRoute {
 
-    private static String AUTHENTICATION_ROLE_CITIZEN = "semantic:organization:roles:AuthenticationRole:citizen";
-    private static JsonObject AUTHORIZATION_ROLES_OBSERVER = new JsonObject("{ \"*\": [ \"semantic:organization:roles:AuthorizationRole:observer\" ] }");
+    private static String POSITION_CITIZEN = "semantic:organization:roles:Position:citizen";
+    private static JsonObject DIAGRAM_ROLES_OBSERVER = new JsonObject("{ \"*\": [ \"semantic:organization:roles:DiagramRole:observer\" ] }");
 
     public AuthenticationSubRoute(Vertx vertx, Router router, MongoClient mongodb) {
         super(config.server.auth.path, vertx, router, mongodb);
@@ -186,8 +186,8 @@ public final class AuthenticationSubRoute extends SubRoute {
                          profile.mergeIn(new JsonObject()
                              .put("provider", "google")
                              .put("accessToken", token)
-                             .put("authenticationRole", AUTHENTICATION_ROLE_CITIZEN)
-                             .put("authorizationRoles", AUTHORIZATION_ROLES_OBSERVER));
+                             .put("position", POSITION_CITIZEN)
+                             .put("diagramRoles", DIAGRAM_ROLES_OBSERVER));
                          rc.user().principal()
                            .put("profile", profile);
                          if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));

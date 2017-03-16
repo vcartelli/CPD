@@ -34,11 +34,14 @@ public abstract class SubRoute {
         this.vertx = vertx;
         this.router = router;
         this.mongodb = mongodb;
+        this.init();
+    }
+
+    static {
         Json.mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
         Json.mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
         Json.prettyMapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
         Json.prettyMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-        this.init();
     }
 
     protected abstract void init();

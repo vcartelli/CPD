@@ -17,8 +17,8 @@ import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
  */
 public class LocalUser extends AbstractUser implements User {
 
-    private static String AUTHENTICATION_ROLE_PREFIX = "semantic:organization:roles:AuthenticationRole";
-    private static String AUTHORIZATION_ROLE_PREFIX = "semantic:organization:roles:AuthorizationRole";
+    private static String POSITION_PREFIX = "semantic:organization:roles:Position";
+    private static String DIAGRAM_ROLE_PREFIX = "semantic:organization:roles:DiagramRole";
 
     private JsonObject principal;
     private LocalAuthProvider authProvider;
@@ -33,14 +33,14 @@ public class LocalUser extends AbstractUser implements User {
         if (config.develop) System.out.println("checking role " + role);
         boolean has = false;
         if (role != null)
-            if (role.startsWith(AUTHENTICATION_ROLE_PREFIX))
-                has = role.equals(principal().getString("authenticationRole"));
+            if (role.startsWith(POSITION_PREFIX))
+                has = role.equals(principal().getString("position"));
             else {
                 String[] collaborationRole = role.split("|");
                 String diagramId = collaborationRole[0];
                 role = collaborationRole[1];
-                if (role.startsWith(AUTHORIZATION_ROLE_PREFIX))
-                    for (Object item : principal().getJsonObject("authorizationRoles").getJsonArray(diagramId))
+                if (role.startsWith(DIAGRAM_ROLE_PREFIX))
+                    for (Object item : principal().getJsonObject("diagramRoles").getJsonArray(diagramId))
                         if (role.equals(item)) {
                             has = true;
                             break;

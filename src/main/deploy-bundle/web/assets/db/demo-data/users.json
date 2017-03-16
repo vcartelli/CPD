@@ -1,29 +1,5 @@
 [
   {
-    "_id": "civil servant 1",
-    "provider": "local",
-    "personId": "b4b30fab-7cca-4ee4-a0a1-07550bec363f",
-    "password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
-    "gender": "male",
-    "name": {
-      "familyName": "Simpatico Civil",
-      "givenName": "Servant #1"
-    },
-    "displayName": "Simpatico Civil Servant #1",
-    "language": "en",
-    "authenticationRole": "semantic:organization:roles:AuthenticationRole:civil-servant",
-    "authorizationRoles": {
-      "43467de2-9f42-477f-9f00-13b70f53ce24": [
-        "semantic:organization:roles:AuthorizationRole:editor",
-        "semantic:organization:roles:AuthorizationRole:reviewer"
-      ],
-      "62c02032-0b13-436c-9a96-00a7e479801b": [
-        "semantic:organization:roles:AuthorizationRole:collaborator"
-      ]
-    },
-    "type": "semantic:organization:UserProfile"
-  },
-  {
     "_id": "civil servant 2",
     "provider": "local",
     "personId": "317f15b6-9a69-4c0f-ad97-b226e5f6029e",
@@ -35,17 +11,17 @@
     },
     "displayName": "Civil Servant #2",
     "language": "en",
-    "authenticationRole": "semantic:organization:roles:AuthenticationRole:civil-servant",
-    "authorizationRoles": {
+    "type": "semantic:organization:UserProfile",
+    "position": "semantic:organization:roles:Position:civil-servant",
+    "diagramRoles": {
       "43467de2-9f42-477f-9f00-13b70f53ce24": [
-        "semantic:organization:roles:AuthorizationRole:owner"
+        "semantic:organization:roles:DiagramRole:owner"
       ],
       "62c02032-0b13-436c-9a96-00a7e479801b": [
-        "semantic:organization:roles:AuthorizationRole:editor",
-        "semantic:organization:roles:AuthorizationRole:reviewer"
+        "semantic:organization:roles:DiagramRole:editor",
+        "semantic:organization:roles:DiagramRole:reviewer"
       ]
-    },
-    "type": "semantic:organization:UserProfile"
+    }
   },
   {
     "_id": "administrator",
@@ -59,13 +35,13 @@
     },
     "displayName": "Simpatico Administrator",
     "language": "en",
-    "authenticationRole": "semantic:organization:roles:AuthenticationRole:admin",
-    "authorizationRoles": {
+    "type": "semantic:organization:UserProfile",
+    "position": "semantic:organization:roles:Position:admin",
+    "diagramRoles": {
       "*": [
-        "semantic:organization:roles:AuthorizationRole:owner"
+        "semantic:organization:roles:DiagramRole:owner"
       ]
-    },
-    "type": "semantic:organization:UserProfile"
+    }
   },
   {
     "_id": "citizen",
@@ -79,12 +55,36 @@
     },
     "displayName": "Simpatico Citizen",
     "language": "en",
-    "authenticationRole": "semantic:organization:roles:AuthenticationRole:citizen",
-    "authorizationRoles": {
+    "type": "semantic:organization:UserProfile",
+    "position": "semantic:organization:roles:Position:citizen",
+    "diagramRoles": {
       "*": [
-        "semantic:organization:roles:AuthorizationRole:observer"
+        "semantic:organization:roles:DiagramRole:observer"
       ]
+    }
+  },
+  {
+    "_id": "civil servant 1",
+    "provider": "local",
+    "personId": "b4b30fab-7cca-4ee4-a0a1-07550bec363f",
+    "password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
+    "gender": "male",
+    "name": {
+      "familyName": "Simpatico Civil",
+      "givenName": "Servant #1"
     },
-    "type": "semantic:organization:UserProfile"
+    "displayName": "Simpatico Civil Servant #1",
+    "language": "en",
+    "type": "semantic:organization:UserProfile",
+    "position": "semantic:organization:roles:Position:civil-servant",
+    "diagramRoles": {
+      "43467de2-9f42-477f-9f00-13b70f53ce24": [
+        "semantic:organization:roles:DiagramRole:editor",
+        "semantic:organization:roles:DiagramRole:reviewer"
+      ],
+      "62c02032-0b13-436c-9a96-00a7e479801b": [
+        "semantic:organization:roles:DiagramRole:collaborator"
+      ]
+    }
   }
 ]
