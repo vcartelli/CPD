@@ -4,10 +4,15 @@
       "path": "${cpd.server.auth.path}",
       "login": "${cpd.server.auth.login}",
       "logout": "${cpd.server.auth.logout}",
-      "getProfile": "${cpd.server.auth.getProfile}"
+      "getOAuth2Providers": "${cpd.server.auth.getOAuth2Providers}",
+      "getUserIsAuthenticated": "${cpd.server.auth.getUserIsAuthenticated}",
+      "getUserProfile": "${cpd.server.auth.getUserProfile}",
+      "getUserProfileImage": "${cpd.server.auth.getUserProfileImage}"
     },
     "api": {
       "path": "${cpd.server.api.path}",
+      "getTypeIds": "${cpd.server.api.getTypeIds}",
+      "getType": "${cpd.server.api.getType}",
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
       "getDiagram": "${cpd.server.api.getDiagram}",
       "getDiagramElements": "${cpd.server.api.getDiagramElements}",
@@ -24,6 +29,22 @@
     "link": {
       "newQuestion": "${cpd.qae.link.newQuestion}",
       "relatedQuestions": "${cpd.qae.link.relatedQuestions}"
+    }
+  },
+  "model": {
+    "roles": {
+      "position": {
+        "admin": "${cpd.model.roles.position.admin}",
+        "civilServant": "${cpd.model.roles.position.civilServant}",
+        "citizen": "${cpd.model.roles.position.citizen}"
+      },
+      "diagramRole": {
+        "editor": "${cpd.model.roles.diagramRole.editor}",
+        "owner": "${cpd.model.roles.diagramRole.owner}",
+        "reviewer": "${cpd.model.roles.diagramRole.reviewer}",
+        "collaborator": "${cpd.model.roles.diagramRole.collaborator}",
+        "observer": "${cpd.model.roles.diagramRole.observer}"
+      }
     }
   }
 }

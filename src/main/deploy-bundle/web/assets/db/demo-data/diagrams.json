@@ -1,17 +1,17 @@
 [
   {
-    "_id": "62c02032-0b13-436c-9a96-00a7e479801b",
-    "notation": "diagram:notation:FPMN",
-    "semanticId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-    "width": 640,
-    "height": 200,
-    "type": "diagram:Diagram"
-  },
-  {
     "_id": "43467de2-9f42-477f-9f00-13b70f53ce24",
     "notation": "diagram:notation:FPMN",
     "semanticId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
     "width": 940,
+    "height": 200,
+    "type": "diagram:Diagram"
+  },
+  {
+    "_id": "62c02032-0b13-436c-9a96-00a7e479801b",
+    "notation": "diagram:notation:FPMN",
+    "semanticId": "32585f79-cce0-4aca-86bf-f8df7a641091",
+    "width": 640,
     "height": 200,
     "type": "diagram:Diagram"
   }

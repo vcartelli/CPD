@@ -2,7 +2,10 @@ package it.beng.modeler;
 
 import io.vertx.core.json.JsonObject;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -12,6 +15,23 @@ import java.util.List;
 public final class config {
 
     private static JsonObject _config;
+
+    public static class OAuth2Config {
+        public static class Flow {
+            public String scope;
+            public String getUserProfile;
+        }
+
+        public String provider;
+        public String logoUrl;
+        public String site;
+        public String authPath;
+        public String tokenPath;
+        public String introspectionPath;
+        public String clientId;
+        public String clientSecret;
+        public Map<String, Flow> flows;
+    }
 
     public static final String ASSETS_PATH = "assets/";
     public static Boolean develop;
@@ -59,12 +79,25 @@ public final class config {
 
     public static class oauth2 {
         public static String host;
-        public static String clientId;
-        public static String clientSecret;
-        public static String site;
-        public static String tokenPath;
-        public static String authPath;
-        public static String scope;
+        public static List<OAuth2Config> configs;
+    }
+
+    public static class model {
+        public static class roles {
+            public static class position {
+                public static String admin;
+                public static String civilServant;
+                public static String citizen;
+            }
+
+            public static class diagramRole {
+                public static String editor;
+                public static String owner;
+                public static String reviewer;
+                public static String collaborator;
+                public static String observer;
+            }
+        }
     }
 
     private static String checkBaseHref(String href) {
@@ -137,12 +170,42 @@ public final class config {
         /** oauth2 **/
         node = main.getJsonObject("oauth2");
         oauth2.host = node.getString("host");
-        oauth2.clientId = node.getString("client.id");
-        oauth2.clientSecret = node.getString("client.secret");
-        oauth2.site = node.getString("site");
-        oauth2.tokenPath = node.getString("token.path");
-        oauth2.authPath = node.getString("auth.path");
-        oauth2.scope = node.getString("scope");
+        oauth2.configs = new LinkedList<>();
+        for (Object provider : node.getJsonArray("providers")) {
+            JsonObject p = JsonObject.class.cast(provider);
+            OAuth2Config oAuth2Config = new OAuth2Config();
+            oAuth2Config.provider = p.getString("provider");
+            oAuth2Config.logoUrl = p.getString("logoUrl");
+            oAuth2Config.site = p.getString("site");
+            oAuth2Config.tokenPath = p.getString("tokenPath");
+            oAuth2Config.authPath = p.getString("authPath");
+            oAuth2Config.introspectionPath = p.getString("introspectionPath");
+            oAuth2Config.clientId = p.getString("clientId");
+            oAuth2Config.clientSecret = p.getString("clientSecret");
+            oAuth2Config.flows = new LinkedHashMap<>();
+            for (Object flow : p.getJsonArray("flows")) {
+                JsonObject f = JsonObject.class.cast(flow);
+                OAuth2Config.Flow oAuth2ConfigFlow = new OAuth2Config.Flow();
+                oAuth2ConfigFlow.scope = f.getString("scope");
+                oAuth2ConfigFlow.getUserProfile = f.getString("getUserProfile");
+                oAuth2Config.flows.put(f.getString("flowType"), oAuth2ConfigFlow);
+            }
+            oauth2.configs.add(oAuth2Config);
+        }
+
+        /** model **/
+        // roles.position
+        node = main.getJsonObject("model").getJsonObject("roles").getJsonObject("position");
+        model.roles.position.admin = node.getString("admin");
+        model.roles.position.civilServant = node.getString("civilServant");
+        model.roles.position.citizen = node.getString("citizen");
+        // roles.diagramRole
+        node = main.getJsonObject("model").getJsonObject("roles").getJsonObject("diagramRole");
+        model.roles.diagramRole.editor = node.getString("editor");
+        model.roles.diagramRole.owner = node.getString("owner");
+        model.roles.diagramRole.reviewer = node.getString("reviewer");
+        model.roles.diagramRole.collaborator = node.getString("collaborator");
+        model.roles.diagramRole.observer = node.getString("observer");
 
         _config = main;
 

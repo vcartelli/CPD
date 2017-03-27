@@ -19,7 +19,7 @@ public final class AssetsSubRoute extends SubRoute {
     }
 
     @Override
-    protected void init() {
+    protected void init(Object userData) {
         router.route(HttpMethod.GET, path + "*").handler(
             StaticHandler.create("web/assets")
                          .setDirectoryListing(config.server.assets.allowListing));

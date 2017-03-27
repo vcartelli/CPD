@@ -1,9 +1,6 @@
 package it.beng.modeler.microservice.subroute;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
@@ -18,7 +15,6 @@ import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -33,10 +29,16 @@ public final class ApiSubRoute extends SubRoute {
     }
 
     @Override
-    protected void init() {
+    protected void init(Object userData) {
 
         // allow body handling for all post, put, delete calls to /api/*
         router.route(path + "*").handler(BodyHandler.create());
+
+        // type
+        router.route(HttpMethod.GET, path + "type/ids")
+              .handler(this::getTypeIds);
+        router.route(HttpMethod.GET, path + "type/:typeId")
+              .handler(this::getType);
 
         // stats
         router.route(HttpMethod.GET, path + "stats/diagram/:diagramId/eServiceCount")
@@ -49,12 +51,6 @@ public final class ApiSubRoute extends SubRoute {
               .handler(this::getDiagramEServiceSummary);
         router.route(HttpMethod.GET, path + "diagram/summary/list")
               .handler(this::getDiagramSummaryList);
-
-        // type
-        router.route(HttpMethod.GET, path + "type/ids")
-              .handler(this::getTypeIds);
-        router.route(HttpMethod.GET, path + "type/:typeId")
-              .handler(this::getType);
 
         // diagram
         router.route(HttpMethod.GET, path + "diagram/:diagramId")
@@ -244,16 +240,6 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
-    private static class Countdown {
-        private int count;
-
-        public Countdown(int count) {
-            this.count = count;
-        }
-
-        public boolean next() {return --count > 0;}
-    }
-
     private void getDiagramElements(RoutingContext rc) {
         simLagTime();
         String diagramId = rc.request().getParam("diagramId");
@@ -272,6 +258,7 @@ public final class ApiSubRoute extends SubRoute {
     private void getDiagramEServiceSummary(RoutingContext rc) {
         simLagTime();
         String eServiceId = rc.request().getParam("eServiceId");
+
         JsonObject command = new JsonObject()
             .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
@@ -280,39 +267,83 @@ public final class ApiSubRoute extends SubRoute {
                         .put("eServiceId", eServiceId)))
                 .add(new JsonObject()
                     .put("$lookup", new JsonObject()
+                        .put("from", "semantic.elements")
+                        .put("localField", "semanticId")
+                        .put("foreignField", "_id")
+                        .put("as", "documentation")))
+                .add(new JsonObject()
+                    .put("$unwind", "$documentation"))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("documentation", "$documentation.documentation")))
+                .add(new JsonObject()
+                    .put("$lookup", new JsonObject()
                         .put("from", "diagrams")
                         .put("localField", "diagramId")
                         .put("foreignField", "_id")
-                        .put("as", "diagram")))
+                        .put("as", "notation")))
                 .add(new JsonObject()
-                    .put("$unwind", "$diagram"))
+                    .put("$unwind", "$notation"))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("notation", "$notation.notation")))
+                .add(new JsonObject()
+                    .put("$graphLookup", new JsonObject()
+                        .put("from", "diagram.elements")
+                        .put("startWith", "$_id")
+                        .put("connectFromField", "ownerId")
+                        .put("connectToField", "_id")
+                        .put("as", "path")))
+                .add(new JsonObject()
+                    .put("$unwind", "$path"))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("path", "$path.semanticId")))
                 .add(new JsonObject()
                     .put("$lookup", new JsonObject()
                         .put("from", "semantic.elements")
-                        .put("localField", "diagram.semanticId")
+                        .put("localField", "path")
                         .put("foreignField", "_id")
-                        .put("as", "semantic")))
+                        .put("as", "name")))
                 .add(new JsonObject()
-                    .put("$unwind", "$semantic"))
+                    .put("$unwind", "$name"))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("name", "$name.name")))
+                .add(new JsonObject()
+                    .put("$group", new JsonObject()
+                        .put("_id", "$diagramId")
+                        .put("elementId", new JsonObject()
+                            .put("$first", "$_id"))
+                        .put("eServiceId", new JsonObject()
+                            .put("$first", "$eServiceId"))
+                        .put("notation", new JsonObject()
+                            .put("$first", "$notation"))
+                        .put("documentation", new JsonObject()
+                            .put("$first", "$documentation"))
+                        .put("path", new JsonObject()
+                            .put("$push", "$name"))))
                 .add(new JsonObject()
                     .put("$project", new JsonObject()
-                        .put("_id", "$diagram._id")
-                        .put("elementId", "$_id")
-                        .put("eServiceId", "$eServiceId")
-                        .put("notation", "$diagram.notation")
-                        .put("name", "$semantic.name")
-                        .put("documentation", "$semantic.documentation")
+                        .put("_id", 1)
+                        .put("elementId", 1)
+                        .put("eServiceId", 1)
+                        .put("notation", 1)
+                        .put("documentation", 1)
+                        .put("path", new JsonObject()
+                            .put("$reduce", new JsonObject()
+                                .put("input", "$path")
+                                .put("initialValue", "")
+                                .put("in", new JsonObject()
+                                    .put("$concat", new JsonArray()
+                                        .add("$$value").add("//").add("$$this")))))
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.rootHref() + config.webapp.diagramPath)
-                                .add("$diagram._id")
-                                .add("/")
-                                .add("$_id")))
+                                .add(config.rootHref() + config.webapp.diagramPath).add("$_id").add("/")
+                                .add("$elementId")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.assetsHref() + "/svg/")
-                                .add("$diagram._id")
-                                .add(".svg"))))));
+                                .add(config.assetsHref() + "svg/").add("$_id").add(".svg"))))));
         if (config.develop) System.out.println("getDiagramEServiceSummary command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
@@ -368,26 +399,35 @@ public final class ApiSubRoute extends SubRoute {
 
     private void putSemanticElement(RoutingContext rc) {
         simLagTime();
-        if (!isAuthenticated(rc)) {
-            throw new ResponseError(rc, "user is not authenticated");
-        }
-        JsonObject json = rc.getBodyAsJson();
-        mongodb.save("semantic.elements", toDb(json), ar -> {
-            if (ar.succeeded()) {
-                mongodb.findOne("semantic.elements", new JsonObject()
-                    .put("_id", json.getString("id")), new JsonObject(), s -> {
-                    if (s.succeeded()) {
-                        rc.response()
-                          .setStatusCode(HttpResponseStatus.ACCEPTED.code())
-                          .putHeader("content-type", "application/json; charset=utf-8")
-                          .end(toClient(s.result()));
-                    } else {
-                        throw new ResponseError(rc, s.cause());
-                    }
-                });
-            } else {
-                throw new ResponseError(rc, ar.cause());
-            }
+
+        JsonObject body = rc.getBodyAsJson();
+        String diagramId = body.getString("diagramId");
+        rc.user().isAuthorised(diagramId + "|" + config.model.roles.diagramRole.editor, aar -> {
+            if (aar.succeeded()) {
+                if (aar.result()) {
+                    JsonObject semantic = body.getJsonObject("semantic");
+                    mongodb.save("semantic.elements", toDb(semantic), ar -> {
+                        if (ar.succeeded()) {
+                            // TODO: try rc.reroute
+                            mongodb.findOne("semantic.elements", new JsonObject()
+                                .put("_id", semantic.getString("id")), new JsonObject(), s -> {
+                                if (s.succeeded()) {
+                                    rc.response()
+                                      .setStatusCode(HttpResponseStatus.ACCEPTED.code())
+                                      .putHeader("content-type", "application/json; charset=utf-8")
+                                      .end(toClient(s.result()));
+                                } else {
+                                    throw new ResponseError(rc, s.cause());
+                                }
+                            });
+                        } else {
+                            throw new ResponseError(rc, ar.cause());
+                        }
+                    });
+                } else {
+                    throw new ResponseError(rc, "user is not authorized for this operation");
+                }
+            } else throw new ResponseError(rc, aar.cause());
         });
     }
 

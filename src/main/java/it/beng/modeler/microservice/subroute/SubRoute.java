@@ -2,6 +2,7 @@ package it.beng.modeler.microservice.subroute;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,6 +10,7 @@ import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.modeler.config;
+import it.beng.modeler.microservice.ResponseError;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -21,20 +23,32 @@ import java.util.regex.Pattern;
  */
 public abstract class SubRoute {
 
+    protected static final HttpServerResponse JSON_RESPONSE(RoutingContext rc) {
+        return rc.response().putHeader("content-type", "application/json; charset=utf-8");
+    }
+
+    protected static final void NULL_RESPONSE(RoutingContext rc) {
+        JSON_RESPONSE(rc).end("null");
+    }
+
     protected final String baseHref;
     protected final String path;
     protected final Vertx vertx;
     protected final Router router;
     protected final MongoClient mongodb;
 
-    public SubRoute(String path, Vertx vertx, Router router, MongoClient mongodb) {
+    public SubRoute(String path, Vertx vertx, Router router, MongoClient mongodb, Object userData) {
         this.baseHref = config.server.baseHref;
         this.path = (path.startsWith("/") ? "" : this.baseHref) + path;
         System.out.println("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;
         this.mongodb = mongodb;
-        this.init();
+        this.init(userData);
+    }
+
+    public SubRoute(String path, Vertx vertx, Router router, MongoClient mongodb) {
+        this(path, vertx, router, mongodb, null);
     }
 
     static {
@@ -44,7 +58,7 @@ public abstract class SubRoute {
         Json.prettyMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
     }
 
-    protected abstract void init();
+    protected abstract void init(Object userData);
 
     protected static class Replacer {
 
@@ -133,7 +147,7 @@ public abstract class SubRoute {
 
     public static String getQueryParameter(String query, String paramName) {
         if (query != null && paramName != null)
-            for (String s : query.split("&")) {
+            for (String s : query.split("(&|#)")) {
                 String[] entry = s.split("=");
                 if (paramName.equals(entry[0])) {
                     return entry[1];
@@ -142,8 +156,8 @@ public abstract class SubRoute {
         return null;
     }
 
-    protected static boolean isAuthenticated(RoutingContext rc) {
-        return rc.user() != null;
+    protected static void checkAuthenticated(RoutingContext rc) {
+        if (rc.user() == null) throw new ResponseError(rc, "user is not authenticated");
     }
 
 }

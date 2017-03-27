@@ -8,11 +8,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
-
-import java.util.Base64;
-
-import static it.beng.modeler.microservice.subroute.SubRoute.getQueryParameter;
-import static it.beng.modeler.microservice.subroute.SubRoute.redirect;
+import it.beng.modeler.microservice.subroute.AuthSubRoute;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -28,23 +24,24 @@ public class LocalAuthHandlerImpl extends AuthHandlerImpl implements LocalAuthHa
     @Override
     public void handle(RoutingContext rc) {
 
-        JsonObject state = new JsonObject(new String(Base64.getDecoder().decode(
-            getQueryParameter(rc.request().query(), "state"))));
         User user = rc.user();
         if (user != null) {
             this.authorise(user, rc);
-            redirect(rc, state.getString("redirect"));
         } else {
+            JsonObject state = AuthSubRoute.getState(rc);
             authProvider.authenticate(state.getJsonObject("authInfo"), rh -> {
                 if (rh.succeeded()) {
                     LocalUser authenticated = (LocalUser) rh.result();
                     if (config.develop) System.out.println(Json.encodePrettily(authenticated.principal()));
                     rc.setUser(authenticated);
                     this.authorise(authenticated, rc);
-                    redirect(rc, state.getString("redirect"));
                 } else {
-                    String redirect = Base64.getEncoder().encodeToString(state.getString("redirect").getBytes());
-                    redirect(rc, config.server.baseHref + "login/" + redirect);
+                    state.put("errorMsg", rh.cause().getMessage());
+                    String encodedState = AuthSubRoute.getBase64EncodedState(rc);
+                    rc.response()
+                      .setStatusCode(302)
+                      .putHeader("Location", config.server.baseHref + "login/" + encodedState)
+                      .end();
                 }
             });
         }

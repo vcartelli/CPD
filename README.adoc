@@ -83,7 +83,7 @@ WARNING: Remember that in Java properties files the double backslash `\\` must b
 
 * `cpd.mongodb.host`: the mongodb hostname;
 * `cpd.mongodb.port`: the mongodb port;
-* `cpd.mongodb.username`: the mongodb username (if no user it must be left blank);
+* `cpd.mongodb.username`: the mongodb username (leave blank in case of none);
 * `cpd.mongodb.password`: the mongodb password for user (leave blank in case of none);
 * `cpd.oauth2.host`: the oauth2 hostname to send to the authority (e.g. `http://localhost:8901`);
 
@@ -91,12 +91,37 @@ NOTE: `cpd.oauth2.host` can differ from `cpd.server.hostname` since the server i
       server. In this case it is normal to have `cpd.server.hostname=localhost` and
       `cpd.oauth2.host=<my public domain name>`.
 
-* `cpd.oauth2.site`: the authorization server site (e.g. `https://accounts.google.com`);
-* `cpd.oauth2.token.path`: the token endpoint (e.g. `https://www.googleapis.com/oauth2/v3/token`);
-* `cpd.oauth2.auth.path`: the path to the authorization endpoint (e.g. `/o/oauth2/auth`);
-* `cpd.oauth2.scope`: the access token scope (e.g. `email`).
-* `cpd.oauth2.client.id`: the oauth2 client id to use;
-* `cpd.oauth2.client.secret`: the oauth2 client secret to use.
+* `cpd.oauth2.providers`: this property must be a list of comma separated json objects. Each json object must contain
+  the following fields:
+
+[source,javascript]
+{
+  "provider":"AAC",                           // the id of the oauth2 provider
+  "logoUrl":"assets/img/oauth2_aac_logo.png", // the url to the logo to show in the login form
+  "site":"http://my.aac:8080",                // the site of the authorization server
+  "authPath":"/aac/eauth/authorize",          // the path to the authorization endpoint
+  "tokenPath":"/aac/oauth/token",             // the path to the token endpoint
+  "clientId":"my aac app client id",          // the application client id
+  "clientSecret":"my aac app cient secret",   // the application client secret
+  "flows":[
+    {
+      "flowType":"IMPLICIT",                  // the oauth2 flow (see the following note)
+      "scope":"profile.basicprofile.me",      // the comma or space delimited scopes
+      "getUserProfile": "http://my.aac:8080/aac/basicprofile/me"
+      // the endpoint at which to retrieve the user profile (absolute path)
+    },
+    {
+      "flowType":"CLIENT"
+    }
+  ]
+}, {
+  ...
+}
+
+NOTE: the CPD accepts three oauth2 flows: "AUTH_CODE", "IMPLICIT" or "CLIENT".
+
+WARNING: Remember that in Java properties files, in order to continue writing the same string in a new line, a `\` must
+         be placed at the end of the previous line (see the `example.properties` file for an example).
 
 .google OAuth2 configuration
 ====
@@ -110,11 +135,32 @@ and/or `cpd.server.baseHref` the user can utilize to access the application in t
 
 The URI to put in your  console must be written in the following form:
 
-  http[s]://<cpd.oauth2.host><cpd.server.baseHref>auth/callback?redirect_uri=<cpd.server.baseHref>auth/google/login/handler
+  http[s]://<cpd.oauth2.host><cpd.server.baseHref>oauth2/server/callback
 
 e.g. using `cpd.oauth2.host=localhost:8901` and `cpd.server.baseHref=/cpd/`:
 
-  http://localhost:8901/cpd/auth/callback?redirect_uri=/cpd/auth/google/login/handler
+  http://localhost:8901/cpd/oauth2/server/callback
+
+use the following property in the properties file:
+
+  cpd.oauth2.providers=\
+  {\
+    "provider":"Google",\
+    "logoUrl":"assets/img/oauth2_google_logo.png",\
+    "site":"https://accounts.google.com",\
+    "authPath":"/o/oauth2/auth",\
+    "tokenPath":"https://www.googleapis.com/oauth2/v3/token",\
+    "introspectionPath":"https://www.googleapis.com/oauth2/v3/tokeninfo",\
+    "clientId":"the client id of your application",\
+    "clientSecret":"the client secter of your application",\
+    "flows":[\
+      {\
+        "flowType":"AUTH_CODE",\
+        "scope":"email",\
+        "getUserProfile": "https://www.googleapis.com/plus/v1/people/{userId}"\
+      }\
+    ]\
+  }
 
 ====
 

@@ -19,7 +19,7 @@ public final class RootSubRoute extends SubRoute {
     }
 
     @Override
-    protected void init() {
+    protected void init(Object userData) {
         // let the ROOT application handle it's own routes
         for (String route : config.webapp.routes) {
             router.route(HttpMethod.GET, path + route).handler(rc -> {

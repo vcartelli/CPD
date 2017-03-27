@@ -36,15 +36,17 @@ public class LocalUser extends AbstractUser implements User {
             if (role.startsWith(POSITION_PREFIX))
                 has = role.equals(principal().getString("position"));
             else {
-                String[] collaborationRole = role.split("|");
+                String[] collaborationRole = role.split("\\|");
                 String diagramId = collaborationRole[0];
                 role = collaborationRole[1];
-                if (role.startsWith(DIAGRAM_ROLE_PREFIX))
-                    for (Object item : principal().getJsonObject("diagramRoles").getJsonArray(diagramId))
+                if (role.startsWith(DIAGRAM_ROLE_PREFIX)) {
+                    JsonObject diagramRoles = principal().getJsonObject("profile").getJsonObject("diagramRoles");
+                    for (Object item : diagramRoles.getJsonArray(diagramId))
                         if (role.equals(item)) {
                             has = true;
                             break;
                         }
+                }
             }
         resultHandler.handle(Future.succeededFuture(has));
     }

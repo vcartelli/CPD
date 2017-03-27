@@ -11,5 +11,5 @@ cd "$(dirname "$0")"
 echo "starting $PROFILE compilation..."
 mvn clean package -P $PROFILE
 echo "copying target jar to deploy-bundle..."
-cp target/cpd-server-1.0-SNAPSHOT-fat.jar target/deploy-bundle/cpd-server.jar
+cp target/cpd-server-1.1-SNAPSHOT-fat.jar target/deploy-bundle/cpd-server.jar
 chmod 754 target/deploy-bundle/*.sh

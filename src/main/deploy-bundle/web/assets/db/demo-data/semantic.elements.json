@@ -8,6 +8,14 @@
     "type": "semantic:process:Phase"
   },
   {
+    "_id": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
+    "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
+    "name": "Service acceptance",
+    "documentation": "The citizen (usually a parent) within 10 day from the diagramList publication must compile the acceptance module.",
+    "prevPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
+    "type": "semantic:process:Phase"
+  },
+  {
     "_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
     "name": "Permit on acoustic derogation for temporary activities",
     "documentation": "The service aims at managing the acoustic derogation for temporary activities permit. The service has different\nspecialization, such as:\n\n* temporary acoustic derogation for building;\n* temporary acoustic derogation musical entertainment at public premises or events derogation for concerts, events,\n  performances.",
@@ -17,17 +25,9 @@
   {
     "_id": "c9561247-d5a7-4578-98b9-58021ee68ae0",
     "name": "Enrolment to day nursery service",
-    "documentation": "The day nursery service aims at offering day nursery for 0-3 year olds; the day-long care is based in a centre and the education and care programs are created around the developmental needs, interests and experience of each child. +\nIn the project context, we are going to handle the enrolment process.",
+    "documentation": "The day nursery service aims at offering day nursery for 0-3 year olds; the day-long care is based in a centre and the education and care programs are created around the developmental needs, interests and experience of each child.\nIn the project context, we are going to handle the enrolment process.",
     "type": "semantic:process:Procedure",
-    "mission": ""
-  },
-  {
-    "_id": "a46c29cc-5814-47d0-86a9-22f6d678335a",
-    "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "name": "Service enrolment request",
-    "documentation": "The citizen (usually a parent) compiles the enrolment to day nursery service request module before a specific deadline.",
-    "nextPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
-    "type": "semantic:process:Phase"
+    "mission": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\n"
   },
   {
     "_id": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
@@ -41,17 +41,17 @@
     "_id": "05c18b01-cd5e-4b0a-b003-242f968f68df",
     "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
     "name": "Requests evaluation",
-    "documentation": "The council collects all the module requests and within 30 days after the deadline, based on the defined rules, the\ncouncil produces a diagramList of the children entitled for the service.",
+    "documentation": "The council collects all the module requests and within 30 days after the deadline, based on the defined rules, the council produces a list of the children entitled for the service.",
     "prevPhaseId": "a46c29cc-5814-47d0-86a9-22f6d678335a",
     "nextPhaseId": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
     "type": "semantic:process:Phase"
   },
   {
-    "_id": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
+    "_id": "a46c29cc-5814-47d0-86a9-22f6d678335a",
     "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "name": "Service acceptance",
-    "documentation": "The citizen (usually a parent) within 10 day from the diagramList publication must compile the acceptance module.",
-    "prevPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
+    "name": "Service enrolment request",
+    "documentation": "The citizen (usually a parent) compiles the enrolment to day nursery service request module before a specific deadline.",
+    "nextPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
     "type": "semantic:process:Phase"
   }
 ]
