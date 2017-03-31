@@ -37,6 +37,13 @@
                 <config.properties.file>production.properties</config.properties.file>
             </properties>
         </profile>
+        <profile>
+            <id>dev-p</id>
+            <properties>
+                <cpd.develop>false</cpd.develop>
+                <config.properties.file>develop.properties</config.properties.file>
+            </properties>
+        </profile>
     </profiles>
 
     <repositories>
@@ -126,7 +133,7 @@
                     <exclude>web/assets/conf/*.json</exclude>
                     <exclude>web/assets/swagger/*.json</exclude>
                     <exclude>web/swagger-ui/swagger.json</exclude>
-                    <exclude>web/ROOT/index.html</exclude>
+                    <exclude>web/ROOT/**/index.html</exclude>
                     <exclude>web/ROOT/assets/**/*</exclude>
                 </excludes>
                 <targetPath>../deploy-bundle</targetPath>
@@ -149,7 +156,7 @@
                     <include>web/assets/conf/*.json</include>
                     <include>web/assets/swagger/*.json</include>
                     <include>web/swagger-ui/swagger.json</include>
-                    <include>web/ROOT/index.html</include>
+                    <include>web/ROOT/**/index.html</include>
                 </includes>
                 <targetPath>../deploy-bundle</targetPath>
             </resource>

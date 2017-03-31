@@ -16,10 +16,7 @@ import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import it.beng.modeler.config;
-import it.beng.modeler.microservice.subroute.ApiSubRoute;
-import it.beng.modeler.microservice.subroute.AssetsSubRoute;
-import it.beng.modeler.microservice.subroute.AuthSubRoute;
-import it.beng.modeler.microservice.subroute.RootSubRoute;
+import it.beng.modeler.microservice.subroute.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +42,9 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // Create a router object
         Router router = Router.router(vertx);
 
-        // if base href is not root reroute root to base href
-        if (!"/".equals(baseHref)) router.route("/").handler(rc -> rc.reroute(baseHref));
+        router.route(HttpMethod.GET, baseHref).handler(rc -> {
+            SubRoute.redirect(rc, baseHref + config.app.path + SubRoute.locale(rc));
+        });
 
         // configure CORS origins and allowed methods
         router.route().handler(
@@ -168,7 +166,12 @@ public class ModelerServerVerticle extends AbstractVerticle {
         new AssetsSubRoute(vertx, router, mongodb);
         new AuthSubRoute(vertx, router, mongodb);
         new ApiSubRoute(vertx, router, mongodb);
-        new RootSubRoute(vertx, router, mongodb);
+        new AppSubRoute(vertx, router, mongodb);
+
+        // reroute all non-handled [GET] to app
+        router.route(HttpMethod.GET, "/*").handler(rc -> {
+            rc.reroute(baseHref + config.app.path + SubRoute.locale(rc));
+        });
 
         // handle failures
         router.route().failureHandler(rc -> {
@@ -177,7 +180,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
             switch (rc.statusCode()) {
                 case 404: {
                     // let root application find the resource or show the 404 not found page
-                    rc.reroute(baseHref + "/");
+                    rc.reroute(baseHref + config.app.path + SubRoute.locale(rc));
                     break;
                 }
                 default: {
@@ -206,10 +209,10 @@ public class ModelerServerVerticle extends AbstractVerticle {
              .requestHandler(router::accept)
              .listen(config.server.port, ar -> {
                      if (ar.succeeded()) {
-                         System.out.println("HTTP Server started: " + config.host());
+                         System.out.println("HTTP Server started: " + config.server.origin());
                          startFuture.complete();
                      } else {
-                         System.err.println("Cannot start HTTP Server: " + config.host() +
+                         System.err.println("Cannot start HTTP Server: " + config.server.origin() +
                              ". Cause: " + ar.cause().getMessage());
                          startFuture.fail(ar.cause());
                      }

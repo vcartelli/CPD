@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the [![Simpatico](https://simpatico.business-engineering.it:8901/assets/img/left_simpatico_small.png)](http://www.simpatico-project.eu/) Collaborative Procedure Designer Server **public** API documentation page.",
+    "description": "This is the [![Simpatico](https://simpatico.business-engineering.it/cpd/assets/img/left_simpatico_small.png)](http://www.simpatico-project.eu/) Collaborative Procedure Designer Server **public** API documentation page.",
     "version": "1.0.0",
     "title": "CPD Server",
     "contact": {
@@ -12,10 +12,10 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "${server.hostname}:${server.port}",
-  "basePath": "${server.api.base}",
+  "host": "${cpd.server.pub.host}:${cpd.server.pub.port}",
+  "basePath": "${cpd.server.baseHref}${cpd.server.api.path}",
   "schemes": [
-    "${server.scheme}"
+    "${cpd.server.pub.scheme}"
   ],
   "paths": {
     "/stats/diagram/{diagramId}/eServiceCount": {
@@ -24,7 +24,7 @@
           "stats"
         ],
         "summary": "Fetch the number of e-service in diagram",
-        "description": "Fetches the number of all the _DiagramElements_ that are associated to an e-service and belong to the _Diagram_ identified by **{diagramId}**.",
+        "description": "Fetches the number of all the e-services that are associated to the _Diagram_ identified by **{diagramId}**.",
         "operationId": "getDiagramEServiceCount",
         "parameters": [
           {
@@ -56,10 +56,40 @@
         }
       }
     },
+    "/diagram/summary/list": {
+      "get": {
+        "tags": [
+          "summary"
+        ],
+        "summary": "List all the diagram summaries",
+        "description": "Retrieves the list of **all** _DiagramSummary_.",
+        "operationId": "getDiagramSummaryList",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/diagram:DiagramSummary"
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/diagram/eService/{eServiceId}/summary": {
       "get": {
         "tags": [
-          "e-service"
+          "summary"
         ],
         "summary": "Fetch the diagram summary by e-service ID",
         "description": "Retrieves the _DiagramSummary_ for the given e-service **{eServiceId}**.",

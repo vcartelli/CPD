@@ -34,23 +34,21 @@ public final class ApiSubRoute extends SubRoute {
         // allow body handling for all post, put, delete calls to /api/*
         router.route(path + "*").handler(BodyHandler.create());
 
+        // stats
+        router.route(HttpMethod.GET, path + "stats/diagram/:diagramId/eServiceCount")
+              .handler(this::getDiagramEServiceCount);
+
         // type
         router.route(HttpMethod.GET, path + "type/ids")
               .handler(this::getTypeIds);
         router.route(HttpMethod.GET, path + "type/:typeId")
               .handler(this::getType);
 
-        // stats
-        router.route(HttpMethod.GET, path + "stats/diagram/:diagramId/eServiceCount")
-              .handler(this::getDiagramEServiceCount);
-        router.route(HttpMethod.GET, path + "stats/diagram/element/:elementId/eServiceCount")
-              .handler(this::getDiagramElementEServiceCount);
-
         // summary
-        router.route(HttpMethod.GET, path + "diagram/eService/:eServiceId/summary")
-              .handler(this::getDiagramEServiceSummary);
         router.route(HttpMethod.GET, path + "diagram/summary/list")
               .handler(this::getDiagramSummaryList);
+        router.route(HttpMethod.GET, path + "diagram/eService/:eServiceId/summary")
+              .handler(this::getDiagramEServiceSummary);
 
         // diagram
         router.route(HttpMethod.GET, path + "diagram/:diagramId")
@@ -71,7 +69,7 @@ public final class ApiSubRoute extends SubRoute {
         /*** STATIC RESOURCES (swagger-ui) ***/
 
         // IMPORTANT!!1: redirect api to api/
-        // it MUST be done with regex (must end exactly with "api") to avoid infinite redirections
+        // it MUST be done with regex (i.e. must be exactly "api") to avoid infinite redirections
         router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
               .handler(rc -> redirect(rc, path));
         router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/swagger-ui"));
@@ -95,50 +93,6 @@ public final class ApiSubRoute extends SubRoute {
                         .put("count", new JsonObject()
                             .put("$sum", 1)))));
         if (config.develop) System.out.println("getDiagramEServiceCount command: " + command.encodePrettily());
-        mongodb.runCommand("aggregate", command, ar -> {
-            if (ar.succeeded()) {
-                rc.response()
-                  .putHeader("content-type", "application/json; charset=utf-8")
-                  .end(toClient(ar.result().getJsonArray("result").getJsonObject(0)));
-            } else {
-                throw new ResponseError(rc, ar.cause());
-            }
-        });
-    }
-
-    private void getDiagramElementEServiceCount(RoutingContext rc) {
-        simLagTime();
-        String elementId = rc.request().getParam("elementId");
-        JsonObject command = new JsonObject()
-            .put("aggregate", "diagram.elements")
-            .put("pipeline", new JsonArray()
-                .add(new JsonObject()
-                    .put("$match", new JsonObject()
-                        .put("_id", elementId)))
-                .add(new JsonObject()
-                    .put("$graphLookup", new JsonObject()
-                        .put("from", "diagram.elements")
-                        .put("startWith", "$_id")
-                        .put("connectFromField", "_id")
-                        .put("connectToField", "ownerId")
-                        .put("as", "childs")))
-                .add(new JsonObject()
-                    .put("$unwind", "$childs"))
-                .add(new JsonObject()
-                    .put("$project", new JsonObject()
-                        .put("_id", 1)
-                        .put("childs._id", 1)
-                        .put("childs.eServiceId", 1)))
-                .add(new JsonObject()
-                    .put("$match", new JsonObject()
-                        .put("childs.eServiceId", new JsonObject()
-                            .put("$exists", true))))
-                .add(new JsonObject()
-                    .put("$group", new JsonObject()
-                        .put("_id", "$_id")
-                        .put("count", new JsonObject()
-                            .put("$sum", 1)))));
-        if (config.develop) System.out.println("getDiagramElementEServiceCount command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 rc.response()
@@ -204,11 +158,11 @@ public final class ApiSubRoute extends SubRoute {
                         .put("documentation", "$semantic.documentation")
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.rootHref() + config.webapp.diagramPath)
+                                .add(config.server.pub.appHref(locale(rc)) + config.app.diagramPath)
                                 .add("$_id")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.assetsHref() + "svg/")
+                                .add(config.server.pub.assetsHref() + "svg/")
                                 .add("$_id")
                                 .add(".svg"))))));
         if (config.develop) System.out.println("getDiagramSummaryList command: " + command.encodePrettily());
@@ -339,11 +293,12 @@ public final class ApiSubRoute extends SubRoute {
                                         .add("$$value").add("//").add("$$this")))))
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.rootHref() + config.webapp.diagramPath).add("$_id").add("/")
+                                .add(config.server.pub.appHref(locale(rc)) + config.app.diagramPath)
+                                .add("$_id").add("/")
                                 .add("$elementId")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.assetsHref() + "svg/").add("$_id").add(".svg"))))));
+                                .add(config.server.pub.assetsHref() + "svg/").add("$_id").add(".svg"))))));
         if (config.develop) System.out.println("getDiagramEServiceSummary command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {

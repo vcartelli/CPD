@@ -71,13 +71,13 @@ IMPORTANT: If you plan to use your own signed certificate, make sure it is given
 * `cpd.ssl.keystore.password` (only if `cpd.ssl.enabled=true`): the password of the keystore;
 * `cpd.server.scheme`: `https` or `http` depending on whether you want to use ssl on unencrypted connections (see
   `cpd.ssl.enabled`);
-* `cpd.server.hostname`: the hostname or the ip address of the machine executing the application (this can be
+* `cpd.server.host`: the hostname or the ip address of the machine executing the application (this can be
   `localhost` if you're planning to access the application locally);
 * `cpd.server.port`: the port to use;
 * `cpd.server.baseHref`: the *base href* of the server, must start and end with a `/` character (e.g. `/` or `/cpd/`);
-* `cpd.server.allowedOriginPattern`: this is a *regex pattern* for link:http://www.w3.org/TR/cors[CORS] allowed origin
-  calls (use `*` to allow calls from the entire planet, but for security reasons it is always best to put in only the
-  origins that will *actually* use the API, e.g. `http:\\\\/\\\\/localhost:(8080|8901)`;
+* `cpd.server.allowedOriginPattern`: this is a *regex pattern* for link:http://www.w3.org/TR/cors[CORS] allowed origins
+  (use `*` to allow calls from the entire planet, but for security reasons it is always best to put in only the origins
+  that will *actually* use the API, e.g. `http:\\\\/\\\\/localhost:(8080|8901)`;
 
 WARNING: Remember that in Java properties files the double backslash `\\` must be escaped two times: `\\\\`).
 
@@ -85,12 +85,7 @@ WARNING: Remember that in Java properties files the double backslash `\\` must b
 * `cpd.mongodb.port`: the mongodb port;
 * `cpd.mongodb.username`: the mongodb username (leave blank in case of none);
 * `cpd.mongodb.password`: the mongodb password for user (leave blank in case of none);
-* `cpd.oauth2.host`: the oauth2 hostname to send to the authority (e.g. `http://localhost:8901`);
-
-NOTE: `cpd.oauth2.host` can differ from `cpd.server.hostname` since the server instance can be running behind a proxy
-      server. In this case it is normal to have `cpd.server.hostname=localhost` and
-      `cpd.oauth2.host=<my public domain name>`.
-
+* `cpd.oauth2.origin`: the oauth2 origin to send to the authority (e.g. `http://localhost:8901`);
 * `cpd.oauth2.providers`: this property must be a list of comma separated json objects. Each json object must contain
   the following fields:
 
@@ -130,14 +125,14 @@ In case you want to test google OAuth2 but don't have an API account, create a p
 link:https://console.developers.google.com/apis/credentials[Google API Mangement Console]
 and then create the OAuth client ID for the web application.
 
-In order to use google OAuth2 service, you have to add a redirect callback URI for every different `cpd.oauth2.host`
+In order to use google OAuth2 service, you have to add a redirect callback URI for every different `cpd.oauth2.origin`
 and/or `cpd.server.baseHref` the user can utilize to access the application in the _authorized redirect URI list_.
 
 The URI to put in your  console must be written in the following form:
 
-  http[s]://<cpd.oauth2.host><cpd.server.baseHref>oauth2/server/callback
+  <cpd.oauth2.origin><cpd.server.baseHref>oauth2/server/callback
 
-e.g. using `cpd.oauth2.host=localhost:8901` and `cpd.server.baseHref=/cpd/`:
+e.g. using `cpd.oauth2.origin=http://localhost:8901` and `cpd.server.baseHref=/cpd/`:
 
   http://localhost:8901/cpd/oauth2/server/callback
 
@@ -213,7 +208,7 @@ The `deploy.sh` script requires *two* mandatory input parameters:
 WARNING: Never launch the application as `root` user!
 
 * the `SERVER` hostname or ip address of the remote machine where the application will be deployed (this should be equal
-  to the `cpd.server.hostname` property value of the `production.properties` file).
+  to the `cpd.server.host` property value of the `production.properties` file).
 
 = [[run]]Running the application
 

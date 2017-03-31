@@ -1,5 +1,6 @@
 {
   "server": {
+    "baseHref": "${cpd.server.baseHref}",
     "auth": {
       "path": "${cpd.server.auth.path}",
       "login": "${cpd.server.auth.login}",

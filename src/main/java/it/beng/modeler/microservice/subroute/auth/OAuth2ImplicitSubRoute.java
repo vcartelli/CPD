@@ -18,6 +18,7 @@ import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
+import it.beng.modeler.microservice.subroute.SubRoute;
 
 import java.util.Base64;
 
@@ -31,6 +32,7 @@ import static it.beng.modeler.microservice.subroute.AuthSubRoute.loginRedirect;
 public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
     public static final String FLOW_TYPE = "IMPLICIT";
+    public static final String FLOW_TYPE_WEB_CLIENT = FLOW_TYPE + "_WEB_CLIENT";
 
     public OAuth2ImplicitSubRoute(Vertx vertx, Router router, MongoClient mongodb, config.OAuth2Config oAuth2Config) {
         super(vertx, router, mongodb, oAuth2Config, FLOW_TYPE);
@@ -39,6 +41,9 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
     @Override
     protected void oauth2Init() {
         router.route(HttpMethod.GET, path + "login/handler").handler(this::redirectUrlHandler);
+        router.route(HttpMethod.GET, baseHref + "oauth2/client/callback").handler(rc -> {
+            redirect(rc, baseHref + config.app.path + SubRoute.locale(rc) + "/oauth2/client/callback");
+        });
         router.route(HttpMethod.GET, path + "hash/:hash").handler(this::setupAccess);
     }
 
@@ -49,7 +54,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         url.append("response_type=token");
         url.append("&");
         url.append("redirect_uri=");
-        url.append(config.oauth2.host);
+        url.append(config.server.pub.origin());
         url.append(baseHref + "oauth2/client/callback");
         url.append("&");
         url.append("client_id=");
@@ -68,15 +73,15 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         String encodedHash = rc.request().getParam("hash");
 
         JsonObject hash = new JsonObject(new String(Base64.getDecoder().decode(encodedHash)));
-        System.out.println("hash: " + hash.encodePrettily());
 
         AuthSubRoute.checkState(rc, hash.getString("state"));
 
-        final WebClient client = WebClient.create(
+        WebClient client = WebClient.create(
             vertx,
             new WebClientOptions()
                 .setUserAgent("CPD-WebClient/1.0")
-                .setFollowRedirects(false));
+                .setFollowRedirects(false)
+        );
         client.requestAbs(HttpMethod.GET, oauth2Flow.getUserProfile)
               .putHeader("Accept", "application/json")
               .putHeader("Authorization", "Bearer " + hash.getString("access_token"))
@@ -106,7 +111,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                       if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                   }
                   client.close();
-                  loginRedirect(rc, baseHref);
+                  loginRedirect(rc, baseHref + config.app.path);
               });
     }
 

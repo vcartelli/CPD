@@ -60,7 +60,7 @@ public abstract class SubRoute {
 
     protected abstract void init(Object userData);
 
-    protected static class Replacer {
+    private static class Replacer {
 
         public static Replacer DB_REPLACER = new Replacer(Pattern.compile("^(\\$)(.*)$"), "_\\$$2");
         public static Replacer CLIENT_REPLACER = new Replacer(Pattern.compile("^(_\\$)(.*)$"), "\\$$2");
@@ -74,7 +74,7 @@ public abstract class SubRoute {
         }
     }
 
-    protected static Object transform(Object value, String fromId, String toId, Replacer replacer) {
+    private static Object transform(Object value, String fromId, String toId, Replacer replacer) {
         if (value instanceof JsonObject || value instanceof Map) {
             Map<String, Object> map = value instanceof JsonObject ? ((JsonObject) value).getMap() : (Map) value;
             Map<String, Object> result = new LinkedHashMap<>();
@@ -145,15 +145,19 @@ public abstract class SubRoute {
           .end();
     }
 
-    public static String getQueryParameter(String query, String paramName) {
-        if (query != null && paramName != null)
-            for (String s : query.split("(&|#)")) {
-                String[] entry = s.split("=");
-                if (paramName.equals(entry[0])) {
-                    return entry[1];
-                }
-            }
-        return null;
+    private static final List<String> SPANISH_ALTERNATIVES = Arrays.asList("ca", "gl");
+
+    public static String locale(RoutingContext rc) {
+        if (config.develop) return "en";
+        String locale = null;
+        if (rc.user() != null) locale = rc.user().principal().getJsonObject("profile").getString("language");
+        if (locale == null) {
+            locale = rc.request().getHeader("Accept-Language");
+            if (locale != null) locale = locale.substring(0, 2);
+        }
+        if (locale != null && SPANISH_ALTERNATIVES.contains(locale)) locale = "es";
+        if (locale == null || !config.app.locales.contains(locale)) locale = "en";
+        return locale;
     }
 
     protected static void checkAuthenticated(RoutingContext rc) {

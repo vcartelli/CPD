@@ -9,6 +9,7 @@ import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
+import it.beng.modeler.microservice.subroute.SubRoute;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -40,7 +41,8 @@ public class LocalAuthHandlerImpl extends AuthHandlerImpl implements LocalAuthHa
                     String encodedState = AuthSubRoute.getBase64EncodedState(rc);
                     rc.response()
                       .setStatusCode(302)
-                      .putHeader("Location", config.server.baseHref + "login/" + encodedState)
+                      .putHeader("Location", config.server.baseHref + config.app.path +
+                          SubRoute.locale(rc) + "/login/" + encodedState)
                       .end();
                 }
             });

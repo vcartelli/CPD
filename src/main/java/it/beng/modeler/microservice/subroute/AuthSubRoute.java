@@ -41,7 +41,7 @@ public final class AuthSubRoute extends SubRoute {
     }
 
     public static String getBase64EncodedState(RoutingContext rc) {
-        return Base64.getEncoder().withoutPadding().encodeToString(getState(rc).encode().getBytes());
+        return Base64.getEncoder().encodeToString(getState(rc).encode().getBytes());
     }
 
     public static void setState(RoutingContext rc, JsonObject state) {
@@ -50,15 +50,15 @@ public final class AuthSubRoute extends SubRoute {
 
     public static void loginRedirect(RoutingContext rc, String baseHref) {
         JsonObject state = AuthSubRoute.getState(rc);
-        System.out.println("state: " + state.encodePrettily());
+        String path = baseHref + config.app.path + locale(rc);
         if (rc.user() != null)
-            redirect(rc, state.getString("redirect"));
+            redirect(rc, path + state.getString("redirect"));
         else {
-            String redirect = baseHref + "login";
+            path += "/login";
             if (!"/".equals(state.getString("redirect"))) {
-                redirect += "/" + Base64.getEncoder().withoutPadding().encodeToString(state.encode().getBytes());
+                path += "/" + Base64.getEncoder().encodeToString(state.encode().getBytes());
             }
-            redirect(rc, redirect);
+            redirect(rc, path);
         }
     }
 
@@ -71,7 +71,7 @@ public final class AuthSubRoute extends SubRoute {
     @Override
     protected void init(Object userData) {
 
-        router.route(HttpMethod.GET, path + ":provider/login").handler(this::login);
+        router.route(HttpMethod.GET, path + "login/:provider").handler(this::login);
 
         // local/login
         new LocalAuthSubRoute(vertx, router, mongodb);
@@ -103,8 +103,6 @@ public final class AuthSubRoute extends SubRoute {
             }
         }
         router.route(HttpMethod.GET, path + ":provider/login/handler").handler(rc -> {
-            if (config.develop) System.out.println("provider: " + rc.request().getParam("provider"));
-            if (config.develop) System.out.println("redirect: " + rc.session().get("redirect"));
             loginRedirect(rc, baseHref);
         });
 
@@ -128,7 +126,7 @@ public final class AuthSubRoute extends SubRoute {
         String provider = rc.request().getParam("provider");
         rc.clearUser();
         if (config.develop) System.out.println("user cleared");
-        String encodedState = getQueryParameter(rc.request().query(), "state");
+        String encodedState = rc.request().getParam("state");
         if (config.develop) System.out.println("encoded state: " + encodedState);
         JsonObject state = null;
         if (encodedState != null)
@@ -146,7 +144,7 @@ public final class AuthSubRoute extends SubRoute {
 
     private void logout(RoutingContext rc) {
         rc.clearUser();
-        redirect(rc, baseHref + "login");
+        redirect(rc, baseHref + config.app.path + locale(rc) + "/login");
     }
 
     private void getOAuth2Providers(RoutingContext rc) {
@@ -212,7 +210,6 @@ public final class AuthSubRoute extends SubRoute {
                                           HttpResponse<Buffer> response = cr.result();
                                           if (response.statusCode() == HttpResponseStatus.OK.code()) {
                                               final String contentType = response.getHeader("content-type");
-                                              System.out.println("content-type: " + contentType);
                                               final Buffer image = response.body();
                                               mongodb.insert("userBinData",
                                                   new JsonObject()

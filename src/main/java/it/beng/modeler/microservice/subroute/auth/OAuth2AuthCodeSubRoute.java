@@ -37,7 +37,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
     protected void oauth2Init() {
 
         // create OAuth2 handler
-        OAuth2AuthHandler oAuth2Handler = OAuth2AuthHandler.create(oauth2Provider, config.oauth2.host);
+        OAuth2AuthHandler oAuth2Handler = OAuth2AuthHandler.create(oauth2Provider, config.oauth2.origin);
         for (String scope : oauth2Flow.scope.split("(\\s|,)"))
             oAuth2Handler.addAuthority(scope);
         oAuth2Handler.setupCallback(router.get(baseHref + "oauth2/server/callback"));
