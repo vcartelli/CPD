@@ -15,6 +15,8 @@ import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 /**
@@ -53,6 +55,8 @@ public final class ApiSubRoute extends SubRoute {
         // diagram
         router.route(HttpMethod.GET, path + "diagram/:diagramId")
               .handler(this::getDiagram);
+        router.route(HttpMethod.GET, path + "element/:elementId")
+              .handler(this::getElement);
         router.route(HttpMethod.GET, path + "diagram/:diagramId/elements")
               .handler(this::getDiagramElements);
 
@@ -63,8 +67,14 @@ public final class ApiSubRoute extends SubRoute {
               .handler(this::getSemanticListByType);
         router.route(HttpMethod.GET, path + "semantic/:semanticId")
               .handler(this::getSemanticElement);
-        router.put(path + "semantic/:semanticId")
+        router.route(HttpMethod.PUT, path + "semantic/:semanticId")
               .handler(this::putSemanticElement);
+
+        // feedback
+        router.route(HttpMethod.GET, path + "user/feedback/:fromDateTime")
+              .handler(this::getUserFeedback);
+        router.route(HttpMethod.GET, path + "user/feedback/:fromDateTime/:toDateTime")
+              .handler(this::getUserFeedback);
 
         /*** STATIC RESOURCES (swagger-ui) ***/
 
@@ -73,7 +83,6 @@ public final class ApiSubRoute extends SubRoute {
         router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
               .handler(rc -> redirect(rc, path));
         router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/swagger-ui"));
-
     }
 
     private void getDiagramEServiceCount(RoutingContext rc) {
@@ -158,7 +167,7 @@ public final class ApiSubRoute extends SubRoute {
                         .put("documentation", "$semantic.documentation")
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.server.pub.appHref(locale(rc)) + config.app.diagramPath)
+                                .add(config.server.pub.appHref(rc) + config.app.diagramPath)
                                 .add("$_id")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
@@ -188,6 +197,21 @@ public final class ApiSubRoute extends SubRoute {
                 response
                     .putHeader("content-type", "application/json; charset=utf-8")
                     .end(toClient(ar.result()));
+            } else {
+                throw new ResponseError(rc, ar.cause());
+            }
+        });
+    }
+
+    private void getElement(RoutingContext rc) {
+        simLagTime();
+        String elementId = rc.request().getParam("elementId");
+        JsonObject query = new JsonObject().put("elementId", elementId);
+        mongodb.findOne("diagram.elements", query, new JsonObject(), ar -> {
+            if (ar.succeeded()) {
+                rc.response()
+                  .putHeader("content-type", "application/json; charset=utf-8")
+                  .end(toClient(ar.result()));
             } else {
                 throw new ResponseError(rc, ar.cause());
             }
@@ -293,7 +317,7 @@ public final class ApiSubRoute extends SubRoute {
                                         .add("$$value").add("//").add("$$this")))))
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.server.pub.appHref(locale(rc)) + config.app.diagramPath)
+                                .add(config.server.pub.appHref(rc) + config.app.diagramPath)
                                 .add("$_id").add("/")
                                 .add("$elementId")))
                         .put("svg", new JsonObject()
@@ -356,8 +380,9 @@ public final class ApiSubRoute extends SubRoute {
         simLagTime();
 
         JsonObject body = rc.getBodyAsJson();
-        String diagramId = body.getString("diagramId");
-        rc.user().isAuthorised(diagramId + "|" + config.model.roles.diagramRole.editor, aar -> {
+        String contextName = body.getString("contextName");
+        String contextId = body.getString("contextId");
+        rc.user().isAuthorised(contextName + "|" + contextId + "|" + config.role.cpd.context.diagram.editor, aar -> {
             if (aar.succeeded()) {
                 if (aar.result()) {
                     JsonObject semantic = body.getJsonObject("semantic");
@@ -383,6 +408,61 @@ public final class ApiSubRoute extends SubRoute {
                     throw new ResponseError(rc, "user is not authorized for this operation");
                 }
             } else throw new ResponseError(rc, aar.cause());
+        });
+    }
+
+    private static ZonedDateTime parseDateTime(String value) {
+        if (value == null) return null;
+        ZonedDateTime dateTime = null;
+        try {
+            dateTime = ZonedDateTime.parse(value);
+        } catch (DateTimeParseException e) {}
+        if (dateTime == null) {
+            try {
+                dateTime = ZonedDateTime.parse(value + "+00:00");
+            } catch (DateTimeParseException e) {}
+        }
+        if (dateTime == null) {
+            try {
+                dateTime = ZonedDateTime.parse(value + "T00:00:00+00:00");
+            } catch (DateTimeParseException e) {}
+        }
+        return dateTime;
+    }
+
+    private static JsonObject mongoDateTime(ZonedDateTime dateTime) {
+        return new JsonObject()
+            .put("$date", dateTime.toString());
+    }
+
+    private void getUserFeedback(RoutingContext rc) {
+        JsonObject query = new JsonObject().put("dateTime", new JsonObject());
+
+        String fromDateTimeStr = rc.request().getParam("fromDateTime");
+        ZonedDateTime fromDateTime = parseDateTime(fromDateTimeStr);
+        if (fromDateTime == null) {
+            JSON_RESPONSE(rc).end(toClient(new JsonObject().put("error", "invalid date: '" + fromDateTimeStr + "'")));
+            return;
+        }
+        query.getJsonObject("dateTime").put("$gte", mongoDateTime(fromDateTime));
+
+        String toDateTimeStr = rc.request().getParam("toDateTime");
+        ZonedDateTime toDateTime = parseDateTime(toDateTimeStr);
+        if (toDateTime != null) {
+            query.getJsonObject("dateTime").put("$lt", mongoDateTime(toDateTime));
+        }
+
+        mongodb.find("user.feedback", query, ar -> {
+            if (ar.succeeded()) {
+                JsonObject result = new JsonObject()
+                    .put("dateRange", new JsonObject().put("from", mongoDateTime(fromDateTime)))
+                    .put("feedbackList", ar.result());
+                if (toDateTime != null)
+                    result.getJsonObject("dateRange").put("to", mongoDateTime(toDateTime));
+                JSON_RESPONSE(rc).end(toClient(result));
+            } else {
+                throw new ResponseError(rc, ar.cause());
+            }
         });
     }
 

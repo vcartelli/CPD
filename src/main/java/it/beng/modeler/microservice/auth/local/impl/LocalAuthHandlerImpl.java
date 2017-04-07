@@ -42,7 +42,7 @@ public class LocalAuthHandlerImpl extends AuthHandlerImpl implements LocalAuthHa
                     rc.response()
                       .setStatusCode(302)
                       .putHeader("Location", config.server.baseHref + config.app.path +
-                          SubRoute.locale(rc) + "/login/" + encodedState)
+                          config.locale(rc) + "/login/" + encodedState)
                       .end();
                 }
             });

@@ -1,16 +1,12 @@
 package it.beng.modeler.microservice.subroute;
 
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.client.HttpResponse;
-import io.vertx.ext.web.client.WebClient;
-import io.vertx.ext.web.client.WebClientOptions;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
@@ -18,8 +14,6 @@ import it.beng.modeler.microservice.subroute.auth.OAuth2AuthCodeSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ClientSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ImplicitSubRoute;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,7 +44,7 @@ public final class AuthSubRoute extends SubRoute {
 
     public static void loginRedirect(RoutingContext rc, String baseHref) {
         JsonObject state = AuthSubRoute.getState(rc);
-        String path = baseHref + config.app.path + locale(rc);
+        String path = config.server.appPath(rc);
         if (rc.user() != null)
             redirect(rc, path + state.getString("redirect"));
         else {
@@ -113,12 +107,15 @@ public final class AuthSubRoute extends SubRoute {
 
         // getOAuth2Providers
         router.route(HttpMethod.GET, path + "oauth2/providers").handler(this::getOAuth2Providers);
-        // getUserIsAuthenticated
-        router.route(HttpMethod.GET, path + "user/isAuthenticated").handler(this::getUserIsAuthenticated);
         // getUserProfile
         router.route(HttpMethod.GET, path + "user/profile").handler(this::getUserProfile);
-        // getUserProfileImage
-        router.route(HttpMethod.GET, path + "user/profile/image").handler(this::getUserProfileImage);
+        // getUserIsAuthenticated
+        router.route(HttpMethod.GET, path + "user/isAuthenticated").handler(this::getUserIsAuthenticated);
+        // getUserHasAccess
+        router.route(HttpMethod.GET, path + "user/hasAccess/:accessRole").handler(this::getUserHasAccess);
+        // getUserIsAuthorized
+        router.route(HttpMethod.GET, path + "user/isAuthorized/:contextName/:contextId/:contextRole")
+              .handler(this::getUserIsAuthorized);
 
     }
 
@@ -144,7 +141,7 @@ public final class AuthSubRoute extends SubRoute {
 
     private void logout(RoutingContext rc) {
         rc.clearUser();
-        redirect(rc, baseHref + config.app.path + locale(rc) + "/login");
+        redirect(rc, config.server.appPath(rc) + "/login");
     }
 
     private void getOAuth2Providers(RoutingContext rc) {
@@ -169,78 +166,43 @@ public final class AuthSubRoute extends SubRoute {
         }
     }
 
-    private static String imageUrl(JsonObject image) {
-        if (image != null) {
-            try {
-                URL url = new URL(image.getString("url"));
-                return url.getProtocol() + "://" + url.getHost() +
-                    (url.getPort() != -1 ? ":" + url.getPort() : "") + url.getPath();
-            } catch (MalformedURLException e) {}
-        }
-        return null;
+    private void getUserHasAccess(RoutingContext rc) {
+        if (rc.user() == null) JSON_RESPONSE(rc).end("false");
+        String accessRole = rc.request().getParam("accessRole");
+        rc.user().isAuthorised(accessRole, ar -> {
+            if (ar.succeeded()) {
+                JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
+            } else {
+                throw new ResponseError(rc, ar.cause());
+            }
+        });
     }
 
-    private void getUserProfileImage(RoutingContext rc) {
-        checkAuthenticated(rc);
-        final String userId = rc.user().principal().getJsonObject("profile").getString("id");
-        mongodb.findOne("userBinData",
-            new JsonObject().put("_id", userId),
-            new JsonObject().put("image", 1),
-            mongoFindResult -> {
-                if (mongoFindResult.succeeded()) {
-                    if (mongoFindResult.result() != null) {
-                        final JsonObject image = mongoFindResult.result().getJsonObject("image");
-                        final String contentType = image.getString("contentType");
-                        final Buffer buffer = Buffer.buffer(image.getBinary("bytes"));
-                        rc.response()
-                          .putHeader("content-type", contentType)
-                          .end(buffer);
+    private void getUserIsAuthorized(RoutingContext rc) {
+        if (rc.user() == null) JSON_RESPONSE(rc).end("false");
+        if (rc.user() instanceof AccessToken) {
+            AccessToken token = (AccessToken) rc.user();
+            if (token.expired()) {
+                System.out.println("before refresh: " + rc.user().principal().encodePrettily());
+                token.refresh(ar -> {
+                    if (ar.succeeded()) {
+                        System.out.println("after refresh: " + rc.user().principal().encodePrettily());
                     } else {
-                        final String imageUrl = imageUrl(
-                            rc.user().principal().getJsonObject("profile").getJsonObject("image"));
-                        if (imageUrl != null) {
-                            final WebClient client = WebClient.create(
-                                vertx,
-                                new WebClientOptions()
-                                    .setUserAgent("CPD-WebClient/1.0")
-                                    .setFollowRedirects(false));
-                            client.requestAbs(HttpMethod.GET, imageUrl)
-                                  .send(cr -> {
-                                      if (cr.succeeded()) {
-                                          HttpResponse<Buffer> response = cr.result();
-                                          if (response.statusCode() == HttpResponseStatus.OK.code()) {
-                                              final String contentType = response.getHeader("content-type");
-                                              final Buffer image = response.body();
-                                              mongodb.insert("userBinData",
-                                                  new JsonObject()
-                                                      .put("_id", userId)
-                                                      .put("image", new JsonObject()
-                                                          .put("contentType", contentType)
-                                                          .put("bytes", image.getBytes())),
-                                                  ih -> {
-                                                      if (ih.succeeded()) {
-                                                          rc.response()
-                                                            .putHeader("content-type", contentType)
-                                                            .end(image);
-                                                      } else {
-                                                          JSON_RESPONSE(rc).end("null");
-                                                      }
-                                                  });
-                                          } else {
-                                              JSON_RESPONSE(rc).end("null");
-                                          }
-                                      } else {
-                                          JSON_RESPONSE(rc).end("null");
-                                      }
-                                  });
-                        } else {
-                            JSON_RESPONSE(rc).end("null");
-                        }
+                        logout(rc);
                     }
-                } else {
-                    mongoFindResult.cause().printStackTrace();
-                }
-            });
+                });
+            }
+        }
+        String contextName = rc.request().getParam("contextName");
+        String contextId = rc.request().getParam("contextId");
+        String contextRole = rc.request().getParam("contextRole");
+        rc.user().isAuthorised(contextName + "|" + contextId + "|" + contextRole, ar -> {
+            if (ar.succeeded()) {
+                JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
+            } else {
+                throw new ResponseError(rc, ar.cause());
+            }
+        });
     }
 
 }

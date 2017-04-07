@@ -145,21 +145,6 @@ public abstract class SubRoute {
           .end();
     }
 
-    private static final List<String> SPANISH_ALTERNATIVES = Arrays.asList("ca", "gl");
-
-    public static String locale(RoutingContext rc) {
-        if (config.develop) return "en";
-        String locale = null;
-        if (rc.user() != null) locale = rc.user().principal().getJsonObject("profile").getString("language");
-        if (locale == null) {
-            locale = rc.request().getHeader("Accept-Language");
-            if (locale != null) locale = locale.substring(0, 2);
-        }
-        if (locale != null && SPANISH_ALTERNATIVES.contains(locale)) locale = "es";
-        if (locale == null || !config.app.locales.contains(locale)) locale = "en";
-        return locale;
-    }
-
     protected static void checkAuthenticated(RoutingContext rc) {
         if (rc.user() == null) throw new ResponseError(rc, "user is not authenticated");
     }

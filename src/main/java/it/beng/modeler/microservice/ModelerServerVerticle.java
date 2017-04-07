@@ -42,10 +42,6 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // Create a router object
         Router router = Router.router(vertx);
 
-        router.route(HttpMethod.GET, baseHref).handler(rc -> {
-            SubRoute.redirect(rc, baseHref + config.app.path + SubRoute.locale(rc));
-        });
-
         // configure CORS origins and allowed methods
         router.route().handler(
             CorsHandler.create(config.server.allowedOriginPattern)
@@ -156,6 +152,11 @@ public class ModelerServerVerticle extends AbstractVerticle {
             rc.next();
         });
 
+        // redirect base-href to app
+        router.route(HttpMethod.GET, baseHref).handler(rc -> {
+            SubRoute.redirect(rc, config.server.appPath(rc));
+        });
+
         // create the mongodb client
         MongoClient mongodb = MongoClient.createShared(vertx, config().getJsonObject("mongodb"), "cpd");
         vertx.getOrCreateContext().put("mongodb", mongodb);
@@ -168,9 +169,15 @@ public class ModelerServerVerticle extends AbstractVerticle {
         new ApiSubRoute(vertx, router, mongodb);
         new AppSubRoute(vertx, router, mongodb);
 
-        // reroute all non-handled [GET] to app
+        // redirect all non-handled [GET] to app
         router.route(HttpMethod.GET, "/*").handler(rc -> {
-            rc.reroute(baseHref + config.app.path + SubRoute.locale(rc));
+            String path = rc.request().path();
+            if (path.startsWith(baseHref))
+                path = path.replace(baseHref, "/");
+            if (path.length() > 3 && config.app.locales.contains(path.substring(1, 3)))
+                path = path.substring(3);
+            System.out.println("redirecting to " + path);
+            SubRoute.redirect(rc, config.server.appPath(rc) + path);
         });
 
         // handle failures
@@ -180,7 +187,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
             switch (rc.statusCode()) {
                 case 404: {
                     // let root application find the resource or show the 404 not found page
-                    rc.reroute(baseHref + config.app.path + SubRoute.locale(rc));
+                    rc.reroute(config.server.appPath(rc));
                     break;
                 }
                 default: {
@@ -225,6 +232,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
     }
 
     private void crateDemoData(RoutingContext rc) {
+        // TODO: create and use a db version to update all if needed
         final String PATH = "web/assets/db/demo-data/";
         final MongoClient mongodb = vertx.getOrCreateContext().get("mongodb");
         mongodb.getCollections(ar -> {

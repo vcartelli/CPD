@@ -14,5 +14,13 @@
     "width": 640,
     "height": 200,
     "type": "diagram:Diagram"
+  },
+  {
+    "_id": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
+    "notation": "diagram:notation:FPMN",
+    "semanticId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "width": 1240,
+    "height": 200,
+    "type": "diagram:Diagram"
   }
 ]

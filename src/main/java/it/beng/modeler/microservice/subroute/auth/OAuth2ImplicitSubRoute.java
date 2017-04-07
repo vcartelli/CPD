@@ -4,7 +4,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.auth.oauth2.impl.AccessTokenImpl;
@@ -18,7 +17,6 @@ import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
-import it.beng.modeler.microservice.subroute.SubRoute;
 
 import java.util.Base64;
 
@@ -32,7 +30,6 @@ import static it.beng.modeler.microservice.subroute.AuthSubRoute.loginRedirect;
 public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
     public static final String FLOW_TYPE = "IMPLICIT";
-    public static final String FLOW_TYPE_WEB_CLIENT = FLOW_TYPE + "_WEB_CLIENT";
 
     public OAuth2ImplicitSubRoute(Vertx vertx, Router router, MongoClient mongodb, config.OAuth2Config oAuth2Config) {
         super(vertx, router, mongodb, oAuth2Config, FLOW_TYPE);
@@ -42,7 +39,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
     protected void oauth2Init() {
         router.route(HttpMethod.GET, path + "login/handler").handler(this::redirectUrlHandler);
         router.route(HttpMethod.GET, baseHref + "oauth2/client/callback").handler(rc -> {
-            redirect(rc, baseHref + config.app.path + SubRoute.locale(rc) + "/oauth2/client/callback");
+            redirect(rc, config.server.appPath(rc) + "/oauth2/client/callback");
         });
         router.route(HttpMethod.GET, path + "hash/:hash").handler(this::setupAccess);
     }
@@ -92,8 +89,13 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                       AccessToken accessToken = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider,
                           hash.put("scope", oauth2Flow.scope));
                       rc.setUser(accessToken);
+                      JsonObject profile = new JsonObject()
+                          .put("provider", oauth2Config.provider);
+                      JsonObject roles = new JsonObject()
+                          .put("access", config.role.cpd.access.citizen)
+                          .put("context", new JsonObject()
+                              .put("diagram", new JsonObject()));
                       HttpResponse<JsonObject> response = cr.result();
-                      JsonObject profile = new JsonObject();
                       if (response.statusCode() == HttpResponseStatus.OK.code()) {
                           profile.mergeIn(response.body());
                           if (profile.getString("displayName") == null)
@@ -101,13 +103,8 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                                   (profile.getString("name", "") + " " +
                                       profile.getString("surname", "")).trim());
                       }
-                      profile.put("provider", oauth2Config.provider)
-                             .put("token", hash.getString("access_token"))
-                             .put("position", config.model.roles.position.citizen)
-                             .put("diagramRoles", new JsonObject()
-                                 .put("*", new JsonArray()
-                                     .add(config.model.roles.diagramRole.observer)));
                       accessToken.principal().put("profile", profile);
+                      accessToken.principal().put("roles", roles);
                       if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                   }
                   client.close();

@@ -190,5 +190,141 @@
       "type": "diagram:graphics:Bounds"
     },
     "type": "diagram:element:Shape"
+  },
+  {
+    "_id": "2f8144bf-ace8-4c37-8d78-4f25cde65344",
+    "diagramId": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
+    "semanticId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "label": {
+      "hAlign": "center",
+      "vAlign": "middle",
+      "property": "name",
+      "bounds": {
+        "x": 20,
+        "y": 20,
+        "width": 1200,
+        "height": 40,
+        "type": "diagram:graphics:Bounds"
+      },
+      "type": "diagram:graphics:Label"
+    },
+    "bounds": {
+      "x": 20,
+      "y": 20,
+      "width": 1200,
+      "height": 160,
+      "type": "diagram:graphics:Bounds"
+    },
+    "type": "diagram:element:Shape",
+    "ownerId": null
+  },
+  {
+    "_id": "57502117-70c7-47ce-a939-9767dbabc60d",
+    "diagramId": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
+    "semanticId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+    "ownerId": "2f8144bf-ace8-4c37-8d78-4f25cde65344",
+    "eServiceId": "BS607A",
+    "label": {
+      "hAlign": "center",
+      "vAlign": "middle",
+      "property": "name",
+      "bounds": {
+        "x": 20,
+        "y": 60,
+        "width": 300,
+        "height": 120,
+        "type": "diagram:graphics:Bounds"
+      },
+      "type": "diagram:graphics:Label"
+    },
+    "bounds": {
+      "x": 20,
+      "y": 60,
+      "width": 300,
+      "height": 120,
+      "type": "diagram:graphics:Bounds"
+    },
+    "type": "diagram:element:Shape"
+  },
+  {
+    "_id": "05c574ab-3d63-45e0-9f8d-cf0f93be6d29",
+    "diagramId": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
+    "semanticId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+    "ownerId": "2f8144bf-ace8-4c37-8d78-4f25cde65344",
+    "label": {
+      "hAlign": "center",
+      "vAlign": "middle",
+      "property": "name",
+      "bounds": {
+        "x": 320,
+        "y": 60,
+        "width": 300,
+        "height": 120,
+        "type": "diagram:graphics:Bounds"
+      },
+      "type": "diagram:graphics:Label"
+    },
+    "bounds": {
+      "x": 320,
+      "y": 60,
+      "width": 300,
+      "height": 120,
+      "type": "diagram:graphics:Bounds"
+    },
+    "type": "diagram:element:Shape"
+  },
+  {
+    "_id": "54e4e860-4893-4b10-8fd5-15d719112856",
+    "diagramId": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
+    "semanticId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
+    "ownerId": "2f8144bf-ace8-4c37-8d78-4f25cde65344",
+    "label": {
+      "hAlign": "center",
+      "vAlign": "middle",
+      "property": "name",
+      "bounds": {
+        "x": 620,
+        "y": 60,
+        "width": 300,
+        "height": 120,
+        "type": "diagram:graphics:Bounds"
+      },
+      "type": "diagram:graphics:Label"
+    },
+    "bounds": {
+      "x": 620,
+      "y": 60,
+      "width": 300,
+      "height": 120,
+      "type": "diagram:graphics:Bounds"
+    },
+    "type": "diagram:element:Shape"
+  },
+  {
+    "_id": "e256f9b0-9734-44fc-8976-c243560b98d9",
+    "diagramId": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
+    "semanticId": "af138569-36ba-4fd5-8558-c4649bd8cee1",
+    "ownerId": "2f8144bf-ace8-4c37-8d78-4f25cde65344",
+    "label": {
+      "hAlign": "center",
+      "vAlign": "middle",
+      "property": "name",
+      "bounds": {
+        "x": 940,
+        "y": 60,
+        "width": 280,
+        "height": 120,
+        "type": "diagram:graphics:Bounds"
+      },
+      "type": "diagram:graphics:Label"
+    },
+    "bounds": {
+      "x": 920,
+      "y": 60,
+      "width": 300,
+      "height": 120,
+      "type": "diagram:graphics:Bounds"
+    },
+    "type": "diagram:element:Shape"
   }
 ]

@@ -1,11 +1,9 @@
 package it.beng.modeler;
 
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -80,8 +78,8 @@ public final class config {
                 return new StringBuilder(server.pub.href()).append(app.path).toString();
             }
 
-            public static String appHref(String locale) {
-                return new StringBuilder(server.pub.appHref()).append(locale + "/").toString();
+            public static String appHref(RoutingContext rc) {
+                return new StringBuilder(server.pub.appHref()).append(locale(rc) + "/").toString();
             }
 
         }
@@ -114,27 +112,23 @@ public final class config {
         }
 
         public static String href() {
-            return new StringBuilder(server.origin())
-                .append(server.baseHref)
-                .toString();
+            return new StringBuilder(server.origin()).append(server.baseHref).toString();
         }
 
         public static String apiHref() {
-            return new StringBuilder(server.href())
-                .append(server.api.path)
-                .toString();
+            return new StringBuilder(server.href()).append(server.api.path).toString();
         }
 
         public static String assetsHref() {
-            return new StringBuilder(server.href())
-                .append(ASSETS_PATH)
-                .toString();
+            return new StringBuilder(server.href()).append(ASSETS_PATH).toString();
         }
 
         public static String appHref() {
-            return new StringBuilder(server.href())
-                .append(app.path)
-                .toString();
+            return new StringBuilder(server.href()).append(app.path).toString();
+        }
+
+        public static String appPath(RoutingContext rc) {
+            return new StringBuilder(server.baseHref).append(app.path).append(locale(rc)).toString();
         }
 
     }
@@ -151,20 +145,25 @@ public final class config {
         public static List<OAuth2Config> configs;
     }
 
-    public static class model {
-        public static class roles {
-            public static class position {
+    public static class role {
+        public static class cpd {
+            public static class access {
+                public static String prefix;
                 public static String admin;
                 public static String civilServant;
                 public static String citizen;
             }
 
-            public static class diagramRole {
-                public static String editor;
-                public static String owner;
-                public static String reviewer;
-                public static String collaborator;
-                public static String observer;
+            public static class context {
+                public static String prefix;
+
+                public static class diagram {
+                    public static String editor;
+                    public static String owner;
+                    public static String reviewer;
+                    public static String collaborator;
+                    public static String observer;
+                }
             }
         }
     }
@@ -273,17 +272,21 @@ public final class config {
 
         /** model **/
         // roles.position
-        node = main.getJsonObject("model").getJsonObject("roles").getJsonObject("position");
-        model.roles.position.admin = node.getString("admin");
-        model.roles.position.civilServant = node.getString("civilServant");
-        model.roles.position.citizen = node.getString("citizen");
-        // roles.diagramRole
-        node = main.getJsonObject("model").getJsonObject("roles").getJsonObject("diagramRole");
-        model.roles.diagramRole.editor = node.getString("editor");
-        model.roles.diagramRole.owner = node.getString("owner");
-        model.roles.diagramRole.reviewer = node.getString("reviewer");
-        model.roles.diagramRole.collaborator = node.getString("collaborator");
-        model.roles.diagramRole.observer = node.getString("observer");
+        node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("access");
+        role.cpd.access.prefix = node.getString("prefix");
+        role.cpd.access.admin = node.getString("admin");
+        role.cpd.access.civilServant = node.getString("civilServant");
+        role.cpd.access.citizen = node.getString("citizen");
+        // roles.context
+        node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("context");
+        role.cpd.context.prefix = node.getString("prefix");
+        // roles.context.diagram
+        node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("context").getJsonObject("diagram");
+        role.cpd.context.diagram.editor = node.getString("editor");
+        role.cpd.context.diagram.owner = node.getString("owner");
+        role.cpd.context.diagram.reviewer = node.getString("reviewer");
+        role.cpd.context.diagram.collaborator = node.getString("collaborator");
+        role.cpd.context.diagram.observer = node.getString("observer");
 
         _config = main;
 
@@ -291,6 +294,22 @@ public final class config {
 
     public static JsonObject get() {
         return _config;
+    }
+
+    private static final List<String> SPANISH_ALTERNATIVES = Arrays.asList("ca", "gl");
+
+    public static String locale(RoutingContext rc) {
+        if (config.develop) return "en";
+        String locale = null;
+        // TODO: re-enable user language
+//        if (rc.user() != null) locale = rc.user().principal().getJsonObject("profile").getString("language");
+        if (locale == null) {
+            locale = rc.request().getHeader("Accept-Language");
+            if (locale != null) locale = locale.substring(0, 2);
+        }
+        if (locale != null && SPANISH_ALTERNATIVES.contains(locale)) locale = "es";
+        if (locale == null || !config.app.locales.contains(locale)) locale = "en";
+        return locale;
     }
 
 }

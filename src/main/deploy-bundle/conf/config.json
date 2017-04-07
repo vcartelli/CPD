@@ -55,19 +55,23 @@
     "origin": "${cpd.oauth2.origin}",
     "providers": [${cpd.oauth2.providers}]
   },
-  "model": {
-    "roles": {
-      "position": {
-        "admin": "${cpd.model.roles.position.admin}",
-        "civilServant": "${cpd.model.roles.position.civilServant}",
-        "citizen": "${cpd.model.roles.position.citizen}"
+  "role": {
+    "cpd": {
+      "access": {
+        "prefix": "${role.cpd.access.prefix}",
+        "admin": "${role.cpd.access.admin}",
+        "civilServant": "${role.cpd.access.civilServant}",
+        "citizen": "${role.cpd.access.citizen}"
       },
-      "diagramRole": {
-        "editor": "${cpd.model.roles.diagramRole.editor}",
-        "owner": "${cpd.model.roles.diagramRole.owner}",
-        "reviewer": "${cpd.model.roles.diagramRole.reviewer}",
-        "collaborator": "${cpd.model.roles.diagramRole.collaborator}",
-        "observer": "${cpd.model.roles.diagramRole.observer}"
+      "context": {
+        "prefix": "${role.cpd.context.prefix}",
+        "diagram": {
+          "owner": "${role.cpd.context.diagram.owner}",
+          "editor": "${role.cpd.context.diagram.editor}",
+          "reviewer": "${role.cpd.context.diagram.reviewer}",
+          "collaborator": "${role.cpd.context.diagram.collaborator}",
+          "observer": "${role.cpd.context.diagram.observer}"
+        }
       }
     }
   }

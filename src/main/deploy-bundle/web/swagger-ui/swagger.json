@@ -366,9 +366,172 @@
           }
         }
       }
+    },
+    "/user/feedback/{fromDateTime}": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Fetch the list of user feedback",
+        "description": "Retrieves the user feedback from the given **{fromDateTime}**.",
+        "operationId": "getUserFeedbackFrom",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "fromDateTime",
+            "in": "path",
+            "description": "ISO-8601 date-time from which to show the results",
+            "required": true,
+            "type": "string",
+            "default": "2017-02-15T12:32:00+01:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dateRange": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "$ref": "#/definitions/DateTime",
+                      "description": "ISO-8601 date-time where the list begins (included)"
+                    }
+                  }
+                },
+                "feedbackList": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/UserFeedback"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/user/feedback/{fromDateTime}/{toDateTime}": {
+      "get": {
+        "tags": [
+          "feedback"
+        ],
+        "summary": "Fetch the list of user feedback",
+        "description": "Retrieves the user feedback within the range [**{fromDateTime}**,**{toDateTime}**[.",
+        "operationId": "getUserFeedback",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "fromDateTime",
+            "in": "path",
+            "description": "ISO-8601 date-time where the list begins (included)",
+            "required": true,
+            "type": "string",
+            "default": "2017-02-15T12:32:00+01:00"
+          },
+          {
+            "name": "toDateTime",
+            "in": "path",
+            "description": "ISO-8601 date-time where the list stops (excluded)",
+            "required": true,
+            "type": "string",
+            "default": "2018-01-01"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dateRange": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "$ref": "#/definitions/DateTime",
+                      "description": "ISO-8601 date-time where to start listing (included)"
+                    },
+                    "to": {
+                      "$ref": "#/definitions/DateTime",
+                      "description": "ISO-8601 date-time where to top listing (excluded)"
+                    }
+                  }
+                },
+                "feedbackList": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/UserFeedback"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "DateTime": {
+      "title": "DateTime",
+      "type": "object",
+      "properties": {
+        "$date": {
+          "type": "string",
+          "description": "ISO-8601 date-time representation"
+        }
+      },
+      "required": [
+        "$date"
+      ]
+    },
+    "UserFeedback": {
+      "title": "UserFeedback",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID of the feedback"
+        },
+        "userId": {
+          "type": "string",
+          "description": "ID of the user who posted the feedback"
+        },
+        "feedback": {
+          "type": "string",
+          "description": "the posted feedback text"
+        },
+        "diagramId": {
+          "type": "string",
+          "description": "ID of the diagram where the feedback has been posted"
+        },
+        "elementId": {
+          "type": "string",
+          "description": "ID of the diagram element where the feedback has been posted"
+        },
+        "dateTime": {
+          "$ref": "#/definitions/DateTime",
+          "description": "ISO-8601 date-time of when the feedback has been posted"
+        }
+      }
+    },
     "basic:Typed": {
       "title": "Typed",
       "type": "object",

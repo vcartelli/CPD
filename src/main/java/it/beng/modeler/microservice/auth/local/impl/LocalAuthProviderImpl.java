@@ -51,13 +51,10 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
 
         mongodb.findOne("users", new JsonObject().put("_id", username), new JsonObject(), ar -> {
             if (ar.succeeded()) {
-                JsonObject profile = ar.result();
-                if (profile != null && password.equals(profile.getString("password"))) {
-                    JsonObject principal = new JsonObject()
-                        .put("provider", "local")
-                        .put("username", username)
-                        .put("profile", profile);
-                    resultHandler.handle(Future.succeededFuture(new LocalUser(principal, this)));
+                JsonObject user = ar.result();
+                if (user != null && password.equals(user.getString("password"))) {
+                    user.getJsonObject("profile").put("provider", "local");
+                    resultHandler.handle(Future.succeededFuture(new LocalUser(user, this)));
                 } else {
                     resultHandler.handle(Future.failedFuture("Invalid username/password"));
                 }

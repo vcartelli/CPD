@@ -81,6 +81,7 @@ IMPORTANT: If you plan to use your own signed certificate, make sure it is given
 
 WARNING: Remember that in Java properties files the double backslash `\\` must be escaped two times: `\\\\`).
 
+* `cpd.app.useLocalAuth`: `true` or `false` in order to enable or disable the local login;
 * `cpd.mongodb.host`: the mongodb hostname;
 * `cpd.mongodb.port`: the mongodb port;
 * `cpd.mongodb.username`: the mongodb username (leave blank in case of none);

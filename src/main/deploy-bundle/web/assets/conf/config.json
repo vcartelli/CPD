@@ -1,14 +1,16 @@
 {
   "server": {
     "baseHref": "${cpd.server.baseHref}",
+    "useLocalAuth": ${cpd.app.useLocalAuth},
     "auth": {
       "path": "${cpd.server.auth.path}",
       "login": "${cpd.server.auth.login}",
       "logout": "${cpd.server.auth.logout}",
       "getOAuth2Providers": "${cpd.server.auth.getOAuth2Providers}",
-      "getUserIsAuthenticated": "${cpd.server.auth.getUserIsAuthenticated}",
       "getUserProfile": "${cpd.server.auth.getUserProfile}",
-      "getUserProfileImage": "${cpd.server.auth.getUserProfileImage}"
+      "getUserIsAuthenticated": "${cpd.server.auth.getUserIsAuthenticated}",
+      "getUserHasAccess": "${cpd.server.auth.getUserHasAccess}",
+      "getUserIsAuthorized": "${cpd.server.auth.getUserIsAuthorized}"
     },
     "api": {
       "path": "${cpd.server.api.path}",
@@ -16,6 +18,7 @@
       "getType": "${cpd.server.api.getType}",
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
       "getDiagram": "${cpd.server.api.getDiagram}",
+      "getElement": "${cpd.server.api.getElement}",
       "getDiagramElements": "${cpd.server.api.getDiagramElements}",
       "getSemantic": "${cpd.server.api.getSemantic}",
       "putSemantic": "${cpd.server.api.putSemantic}"
@@ -32,19 +35,23 @@
       "relatedQuestions": "${cpd.qae.link.relatedQuestions}"
     }
   },
-  "model": {
-    "roles": {
-      "position": {
-        "admin": "${cpd.model.roles.position.admin}",
-        "civilServant": "${cpd.model.roles.position.civilServant}",
-        "citizen": "${cpd.model.roles.position.citizen}"
+  "role": {
+    "cpd": {
+      "access": {
+        "prefix": "${role.cpd.access.prefix}",
+        "admin": "${role.cpd.access.admin}",
+        "civilServant": "${role.cpd.access.civilServant}",
+        "citizen": "${role.cpd.access.citizen}"
       },
-      "diagramRole": {
-        "editor": "${cpd.model.roles.diagramRole.editor}",
-        "owner": "${cpd.model.roles.diagramRole.owner}",
-        "reviewer": "${cpd.model.roles.diagramRole.reviewer}",
-        "collaborator": "${cpd.model.roles.diagramRole.collaborator}",
-        "observer": "${cpd.model.roles.diagramRole.observer}"
+      "context": {
+        "prefix": "${role.cpd.context.prefix}",
+        "diagram": {
+          "owner": "${role.cpd.context.diagram.owner}",
+          "editor": "${role.cpd.context.diagram.editor}",
+          "reviewer": "${role.cpd.context.diagram.reviewer}",
+          "collaborator": "${role.cpd.context.diagram.collaborator}",
+          "observer": "${role.cpd.context.diagram.observer}"
+        }
       }
     }
   }

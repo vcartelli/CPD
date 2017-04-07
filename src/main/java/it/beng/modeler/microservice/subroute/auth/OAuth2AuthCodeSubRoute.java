@@ -4,7 +4,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.mongo.MongoClient;
@@ -78,6 +77,15 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
 
             if (userId == null) throw new IllegalStateException("user-id not found in user principal!");
 
+            final JsonObject profile = new JsonObject()
+                .put("provider", provider);
+            final JsonObject roles = new JsonObject()
+                .put("access", config.role.cpd.access.citizen)
+                .put("context", new JsonObject()
+                    .put("diagram", new JsonObject()));
+            accessToken.principal().put("profile", profile);
+            accessToken.principal().put("roles", roles);
+
             final String token = accessToken.principal().getString("access_token");
             final WebClient client = WebClient.create(
                 vertx,
@@ -92,19 +100,10 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
                       if (cr.succeeded()) {
                           HttpResponse<JsonObject> response = cr.result();
                           if (response.statusCode() == HttpResponseStatus.OK.code()) {
-                              JsonObject profile = response.body()
-                                                           .put("provider", provider)
-                                                           .put("accessToken", token)
-                                                           .put("position", config.model.roles.position.citizen)
-                                                           .put("diagramRoles", new JsonObject()
-                                                               .put("*", new JsonArray()
-                                                                   .add(config.model.roles.diagramRole.observer)));
-                              accessToken.principal().put("profile", profile);
-                          } else {
-                              accessToken.principal().put("profile", new JsonObject());
+                              profile.mergeIn(response.body());
                           }
-                          if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                       }
+                      if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                       client.close();
                       rc.next();
                   });

@@ -1,57 +1,98 @@
 [
   {
+    "_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
+    "name": "Rilascio autorizzazione per attività temporanea (rumore)",
+    "documentation": "Il servizio gestisce la deroga acustica per attività temporanee. Il servizio ha diverse specializzazioni, tra cui:\n* Deroga temporanea acustica per l'edilizia;\n* Deroga acustica temporanea per intrattenimento musicale presso locali pubblici o eventi quali concerti o spettacoli.\n",
+    "type": "semantic:process:Procedure",
+    "mission": "Regolamentare l’attività rumorosa di un evento affinché sia tutelata la\nquiete pubblica\n"
+  },
+  {
     "_id": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
     "ownerId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-    "name": "Release of permit",
-    "documentation": "The council evaluates the request and base on internal rules releases the acoustic derogation permit.",
+    "name": "Rilascio del permesso",
+    "documentation": "Il Consiglio valuta la richiesta e sulla base delle regole interne rilascia il permesso di deroga acustica.",
     "prevPhaseId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
     "type": "semantic:process:Phase"
   },
   {
-    "_id": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
-    "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "name": "Service acceptance",
-    "documentation": "The citizen (usually a parent) within 10 day from the diagramList publication must compile the acceptance module.",
-    "prevPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
-    "type": "semantic:process:Phase"
-  },
-  {
-    "_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
-    "name": "Permit on acoustic derogation for temporary activities",
-    "documentation": "The service aims at managing the acoustic derogation for temporary activities permit. The service has different\nspecialization, such as:\n\n* temporary acoustic derogation for building;\n* temporary acoustic derogation musical entertainment at public premises or events derogation for concerts, events,\n  performances.",
-    "type": "semantic:process:Procedure",
-    "mission": ""
-  },
-  {
     "_id": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "name": "Enrolment to day nursery service",
-    "documentation": "The day nursery service aims at offering day nursery for 0-3 year olds; the day-long care is based in a centre and the education and care programs are created around the developmental needs, interests and experience of each child.\nIn the project context, we are going to handle the enrolment process.",
+    "name": "Ammissione al servizio di nido d’infanzia\n",
+    "documentation": "Il servizio di asilo nido si propone di offrire il servizio di asilo nido per bambini da 0 a tre anni di età. Il servizio giornaliero viene erogato presso un centro dove verranno creati programmi di istruzione e di assistenza attorno alle esigenze di sviluppo, gli interessi e l'esperienza di ogni bambino. Questa procedura gestisce il processo di richiesta di ammissione.\nPossono presentare domanda di ammissione ai nidi d’infanzia comunali i genitori, tutori o affidatari di bambini e bambine residenti nel Comune di\nTrento. Il bambino deve risultare residente con almeno un genitore.\nLa domanda di ammissione può essere presentata dal momento in cui il bambino/la bambina risulta iscritto/a all’anagrafe del Comune o qualora sia già stata presentata dichiarazione di cambio residenza. Solo per i bambini nati nel mese di aprile la domanda può essere presentata dalla data di nascita, purchè la madre risulti residente nel Comune di Trento.\nLa domanda di ammissione di un bambino o una bambina in affidamento familiare, anche non residente nel Comune di Trento, può essere accolta solo qualora risulti residente la famiglia affidataria.\n",
     "type": "semantic:process:Procedure",
-    "mission": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\n"
+    "mission": "Rispondere alla richiesta di nido da parte delle famiglie attraverso la\ngestione della domanda, l’assegnazione dei posti e la gestione della\nfrequenza sulla base dei criteri individuati\n"
   },
   {
     "_id": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
     "ownerId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-    "name": "Permit request",
-    "documentation": "The requester compile the request for acoustic derogation for temporary activities permit.",
+    "name": "Richiesta del permesso",
+    "documentation": "Il richiedente compila la richiesta permesso di deroga acustica per attività temporanee",
     "nextPhaseId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
     "type": "semantic:process:Phase"
   },
   {
-    "_id": "05c18b01-cd5e-4b0a-b003-242f968f68df",
-    "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "name": "Requests evaluation",
-    "documentation": "The council collects all the module requests and within 30 days after the deadline, based on the defined rules, the council produces a list of the children entitled for the service.",
-    "prevPhaseId": "a46c29cc-5814-47d0-86a9-22f6d678335a",
-    "nextPhaseId": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
+    "_id": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "name": "Programa Benestar en Balnearios",
+    "documentation": "A estadía inclúe os seguintes servizos e prestacións:\n\na) Aloxamento e manutención en réxime de pensión completa e en cuartos dobres, de uso compartido.\n\nb) Tratamentos termais, coas indicacións terapéuticas que figuran para cada balneario no anexo IV que comprenderán:\n\n1º. O recoñecemento médico, ao ingresar no balneario, para a prescrición do tratamento.\n\n2º. O tratamento termal básico que, en cada caso, prescriba o persoal médico do balneario.\n\n3º. O seguimento médico do tratamento.\n\nc) Programa de actividades de animación sociocultural que se leve a cabo no establecemento hoteleiro ou termal.\n\nd) Póliza colectiva de seguro turístico.\n\n",
+    "type": "semantic:process:Procedure",
+    "mission": "1. O obxecto desta orde é a oferta de prazas para as estadías e o tratamento termal dentro do programa de Benestar en balnearios 2017 e proceder á súa convocatoria. \n2. Para tal efecto enténdense por establecementos balnearios aqueles que dispoñen de augas mineromedicinais declaradas de utilidade pública segundo o artigo 2 do Decreto 402/1996, do 31 de outubro, polo que se aproba o Regulamento de aproveitamento de augas mineromedicinais, termais e dos establecementos balnearios da Comunidade Autónoma de Galicia."
+  },
+  {
+    "_id": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+    "ownerId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "name": "Presentación de solicitudes",
+    "documentation": "As solicitudes formularanse no modelo oficial que se indica no anexo I desta orde.\n\nAs persoas solicitantes deberán achegar xunto co anexo I os anexos II e III e a seguinte documentación:\n\na) Copia compulsada do pasaporte, se procede, relativa á persoa solicitante e, se fose o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Copia do libro de familia da persoa solicitante no caso de que queira acudir ao programa acompañada dun fillo ou filla con discapacidade.\n\nc) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado non fose expedido pola Xunta de Galicia ou non estivese no poder desta.\n\nd) Certificado das pensións non outorgadas polo INSS nin pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nEn cada solicitude só se poderá relacionar un máximo de tres destinos por orde de prioridade.\n\nNon será necesario achegar os documentos que xa fosen presentados anteriormente. Para estes efectos, a persoa interesada deberá indicar en que momento e ante que órgano administrativo presentou os citados documentos. Presumirase que esta consulta é autorizada polas persoas interesadas, salvo que conste no procedemento a súa oposición expresa.\n\nNos supostos de imposibilidade material de obter o documento, o órgano competente poderá requirirlle á persoa interesada a súa presentación, con anterioridade á formulación da proposta de resolución.\n\nA documentación complementaria presentarase preferiblemente por vía electrónica. As persoas interesadas responsabilizaranse da veracidade dos documentos que presenten. Excepcionalmente, cando a relevancia do documento no procedemento o exixa ou existan dúbidas derivadas da calidade da copia, a Administración poderá requirir de maneira motivada a exhibición do documento orixinal para o cotexo da copia electrónica presentada.\n\nOpcionalmente, as persoas interesadas poderán presentar a documentación complementaria presencialmente en calquera dos lugares e rexistros establecidos na normativa reguladora do procedemento administrativo común.\n\nSempre que se realice a presentación de documentos separadamente da solicitude deberase indicar o código e o órgano responsable do procedemento, o número de rexistro de entrada da solicitude e o número de expediente se se dispón del.\n",
+    "nextPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+    "type": "semantic:process:Phase"
+  },
+  {
+    "_id": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+    "ownerId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "name": "Comprobación de datos",
+    "documentation": "Para a tramitación deste procedemento consultaranse automaticamente os datos incluídos nos seguintes documentos elaborados polas administracións públicas:\n\na) Documento nacional de identidade (DNI), ou número de identificación de estranxeiro (NIE), segundo proceda, relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Certificado de empadroamento relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nc) Declaración do imposto da renda das persoas físicas correspondente ao último período en que se presente a solicitude ou certificado das pensións outorgadas polo INSS ou pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nd) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado foi expedido pola Xunta de Galicia.\n\nNo caso de que as persoas interesadas ou acompañantes se opoñan a esta consulta deberán indicalo no cadro habilitado no modelo de solicitude ou nos anexos II ou III, segundo de que se trate, e achegar os documentos correspondentes.\n\nExcepcionalmente, no caso de que algunha circunstancia imposibilitase a obtención dos citados datos poderase solicitar ás persoas interesadas a presentación dos documentos correspondentes.\n\n",
+    "prevPhaseId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+    "nextPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
+    "type": "semantic:process:Phase"
+  },
+  {
+    "_id": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
+    "ownerId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "name": "Resolución e notificación",
+    "documentation": "1. A resolución correspóndelle á persoa titular da Dirección Xeral de Maiores e Persoas con Discapacidade, por delegación da persoa titular da Consellería de Política Social.\n\n2. O prazo máximo para resolver e notificar as resolucións é de tres meses, contado desde o día seguinte ao da publicación desta orde no Diario Oficial de Galicia. Transcorrido o dito prazo sen que desde a Dirección Xeral de Maiores e Persoas con Discapacidade se notificase resolución expresa, as persoas solicitantes poderán entender desestimadas as súas peticións por silencio administrativo, de conformidade co establecido no artigo 25.1 da Lei 39/2015, do 1 de outubro, do procedemento administrativo común das administracións públicas.\n\n3. As notificacións de resolucións e actos administrativos practicaranse preferentemente por medios electrónicos e, en todo caso, cando as persoas interesadas resulten obrigadas a recibilas por esta vía. As persoas interesadas que non estean obrigadas a recibir notificacións electrónicas poderán decidir e comunicar en calquera momento que as  notificacións sucesivas se practiquen ou deixen de practicar por medios  electrónicos.\n\n4. As notificacións electrónicas realizaranse mediante o Sistema de notificación electrónica de Galicia Notifica.gal dispoñible a través da sede electrónica da Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá ás persoas interesadas avisos da posta á disposición das notificacións ao dispositivo electrónico e/ou ao enderezo de correo  electrónico que consten na solicitude. Estes avisos non terán, en ningún  caso, efectos de notificación practicada e a súa falta non impedirá que a notificación sexa considerada plenamente válida.\n\n5. A persoa interesada deberá manifestar expresamente a modalidade escollida para a notificación (electrónica ou en papel). No caso de persoas interesadas obrigadas a recibir notificacións só por medios electrónicos deberán optar en todo caso pola notificación por medios electrónicos, sen que sexa válida, nin produza efectos no procedemento, unha opción diferente.\n\n6. As notificacións por medios electrónicos entenderanse practicadas no momento en que se produza o acceso ao seu contido. Cando a notificación por medios electrónicos sexa de carácter obrigatorio, ou fose expresamente elixida pola persoa interesada, entenderase rexeitada cando transcorresen dez días naturais desde a posta á disposición da notificación sen que se acceda ao seu contido.\n\n7. Se o envío da notificación electrónica non for posible por problemas técnicos, a Administración xeral e as entidades do sector público autonómico practicarán a notificación polos medios previstos na normativa reguladora do procedemento administrativo común.\n\n8. Nas resolucións de concesión indicarase o balneario e a quenda en que se lle outorga a praza, o custo e o importe que debe pagar en concepto de reserva de praza, os trámites necesarios para formalizar a adxudicación definitiva, así como a documentación e o material ou accesorios que precisa levar para incorporarse ao programa\n\n",
+    "prevPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+    "nextPhaseId": "af138569-36ba-4fd5-8558-c4649bd8cee1",
+    "type": "semantic:process:Phase"
+  },
+  {
+    "_id": "af138569-36ba-4fd5-8558-c4649bd8cee1",
+    "ownerId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+    "name": "Confirmación das prazas e adxudicación definitiva",
+    "documentation": "Unha vez notificada a concesión da praza, para poder facer uso dela, as persoas beneficiarias teñen a obriga de confirmar por escrito, e no prazo que se lles indique na resolución de concesión, a súa aceptación xunto co xustificante de ter remitido á dirección do balneario, por xiro postal ou outros medios, a cantidade de 30 euros en concepto de reserva de praza.\n\nNo suposto de que non se cumpran as condicións establecidas no parágrafo anterior, non se formalizará a adxudicación definitiva da praza e entenderase que se renuncia a ela, e poderase outorgar esa praza vacante a outra persoa da lista de espera.\n\nNingunha persoa solicitante que se beneficiase dalgunha quenda deste programa poderá participar en ningunha outra, nin en calidade de acompañante, agás que se trate dunha praza para a que non haxa ningunha outra persoa adxudicataria.\n\n",
+    "prevPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
     "type": "semantic:process:Phase"
   },
   {
     "_id": "a46c29cc-5814-47d0-86a9-22f6d678335a",
     "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "name": "Service enrolment request",
-    "documentation": "The citizen (usually a parent) compiles the enrolment to day nursery service request module before a specific deadline.",
+    "name": "Richiesta di ammissione",
+    "documentation": "Il cittadino (di solito un genitore) compila il modulo di iscrizione al servizio di richiesta di asilo nido prima di una scadenza specifica. I termini di presentazione delle domande di ammissione ai nidi d’infanzia comunali sono fissati dal 1 settembre al 30 aprile precedenti il periodo di erogazione del servizio (indicativamente da inizio settembre a fine luglio). Il termine finale che cada in giorno festivo o comunque di chiusura degli uffici, è prorogato al primo giorno lavorativo successivo.",
     "nextPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
+    "type": "semantic:process:Phase"
+  },
+  {
+    "_id": "05c18b01-cd5e-4b0a-b003-242f968f68df",
+    "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
+    "name": "Esame delle rishieste",
+    "documentation": "Il Consiglio raccoglie tutte le richieste di ammissione ed entro 30 giorni dalla scadenza, in base alle regole definite, produce un elenco dei bambini aventi diritto per il servizio. L’Amministrazione è tenuta ad effettuare idonei controlli sulle dichiarazioni rese. Nei confronti di chi rilascia dichiarazioni non veritiere, l’Amministrazione procederà rideterminando la posizione in graduatoria in base all’attribuzione del punteggio derivante dalla situazione effettivamente verificata rispetto a quella dichiarata, fermo restando quanto previsto dalla normativa vigente. La perdita del requisito della residenza nel Comune di Trento, comporta la cancellazione della domanda di ammissione al nido e il mancato inserimento della stessa nella graduatoria.",
+    "prevPhaseId": "a46c29cc-5814-47d0-86a9-22f6d678335a",
+    "nextPhaseId": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
+    "type": "semantic:process:Phase"
+  },
+  {
+    "_id": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
+    "ownerId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
+    "name": "Accettazione",
+    "documentation": "Il cittadino (di solito un genitore) entro 10 giorni dalla pubblicazione delle graduatorie deve compilare il modulo di accettazione. La mancata accettazione del posto o il mancato perfezionamento dell’accettazione, sarà considerata tacita rinuncia con la conseguente cancellazione del bambino o della bambina dalla graduatoria per quel nido, salvo per le assegnazioni effettuate a partire dal mese di aprile, e fino all’approvazione della graduatoria annuale successiva.",
+    "prevPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
     "type": "semantic:process:Phase"
   }
 ]
