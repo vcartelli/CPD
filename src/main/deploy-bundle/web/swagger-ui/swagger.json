@@ -314,7 +314,7 @@
             "description": "ID of semantic element type",
             "required": true,
             "type": "string",
-            "default": "semantic:process:Procedure"
+            "default": "diagram:FPMN:semantic:Procedure"
           }
         ],
         "responses": {

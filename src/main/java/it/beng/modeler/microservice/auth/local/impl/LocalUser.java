@@ -91,27 +91,28 @@ public class LocalUser extends AbstractUser implements User {
         return cpdRoles;
     }
 
-    @Override
-    protected void doIsPermitted(String role, Handler<AsyncResult<Boolean>> resultHandler) {
+    public static void isPermitted(final String role, final JsonObject cpdRoles, final Handler<AsyncResult<Boolean>> resultHandler) {
         if (config.develop) System.out.println("checking role " + role);
         boolean has = false;
-        if (role != null) {
-            final JsonObject cpdRoles = cpdRoles();
-            if (!cpdRoles.isEmpty()) {
-                if (role.startsWith(config.role.cpd.access.prefix))
-                    has = role.equals(cpdRoles.getString("access"));
-                else {
-                    JsonObject contextRoles = cpdRoles.getJsonObject("context");
-                    if (contextRoles != null) {
-                        ContextRole contextRole = new ContextRole(contextRoles, role);
-                        if (contextRole.isValid()) {
-                            has = contextRole.check();
-                        }
+        if (role != null && !cpdRoles.isEmpty()) {
+            if (role.startsWith(config.role.cpd.access.prefix))
+                has = role.equals(cpdRoles.getString("access"));
+            else {
+                JsonObject contextRoles = cpdRoles.getJsonObject("context");
+                if (contextRoles != null) {
+                    ContextRole contextRole = new ContextRole(contextRoles, role);
+                    if (contextRole.isValid()) {
+                        has = contextRole.check();
                     }
                 }
             }
         }
         resultHandler.handle(Future.succeededFuture(has));
+    }
+
+    @Override
+    protected void doIsPermitted(String role, Handler<AsyncResult<Boolean>> resultHandler) {
+        isPermitted(role, cpdRoles(), resultHandler);
     }
 
     @Override

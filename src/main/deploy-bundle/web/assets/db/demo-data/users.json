@@ -111,7 +111,7 @@
       "language": "en"
     },
     "roles": {
-      "cod": {
+      "cpd": {
         "access": "role:cpd:access:citizen",
         "context": {
           "diagram": {

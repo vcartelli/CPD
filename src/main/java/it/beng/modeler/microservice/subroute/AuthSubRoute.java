@@ -1,14 +1,19 @@
 package it.beng.modeler.microservice.subroute;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
+import it.beng.modeler.microservice.auth.local.impl.LocalUser;
 import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2AuthCodeSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ClientSubRoute;
@@ -60,6 +65,16 @@ public final class AuthSubRoute extends SubRoute {
         if (encodedState == null || !encodedState.equals(getBase64EncodedState(rc))) {
             throw new ResponseError(rc, "invalid login transaction");
         }
+    }
+
+    public static void isAuthorized(RoutingContext rc, String role, Handler<AsyncResult<Boolean>> handler) {
+        User user = rc.user();
+        if (user instanceof LocalUser)
+            user.isAuthorised(role, handler);
+        else if (user instanceof AccessToken)
+            LocalUser.isPermitted(role, user.principal().getJsonObject("roles").getJsonObject("cpd"), handler);
+        else
+            handler.handle(Future.succeededFuture(false));
     }
 
     @Override
@@ -167,9 +182,9 @@ public final class AuthSubRoute extends SubRoute {
     }
 
     private void getUserHasAccess(RoutingContext rc) {
-        if (rc.user() == null) JSON_RESPONSE(rc).end("false");
-        String accessRole = rc.request().getParam("accessRole");
-        rc.user().isAuthorised(accessRole, ar -> {
+        final User user = rc.user();
+        final String accessRole = rc.request().getParam("accessRole");
+        isAuthorized(rc, accessRole, ar -> {
             if (ar.succeeded()) {
                 JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
             } else {
@@ -179,30 +194,21 @@ public final class AuthSubRoute extends SubRoute {
     }
 
     private void getUserIsAuthorized(RoutingContext rc) {
-        if (rc.user() == null) JSON_RESPONSE(rc).end("false");
-        if (rc.user() instanceof AccessToken) {
-            AccessToken token = (AccessToken) rc.user();
-            if (token.expired()) {
-                System.out.println("before refresh: " + rc.user().principal().encodePrettily());
-                token.refresh(ar -> {
-                    if (ar.succeeded()) {
-                        System.out.println("after refresh: " + rc.user().principal().encodePrettily());
-                    } else {
-                        logout(rc);
-                    }
-                });
-            }
+        User user = rc.user();
+        if (user == null) {
+            JSON_RESPONSE(rc).end("false");
+        } else {
+            String contextName = rc.request().getParam("contextName");
+            String contextId = rc.request().getParam("contextId");
+            String contextRole = rc.request().getParam("contextRole");
+            isAuthorized(rc, contextName + "|" + contextId + "|" + contextRole, ar -> {
+                if (ar.succeeded()) {
+                    JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
+                } else {
+                    throw new ResponseError(rc, ar.cause());
+                }
+            });
         }
-        String contextName = rc.request().getParam("contextName");
-        String contextId = rc.request().getParam("contextId");
-        String contextRole = rc.request().getParam("contextRole");
-        rc.user().isAuthorised(contextName + "|" + contextId + "|" + contextRole, ar -> {
-            if (ar.succeeded()) {
-                JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
-            } else {
-                throw new ResponseError(rc, ar.cause());
-            }
-        });
     }
 
 }

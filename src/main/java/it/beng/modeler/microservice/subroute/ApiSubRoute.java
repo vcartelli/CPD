@@ -16,7 +16,7 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
+import java.util.Base64;
 import java.util.regex.Pattern;
 
 /**
@@ -55,26 +55,35 @@ public final class ApiSubRoute extends SubRoute {
         // diagram
         router.route(HttpMethod.GET, path + "diagram/:diagramId")
               .handler(this::getDiagram);
-        router.route(HttpMethod.GET, path + "element/:elementId")
-              .handler(this::getElement);
+        router.route(HttpMethod.GET, path + "diagram/:diagramId/semantics")
+              .handler(this::getDiagramSemantics);
         router.route(HttpMethod.GET, path + "diagram/:diagramId/elements")
               .handler(this::getDiagramElements);
+        router.route(HttpMethod.GET, path + "diagram/semantic/:semanticId")
+              .handler(this::getSemantic);
+        router.route(HttpMethod.PUT, path + "diagram/semantic")
+              .handler(this::putSemantic);
+        router.route(HttpMethod.GET, path + "diagram/element/:elementId")
+              .handler(this::getElement);
+        router.route(HttpMethod.PUT, path + "diagram/element")
+              .handler(this::putElement);
+        router.route(HttpMethod.DELETE, path + "diagram/element/:data")
+              .handler(this::delElement);
 
         // semantic
         router.route(HttpMethod.GET, path + "semantic/list")
               .handler(this::getSemanticList);
         router.route(HttpMethod.GET, path + "semantic/list/:type")
               .handler(this::getSemanticListByType);
-        router.route(HttpMethod.GET, path + "semantic/:semanticId")
-              .handler(this::getSemanticElement);
-        router.route(HttpMethod.PUT, path + "semantic/:semanticId")
-              .handler(this::putSemanticElement);
-
         // feedback
         router.route(HttpMethod.GET, path + "user/feedback/:fromDateTime")
               .handler(this::getUserFeedback);
         router.route(HttpMethod.GET, path + "user/feedback/:fromDateTime/:toDateTime")
               .handler(this::getUserFeedback);
+
+        // data
+        router.route(HttpMethod.GET, path + "data/stencilSetDefinition/:notation")
+              .handler(this::getStencilSetDefinition);
 
         /*** STATIC RESOURCES (swagger-ui) ***/
 
@@ -85,11 +94,58 @@ public final class ApiSubRoute extends SubRoute {
         router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/swagger-ui"));
     }
 
+    private void put(RoutingContext rc, String contextName, String contextId, String collection, JsonObject object) {
+        AuthSubRoute
+            .isAuthorized(rc, contextName + "|" + contextId + "|" + config.role.cpd.context.diagram.editor, ar -> {
+                if (ar.succeeded()) {
+                    if (ar.result()) {
+                        mongodb.save(collection, toDb(object), save -> {
+                            if (save.succeeded()) {
+                                // TODO: try rc.reroute
+                                mongodb.findOne(collection, new JsonObject()
+                                    .put("_id", object.getString("id")), new JsonObject(), find -> {
+                                    if (find.succeeded()) {
+                                        JSON_RESPONSE(rc)
+                                            .setStatusCode(HttpResponseStatus.ACCEPTED.code())
+                                            .end(toClient(find.result()));
+                                    } else
+                                        throw new ResponseError(rc, find.cause());
+                                });
+                            } else
+                                throw new ResponseError(rc, save.cause());
+                        });
+                    } else
+                        throw new ResponseError(rc, "user is not authorized for this operation");
+                } else
+                    throw new ResponseError(rc, ar.cause());
+            });
+    }
+
+    private void del(RoutingContext rc, String contextName, String contextId, String collection, JsonObject object) {
+        AuthSubRoute
+            .isAuthorized(rc, contextName + "|" + contextId + "|" + config.role.cpd.context.diagram.editor, ar -> {
+                if (ar.succeeded()) {
+                    if (ar.result()) {
+                        mongodb.removeDocument(collection, toDb(object), remove -> {
+                            if (remove.succeeded()) {
+                                JSON_RESPONSE(rc)
+                                    .setStatusCode(HttpResponseStatus.ACCEPTED.code())
+                                    .end("true");
+                            } else
+                                throw new ResponseError(rc, remove.cause());
+                        });
+                    } else
+                        throw new ResponseError(rc, "user is not authorized for this operation");
+                } else
+                    throw new ResponseError(rc, ar.cause());
+            });
+    }
+
     private void getDiagramEServiceCount(RoutingContext rc) {
         simLagTime();
         String diagramId = rc.request().getParam("diagramId");
         JsonObject command = new JsonObject()
-            .put("aggregate", "diagram.elements")
+            .put("aggregate", "semantic.elements")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
                     .put("$match", new JsonObject()
@@ -152,19 +208,11 @@ public final class ApiSubRoute extends SubRoute {
             .put("aggregate", "diagrams")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
-                    .put("$lookup", new JsonObject()
-                        .put("from", "semantic.elements")
-                        .put("localField", "semanticId")
-                        .put("foreignField", "_id")
-                        .put("as", "semantic")))
-                .add(new JsonObject()
-                    .put("$unwind", "$semantic"))
-                .add(new JsonObject()
                     .put("$project", new JsonObject()
                         .put("_id", 1)
                         .put("notation", 1)
-                        .put("name", "$semantic.name")
-                        .put("documentation", "$semantic.documentation")
+                        .put("name", 1)
+                        .put("documentation", 1)
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
                                 .add(config.server.pub.appHref(rc) + config.app.diagramPath)
@@ -203,6 +251,18 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
+    private void putDiagram(RoutingContext rc) {
+        simLagTime();
+        final JsonObject body = rc.getBodyAsJson();
+        final String contextName = body.getString("contextName");
+        final String contextId = body.getString("contextId");
+        final JsonObject diagram = body.getJsonObject("diagram");
+        final String collection = "diagram:Diagram".equals(diagram.getString("type"))
+            ? "diagrams"
+            : "diagram.elements";
+        put(rc, contextName, contextId, collection, diagram);
+    }
+
     private void getElement(RoutingContext rc) {
         simLagTime();
         String elementId = rc.request().getParam("elementId");
@@ -218,11 +278,50 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
+    private void putElement(RoutingContext rc) {
+        simLagTime();
+        final JsonObject body = rc.getBodyAsJson();
+        final String contextName = body.getString("contextName");
+        final String contextId = body.getString("contextId");
+        final JsonObject element = body.getJsonObject("element");
+        final String collection = "diagram:Diagram".equals(element.getString("type"))
+            ? "diagrams"
+            : "diagram.elements";
+        put(rc, contextName, contextId, collection, element);
+    }
+
+    private void delElement(RoutingContext rc) {
+        simLagTime();
+        final JsonObject data = new JsonObject(new String(Base64.getDecoder().decode(rc.request().getParam("data"))));
+        final String contextName = data.getString("contextName");
+        final String contextId = data.getString("contextId");
+        final JsonObject element = data.getJsonObject("element");
+        final String collection = "diagram:Diagram".equals(element.getString("type"))
+            ? "diagrams"
+            : "diagram.elements";
+        del(rc, contextName, contextId, collection, element);
+    }
+
     private void getDiagramElements(RoutingContext rc) {
         simLagTime();
         String diagramId = rc.request().getParam("diagramId");
         JsonObject query = new JsonObject().put("diagramId", diagramId);
         mongodb.find("diagram.elements", query, ar -> {
+            if (ar.succeeded()) {
+                rc.response()
+                  .putHeader("content-type", "application/json; charset=utf-8")
+                  .end(toClient(ar.result()));
+            } else {
+                throw new ResponseError(rc, ar.cause());
+            }
+        });
+    }
+
+    private void getDiagramSemantics(RoutingContext rc) {
+        simLagTime();
+        String diagramId = rc.request().getParam("diagramId");
+        JsonObject query = new JsonObject().put("diagramId", diagramId);
+        mongodb.find("semantic.elements", query, ar -> {
             if (ar.succeeded()) {
                 rc.response()
                   .putHeader("content-type", "application/json; charset=utf-8")
@@ -241,14 +340,14 @@ public final class ApiSubRoute extends SubRoute {
             .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
                 .add(new JsonObject()
-                    .put("$match", new JsonObject()
-                        .put("eServiceId", eServiceId)))
-                .add(new JsonObject()
                     .put("$lookup", new JsonObject()
                         .put("from", "semantic.elements")
                         .put("localField", "semanticId")
                         .put("foreignField", "_id")
                         .put("as", "documentation")))
+                .add(new JsonObject()
+                    .put("$match", new JsonObject()
+                        .put("documentation.eServiceId", eServiceId)))
                 .add(new JsonObject()
                     .put("$unwind", "$documentation"))
                 .add(new JsonObject()
@@ -326,9 +425,10 @@ public final class ApiSubRoute extends SubRoute {
         if (config.develop) System.out.println("getDiagramEServiceSummary command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
+                JsonArray result = ar.result().getJsonArray("result");
                 rc.response()
                   .putHeader("content-type", "application/json; charset=utf-8")
-                  .end(toClient(ar.result().getJsonArray("result").getJsonObject(0)));
+                  .end(toClient(result.size() > 0 ? result.getJsonObject(0) : null));
             } else {
                 throw new ResponseError(rc, ar.cause());
             }
@@ -362,7 +462,7 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
-    private void getSemanticElement(RoutingContext rc) {
+    private void getSemantic(RoutingContext rc) {
         simLagTime();
         String semanticId = rc.request().getParam("semanticId");
         mongodb.findOne("semantic.elements", new JsonObject().put("_id", semanticId), new JsonObject(), ar -> {
@@ -376,94 +476,109 @@ public final class ApiSubRoute extends SubRoute {
         });
     }
 
-    private void putSemanticElement(RoutingContext rc) {
+    private void putSemantic(RoutingContext rc) {
         simLagTime();
-
-        JsonObject body = rc.getBodyAsJson();
-        String contextName = body.getString("contextName");
-        String contextId = body.getString("contextId");
-        rc.user().isAuthorised(contextName + "|" + contextId + "|" + config.role.cpd.context.diagram.editor, aar -> {
-            if (aar.succeeded()) {
-                if (aar.result()) {
-                    JsonObject semantic = body.getJsonObject("semantic");
-                    mongodb.save("semantic.elements", toDb(semantic), ar -> {
-                        if (ar.succeeded()) {
-                            // TODO: try rc.reroute
-                            mongodb.findOne("semantic.elements", new JsonObject()
-                                .put("_id", semantic.getString("id")), new JsonObject(), s -> {
-                                if (s.succeeded()) {
-                                    rc.response()
-                                      .setStatusCode(HttpResponseStatus.ACCEPTED.code())
-                                      .putHeader("content-type", "application/json; charset=utf-8")
-                                      .end(toClient(s.result()));
-                                } else {
-                                    throw new ResponseError(rc, s.cause());
-                                }
-                            });
-                        } else {
-                            throw new ResponseError(rc, ar.cause());
-                        }
-                    });
-                } else {
-                    throw new ResponseError(rc, "user is not authorized for this operation");
-                }
-            } else throw new ResponseError(rc, aar.cause());
-        });
+        final JsonObject body = rc.getBodyAsJson();
+        final String contextName = body.getString("contextName");
+        final String contextId = body.getString("contextId");
+        final JsonObject semantic = body.getJsonObject("semantic");
+        final String collection = "diagram:Diagram".equals(semantic.getString("type"))
+            ? "diagrams"
+            : "semantic.elements";
+        put(rc, contextName, contextId, collection, semantic);
     }
 
-    private static ZonedDateTime parseDateTime(String value) {
-        if (value == null) return null;
-        ZonedDateTime dateTime = null;
-        try {
-            dateTime = ZonedDateTime.parse(value);
-        } catch (DateTimeParseException e) {}
-        if (dateTime == null) {
-            try {
-                dateTime = ZonedDateTime.parse(value + "+00:00");
-            } catch (DateTimeParseException e) {}
-        }
-        if (dateTime == null) {
-            try {
-                dateTime = ZonedDateTime.parse(value + "T00:00:00+00:00");
-            } catch (DateTimeParseException e) {}
-        }
-        return dateTime;
+    private static JsonObject mongoDateTimeRange(ZonedDateTime from, ZonedDateTime to) {
+        JsonObject range = new JsonObject();
+        if (from != null)
+            range.put("$gte", mongoDateTime(from));
+        if (to != null)
+            range.put("$lt", mongoDateTime(to));
+        return range;
     }
 
-    private static JsonObject mongoDateTime(ZonedDateTime dateTime) {
-        return new JsonObject()
-            .put("$date", dateTime.toString());
+    private static JsonObject clientDateTimeRange(ZonedDateTime from, ZonedDateTime to) {
+        JsonObject range = new JsonObject();
+        if (from != null)
+            range.put("from", from.toString());
+        if (to != null)
+            range.put("to", to.toString());
+        return range;
     }
 
     private void getUserFeedback(RoutingContext rc) {
-        JsonObject query = new JsonObject().put("dateTime", new JsonObject());
-
-        String fromDateTimeStr = rc.request().getParam("fromDateTime");
-        ZonedDateTime fromDateTime = parseDateTime(fromDateTimeStr);
-        if (fromDateTime == null) {
-            JSON_RESPONSE(rc).end(toClient(new JsonObject().put("error", "invalid date: '" + fromDateTimeStr + "'")));
-            return;
-        }
-        query.getJsonObject("dateTime").put("$gte", mongoDateTime(fromDateTime));
-
-        String toDateTimeStr = rc.request().getParam("toDateTime");
-        ZonedDateTime toDateTime = parseDateTime(toDateTimeStr);
-        if (toDateTime != null) {
-            query.getJsonObject("dateTime").put("$lt", mongoDateTime(toDateTime));
-        }
-
-        mongodb.find("user.feedback", query, ar -> {
+        ZonedDateTime fromDateTime = parseDateTime(rc.request().getParam("fromDateTime"));
+        ZonedDateTime toDateTime = parseDateTime(rc.request().getParam("toDateTime"));
+        JsonObject command = new JsonObject()
+            .put("aggregate", "user.feedback")
+            .put("pipeline", new JsonArray()
+                .add(new JsonObject()
+                    .put("$match", new JsonObject()
+                        .put("dateTime", mongoDateTimeRange(fromDateTime, toDateTime))))
+                .add(new JsonObject()
+                    .put("$graphLookup", new JsonObject()
+                        .put("from", "diagram.elements")
+                        .put("startWith", "$elementId")
+                        .put("connectFromField", "ownerId")
+                        .put("connectToField", "_id")
+                        .put("as", "path")))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("path", "$path.semanticId")))
+                .add(new JsonObject()
+                    .put("$lookup", new JsonObject()
+                        .put("from", "semantic.elements")
+                        .put("localField", "path")
+                        .put("foreignField", "_id")
+                        .put("as", "path")))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("path", "$path.name")))
+                .add(new JsonObject()
+                    .put("$project", new JsonObject()
+                        .put("_id", 1)
+                        .put("dateTime", 1)
+                        .put("userId", 1)
+                        .put("feedback", 1)
+                        .put("diagramId", 1)
+                        .put("elementId", 1)
+                        .put("url", new JsonObject()
+                            .put("$concat", new JsonArray()
+                                .add(config.server.pub.appHref(rc) + config.app.diagramPath)
+                                .add("$diagramId")
+                                .add("/")
+                                .add("$elementId")))
+                        .put("path", new JsonObject()
+                            .put("$reduce", new JsonObject()
+                                .put("input", "$path")
+                                .put("initialValue", "")
+                                .put("in", new JsonObject()
+                                    .put("$concat", new JsonArray()
+                                        .add("$$value").add("//").add("$$this"))))))));
+        if (config.develop) System.out.println("getUserFeedback command: " + command.encodePrettily());
+        mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 JsonObject result = new JsonObject()
-                    .put("dateRange", new JsonObject().put("from", mongoDateTime(fromDateTime)))
-                    .put("feedbackList", ar.result());
-                if (toDateTime != null)
-                    result.getJsonObject("dateRange").put("to", mongoDateTime(toDateTime));
+                    .put("dateRange", clientDateTimeRange(fromDateTime, toDateTime))
+                    .put("feedbackList", ar.result().getJsonArray("result"));
                 JSON_RESPONSE(rc).end(toClient(result));
             } else {
                 throw new ResponseError(rc, ar.cause());
             }
         });
+    }
+
+    private void getStencilSetDefinition(RoutingContext rc) {
+        final String notation = rc.request().getParam("notation");
+        vertx.fileSystem()
+             .readFile(config.DATA_PATH + notation.replace(":", "/") + ".json", ar -> {
+                 if (ar.succeeded()) {
+                     final JsonObject document = ar.result().toJsonObject();
+                     JSON_RESPONSE(rc).end(document.encode());
+                 } else {
+                     throw new ResponseError(rc, ar.cause());
+                 }
+             });
     }
 
 }

@@ -12,6 +12,8 @@ import java.util.*;
  */
 public final class config {
 
+    public static final String DATA_PATH = "data/";
+
     private static JsonObject _config;
 
     public static class OAuth2Config {

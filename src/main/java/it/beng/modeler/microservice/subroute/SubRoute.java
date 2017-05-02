@@ -12,6 +12,8 @@ import io.vertx.ext.web.RoutingContext;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,8 +64,10 @@ public abstract class SubRoute {
 
     private static class Replacer {
 
-        public static Replacer DB_REPLACER = new Replacer(Pattern.compile("^(\\$)(.*)$"), "_\\$$2");
-        public static Replacer CLIENT_REPLACER = new Replacer(Pattern.compile("^(_\\$)(.*)$"), "\\$$2");
+        public static Replacer DB_REPLACER = new Replacer(Pattern
+            .compile("^(id|\\$){1}(.+)?$"), "_$1$2");
+        public static Replacer CLIENT_REPLACER = new Replacer(Pattern
+            .compile("^_(id|\\$){1}(.+)?$"), "$1$2");
 
         public final Pattern pattern;
         public final String replace;
@@ -72,33 +76,42 @@ public abstract class SubRoute {
             this.pattern = pattern;
             this.replace = replace;
         }
+
     }
 
-    private static Object transform(Object value, String fromId, String toId, Replacer replacer) {
+    public static boolean isDateTime(String value) {
+        return value != null && parseDateTime((String) value) != null;
+    }
+
+    public static boolean isDateTime(JsonObject value) {
+        return value != null && value.size() == 1 && value.containsKey("$date");
+    }
+
+    private static Object transform(Object value, Replacer replacer, boolean expandDateTime) {
+        if (expandDateTime && value instanceof String && isDateTime((String) value))
+            return mongoDateTime(parseDateTime((String) value));
+        if (!expandDateTime && value instanceof JsonObject && isDateTime((JsonObject) value))
+            return ((JsonObject) value).getString("$date");
         if (value instanceof JsonObject || value instanceof Map) {
             Map<String, Object> map = value instanceof JsonObject ? ((JsonObject) value).getMap() : (Map) value;
             Map<String, Object> result = new LinkedHashMap<>();
-            boolean idFound = false;
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                String _key = entry.getKey();
-                Object _value = transform(entry.getValue(), fromId, toId, replacer);
-                Matcher matcher = replacer.pattern.matcher(_key);
-                if (!idFound && fromId.equals(_key)) {
-                    idFound = true;
-                    result.put(toId, _value);
-                } else if (matcher.matches()) {
-                    result.put(matcher.replaceFirst(replacer.replace), _value);
+                String key = entry.getKey();
+                Matcher matcher = replacer.pattern.matcher(key);
+                if (matcher.matches()) {
+                    result.put(matcher.replaceFirst(replacer.replace), transform(entry
+                        .getValue(), replacer, expandDateTime));
                 } else {
-                    result.put(_key, _value);
+                    result.put(key, transform(entry.getValue(), replacer, expandDateTime));
                 }
             }
             return result;
         }
         if (value instanceof JsonArray || value instanceof List) {
-            List<Object> list = value instanceof JsonArray ? ((JsonArray) value).getList() : (List) value;
+            List<?> list = value instanceof JsonArray ? ((JsonArray) value).getList() : (List) value;
             List<Object> result = new LinkedList<>();
             for (Object item : list) {
-                result.add(transform(item, fromId, toId, replacer));
+                result.add(transform(item, replacer, expandDateTime));
             }
             return result;
         }
@@ -106,11 +119,11 @@ public abstract class SubRoute {
     }
 
     public static JsonObject toDb(Object object) {
-        return new JsonObject(Json.encode(transform(object, "id", "_id", Replacer.DB_REPLACER)));
+        return new JsonObject(Json.encode(transform(object, Replacer.DB_REPLACER, true)));
     }
 
     private static String toClient(Object object, boolean pretty) {
-        Object result = transform(object, "_id", "id", Replacer.CLIENT_REPLACER);
+        Object result = transform(object, Replacer.CLIENT_REPLACER, false);
         if (pretty)
             return Json.encodePrettily(result);
         else
@@ -136,6 +149,30 @@ public abstract class SubRoute {
 
     protected static void simLagTime() {
         simLagTime(config.server.simLagTime);
+    }
+
+    protected static ZonedDateTime parseDateTime(String value) {
+        if (value == null) return null;
+        ZonedDateTime dateTime = null;
+        try {
+            dateTime = ZonedDateTime.parse(value);
+        } catch (DateTimeParseException e) {}
+        if (dateTime == null) {
+            try {
+                dateTime = ZonedDateTime.parse(value + "+00:00");
+            } catch (DateTimeParseException e) {}
+        }
+        if (dateTime == null) {
+            try {
+                dateTime = ZonedDateTime.parse(value + "T00:00:00+00:00");
+            } catch (DateTimeParseException e) {}
+        }
+        return dateTime;
+    }
+
+    protected static JsonObject mongoDateTime(ZonedDateTime dateTime) {
+        return new JsonObject()
+            .put("$date", dateTime != null ? dateTime.toString() : null);
     }
 
     public static void redirect(RoutingContext rc, String location) {

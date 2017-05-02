@@ -18,10 +18,14 @@
       "getType": "${cpd.server.api.getType}",
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
       "getDiagram": "${cpd.server.api.getDiagram}",
-      "getElement": "${cpd.server.api.getElement}",
+      "getDiagramSemantics": "${cpd.server.api.getDiagramSemantics}",
       "getDiagramElements": "${cpd.server.api.getDiagramElements}",
       "getSemantic": "${cpd.server.api.getSemantic}",
-      "putSemantic": "${cpd.server.api.putSemantic}"
+      "putSemantic": "${cpd.server.api.putSemantic}",
+      "getElement": "${cpd.server.api.getElement}",
+      "putElement": "${cpd.server.api.putElement}",
+      "delElement": "${cpd.server.api.delElement}",
+      "getStencilSetDefinition": "${cpd.server.api.getStencilSetDefinition}"
     }
   },
   "qae": {

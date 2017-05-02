@@ -66,27 +66,20 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
 
     private void providerLoginHandler(RoutingContext rc) {
 
-        final AccessToken accessToken = (AccessToken) rc.user();
+        final AccessToken user = (AccessToken) rc.user();
 
-        if (accessToken == null) {
+        if (user == null) {
             rc.next();
         } else {
 
-            final String provider = oauth2Config.provider;
-            final String userId = getUserId(accessToken.principal().getString("id_token").split("\\."));
+            final String userId = getUserId(user.principal().getString("id_token").split("\\."));
 
             if (userId == null) throw new IllegalStateException("user-id not found in user principal!");
 
-            final JsonObject profile = new JsonObject()
-                .put("provider", provider);
-            final JsonObject roles = new JsonObject()
-                .put("access", config.role.cpd.access.citizen)
-                .put("context", new JsonObject()
-                    .put("diagram", new JsonObject()));
-            accessToken.principal().put("profile", profile);
-            accessToken.principal().put("roles", roles);
+            final JsonObject profile = new JsonObject().put("provider", oauth2Config.provider);
+            user.principal().put("profile", profile);
 
-            final String token = accessToken.principal().getString("access_token");
+            final String token = user.principal().getString("access_token");
             final WebClient client = WebClient.create(
                 vertx,
                 new WebClientOptions()
@@ -103,6 +96,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
                               profile.mergeIn(response.body());
                           }
                       }
+                      setUserRoles(rc, user.principal());
                       if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                       client.close();
                       rc.next();

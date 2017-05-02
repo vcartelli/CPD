@@ -73,6 +73,13 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
         AuthSubRoute.checkState(rc, hash.getString("state"));
 
+        final AccessToken user = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider,
+            hash.put("scope", oauth2Flow.scope));
+        rc.setUser(user);
+        final JsonObject profile = new JsonObject().put("provider", oauth2Config.provider);
+        user.principal().put("profile", profile);
+
+        final String token = hash.getString("access_token");
         WebClient client = WebClient.create(
             vertx,
             new WebClientOptions()
@@ -81,32 +88,23 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         );
         client.requestAbs(HttpMethod.GET, oauth2Flow.getUserProfile)
               .putHeader("Accept", "application/json")
-              .putHeader("Authorization", "Bearer " + hash.getString("access_token"))
+              .putHeader("Authorization", "Bearer " + token)
               .putHeader("scope", String.join(",", oauth2Flow.scope.split("(\\s|,)")))
               .as(BodyCodec.jsonObject())
               .send(cr -> {
                   if (cr.succeeded()) {
-                      AccessToken accessToken = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider,
-                          hash.put("scope", oauth2Flow.scope));
-                      rc.setUser(accessToken);
-                      JsonObject profile = new JsonObject()
-                          .put("provider", oauth2Config.provider);
-                      JsonObject roles = new JsonObject()
-                          .put("access", config.role.cpd.access.citizen)
-                          .put("context", new JsonObject()
-                              .put("diagram", new JsonObject()));
                       HttpResponse<JsonObject> response = cr.result();
                       if (response.statusCode() == HttpResponseStatus.OK.code()) {
                           profile.mergeIn(response.body());
+                          // generate displayName if not exists
                           if (profile.getString("displayName") == null)
                               profile.put("displayName",
                                   (profile.getString("name", "") + " " +
                                       profile.getString("surname", "")).trim());
                       }
-                      accessToken.principal().put("profile", profile);
-                      accessToken.principal().put("roles", roles);
-                      if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                   }
+                  setUserRoles(rc, user.principal());
+                  if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                   client.close();
                   loginRedirect(rc, baseHref + config.app.path);
               });
