@@ -48,6 +48,13 @@ The CPD's root folder contains *four* files to support the configuration, build 
 Of these, just the *first* one needs to be used for the actual configurations. The last three are helper scripts that
 can be used in order to simplify the build and deployment phases.
 
+There are other two scripts to help database maintenance:
+
+ * [[db-restore]]`db-restore.sh`: this script requires the `dump` directory in the same path of execution. It should be
+ executed before the first run. It creates the `cpd` database and indexes the collections. It also populates the db with
+ some diagrams.
+ * `db-dump.sh`: this script creates a backup of the database overwriting any previous data in the `dump` directory.
+
 === [[properties]]example.properties
 
 This is an example Java properties file that contains all the configuration parameters for the application.
@@ -210,7 +217,7 @@ WARNING: Never launch the application as `root` user!
 
 * the `SERVER` hostname or ip address of the remote machine where the application will be deployed (this should be equal
   to the `cpd.server.host` property value of the `production.properties` file).
-
+  
 = [[run]]Running the application
 
 The following sections describe how to run the application from the <<bundle,deploy bundle>> or from your Integrated
@@ -223,6 +230,9 @@ softwares/runtimes/libraries are available at the target machine:
 
 * Java Runtime Environment 8.x
 * MongoDB 3.4
+
+Before running the application, execute the <<db-restore,`db-restore.sh`>> script in order to create the `cpd` database and
+populate it with some data.
 
 == Running from the produced deploy bundle
 
