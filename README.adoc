@@ -291,7 +291,3 @@ Alternatively, you can configure your IDE to launch the application by setting t
 
 After running the application, you can check that everything is working by opening in your browser the url you defined
 in the relative <<properties,`.properties`>> file (e.g. `http://localhost:8901/cpd/`).
-
-In order to create some demo data you can use the `/create-demo-data` endpoint (e.g.
-`http://localhost:8901/cpd/create-demo-data`). This will create 3 local users (“citizen”, “civil servant 1” and
-“civil servant 2”, with the same “simpatico” password) and 2 diagrams.
