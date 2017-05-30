@@ -231,7 +231,7 @@ softwares/runtimes/libraries are available at the target machine:
 * Java Runtime Environment 8.x
 * MongoDB 3.4
 
-Before running the application, execute the <<db-restore,`db-restore.sh`>> script in order to create the `cpd` database and
+Before the first run of the application, execute the <<db-restore,`db-restore.sh`>> script in order to create the `cpd` database and
 populate it with some data.
 
 == Running from the produced deploy bundle
