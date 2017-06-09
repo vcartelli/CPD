@@ -1,0 +1,1478 @@
+[
+  {
+    "_id": "diagram:graphics:Point",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Point",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "propertyOrder": 1,
+          "type": "number",
+          "description": "x coordinate of this Point",
+          "title": "X"
+        },
+        "y": {
+          "propertyOrder": 2,
+          "type": "number",
+          "description": "y coordinate of this Point",
+          "title": "Y"
+        },
+        "type": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "Entity",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Entity",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "type": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "semantic:process:Procedure",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Procedure",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "ownerId": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "optional ID of the SemanticElement owning this one",
+          "title": "Owner Id"
+        },
+        "name": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "name of this SemanticElement",
+          "title": "Name"
+        },
+        "documentation": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "documentation of this SemanticElement",
+          "title": "Documentation"
+        },
+        "mission": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "the long-term objective explaining the existence of this procedure",
+          "title": "Mission"
+        },
+        "ownerPositionId": {
+          "propertyOrder": 6,
+          "type": "string",
+          "title": "Owner Position Id"
+        },
+        "regulatoryIds": {
+          "propertyOrder": 7,
+          "type": "array",
+          "format": "table",
+          "items": {
+            "type": "string"
+          },
+          "title": "Regulatory Ids"
+        },
+        "type": {
+          "propertyOrder": 8,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "documentation",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "Typed",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Typed",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "diagram:notation:FPMN",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "FPMN",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "semantic:SemanticElement",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Semantic Element",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "ownerId": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "optional ID of the SemanticElement owning this one",
+          "title": "Owner Id"
+        },
+        "name": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "name of this SemanticElement",
+          "title": "Name"
+        },
+        "documentation": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "documentation of this SemanticElement",
+          "title": "Documentation"
+        },
+        "type": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "documentation",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "diagram:Notation",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Notation",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "diagram:Diagram",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Diagram",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "notation": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "Notation of this Diagram",
+          "title": "Notation"
+        },
+        "semanticId": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "ID of the SemanticElement associated to this Diagram",
+          "title": "Semantic Id"
+        },
+        "width": {
+          "propertyOrder": 4,
+          "type": "number",
+          "description": "width of this Diagram's paper",
+          "title": "Width"
+        },
+        "height": {
+          "propertyOrder": 5,
+          "type": "number",
+          "description": "height of this Diagram's paper",
+          "title": "Height"
+        },
+        "elements": {
+          "propertyOrder": 6,
+          "type": "array",
+          "format": "table",
+          "items": {
+            "_$ref": "#/definitions/DiagramElement"
+          },
+          "description": "the DiagramElement list of this Diagram",
+          "title": "Elements"
+        },
+        "type": {
+          "propertyOrder": 7,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "notation",
+        "semanticId",
+        "width",
+        "height",
+        "elements",
+        "type"
+      ],
+      "definitions": {
+        "DiagramElement": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "_id": {
+              "propertyOrder": 1,
+              "type": "string",
+              "description": "ID of this Entity",
+              "title": "Id"
+            },
+            "diagramId": {
+              "propertyOrder": 2,
+              "type": "string",
+              "description": "ID of the Diagram containing this DiagramElement",
+              "title": "Diagram Id"
+            },
+            "semanticId": {
+              "propertyOrder": 3,
+              "type": "string",
+              "description": "ID of the associated SemanticElement",
+              "title": "Semantic Id"
+            },
+            "ownerId": {
+              "propertyOrder": 4,
+              "type": "string",
+              "description": "optional ID of the DiagramElement owning this one (for svg grouping)",
+              "title": "Owner Id"
+            },
+            "eServiceId": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "optional ID of the e-service associated to this Element",
+              "title": "E Service Id"
+            },
+            "label": {
+              "propertyOrder": 6,
+              "_$ref": "#/definitions/Label",
+              "description": "Label of this Element",
+              "title": "Label"
+            },
+            "type": {
+              "propertyOrder": 7,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "id",
+            "diagramId",
+            "semanticId",
+            "type"
+          ]
+        },
+        "Label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hAlign": {
+              "propertyOrder": 1,
+              "type": "string",
+              "enum": [
+                "start",
+                "end",
+                "left",
+                "right",
+                "center",
+                "justify"
+              ],
+              "description": "horizontal alignment of text in this Label",
+              "title": "H Align"
+            },
+            "vAlign": {
+              "propertyOrder": 2,
+              "type": "string",
+              "enum": [
+                "baseline",
+                "bottom",
+                "length",
+                "middle",
+                "percentage",
+                "sub",
+                "super",
+                "text-bottom",
+                "text-top",
+                "top"
+              ],
+              "description": "vertical alignment of text in this Label",
+              "title": "V Align"
+            },
+            "property": {
+              "propertyOrder": 3,
+              "type": "string",
+              "description": "SemanticElement's property name to render as text in this Label",
+              "title": "Property"
+            },
+            "bounds": {
+              "propertyOrder": 4,
+              "_$ref": "#/definitions/Bounds",
+              "description": "Bounds of this Label",
+              "title": "Bounds"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "hAlign",
+            "vAlign",
+            "property",
+            "bounds",
+            "type"
+          ]
+        },
+        "Bounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "propertyOrder": 1,
+              "type": "number",
+              "description": "x coordinate of the top-left corner of this Bounds",
+              "title": "X"
+            },
+            "y": {
+              "propertyOrder": 2,
+              "type": "number",
+              "description": "y coordinate of the top-left corner of this Bounds",
+              "title": "Y"
+            },
+            "width": {
+              "propertyOrder": 3,
+              "type": "number",
+              "description": "width of this Bounds",
+              "title": "Width"
+            },
+            "height": {
+              "propertyOrder": 4,
+              "type": "number",
+              "description": "height of this Bounds",
+              "title": "Height"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height",
+            "type"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "_id": "diagram:element:Shape",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Shape",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "diagramId": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "ID of the Diagram containing this DiagramElement",
+          "title": "Diagram Id"
+        },
+        "semanticId": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "ID of the associated SemanticElement",
+          "title": "Semantic Id"
+        },
+        "ownerId": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "optional ID of the DiagramElement owning this one (for svg grouping)",
+          "title": "Owner Id"
+        },
+        "eServiceId": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "optional ID of the e-service associated to this Element",
+          "title": "E Service Id"
+        },
+        "label": {
+          "propertyOrder": 6,
+          "_$ref": "#/definitions/Label",
+          "description": "Label of this Element",
+          "title": "Label"
+        },
+        "bounds": {
+          "propertyOrder": 7,
+          "_$ref": "#/definitions/Bounds",
+          "description": "Bounds of this Shape",
+          "title": "Bounds"
+        },
+        "type": {
+          "propertyOrder": 8,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "diagramId",
+        "semanticId",
+        "bounds",
+        "type"
+      ],
+      "definitions": {
+        "Label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hAlign": {
+              "propertyOrder": 1,
+              "type": "string",
+              "enum": [
+                "start",
+                "end",
+                "left",
+                "right",
+                "center",
+                "justify"
+              ],
+              "description": "horizontal alignment of text in this Label",
+              "title": "H Align"
+            },
+            "vAlign": {
+              "propertyOrder": 2,
+              "type": "string",
+              "enum": [
+                "baseline",
+                "bottom",
+                "length",
+                "middle",
+                "percentage",
+                "sub",
+                "super",
+                "text-bottom",
+                "text-top",
+                "top"
+              ],
+              "description": "vertical alignment of text in this Label",
+              "title": "V Align"
+            },
+            "property": {
+              "propertyOrder": 3,
+              "type": "string",
+              "description": "SemanticElement's property name to render as text in this Label",
+              "title": "Property"
+            },
+            "bounds": {
+              "propertyOrder": 4,
+              "_$ref": "#/definitions/Bounds",
+              "description": "Bounds of this Label",
+              "title": "Bounds"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "hAlign",
+            "vAlign",
+            "property",
+            "bounds",
+            "type"
+          ]
+        },
+        "Bounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "propertyOrder": 1,
+              "type": "number",
+              "description": "x coordinate of the top-left corner of this Bounds",
+              "title": "X"
+            },
+            "y": {
+              "propertyOrder": 2,
+              "type": "number",
+              "description": "y coordinate of the top-left corner of this Bounds",
+              "title": "Y"
+            },
+            "width": {
+              "propertyOrder": 3,
+              "type": "number",
+              "description": "width of this Bounds",
+              "title": "Width"
+            },
+            "height": {
+              "propertyOrder": 4,
+              "type": "number",
+              "description": "height of this Bounds",
+              "title": "Height"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height",
+            "type"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "_id": "diagram:element:Edge",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Edge",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "diagramId": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "ID of the Diagram containing this DiagramElement",
+          "title": "Diagram Id"
+        },
+        "semanticId": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "ID of the associated SemanticElement",
+          "title": "Semantic Id"
+        },
+        "ownerId": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "optional ID of the DiagramElement owning this one (for svg grouping)",
+          "title": "Owner Id"
+        },
+        "eServiceId": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "optional ID of the e-service associated to this Element",
+          "title": "E Service Id"
+        },
+        "label": {
+          "propertyOrder": 6,
+          "_$ref": "#/definitions/Label",
+          "description": "Label of this Element",
+          "title": "Label"
+        },
+        "waypoint": {
+          "propertyOrder": 7,
+          "type": "array",
+          "format": "table",
+          "items": {
+            "_$ref": "#/definitions/Point"
+          },
+          "description": "list of Point of this Edge",
+          "title": "Waypoint"
+        },
+        "type": {
+          "propertyOrder": 8,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "diagramId",
+        "semanticId",
+        "waypoint",
+        "type"
+      ],
+      "definitions": {
+        "Label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hAlign": {
+              "propertyOrder": 1,
+              "type": "string",
+              "enum": [
+                "start",
+                "end",
+                "left",
+                "right",
+                "center",
+                "justify"
+              ],
+              "description": "horizontal alignment of text in this Label",
+              "title": "H Align"
+            },
+            "vAlign": {
+              "propertyOrder": 2,
+              "type": "string",
+              "enum": [
+                "baseline",
+                "bottom",
+                "length",
+                "middle",
+                "percentage",
+                "sub",
+                "super",
+                "text-bottom",
+                "text-top",
+                "top"
+              ],
+              "description": "vertical alignment of text in this Label",
+              "title": "V Align"
+            },
+            "property": {
+              "propertyOrder": 3,
+              "type": "string",
+              "description": "SemanticElement's property name to render as text in this Label",
+              "title": "Property"
+            },
+            "bounds": {
+              "propertyOrder": 4,
+              "_$ref": "#/definitions/Bounds",
+              "description": "Bounds of this Label",
+              "title": "Bounds"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "hAlign",
+            "vAlign",
+            "property",
+            "bounds",
+            "type"
+          ]
+        },
+        "Bounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "propertyOrder": 1,
+              "type": "number",
+              "description": "x coordinate of the top-left corner of this Bounds",
+              "title": "X"
+            },
+            "y": {
+              "propertyOrder": 2,
+              "type": "number",
+              "description": "y coordinate of the top-left corner of this Bounds",
+              "title": "Y"
+            },
+            "width": {
+              "propertyOrder": 3,
+              "type": "number",
+              "description": "width of this Bounds",
+              "title": "Width"
+            },
+            "height": {
+              "propertyOrder": 4,
+              "type": "number",
+              "description": "height of this Bounds",
+              "title": "Height"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height",
+            "type"
+          ]
+        },
+        "Point": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "propertyOrder": 1,
+              "type": "number",
+              "description": "x coordinate of this Point",
+              "title": "X"
+            },
+            "y": {
+              "propertyOrder": 2,
+              "type": "number",
+              "description": "y coordinate of this Point",
+              "title": "Y"
+            },
+            "type": {
+              "propertyOrder": 3,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "type"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "_id": "diagram:DiagramElement",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Diagram Element",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "diagramId": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "ID of the Diagram containing this DiagramElement",
+          "title": "Diagram Id"
+        },
+        "semanticId": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "ID of the associated SemanticElement",
+          "title": "Semantic Id"
+        },
+        "ownerId": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "optional ID of the DiagramElement owning this one (for svg grouping)",
+          "title": "Owner Id"
+        },
+        "eServiceId": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "optional ID of the e-service associated to this Element",
+          "title": "E Service Id"
+        },
+        "label": {
+          "propertyOrder": 6,
+          "_$ref": "#/definitions/Label",
+          "description": "Label of this Element",
+          "title": "Label"
+        },
+        "type": {
+          "propertyOrder": 7,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "diagramId",
+        "semanticId",
+        "type"
+      ],
+      "definitions": {
+        "Label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hAlign": {
+              "propertyOrder": 1,
+              "type": "string",
+              "enum": [
+                "start",
+                "end",
+                "left",
+                "right",
+                "center",
+                "justify"
+              ],
+              "description": "horizontal alignment of text in this Label",
+              "title": "H Align"
+            },
+            "vAlign": {
+              "propertyOrder": 2,
+              "type": "string",
+              "enum": [
+                "baseline",
+                "bottom",
+                "length",
+                "middle",
+                "percentage",
+                "sub",
+                "super",
+                "text-bottom",
+                "text-top",
+                "top"
+              ],
+              "description": "vertical alignment of text in this Label",
+              "title": "V Align"
+            },
+            "property": {
+              "propertyOrder": 3,
+              "type": "string",
+              "description": "SemanticElement's property name to render as text in this Label",
+              "title": "Property"
+            },
+            "bounds": {
+              "propertyOrder": 4,
+              "_$ref": "#/definitions/Bounds",
+              "description": "Bounds of this Label",
+              "title": "Bounds"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "hAlign",
+            "vAlign",
+            "property",
+            "bounds",
+            "type"
+          ]
+        },
+        "Bounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "propertyOrder": 1,
+              "type": "number",
+              "description": "x coordinate of the top-left corner of this Bounds",
+              "title": "X"
+            },
+            "y": {
+              "propertyOrder": 2,
+              "type": "number",
+              "description": "y coordinate of the top-left corner of this Bounds",
+              "title": "Y"
+            },
+            "width": {
+              "propertyOrder": 3,
+              "type": "number",
+              "description": "width of this Bounds",
+              "title": "Width"
+            },
+            "height": {
+              "propertyOrder": 4,
+              "type": "number",
+              "description": "height of this Bounds",
+              "title": "Height"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height",
+            "type"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "_id": "diagram:DiagramSummary",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Diagram Summary",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "link to the Diagram (with eventually the focused DiagramElement) in the web application",
+          "title": "Url"
+        },
+        "svg": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "link to the svg image of the Diagram",
+          "title": "Svg"
+        },
+        "diagramElementId": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "optional ID of the focused DiagramElement in the url",
+          "title": "Diagram Element Id"
+        },
+        "name": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "name of the SemanticElement associated to the Diagram",
+          "title": "Name"
+        },
+        "notation": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "Notation of the Diagram",
+          "title": "Notation"
+        },
+        "diagramId": {
+          "propertyOrder": 6,
+          "type": "string",
+          "description": "ID of the Diagram",
+          "title": "Diagram Id"
+        },
+        "documentation": {
+          "propertyOrder": 7,
+          "type": "string",
+          "description": "documentation of the SemanticElement associated to the Diagram",
+          "title": "Documentation"
+        },
+        "type": {
+          "propertyOrder": 8,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "url",
+        "svg",
+        "name",
+        "notation",
+        "diagramId",
+        "documentation",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "diagram:graphics:Bounds",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Bounds",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "propertyOrder": 1,
+          "type": "number",
+          "description": "x coordinate of the top-left corner of this Bounds",
+          "title": "X"
+        },
+        "y": {
+          "propertyOrder": 2,
+          "type": "number",
+          "description": "y coordinate of the top-left corner of this Bounds",
+          "title": "Y"
+        },
+        "width": {
+          "propertyOrder": 3,
+          "type": "number",
+          "description": "width of this Bounds",
+          "title": "Width"
+        },
+        "height": {
+          "propertyOrder": 4,
+          "type": "number",
+          "description": "height of this Bounds",
+          "title": "Height"
+        },
+        "type": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "semantic:organization:UserProfile",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "User Profile",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "provider of this UserProfile",
+          "title": "Provider"
+        },
+        "username": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "username of this UserProfile",
+          "title": "Username"
+        },
+        "personId": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "the id of Person owner of this UserProfile",
+          "title": "Person Id"
+        },
+        "password": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "the md5 encrypted password of this UserProfile",
+          "title": "Password"
+        },
+        "gender": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "the gender of this UserProfile",
+          "title": "Gender"
+        },
+        "name": {
+          "propertyOrder": 6,
+          "_$ref": "#/definitions/Name",
+          "description": "the name of this UserProfile",
+          "title": "Name"
+        },
+        "displayName": {
+          "propertyOrder": 7,
+          "type": "string",
+          "description": "the display name of this UserProfile",
+          "title": "Display Name"
+        },
+        "language": {
+          "propertyOrder": 8,
+          "type": "string",
+          "description": "the display name of this UserProfile",
+          "title": "Language"
+        },
+        "image": {
+          "propertyOrder": 9,
+          "_$ref": "#/definitions/Image",
+          "description": "the display name of this UserProfile",
+          "title": "Image"
+        },
+        "authenticationRole": {
+          "propertyOrder": 10,
+          "type": "string",
+          "enum": [
+            "semantic:organization:roles:AuthenticationRole:admin",
+            "semantic:organization:roles:AuthenticationRole:citizen",
+            "semantic:organization:roles:AuthenticationRole:civil-servant"
+          ],
+          "description": "the authentication role associated to this UserProfile",
+          "title": "Authentication Role"
+        },
+        "authorizationRoles": {
+          "propertyOrder": 11,
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "format": "table",
+            "items": {
+              "type": "string",
+              "enum": [
+                "semantic:organization:roles:AuthorizationRole:observer",
+                "semantic:organization:roles:AuthorizationRole:collaborator",
+                "semantic:organization:roles:AuthorizationRole:editor",
+                "semantic:organization:roles:AuthorizationRole:reviewer",
+                "semantic:organization:roles:AuthorizationRole:owner"
+              ]
+            }
+          },
+          "description": "the authorization roles (key: diagramId) associated to this UserProfile",
+          "title": "Authorization Roles"
+        },
+        "type": {
+          "propertyOrder": 12,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "provider",
+        "username",
+        "personId",
+        "name",
+        "displayName",
+        "language",
+        "authenticationRole",
+        "type"
+      ],
+      "definitions": {
+        "Name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "familyName": {
+              "propertyOrder": 1,
+              "type": "string",
+              "title": "Family Name"
+            },
+            "givenName": {
+              "propertyOrder": 2,
+              "type": "string",
+              "title": "Given Name"
+            }
+          }
+        },
+        "Image": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "propertyOrder": 1,
+              "type": "string",
+              "title": "Url"
+            },
+            "isDefault": {
+              "propertyOrder": 2,
+              "type": "boolean",
+              "title": "Is Default"
+            }
+          },
+          "required": [
+            "isDefault"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "_id": "diagram:graphics:Label",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Label",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hAlign": {
+          "propertyOrder": 1,
+          "type": "string",
+          "enum": [
+            "start",
+            "end",
+            "left",
+            "right",
+            "center",
+            "justify"
+          ],
+          "description": "horizontal alignment of text in this Label",
+          "title": "H Align"
+        },
+        "vAlign": {
+          "propertyOrder": 2,
+          "type": "string",
+          "enum": [
+            "baseline",
+            "bottom",
+            "length",
+            "middle",
+            "percentage",
+            "sub",
+            "super",
+            "text-bottom",
+            "text-top",
+            "top"
+          ],
+          "description": "vertical alignment of text in this Label",
+          "title": "V Align"
+        },
+        "property": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "SemanticElement's property name to render as text in this Label",
+          "title": "Property"
+        },
+        "bounds": {
+          "propertyOrder": 4,
+          "_$ref": "#/definitions/Bounds",
+          "description": "Bounds of this Label",
+          "title": "Bounds"
+        },
+        "type": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "hAlign",
+        "vAlign",
+        "property",
+        "bounds",
+        "type"
+      ],
+      "definitions": {
+        "Bounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "x": {
+              "propertyOrder": 1,
+              "type": "number",
+              "description": "x coordinate of the top-left corner of this Bounds",
+              "title": "X"
+            },
+            "y": {
+              "propertyOrder": 2,
+              "type": "number",
+              "description": "y coordinate of the top-left corner of this Bounds",
+              "title": "Y"
+            },
+            "width": {
+              "propertyOrder": 3,
+              "type": "number",
+              "description": "width of this Bounds",
+              "title": "Width"
+            },
+            "height": {
+              "propertyOrder": 4,
+              "type": "number",
+              "description": "height of this Bounds",
+              "title": "Height"
+            },
+            "type": {
+              "propertyOrder": 5,
+              "type": "string",
+              "description": "type of this Thing",
+              "title": "Type"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height",
+            "type"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "_id": "semantic:organization:roles:AuthorizationRole",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Authorization Role",
+      "type": "string",
+      "enum": [
+        "semantic:organization:roles:AuthorizationRole:observer",
+        "semantic:organization:roles:AuthorizationRole:collaborator",
+        "semantic:organization:roles:AuthorizationRole:editor",
+        "semantic:organization:roles:AuthorizationRole:reviewer",
+        "semantic:organization:roles:AuthorizationRole:owner"
+      ]
+    }
+  },
+  {
+    "_id": "semantic:process:Phase",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Phase",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "propertyOrder": 1,
+          "type": "string",
+          "description": "ID of this Entity",
+          "title": "Id"
+        },
+        "ownerId": {
+          "propertyOrder": 2,
+          "type": "string",
+          "description": "optional ID of the SemanticElement owning this one",
+          "title": "Owner Id"
+        },
+        "name": {
+          "propertyOrder": 3,
+          "type": "string",
+          "description": "name of this SemanticElement",
+          "title": "Name"
+        },
+        "documentation": {
+          "propertyOrder": 4,
+          "type": "string",
+          "description": "documentation of this SemanticElement",
+          "title": "Documentation"
+        },
+        "prevPhaseId": {
+          "propertyOrder": 5,
+          "type": "string",
+          "description": "the id of the previous Phase",
+          "title": "Prev Phase Id"
+        },
+        "nextPhaseId": {
+          "propertyOrder": 6,
+          "type": "string",
+          "description": "the id of the next Phase",
+          "title": "Next Phase Id"
+        },
+        "type": {
+          "propertyOrder": 7,
+          "type": "string",
+          "description": "type of this Thing",
+          "title": "Type"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "documentation",
+        "type"
+      ]
+    }
+  },
+  {
+    "_id": "semantic:organization:roles:AuthenticationRole",
+    "schema": {
+      "_$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Authentication Role",
+      "type": "string",
+      "enum": [
+        "semantic:organization:roles:AuthenticationRole:admin",
+        "semantic:organization:roles:AuthenticationRole:citizen",
+        "semantic:organization:roles:AuthenticationRole:civil-servant"
+      ]
+    }
+  }
+]

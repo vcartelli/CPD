@@ -217,7 +217,7 @@ WARNING: Never launch the application as `root` user!
 
 * the `SERVER` hostname or ip address of the remote machine where the application will be deployed (this should be equal
   to the `cpd.server.host` property value of the `production.properties` file).
-  
+
 = [[run]]Running the application
 
 The following sections describe how to run the application from the <<bundle,deploy bundle>> or from your Integrated

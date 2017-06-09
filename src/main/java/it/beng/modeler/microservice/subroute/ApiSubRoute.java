@@ -205,8 +205,161 @@ public final class ApiSubRoute extends SubRoute {
     private void getDiagramSummaryList(RoutingContext rc) {
         simLagTime();
         JsonObject command = new JsonObject()
-            .put("aggregate", "diagrams")
+            .put("aggregate", "semantic.elements")
             .put("pipeline", new JsonArray()
+                    .add(new JsonObject()
+                        .put("$match", new JsonObject()
+                            .put("type", "diagram:FPMN:semantic:Procedure")))
+/*
+    {
+        "$match": {
+            "type":"diagram:FPMN:semantic:Procedure"
+        }
+    },
+*/
+                    .add(new JsonObject()
+                        .put("$lookup", new JsonObject()
+                            .put("from", "diagrams")
+                            .put("localField", "diagramId")
+                            .put("foreignField", "_id")
+                            .put("as", "diagram")))
+/*
+    {
+        "$lookup" : {
+          "from" : "diagrams",
+          "localField" : "diagramId",
+          "foreignField" : "_id",
+          "as" : "diagram"
+        }
+    },
+*/
+                    .add(new JsonObject().put("$unwind", "$diagram"))
+/*
+    {
+        "$unwind":"$diagram"
+    },
+*/
+                    .add(new JsonObject()
+                        .put("$lookup", new JsonObject()
+                            .put("from", "semantic.elements")
+                            .put("localField", "_id")
+                            .put("foreignField", "ownerId")
+                            .put("as", "phases")))
+/*
+    {
+        "$lookup" : {
+          "from" : "semantic.elements",
+          "localField" : "_id",
+          "foreignField" : "ownerId",
+          "as" : "phases"
+        }
+    },
+*/
+                    .add(new JsonObject().put("$unwind", "$phases"))
+/*
+    {
+        "$unwind":"$phases"
+    },
+*/
+                    .add(new JsonObject()
+                        .put("$match", new JsonObject()
+                            .put("phases.nextPhaseId", new JsonObject()
+                                .put("$in", new JsonArray().addNull()))
+                            .put("phases.type", "diagram:FPMN:semantic:Phase")))
+/*
+    {
+        "$match": {
+            "phases.nextPhaseId":{
+                "$in": [null]
+            },
+            "phases.type":"diagram:FPMN:semantic:Phase"
+        }
+    },
+*/
+                    .add(new JsonObject()
+                        .put("$graphLookup", new JsonObject()
+                            .put("from", "semantic.elements")
+                            .put("startWith", "$phases._id")
+                            .put("connectFromField", "prevPhaseId")
+                            .put("connectToField", "_id")
+                            .put("as", "phases")))
+/*
+    {
+        "$graphLookup" : {
+          "from" : "semantic.elements",
+          "startWith" : "$phases._id",
+          "connectFromField" : "prevPhaseId",
+          "connectToField" : "_id",
+          "as" : "phases"
+        }
+    },
+*/
+                    .add(new JsonObject()
+                        .put("$addFields", new JsonObject()
+                            .put("phases", new JsonObject()
+                                .put("$map", new JsonObject()
+                                    .put("input", "$phases")
+                                    .put("as", "phase")
+                                    .put("in", new JsonObject()
+                                        .put("eServiceId", "$$phase.eServiceId")
+                                        .put("name", "$$phase.name")
+                                        .put("documentation", "$$phase.documentation")
+                                    )))))
+/*
+    {
+        "$addFields" : {
+            "phases": {
+                "$map" : {
+                    "input" : "$phases",
+                    "as" : "phase",
+                    "in" : {
+                      "eServiceId" : "$$phase.eServiceId",
+                      "name" : "$$phase.name",
+                      "documentation" : "$$phase.documentation"
+                    }
+                }
+            }
+        }
+    },
+*/
+                    .add(new JsonObject()
+                        .put("$project", new JsonObject()
+                            .put("_id", 0)
+                            .put("diagramId", "$diagram._id")
+                            .put("notation", "$diagram.notation")
+                            .put("name", "$name")
+                            .put("documentation", "$documentation")
+                            .put("phases", "$phases")
+                            .put("url", new JsonObject()
+                                .put("$concat", new JsonArray()
+                                    .add(config.server.pub.appHref(rc) + config.app.diagramPath)
+                                    .add("$_id")))
+                            .put("svg", new JsonObject()
+                                .put("$concat", new JsonArray()
+                                    .add(config.server.pub.assetsHref() + "svg/")
+                                    .add("$_id")
+                                    .add(".svg")))))
+/*
+    {
+        "$project" : {
+            "_id" : 0,
+            "diagramId":"$diagram._id",
+            "notation" : "$diagram.notation",
+            "name" : "$name",
+            "documentation" : "$documentation",
+            "phases":"$phases",
+            "url" : {
+                "$concat" : [ "https://localhost:8901/cpd/en/diagram/", "$_id" ]
+            },
+            "svg" : {
+                "$concat" : [ "https://localhost:8901/cpd/assets/svg/", "$_id", ".svg" ]
+            }
+        }
+    }
+*/
+
+
+/*
                 .add(new JsonObject()
                     .put("$project", new JsonObject()
                         .put("_id", 1)
@@ -221,7 +374,10 @@ public final class ApiSubRoute extends SubRoute {
                             .put("$concat", new JsonArray()
                                 .add(config.server.pub.assetsHref() + "svg/")
                                 .add("$_id")
-                                .add(".svg"))))));
+                                .add(".svg")))
+                                )));
+*/
+            );
         if (config.develop) System.out.println("getDiagramSummaryList command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
@@ -335,7 +491,6 @@ public final class ApiSubRoute extends SubRoute {
     private void getDiagramEServiceSummary(RoutingContext rc) {
         simLagTime();
         String eServiceId = rc.request().getParam("eServiceId");
-
         JsonObject command = new JsonObject()
             .put("aggregate", "diagram.elements")
             .put("pipeline", new JsonArray()
@@ -344,84 +499,100 @@ public final class ApiSubRoute extends SubRoute {
                         .put("from", "semantic.elements")
                         .put("localField", "semanticId")
                         .put("foreignField", "_id")
-                        .put("as", "documentation")))
+                        .put("as", "model")))
                 .add(new JsonObject()
                     .put("$match", new JsonObject()
-                        .put("documentation.eServiceId", eServiceId)))
-                .add(new JsonObject()
-                    .put("$unwind", "$documentation"))
-                .add(new JsonObject()
-                    .put("$addFields", new JsonObject()
-                        .put("documentation", "$documentation.documentation")))
+                        .put("model.eServiceId", eServiceId)))
+                .add(new JsonObject().put("$unwind", "$model"))
                 .add(new JsonObject()
                     .put("$lookup", new JsonObject()
                         .put("from", "diagrams")
                         .put("localField", "diagramId")
                         .put("foreignField", "_id")
-                        .put("as", "notation")))
-                .add(new JsonObject()
-                    .put("$unwind", "$notation"))
+                        .put("as", "procedure")))
+                .add(new JsonObject().put("$unwind", "$procedure"))
                 .add(new JsonObject()
                     .put("$addFields", new JsonObject()
-                        .put("notation", "$notation.notation")))
+                        .put("notation", "$procedure.notation")))
+                .add(new JsonObject()
+                    .put("$lookup", new JsonObject()
+                        .put("from", "semantic.elements")
+                        .put("localField", "model.ownerId")
+                        .put("foreignField", "_id")
+                        .put("as", "procedure")))
+                .add(new JsonObject().put("$unwind", "$procedure"))
                 .add(new JsonObject()
                     .put("$graphLookup", new JsonObject()
-                        .put("from", "diagram.elements")
-                        .put("startWith", "$_id")
+                        .put("from", "semantic.elements")
+                        .put("startWith", "$semanticId")
                         .put("connectFromField", "ownerId")
                         .put("connectToField", "_id")
                         .put("as", "path")))
                 .add(new JsonObject()
-                    .put("$unwind", "$path"))
-                .add(new JsonObject()
                     .put("$addFields", new JsonObject()
-                        .put("path", "$path.semanticId")))
-                .add(new JsonObject()
-                    .put("$lookup", new JsonObject()
-                        .put("from", "semantic.elements")
-                        .put("localField", "path")
-                        .put("foreignField", "_id")
-                        .put("as", "name")))
-                .add(new JsonObject()
-                    .put("$unwind", "$name"))
-                .add(new JsonObject()
-                    .put("$addFields", new JsonObject()
-                        .put("name", "$name.name")))
-                .add(new JsonObject()
-                    .put("$group", new JsonObject()
-                        .put("_id", "$diagramId")
-                        .put("elementId", new JsonObject()
-                            .put("$first", "$_id"))
-                        .put("eServiceId", new JsonObject()
-                            .put("$first", "$eServiceId"))
-                        .put("notation", new JsonObject()
-                            .put("$first", "$notation"))
-                        .put("documentation", new JsonObject()
-                            .put("$first", "$documentation"))
-                        .put("path", new JsonObject()
-                            .put("$push", "$name"))))
-                .add(new JsonObject()
-                    .put("$project", new JsonObject()
-                        .put("_id", 1)
-                        .put("elementId", 1)
-                        .put("eServiceId", 1)
-                        .put("notation", 1)
-                        .put("documentation", 1)
                         .put("path", new JsonObject()
                             .put("$reduce", new JsonObject()
-                                .put("input", "$path")
+                                .put("input", "$path.name")
                                 .put("initialValue", "")
                                 .put("in", new JsonObject()
                                     .put("$concat", new JsonArray()
-                                        .add("$$value").add("//").add("$$this")))))
+                                        .add("$$value")
+                                        .add("//")
+                                        .add("$$this")))))))
+                .add(new JsonObject()
+                    .put("$graphLookup", new JsonObject()
+                        .put("from", "semantic.elements")
+                        .put("startWith", "$semanticId")
+                        .put("connectFromField", "nextPhaseId")
+                        .put("connectToField", "_id")
+                        .put("as", "phases")
+                        .put("restrictSearchWithMatch", new JsonObject()
+                            .put("type", "diagram:FPMN:semantic:Phase"))))
+                .add(new JsonObject().put("$unwind", "$phases"))
+                .add(new JsonObject()
+                    .put("$match", new JsonObject()
+                        .put("phases.nextPhaseId", new JsonObject()
+                            .put("$in", new JsonArray().addNull()))))
+                .add(new JsonObject()
+                    .put("$graphLookup", new JsonObject()
+                        .put("from", "semantic.elements")
+                        .put("startWith", "$phases._id")
+                        .put("connectFromField", "prevPhaseId")
+                        .put("connectToField", "_id")
+                        .put("as", "phases")))
+                .add(new JsonObject()
+                    .put("$addFields", new JsonObject()
+                        .put("phases", new JsonObject()
+                            .put("$map", new JsonObject()
+                                .put("input", "$phases")
+                                .put("as", "phase")
+                                .put("in", new JsonObject()
+                                    .put("eServiceId", "$$phase.eServiceId")
+                                    .put("name", "$$phase.name")
+                                    .put("documentation", "$$phase.documentation")
+                                )))))
+                .add(new JsonObject()
+                    .put("$project", new JsonObject()
+                        .put("_id", 0)
+                        .put("diagramId", "$diagramId")
+                        .put("notation", "$notation")
+                        .put("name", "$procedure.name")
+                        .put("documentation", "$procedure.documentation")
+                        .put("elementId", "$_id")
+                        .put("eServiceId", "$model.eServiceId")
+                        .put("path", "$path")
+                        .put("phases", "$phases")
                         .put("url", new JsonObject()
                             .put("$concat", new JsonArray()
                                 .add(config.server.pub.appHref(rc) + config.app.diagramPath)
-                                .add("$_id").add("/")
-                                .add("$elementId")))
+                                .add("$diagramId")
+                                .add("/")
+                                .add("$_id")))
                         .put("svg", new JsonObject()
                             .put("$concat", new JsonArray()
-                                .add(config.server.pub.assetsHref() + "svg/").add("$_id").add(".svg"))))));
+                                .add(config.server.pub.assetsHref() + "svg/")
+                                .add("$diagramId")
+                                .add(".svg"))))));
         if (config.develop) System.out.println("getDiagramEServiceSummary command: " + command.encodePrettily());
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
