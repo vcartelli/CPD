@@ -88,6 +88,19 @@ IMPORTANT: If you plan to use your own signed certificate, make sure it is given
 
 WARNING: Remember that in Java properties files the double backslash `\\` must be escaped two times: `\\\\`).
 
+* `cpd.server.pub.scheme`, `cpd.server.pub.host`, `cpd.server.pub.port`: these properties ar related to
+  `cpd.server.scheme`, `cpd.server.host` and `cpd.server.port` respectively. Change them when the application is running
+  behind a proxy: set these properties to the proxy scheme, domain and port values. An example excerpt from a
+  `production.properties` of an instance running behind an Apache2 reverse proxy follows:
+
+    cpd.server.scheme=http
+    cpd.server.host=localhost
+    cpd.server.port=8901
+    ! server.public
+    cpd.server.pub.scheme=https
+    cpd.server.pub.host=simpatico.example.com
+    cpd.server.pub.port=443
+
 * `cpd.app.useLocalAuth`: `true` or `false` in order to enable or disable the local login;
 * `cpd.mongodb.host`: the mongodb hostname;
 * `cpd.mongodb.port`: the mongodb port;
