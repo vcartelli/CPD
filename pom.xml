@@ -6,7 +6,7 @@
     <parent>
         <groupId>it.beng</groupId>
         <artifactId>microservice-stack</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>cpd-server</artifactId>
@@ -16,7 +16,6 @@
 
     <properties>
         <main.verticle>it.beng.modeler.microservice.ModelerConfigVerticle</main.verticle>
-        <metamodel.version>1.0-SNAPSHOT</metamodel.version>
     </properties>
 
     <profiles>
@@ -61,12 +60,6 @@
                 <version>${project.parent.version}</version>
                 <scope>compile</scope>
             </dependency>
-            <dependency>
-                <groupId>it.beng</groupId>
-                <artifactId>metamodel-semantics</artifactId>
-                <version>${metamodel.version}</version>
-                <scope>compile</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -91,25 +84,16 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-mongo-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-codegen</artifactId>
+        </dependency>
         <!-- Guava -->
-        <!--<dependency>-->
-        <!--<groupId>com.google.guava</groupId>-->
-        <!--<artifactId>guava</artifactId>-->
-        <!--<version>21.0</version>-->
-        <!--</dependency>-->
-        <!-- Json Schema v4 -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.8.6</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
         </dependency>
-        <dependency>
-            <!-- https://github.com/mbknor/mbknor-jackson-jsonSchema -->
-            <groupId>com.kjetland</groupId>
-            <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>
-            <version>1.0.16</version>
-        </dependency>
-
     </dependencies>
 
     <build>

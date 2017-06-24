@@ -12,15 +12,15 @@ import io.vertx.ext.web.RoutingContext;
 public class ResponseError extends RuntimeException {
 
     public ResponseError(RoutingContext rc, Throwable t) {
-        rc.put("error", json(rc, t));
+        this(rc, t.getMessage());
     }
 
     public ResponseError(RoutingContext rc, String message) {
-        this(rc, new IllegalStateException(message));
+        super(message);
+        rc.put("error", json(rc, message));
     }
 
-    public static JsonObject json(RoutingContext rc, Throwable t) {
-        if (t == null) t = new IllegalStateException("Unknown Error");
+    public static JsonObject json(RoutingContext rc, String message) {
         HttpResponseStatus status =
             rc.statusCode() >= 0 ?
                 HttpResponseStatus.valueOf(rc.statusCode()) :
@@ -31,7 +31,7 @@ public class ResponseError extends RuntimeException {
             .put("request", "[" + rc.request().method() + "] " + rc.request().uri())
             .put("statusCode", status.code())
             .put("error", status.reasonPhrase())
-            .put("message", t.getMessage());
+            .put("message", message != null ? message : "Unknown error");
     }
 
 }

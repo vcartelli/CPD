@@ -27,25 +27,34 @@ public class LocalUser extends AbstractUser implements User {
     }
 
     private static class ContextRole {
-        final JsonObject roles;
-        final String name;
+        final JsonObject userRoles;
+        final String context;
         final String id;
         final String role;
-        final String prefix = config.role.cpd.context.prefix;
+        final String prefix;
 
-        public ContextRole(JsonObject roles, String rolePipe) {
-            if (roles != null)
-                this.roles = roles;
+        public ContextRole(JsonObject userRoles, String rolePipe) {
+            if (userRoles != null)
+                this.userRoles = userRoles;
             else
-                this.roles = new JsonObject();
+                this.userRoles = new JsonObject();
             String[] roleSplit = rolePipe.split("\\|");
-            this.name = roleSplit.length > 0 ? roleSplit[0] : "";
-            this.id = roleSplit.length > 1 ? roleSplit[1] : "";
-            this.role = roleSplit.length > 2 ? roleSplit[2] : "";
+            if (roleSplit.length > 2) {
+                this.role = roleSplit[2];
+                this.id = roleSplit[1];
+            } else if (roleSplit.length > 1) {
+                this.role = roleSplit[1];
+                this.id = "";
+            } else {
+                this.role = "";
+                this.id = "";
+            }
+            this.context = roleSplit.length > 0 ? roleSplit[0] : "";
+            this.prefix = config.role.cpd.context.prefix;
         }
 
         boolean isValid() {
-            return !roles.isEmpty() && !name.isEmpty() && !id.isEmpty() && !role.isEmpty() &&
+            return !userRoles.isEmpty() && !context.isEmpty() && !role.isEmpty() &&
                 !prefix.isEmpty() && role.startsWith(prefix);
         }
 
@@ -62,11 +71,11 @@ public class LocalUser extends AbstractUser implements User {
         }
 
         boolean check() {
-            String rolePrefix = prefix + ":" + name;
+            String rolePrefix = prefix + ":" + context;
             if (role.startsWith(rolePrefix)) {
-                JsonObject context = this.roles.getJsonObject(name);
-                return doCheck(context.getJsonArray("*"), rolePrefix, this.role) ||
-                    doCheck(context.getJsonArray(this.id), rolePrefix, this.role);
+                JsonObject context = this.userRoles.getJsonObject(this.context);
+                return doCheck(context.getJsonArray("*"), rolePrefix, role)
+                    || doCheck(context.getJsonArray(id), rolePrefix, role);
             }
             return false;
         }
@@ -91,16 +100,16 @@ public class LocalUser extends AbstractUser implements User {
         return cpdRoles;
     }
 
-    public static void isPermitted(final String role, final JsonObject cpdRoles, final Handler<AsyncResult<Boolean>> resultHandler) {
+    public static void isPermitted(final String role, final JsonObject userRoles, final Handler<AsyncResult<Boolean>> resultHandler) {
         if (config.develop) System.out.println("checking role " + role);
         boolean has = false;
-        if (role != null && !cpdRoles.isEmpty()) {
+        if (role != null && !userRoles.isEmpty()) {
             if (role.startsWith(config.role.cpd.access.prefix))
-                has = role.equals(cpdRoles.getString("access"));
+                has = role.equals(userRoles.getString("access"));
             else {
-                JsonObject contextRoles = cpdRoles.getJsonObject("context");
-                if (contextRoles != null) {
-                    ContextRole contextRole = new ContextRole(contextRoles, role);
+                JsonObject userContextRoles = userRoles.getJsonObject("context");
+                if (userContextRoles != null) {
+                    ContextRole contextRole = new ContextRole(userContextRoles, role);
                     if (contextRole.isValid()) {
                         has = contextRole.check();
                     }
@@ -112,7 +121,7 @@ public class LocalUser extends AbstractUser implements User {
 
     @Override
     protected void doIsPermitted(String role, Handler<AsyncResult<Boolean>> resultHandler) {
-        isPermitted(role, cpdRoles(), resultHandler);
+        isPermitted(role, this.cpdRoles(), resultHandler);
     }
 
     @Override

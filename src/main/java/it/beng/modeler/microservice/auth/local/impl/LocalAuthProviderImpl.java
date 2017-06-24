@@ -6,9 +6,10 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.ext.mongo.MongoClient;
+import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
+import it.beng.modeler.model.ModelTools;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -18,7 +19,7 @@ import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 public class LocalAuthProviderImpl implements LocalAuthProvider {
 
     private final Vertx vertx;
-    private final MongoClient mongodb;
+    private final MongoDB mongodb;
 
     public LocalAuthProviderImpl(Vertx vertx) {
         this.vertx = vertx;
@@ -49,7 +50,8 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
             return;
         }
 
-        mongodb.findOne("users", new JsonObject().put("_id", username), new JsonObject(), ar -> {
+        mongodb.findOne("user", new JsonObject()
+            .put("id", username), new JsonObject(), ModelTools.JSON_ENTITY_TO_MONGO_DB, ar -> {
             if (ar.succeeded()) {
                 JsonObject user = ar.result();
                 if (user != null && password.equals(user.getString("password"))) {

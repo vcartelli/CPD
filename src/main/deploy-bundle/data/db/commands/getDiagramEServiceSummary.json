@@ -1,0 +1,141 @@
+{
+  "aggregate": "diagram",
+  "pipeline": [
+    {
+      "$lookup": {
+        "from": "model",
+        "localField": "modelId",
+        "foreignField": "_id",
+        "as": "model"
+      }
+    },
+    {
+      "$match": {
+        "model.eServiceId": "{eServiceId}"
+      }
+    },
+    {
+      "$unwind": "$model"
+    },
+    {
+      "$lookup": {
+        "from": "diagram",
+        "localField": "rootId",
+        "foreignField": "_id",
+        "as": "procedure"
+      }
+    },
+    {
+      "$unwind": "$procedure"
+    },
+    {
+      "$lookup": {
+        "from": "model",
+        "localField": "procedure.modelId",
+        "foreignField": "_id",
+        "as": "procedure"
+      }
+    },
+    {
+      "$unwind": "$procedure"
+    },
+    {
+      "$graphLookup": {
+        "from": "model",
+        "startWith": "$modelId",
+        "connectFromField": "parentId",
+        "connectToField": "_id",
+        "as": "path"
+      }
+    },
+    {
+      "$addFields": {
+        "path": {
+          "$reduce": {
+            "input": "$path.name",
+            "initialValue": "",
+            "in": {
+              "$concat": [
+                "$$value",
+                "//",
+                "$$this"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "$graphLookup": {
+        "from": "model",
+        "startWith": "$modelId",
+        "connectFromField": "nextPhaseId",
+        "connectToField": "_id",
+        "as": "phases",
+        "restrictSearchWithMatch": {
+          "class": "model.FPMN.Phase"
+        }
+      }
+    },
+    {
+      "$unwind": "$phases"
+    },
+    {
+      "$match": {
+        "phases.nextPhaseId": null
+      }
+    },
+    {
+      "$graphLookup": {
+        "from": "model",
+        "startWith": "$phases._id",
+        "connectFromField": "prevPhaseId",
+        "connectToField": "_id",
+        "as": "phases"
+      }
+    },
+    {
+      "$addFields": {
+        "phases": {
+          "$map": {
+            "input": "$phases",
+            "as": "phase",
+            "in": {
+              "order": "$$phase.order",
+              "name:": "$$phase.name",
+              "documentation": "$$phase.documentation"
+            }
+          }
+        }
+      }
+    },
+    {
+      "$project": {
+        "_id": 0,
+        "diagramId": "$rootId",
+        "elementId": "$_id",
+        "eServiceId": "$model.eServiceId",
+        "notation": "$procedure.notation",
+        "name": "$procedure.name",
+        "documentation": "$procedure.documentation",
+        "path": "$path",
+        "phases": "$phases",
+        "url": {
+          "$concat": [
+            "{appDiagramUrl}",
+            "$rootId",
+            "/",
+            "$_id"
+          ]
+        },
+        "svg": {
+          "$concat": [
+            "{appDiagramSvg}",
+            "$rootId",
+            ".svg"
+          ]
+        }
+      }
+    }
+  ]
+}

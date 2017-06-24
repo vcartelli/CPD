@@ -1,0 +1,73 @@
+{
+  "aggregate": "user.feedback",
+  "pipeline": [
+    {
+      "$match": {
+        "dateTime": {dateTimeRange}
+      }
+    },
+    {
+      "$lookup": {
+        "from": "diagram",
+        "localField": "elementId",
+        "foreignField": "_id",
+        "as": "element"
+      }
+    },
+    {
+      "$unwind": "$element"
+    },
+    {
+      "$graphLookup": {
+        "from": "model",
+        "startWith": "$element.modelId",
+        "connectFromField": "parentId",
+        "connectToField": "_id",
+        "as": "path"
+      }
+    },
+    {
+      "$addFields": {
+        "path": {
+          "$reduce": {
+            "input": "$path.name",
+            "initialValue": "",
+            "in": {
+              "$concat": [
+                "$$value",
+                "//",
+                "$$this"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "$project": {
+        "_id": 1,
+        "dateTime": 1,
+        "userId": 1,
+        "message": 1,
+        "diagramId": 1,
+        "elementId": 1,
+        "path": "$path",
+        "url": {
+          "$concat": [
+            "{appDiagramUrl}",
+            "$diagramId",
+            "/",
+            "$elementId"
+          ]
+        },
+        "svg": {
+          "$concat": [
+            "{appDiagramSvg}",
+            "$diagramId",
+            ".svg"
+          ]
+        }
+      }
+    }
+  ]
+}

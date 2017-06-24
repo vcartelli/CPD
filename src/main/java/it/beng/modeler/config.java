@@ -35,6 +35,7 @@ public final class config {
 
     public static final String ASSETS_PATH = "assets/";
     public static Boolean develop;
+    public static String version;
 
     public static final class ssl {
         public static boolean enabled;
@@ -93,6 +94,12 @@ public final class config {
             public static String expireAfterAccess;
         }
 
+        public static class schema {
+            public static String path;
+
+            public static String uriBase() {return server.href() + schema.path;}
+        }
+
         public static class auth {
             public static String path;
         }
@@ -114,23 +121,23 @@ public final class config {
         }
 
         public static String href() {
-            return new StringBuilder(server.origin()).append(server.baseHref).toString();
+            return server.origin() + server.baseHref;
         }
 
         public static String apiHref() {
-            return new StringBuilder(server.href()).append(server.api.path).toString();
+            return server.href() + api.path;
         }
 
         public static String assetsHref() {
-            return new StringBuilder(server.href()).append(ASSETS_PATH).toString();
+            return server.href() + ASSETS_PATH;
         }
 
         public static String appHref() {
-            return new StringBuilder(server.href()).append(app.path).toString();
+            return server.href() + app.path;
         }
 
         public static String appPath(RoutingContext rc) {
-            return new StringBuilder(server.baseHref).append(app.path).append(locale(rc)).toString();
+            return server.baseHref + app.path + locale(rc);
         }
 
     }
@@ -195,16 +202,17 @@ public final class config {
     public static void set(JsonObject main) {
 
         develop = main.getBoolean("develop", false);
+        version = main.getString("version");
 
         JsonObject node;
 
-        /** ssl **/
+        /* ssl */
         node = main.getJsonObject("ssl");
         ssl.enabled = node.getBoolean("enabled");
         ssl.keyStoreFilename = node.getString("keyStoreFilename");
         ssl.keyStorePassword = node.getString("keyStorePassword");
 
-        /** server **/
+        /* server */
         node = main.getJsonObject("server");
         server.name = node.getString("name", "BEng CPD Server");
         server.scheme = node.getString("scheme", "https");
@@ -213,40 +221,43 @@ public final class config {
         server.baseHref = checkBaseHref(node.getString("baseHref", "/"));
         server.allowedOriginPattern = node.getString("allowedOriginPattern");
         server.simLagTime = node.getLong("simLagTime", -1L);
-        /** server.pub **/
+        /* server.pub */
         node = main.getJsonObject("server").getJsonObject("pub");
         server.pub.scheme = node.getString("scheme", server.scheme);
         server.pub.host = node.getString("host", server.host);
         server.pub.port = node.getInteger("port", server.port);
-        /** server.cacheBuilder **/
+        /* server.cacheBuilder */
         node = main.getJsonObject("server").getJsonObject("cacheBuilder");
         server.cacheBuilder.concurrencyLevel = node.getInteger("concurrencyLevel", 1);
         server.cacheBuilder.initialCapacity = node.getInteger("initialCapacity", 100);
         server.cacheBuilder.maximumSize = node.getInteger("maximumSize", 1000);
         server.cacheBuilder.expireAfterAccess = node.getString("expireAfterAccess", "60m");
-        /** server.auth **/
+        /* server.schema */
+        node = main.getJsonObject("server").getJsonObject("schema");
+        server.schema.path = checkPath(node.getString("path", "schema/"));
+        /* server.auth */
         node = main.getJsonObject("server").getJsonObject("auth");
         server.auth.path = checkPath(node.getString("path", "auth/"));
-        /** server.api **/
+        /* server.api */
         node = main.getJsonObject("server").getJsonObject("api");
         server.api.path = checkPath(node.getString("path", "api/"));
-        /** server.assets **/
+        /* server.assets */
         node = main.getJsonObject("server").getJsonObject("assets");
         server.assets.allowListing = node.getBoolean("allowListing", false);
 
-        /** ROOT app **/
+        /* ROOT app */
         node = main.getJsonObject("app");
         app.path = checkPath(node.getString("path", ""));
         app.locales = node.getJsonArray("locales").getList();
         app.routes = node.getJsonArray("routes").getList();
         app.diagramPath = node.getString("diagramPath", "diagram/");
 
-        /** mongodb **/
+        /* mongodb */
         node = main.getJsonObject("mongodb");
         if ("".equals(node.getString("username"))) node.put("username", (String) null);
         if ("".equals(node.getString("password"))) node.put("password", (String) null);
 
-        /** oauth2 **/
+        /* oauth2 */
         node = main.getJsonObject("oauth2");
         oauth2.origin = node.getString("origin");
         oauth2.configs = new LinkedList<>();
@@ -272,7 +283,7 @@ public final class config {
             oauth2.configs.add(oAuth2Config);
         }
 
-        /** model **/
+        /* model */
         // roles.position
         node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("access");
         role.cpd.access.prefix = node.getString("prefix");

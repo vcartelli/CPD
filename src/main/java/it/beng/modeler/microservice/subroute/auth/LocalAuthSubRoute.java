@@ -3,31 +3,32 @@ package it.beng.modeler.microservice.subroute.auth;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.UserSessionHandler;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
 import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
-import it.beng.modeler.microservice.subroute.SubRoute;
-
-import java.util.Base64;
+import it.beng.modeler.microservice.subroute.VoidSubRoute;
+import it.beng.modeler.model.ModelTools;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
  * @author vince
  */
-public final class LocalAuthSubRoute extends SubRoute {
+public final class LocalAuthSubRoute extends VoidSubRoute {
 
-    public LocalAuthSubRoute(Vertx vertx, Router router, MongoClient mongodb) {
-        super(config.server.auth.path + "local/", vertx, router, mongodb);
+    public LocalAuthSubRoute(Vertx vertx, Router router, MongoDB mongodb,
+                             SchemaTools schemaTools, ModelTools modelTools) {
+        super(config.server.auth.path + "local/", vertx, router, mongodb, schemaTools, modelTools);
     }
 
     @Override
-    protected void init(Object userData) {
+    protected void init() {
 
         /** LOCAL AUTHENTICATION **/
 

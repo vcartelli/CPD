@@ -3,9 +3,11 @@ package it.beng.modeler.microservice.subroute.auth;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
+import it.beng.modeler.model.ModelTools;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -16,8 +18,9 @@ public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
 
     public static final String FLOW_TYPE = "CLIENT";
 
-    public OAuth2ClientSubRoute(Vertx vertx, Router router, MongoClient mongodb, config.OAuth2Config oAuth2Config) {
-        super(vertx, router, mongodb, oAuth2Config, FLOW_TYPE);
+    public OAuth2ClientSubRoute(Vertx vertx, Router router, MongoDB mongodb,
+                                SchemaTools schemaTools, ModelTools modelTools, config.OAuth2Config oAuth2Config) {
+        super(vertx, router, mongodb, schemaTools, modelTools, oAuth2Config, FLOW_TYPE);
     }
 
     public static AccessToken getToken(Vertx vertx) {
@@ -29,7 +32,7 @@ public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
     }
 
     @Override
-    protected void oauth2Init() {
+    protected void init() {
         JsonObject tokenConfig = new JsonObject()
             .put("client_id", oauth2Config.clientId)
             .put("client_secret", oauth2Config.clientSecret);

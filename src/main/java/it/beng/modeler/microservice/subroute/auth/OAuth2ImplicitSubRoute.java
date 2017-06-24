@@ -8,17 +8,17 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.auth.oauth2.impl.AccessTokenImpl;
 import io.vertx.ext.auth.oauth2.impl.OAuth2AuthProviderImpl;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
-
-import java.util.Base64;
+import it.beng.modeler.model.ModelTools;
 
 import static it.beng.modeler.microservice.subroute.AuthSubRoute.loginRedirect;
 
@@ -31,12 +31,23 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
     public static final String FLOW_TYPE = "IMPLICIT";
 
-    public OAuth2ImplicitSubRoute(Vertx vertx, Router router, MongoClient mongodb, config.OAuth2Config oAuth2Config) {
-        super(vertx, router, mongodb, oAuth2Config, FLOW_TYPE);
+    public OAuth2ImplicitSubRoute(Vertx vertx, Router router, MongoDB mongodb,
+                                  SchemaTools schemaTools, ModelTools modelTools, config.OAuth2Config oAuth2Config) {
+        super(vertx, router, mongodb, schemaTools, modelTools, oAuth2Config, FLOW_TYPE);
     }
 
+    /*
+
+        http://localhost:8901/cpd/oauth2/server/callback,
+        https://simpatico.business-engineering.it/cpd/oauth2/server/callback,
+        https://localhost:8901/cpd/oauth2/client/callback,
+        http://localhost:8901/cpd/oauth2/client/callback,
+        https://simpatico.business-engineering.it/cpd/oauth2/client/callback,
+        https://localhost:8901/cpd/oauth2/server/callback
+
+    */
     @Override
-    protected void oauth2Init() {
+    protected void init() {
         router.route(HttpMethod.GET, path + "login/handler").handler(this::redirectUrlHandler);
         router.route(HttpMethod.GET, baseHref + "oauth2/client/callback").handler(rc -> {
             redirect(rc, config.server.appPath(rc) + "/oauth2/client/callback");
@@ -69,7 +80,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
         String encodedHash = rc.request().getParam("hash");
 
-        JsonObject hash = new JsonObject(new String(Base64.getDecoder().decode(encodedHash)));
+        JsonObject hash = new JsonObject(base64.decode(encodedHash));
 
         AuthSubRoute.checkState(rc, hash.getString("state"));
 

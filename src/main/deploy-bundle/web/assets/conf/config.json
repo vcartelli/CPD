@@ -2,29 +2,31 @@
   "server": {
     "baseHref": "${cpd.server.baseHref}",
     "useLocalAuth": ${cpd.app.useLocalAuth},
+    "schema": {
+      "path": "${cpd.server.schema.path}"
+    },
     "auth": {
       "path": "${cpd.server.auth.path}",
       "login": "${cpd.server.auth.login}",
       "logout": "${cpd.server.auth.logout}",
       "getOAuth2Providers": "${cpd.server.auth.getOAuth2Providers}",
-      "getUserProfile": "${cpd.server.auth.getUserProfile}",
+      "getUser": "${cpd.server.auth.getUser}",
       "getUserIsAuthenticated": "${cpd.server.auth.getUserIsAuthenticated}",
       "getUserHasAccess": "${cpd.server.auth.getUserHasAccess}",
       "getUserIsAuthorized": "${cpd.server.auth.getUserIsAuthorized}"
     },
     "api": {
       "path": "${cpd.server.api.path}",
-      "getTypeIds": "${cpd.server.api.getTypeIds}",
-      "getType": "${cpd.server.api.getType}",
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
-      "getDiagram": "${cpd.server.api.getDiagram}",
-      "getDiagramSemantics": "${cpd.server.api.getDiagramSemantics}",
+      "postUserFeedback": "${cpd.server.api.postUserFeedback}",
+      "getDiagramElement": "${cpd.server.api.getDiagramElement}",
+      "putDiagramElement": "${cpd.server.api.putDiagramElement}",
+      "delDiagramElement": "${cpd.server.api.delDiagramElement}",
+      "getModelElement": "${cpd.server.api.getModelElement}",
+      "putModelElement": "${cpd.server.api.putModelElement}",
+      "delModelElement": "${cpd.server.api.delModelElement}",
       "getDiagramElements": "${cpd.server.api.getDiagramElements}",
-      "getSemantic": "${cpd.server.api.getSemantic}",
-      "putSemantic": "${cpd.server.api.putSemantic}",
-      "getElement": "${cpd.server.api.getElement}",
-      "putElement": "${cpd.server.api.putElement}",
-      "delElement": "${cpd.server.api.delElement}",
+      "getDiagramModels": "${cpd.server.api.getDiagramModels}",
       "getStencilSetDefinition": "${cpd.server.api.getStencilSetDefinition}"
     }
   },

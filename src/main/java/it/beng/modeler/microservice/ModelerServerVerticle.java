@@ -4,21 +4,20 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
-import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.JksOptions;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.LocalSessionStore;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.*;
+import it.beng.modeler.model.ModelTools;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,10 +44,10 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // configure CORS origins and allowed methods
         router.route().handler(
             CorsHandler.create(config.server.allowedOriginPattern)
-                       .allowedMethod(HttpMethod.GET)      // select
-                       .allowedMethod(HttpMethod.POST)     // insert
-                       .allowedMethod(HttpMethod.PUT)      // update
-                       .allowedMethod(HttpMethod.DELETE)   // delete
+                       .allowedMethod(HttpMethod.GET)      // select # /<collection>/:id
+                       .allowedMethod(HttpMethod.POST)     // insert # /<collection>
+                       .allowedMethod(HttpMethod.PUT)      // update # /<collection>/:id
+                       .allowedMethod(HttpMethod.DELETE)   // delete # <collection>/:id
                        .allowedHeader("X-PINGARUNER")
                        .allowedHeader("Content-Type"));
         System.out.println("CORS pattern is: " + config.server.allowedOriginPattern);
@@ -63,6 +62,13 @@ public class ModelerServerVerticle extends AbstractVerticle {
                           .setNagHttps(config.ssl.enabled)
                           .setSessionTimeout(TimeUnit.HOURS.toMillis(12))
         );
+
+        // enable body handler for [POST] and [PUT] methods
+        final BodyHandler bodyHandler = BodyHandler.create();
+//        router.route().method(HttpMethod.GET).handler(bodyHandler);
+        router.route().method(HttpMethod.POST).handler(bodyHandler);
+        router.route().method(HttpMethod.PUT).handler(bodyHandler);
+//        router.route().method(HttpMethod.DELETE).handler(bodyHandler);
 
         // set secure headers in each response
         router.route().handler(rc -> {
@@ -158,16 +164,26 @@ public class ModelerServerVerticle extends AbstractVerticle {
         });
 
         // create the mongodb client
-        MongoClient mongodb = MongoClient.createShared(vertx, config().getJsonObject("mongodb"), "cpd");
+        // use \uFF04 instead of $
+        MongoDB mongodb = MongoDB.createShared(vertx, config().getJsonObject("mongodb"),
+            config.DATA_PATH + "db/commands/", false/*config.develop*/);
         vertx.getOrCreateContext().put("mongodb", mongodb);
+        SchemaTools schemaTools = new SchemaTools(vertx, config().getJsonObject("mongodb"), "schema",
+            config.server.schema.uriBase(), config.develop);
+        vertx.getOrCreateContext().put("schemaTools", schemaTools);
+        ModelTools modelTools = new ModelTools(vertx, mongodb, schemaTools, config.develop);
+        vertx.getOrCreateContext().put("modelTools", modelTools);
 
+/*
         router.route(HttpMethod.GET, baseHref + "create-demo-data").handler(this::crateDemoData);
+*/
 
-        // in this order: assets, auth, api, root
-        new AssetsSubRoute(vertx, router, mongodb);
-        new AuthSubRoute(vertx, router, mongodb);
-        new ApiSubRoute(vertx, router, mongodb);
-        new AppSubRoute(vertx, router, mongodb);
+        // in this order: assets, schema, auth, api, root
+        new AssetsSubRoute(vertx, router, mongodb, schemaTools, modelTools);
+        new SchemaSubRoute(vertx, router, mongodb, schemaTools, modelTools);
+        new AuthSubRoute(vertx, router, mongodb, schemaTools, modelTools);
+        new ApiSubRoute(vertx, router, mongodb, schemaTools, modelTools);
+        new AppSubRoute(vertx, router, mongodb, schemaTools, modelTools);
 
         // redirect all non-handled [GET] to app
         router.route(HttpMethod.GET, "/*").handler(rc -> {
@@ -182,7 +198,11 @@ public class ModelerServerVerticle extends AbstractVerticle {
 
         // handle failures
         router.route().failureHandler(rc -> {
-            JsonObject error = rc.get("error") != null ? rc.get("error") : ResponseError.json(rc, null);
+            JsonObject error = rc.get("error");
+            if (error == null) {
+                if (config.develop) System.err.println("!!! no error info found in Routing Context !!!");
+                error = ResponseError.json(rc, null);
+            }
             System.err.println("ERROR (" + error.getInteger("statusCode") + "): " + error.encodePrettily());
             switch (rc.statusCode()) {
                 case 404: {
@@ -225,53 +245,6 @@ public class ModelerServerVerticle extends AbstractVerticle {
                      }
                  }
              );
-    }
-
-    private static class Counter {
-        int i;
-    }
-
-    private void crateDemoData(RoutingContext rc) {
-        // TODO: create and use a db version to update all if needed
-        final String PATH = "web/assets/db/demo-data/";
-        final MongoClient mongodb = vertx.getOrCreateContext().get("mongodb");
-        mongodb.getCollections(ar -> {
-            if (ar.failed()) throw new ResponseError(rc, ar.cause());
-            else {
-                StringBuffer result = new StringBuffer();
-                List<String> existentCollections = ar.result();
-                String[] collections = new String[]{
-                    "types",
-                    "users",
-                    "semantic.elements",
-                    "diagrams",
-                    "diagram.elements"
-                };
-                Counter counter = new Counter();
-                counter.i = collections.length;
-                for (String collection : collections) {
-                    if (existentCollections.contains(collection)) {
-                        result.append("'" + collection + "' collection already exists (skipped)\n");
-                        counter.i--;
-                        if (counter.i == 0) rc.response().end(result.toString());
-                    } else {
-                        vertx.fileSystem().readFile(PATH + collection + ".json", tr -> {
-                            if (tr.succeeded()) {
-                                final JsonArray documents = new JsonArray(tr.result().toString());
-                                for (Object o : documents.getList()) {
-                                    mongodb.save(collection, new JsonObject(Json.encode(o)), mr -> {});
-                                }
-                                result.append("'" + collection + "' collection written\n");
-                            } else {
-                                result.append("error: " + ar.cause().getMessage());
-                            }
-                            counter.i--;
-                            if (counter.i == 0) rc.response().end(result.toString());
-                        });
-                    }
-                }
-            }
-        });
     }
 
 }

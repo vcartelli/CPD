@@ -1,5 +1,6 @@
 {
   "develop": ${cpd.develop},
+  "version": "${version}",
   "ssl": {
     "enabled": ${cpd.ssl.enabled},
     "keyStoreFilename": "${cpd.ssl.keystore.filename}",
@@ -23,6 +24,9 @@
       "initialCapacity": ${cpd.server.cacheBuilder.initialCapacity},
       "maximumSize": ${cpd.server.cacheBuilder.maximumSize},
       "expireAfterAccess": "${cpd.server.cacheBuilder.expireAfterAccess}"
+    },
+    "schema": {
+      "path": "${cpd.server.schema.path}"
     },
     "auth": {
       "path": "${cpd.server.auth.path}"

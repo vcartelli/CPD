@@ -1,27 +1,22 @@
 package it.beng.modeler.microservice.subroute;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.ext.auth.oauth2.AccessToken;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
-import it.beng.modeler.microservice.auth.local.impl.LocalUser;
 import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2AuthCodeSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ClientSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ImplicitSubRoute;
+import it.beng.modeler.model.ModelTools;
 
-import java.util.Base64;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,10 +24,10 @@ import java.util.UUID;
  *
  * @author vince
  */
-public final class AuthSubRoute extends SubRoute {
+public final class AuthSubRoute extends VoidSubRoute {
 
-    public AuthSubRoute(Vertx vertx, Router router, MongoClient mongodb) {
-        super(config.server.auth.path, vertx, router, mongodb);
+    public AuthSubRoute(Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools, ModelTools modelTools) {
+        super(config.server.auth.path, vertx, router, mongodb, schemaTools, modelTools);
     }
 
     public static JsonObject getState(RoutingContext rc) {
@@ -40,7 +35,7 @@ public final class AuthSubRoute extends SubRoute {
     }
 
     public static String getBase64EncodedState(RoutingContext rc) {
-        return Base64.getEncoder().encodeToString(getState(rc).encode().getBytes());
+        return base64.encode(getState(rc).encode());
     }
 
     public static void setState(RoutingContext rc, JsonObject state) {
@@ -55,7 +50,7 @@ public final class AuthSubRoute extends SubRoute {
         else {
             path += "/login";
             if (!"/".equals(state.getString("redirect"))) {
-                path += "/" + Base64.getEncoder().encodeToString(state.encode().getBytes());
+                path += "/" + base64.encode(state.encode());
             }
             redirect(rc, path);
         }
@@ -67,40 +62,30 @@ public final class AuthSubRoute extends SubRoute {
         }
     }
 
-    public static void isAuthorized(RoutingContext rc, String role, Handler<AsyncResult<Boolean>> handler) {
-        User user = rc.user();
-        if (user instanceof LocalUser)
-            user.isAuthorised(role, handler);
-        else if (user instanceof AccessToken)
-            LocalUser.isPermitted(role, user.principal().getJsonObject("roles").getJsonObject("cpd"), handler);
-        else
-            handler.handle(Future.succeededFuture(false));
-    }
-
     @Override
-    protected void init(Object userData) {
+    protected void init() {
 
         router.route(HttpMethod.GET, path + "login/:provider").handler(this::login);
 
         // local/login
-        new LocalAuthSubRoute(vertx, router, mongodb);
+        new LocalAuthSubRoute(vertx, router, mongodb, schemaTools, modelTools);
 
         // oauth2provider/login
         for (config.OAuth2Config oAuth2Config : config.oauth2.configs) {
             for (String flowType : oAuth2Config.flows.keySet()) {
                 switch (flowType) {
                     case OAuth2AuthCodeSubRoute.FLOW_TYPE:
-                        new OAuth2AuthCodeSubRoute(vertx, router, mongodb, oAuth2Config);
+                        new OAuth2AuthCodeSubRoute(vertx, router, mongodb, schemaTools, modelTools, oAuth2Config);
                         break;
                     case OAuth2ClientSubRoute.FLOW_TYPE:
-                        new OAuth2ClientSubRoute(vertx, router, mongodb, oAuth2Config);
+                        new OAuth2ClientSubRoute(vertx, router, mongodb, schemaTools, modelTools, oAuth2Config);
                         break;
                     case "PASSWORD":
                         break;
                     case "AUTH_JWT":
                         break;
                     case OAuth2ImplicitSubRoute.FLOW_TYPE:
-                        new OAuth2ImplicitSubRoute(vertx, router, mongodb, oAuth2Config);
+                        new OAuth2ImplicitSubRoute(vertx, router, mongodb, schemaTools, modelTools, oAuth2Config);
                         break;
                     default: {
                         System.err.println("Provider '" + oAuth2Config.provider + "' will not be available.");
@@ -123,7 +108,7 @@ public final class AuthSubRoute extends SubRoute {
         // getOAuth2Providers
         router.route(HttpMethod.GET, path + "oauth2/providers").handler(this::getOAuth2Providers);
         // getUserProfile
-        router.route(HttpMethod.GET, path + "user/profile").handler(this::getUserProfile);
+        router.route(HttpMethod.GET, path + "user").handler(this::getUser);
         // getUserIsAuthenticated
         router.route(HttpMethod.GET, path + "user/isAuthenticated").handler(this::getUserIsAuthenticated);
         // getUserHasAccess
@@ -143,7 +128,7 @@ public final class AuthSubRoute extends SubRoute {
         JsonObject state = null;
         if (encodedState != null)
             try {
-                state = new JsonObject(new String(Base64.getDecoder().decode(encodedState)));
+                state = new JsonObject(base64.decode(encodedState));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -155,29 +140,46 @@ public final class AuthSubRoute extends SubRoute {
     }
 
     private void logout(RoutingContext rc) {
+        // TODO: save user state
         rc.clearUser();
+        rc.session().destroy();
         redirect(rc, config.server.appPath(rc) + "/login");
     }
 
     private void getOAuth2Providers(RoutingContext rc) {
-        List<JsonObject> providers = new LinkedList<>();
+        JsonArray providers = new JsonArray();
         for (config.OAuth2Config config : config.oauth2.configs) {
             providers.add(new JsonObject()
                 .put("provider", config.provider)
                 .put("logoUrl", config.logoUrl));
         }
-        JSON_RESPONSE(rc).end(toClient(providers));
+        JSON_ARRAY_RESPONSE_END(rc, providers);
     }
 
     private void getUserIsAuthenticated(RoutingContext rc) {
-        JSON_RESPONSE(rc).end(Boolean.toString(rc.user() != null));
+        JSON_HEADER_RESPONSE(rc).end(Boolean.toString(rc.user() != null));
     }
 
-    private void getUserProfile(RoutingContext rc) {
-        if (rc.user() == null) NULL_RESPONSE(rc);
+    private void getUser(RoutingContext rc) {
+        if (rc.user() == null) JSON_NULL_RESPONSE(rc);
         else {
-            JsonObject profile = rc.user().principal().getJsonObject("profile");
-            JSON_RESPONSE(rc).end(toClient(profile));
+            final JsonObject user = new JsonObject().put("profile", rc.user().principal().getJsonObject("profile"));
+            isAuthorized(rc, config.role.cpd.access.admin, isAdmin -> {
+                if (isAdmin.succeeded()) {
+                    if (isAdmin.result()) {
+                        JSON_OBJECT_RESPONSE_END(rc, user.put("isAdmin", true));
+                    } else isAuthorized(rc, config.role.cpd.access.civilServant, isCivilServant -> {
+                        if (isCivilServant.succeeded()) {
+                            if (isCivilServant.result()) {
+                                JSON_OBJECT_RESPONSE_END(rc, user.put("isCivilServant", true));
+                            } else {
+                                JSON_OBJECT_RESPONSE_END(rc, user.put("isCitizen", true));
+                            }
+                            JSON_OBJECT_RESPONSE_END(rc, user);
+                        } else throw new ResponseError(rc, isCivilServant.cause());
+                    });
+                } else throw new ResponseError(rc, isAdmin.cause());
+            });
         }
     }
 
@@ -186,7 +188,7 @@ public final class AuthSubRoute extends SubRoute {
         final String accessRole = rc.request().getParam("accessRole");
         isAuthorized(rc, accessRole, ar -> {
             if (ar.succeeded()) {
-                JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
+                JSON_HEADER_RESPONSE(rc).end(ar.result().toString());
             } else {
                 throw new ResponseError(rc, ar.cause());
             }
@@ -196,14 +198,14 @@ public final class AuthSubRoute extends SubRoute {
     private void getUserIsAuthorized(RoutingContext rc) {
         User user = rc.user();
         if (user == null) {
-            JSON_RESPONSE(rc).end("false");
+            JSON_HEADER_RESPONSE(rc).end(Boolean.FALSE.toString());
         } else {
             String contextName = rc.request().getParam("contextName");
             String contextId = rc.request().getParam("contextId");
             String contextRole = rc.request().getParam("contextRole");
             isAuthorized(rc, contextName + "|" + contextId + "|" + contextRole, ar -> {
                 if (ar.succeeded()) {
-                    JSON_RESPONSE(rc).end(Boolean.toString(ar.result()));
+                    JSON_HEADER_RESPONSE(rc).end(ar.result().toString());
                 } else {
                     throw new ResponseError(rc, ar.cause());
                 }

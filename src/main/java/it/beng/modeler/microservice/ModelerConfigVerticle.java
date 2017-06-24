@@ -4,6 +4,8 @@ import io.vertx.core.DeploymentOptions;
 import it.beng.microservice.common.MicroServiceVerticle;
 import it.beng.modeler.config;
 
+import java.util.logging.Logger;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *

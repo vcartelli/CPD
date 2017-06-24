@@ -6,7 +6,6 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
@@ -14,10 +13,10 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import it.beng.modeler.model.ModelTools;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -28,12 +27,13 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
 
     public static final String FLOW_TYPE = "AUTH_CODE";
 
-    public OAuth2AuthCodeSubRoute(Vertx vertx, Router router, MongoClient mongodb, config.OAuth2Config oauth2Config) {
-        super(vertx, router, mongodb, oauth2Config, FLOW_TYPE);
+    public OAuth2AuthCodeSubRoute(Vertx vertx, Router router, MongoDB mongodb,
+                                  SchemaTools schemaTools, ModelTools modelTools, config.OAuth2Config oauth2Config) {
+        super(vertx, router, mongodb, schemaTools, modelTools, oauth2Config, FLOW_TYPE);
     }
 
     @Override
-    protected void oauth2Init() {
+    protected void init() {
 
         // create OAuth2 handler
         OAuth2AuthHandler oAuth2Handler = OAuth2AuthHandler.create(oauth2Provider, config.oauth2.origin);
@@ -47,10 +47,9 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
 
     private static String getUserId(String[] encodedJsons) {
         String userId = null;
-        Base64.Decoder decoder = Base64.getDecoder();
         for (String s : encodedJsons) {
             try {
-                String decoded = new String(decoder.decode(s), StandardCharsets.UTF_8);
+                String decoded = base64.decode(s);
                 JsonObject o = new JsonObject(decoded);
                 userId = o.getString("sub");
                 if (userId != null) {
@@ -75,6 +74,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
             final String userId = getUserId(user.principal().getString("id_token").split("\\."));
 
             if (userId == null) throw new IllegalStateException("user-id not found in user principal!");
+            user.principal().put("id", "userId");
 
             final JsonObject profile = new JsonObject().put("provider", oauth2Config.provider);
             user.principal().put("profile", profile);
