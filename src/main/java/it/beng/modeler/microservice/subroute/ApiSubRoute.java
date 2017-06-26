@@ -167,8 +167,7 @@ public final class ApiSubRoute extends VoidSubRoute {
         );
         mongodb.runCommand("aggregate", command, ModelTools.JSON_ENTITY_TO_MONGO_DB, ar -> {
             if (ar.succeeded()) {
-                if (config.develop)
-                    JSON_ARRAY_RESPONSE_END(rc, ar.result().getJsonArray("result"));
+                JSON_ARRAY_RESPONSE_END(rc, ar.result().getJsonArray("result"));
             } else {
                 throw new ResponseError(rc, ar.cause());
             }

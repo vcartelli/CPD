@@ -101,7 +101,7 @@
             "input": "$phases",
             "as": "phase",
             "in": {
-              "order": "$$phase.order",
+              "eServiceId": "$$phase.eServiceId",
               "name:": "$$phase.name",
               "documentation": "$$phase.documentation"
             }
