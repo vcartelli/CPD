@@ -1,799 +1,798 @@
-[
-  /* 1 */
-  {
-    "_id": "Type",
-    "title": "Type",
-    "description": "Type Definitions",
-    "definitions": {
-      "null": {
-        "_id": "#Null",
-        "type": "null"
-      },
-      "boolean": {
-        "_id": "#Boolean",
-        "type": "boolean"
-      },
-      "integer": {
-        "_id": "#Integer",
-        "type": "integer"
-      },
-      "number": {
-        "_id": "#Number",
-        "type": "number"
-      },
-      "string": {
-        "_id": "#String",
-        "type": "string"
-      },
-      "object": {
-        "_id": "#Object",
-        "type": "object"
-      },
-      "array": {
-        "_id": "#Array",
-        "type": "array"
-      },
-      "uuid": {
-        "_id": "#Uuid",
-        "type": "string",
-        "format": "uuid"
-      },
-      "url": {
-        "_id": "#Url",
-        "type": "string",
-        "format": "uri",
-        "pattern": "^([a-zA-Z][a-zA-Zd+\\-.]*):\\/\\/"
-      },
-      "text": {
-        "_id": "#Text",
-        "type": "string"
-      },
-      "non-negative-number": {
-        "_id": "#NonNegativeNumber",
-        "type": "number",
-        "minimum": 0.0
-      }
-    }
-  },
-  /* 2 */
-  {
-    "_id": "Classifiable",
-    "title": "Classifiable Object",
-    "description": "An Object with an associated Class",
-    "type": "object",
-    "additionalProperties": true,
-    "properties": {
-      "class": {
-        "propertyOrder": 1.0,
-        "title": "Class",
-        "description": "Class of this Object",
-        "type": "string",
-        "readOnly": true
-      }
-    },
-    "required": [
-      "class"
-    ]
-  },
-  /* 3 */
-  {
-    "_id": "Element",
-    "title": "Element",
-    "description": "A Classifiable Object with an associated ID",
-    "type": "object",
-    "＄overrides": [
-      "Classifiable"
-    ],
-    "additionalProperties": true,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "title": "ID",
-        "description": "ID of this Element",
-        "＄ref": "Type#Uuid",
-        "readOnly": true
-      },
-      "class": {
-        "propertyOrder": 2.0,
-        "description": "Class of this Element"
-      }
-    },
-    "required": [
-      "id"
-    ]
-  },
-  /* 4 */
-  {
-    "_id": "graphics.Point",
-    "title": "Point",
-    "description": "Point Object",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "x": {
-        "propertyOrder": 1.0,
-        "title": "X",
-        "description": "X coordinate of this Point",
-        "type": "number"
-      },
-      "y": {
-        "propertyOrder": 2.0,
-        "title": "Y",
-        "description": "Y coordinate of this Point",
-        "type": "number"
-      }
-    },
-    "required": [
-      "x",
-      "y"
-    ]
-  },
-  /* 5 */
-  {
-    "_id": "graphics.Dimensions",
-    "title": "Dimensions",
-    "description": "Dimensions Object",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "width": {
-        "propertyOrder": 1.0,
-        "title": "Width",
-        "description": "Width of this Dimensions",
-        "＄ref": "Type#NonNegativeNumber"
-      },
-      "height": {
-        "propertyOrder": 2.0,
-        "title": "Height",
-        "description": "Height of this Dimensions",
-        "＄ref": "Type#NonNegativeNumber"
-      }
-    },
-    "required": [
-      "width",
-      "height"
-    ]
-  },
-  /* 6 */
-  {
-    "_id": "graphics.Bounds",
-    "title": "Bounds",
-    "description": "Bounds Object",
-    "type": "object",
-    "＄overrides": [
-      "graphics.Point",
-      "graphics.Dimensions"
-    ],
-    "additionalProperties": false,
-    "properties": {
-      "x": {
-        "propertyOrder": 1.0,
-        "description": "x coordinate of the top-left corner of this Bounds"
-      },
-      "y": {
-        "propertyOrder": 2.0,
-        "description": "y coordinate of the top-left corner of this Bounds"
-      },
-      "width": {
-        "propertyOrder": 3.0,
-        "description": "width of this Bounds"
-      },
-      "height": {
-        "propertyOrder": 4.0,
-        "description": "height of this Bounds"
-      }
-    }
-  },
-  /* 7 */
-  {
-    "_id": "graphics.Waypoint",
-    "title": "Waypoint",
-    "description": "Waypoint Array",
-    "type": "array",
-    "additionalProperties": false,
-    "items": {
-      "＄ref": "graphics.Point"
-    }
-  },
-  /* 8 */
-  {
-    "_id": "graphics.Label",
-    "title": "Label",
-    "description": "Graphics Label",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "hAlign": {
-        "propertyOrder": 1.0,
-        "title": "H Align",
-        "description": "horizontal alignment of text in this Label",
-        "type": "string",
-        "enum": [
-          "start",
-          "end",
-          "left",
-          "right",
-          "center",
-          "justify"
-        ]
-      },
-      "vAlign": {
-        "propertyOrder": 2.0,
-        "title": "V Align",
-        "description": "vertical alignment of text in this Label",
-        "type": "string",
-        "enum": [
-          "baseline",
-          "bottom",
-          "length",
-          "middle",
-          "percentage",
-          "sub",
-          "super",
-          "text-bottom",
-          "text-top",
-          "top"
-        ]
-      },
-      "bounds": {
-        "propertyOrder": 3.0,
-        "title": "Bounds",
-        "description": "Bounds of this Label",
-        "＄ref": "graphics.Bounds"
-      }
-    },
-    "required": [
-      "hAlign",
-      "vAlign",
-      "bounds"
-    ]
-  },
-  /* 9 */
-  {
-    "_id": "diagram.Summary",
-    "title": "Diagram Summary",
-    "description": "Diagram Summary",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "diagramId": {
-        "propertyOrder": 1.0,
-        "title": "Diagram Id",
-        "description": "ID of the Diagram",
-        "＄ref": "Type#Uuid",
-        "readOnly": true
-      },
-      "elementId": {
-        "propertyOrder": 2.0,
-        "title": "Diagram Element Id",
-        "description": "ID of the Diagram Element",
-        "＄ref": "Type#Uuid",
-        "readOnly": true
-      },
-      "eServiceId": {
-        "propertyOrder": 3.0,
-        "title": "Diagram Element Id",
-        "description": "ID of the E-Service",
-        "type": "string",
-        "readOnly": true
-      },
-      "notation": {
-        "propertyOrder": 4.0,
-        "title": "Notation",
-        "description": "Model Notation of the Diagram",
-        "＄ref": "model.Notation",
-        "readOnly": true
-      },
-      "name": {
-        "propertyOrder": 5.0,
-        "title": "Diagram Name",
-        "description": "Name of the Diagram",
-        "type": "string",
-        "readOnly": true
-      },
-      "documentation": {
-        "propertyOrder": 6.0,
-        "title": "Documentation",
-        "description": "Documentation of the Diagram",
-        "＄ref": "Type#Text",
-        "readOnly": true
-      },
-      "path": {
-        "propertyOrder": 7.0,
-        "title": "Path",
-        "description": "Path to the Diagram Element",
-        "type": "string",
-        "pattern": "(//.*)+",
-        "readOnly": true
-      },
-      "phases": {
-        "propertyOrder": 8.0,
-        "title": "Phases",
-        "description": "Phases of the Procedure",
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "documentation": {
-              "＄ref": "Type#Text"
-            }
-          }
-        },
-        "readOnly": true
-      },
-      "url": {
-        "propertyOrder": 9.0,
-        "title": "Url",
-        "description": "link to the Diagram (with eventually the focused Diagram Element) in the web application",
-        "＄ref": "Type#Url",
-        "readOnly": true
-      },
-      "svg": {
-        "propertyOrder": 10.0,
-        "title": "Svg",
-        "description": "link to the svg image of the Diagram",
-        "＄ref": "Type#Url",
-        "readOnly": true
-      }
-    },
-    "required": [
-      "id",
-      "notation",
-      "name",
-      "url",
-      "svg"
-    ]
-  },
-  /* 10 */
-  {
-    "_id": "diagram.Element",
-    "title": "Diagram Element",
-    "description": "A Graphical Representation of a Model Element",
-    "type": "object",
-    "＄overrides": [
-      "Element"
-    ],
-    "additionalProperties": true,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Diagram Element"
-      },
-      "modelId": {
-        "propertyOrder": 2.0,
-        "title": "Model Id",
-        "description": "ID of the associated Model Element",
-        "＄ref": "Type#Uuid"
-      },
-      "class": {
-        "propertyOrder": 3.0,
-        "description": "Class of this Diagram Element"
-      }
-    },
-    "required": [
-      "modelId"
-    ]
-  },
-  /* 11 */
-  {
-    "_id": "diagram.Root",
-    "title": "Diagram Root",
-    "description": "A Diagram Root Element",
-    "type": "object",
-    "＄overrides": [
-      "diagram.Element"
-    ],
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Diagram Root"
-      },
-      "modelId": {
-        "propertyOrder": 2.0
-      },
-      "dimensions": {
-        "propertyOrder": 3.0,
-        "title": "Dimensions",
-        "description": "Dimensions of this Diagram Root",
-        "＄ref": "graphics.Dimensions"
-      },
-      "class": {
-        "propertyOrder": 4.0,
-        "const": "diagram.Root"
-      }
-    },
-    "required": [
-      "dimensions"
-    ]
-  },
-  /* 12 */
-  {
-    "_id": "diagram.Child",
-    "title": "Diagram Child",
-    "description": "A Diagram Child Element",
-    "type": "object",
-    "＄overrides": [
-      "diagram.Element"
-    ],
-    "additionalProperties": true,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Diagram Child"
-      },
-      "modelId": {
-        "propertyOrder": 2.0
-      },
-      "rootId": {
-        "propertyOrder": 3.0,
-        "title": "Diagram Root Id",
-        "description": "ID of the Diagram Root owning this Diagram Child",
-        "＄ref": "Type#Uuid"
-      },
-      "label": {
-        "propertyOrder": 4.0,
-        "title": "Label",
-        "description": "Label of this Diagram Child",
-        "＄ref": "graphics.Label"
-      },
-      "class": {
-        "propertyOrder": 5.0
-      }
-    },
-    "required": [
-      "rootId"
-    ]
-  },
-  /* 13 */
-  {
-    "_id": "diagram.Shape",
-    "title": "Shape",
-    "description": "Shape Diagram Element",
-    "type": "object",
-    "＄overrides": [
-      "diagram.Child"
-    ],
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Shape"
-      },
-      "modelId": {
-        "propertyOrder": 2.0
-      },
-      "rootId": {
-        "propertyOrder": 3.0
-      },
-      "label": {
-        "propertyOrder": 4.0
-      },
-      "bounds": {
-        "propertyOrder": 5.0,
-        "title": "Bounds",
-        "description": "Bounds of this Shape",
-        "＄ref": "graphics.Bounds",
-        "readOnly": true
-      },
-      "class": {
-        "propertyOrder": 6.0,
-        "const": "diagram.Shape"
-      }
-    },
-    "required": [
-      "bounds"
-    ]
-  },
-  /* 14 */
-  {
-    "_id": "diagram.Edge",
-    "title": "Edge",
-    "description": "Edge Diagram Element",
-    "type": "object",
-    "＄overrides": [
-      "diagram.Child"
-    ],
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Edge"
-      },
-      "modelId": {
-        "propertyOrder": 2.0
-      },
-      "rootId": {
-        "propertyOrder": 3.0
-      },
-      "label": {
-        "propertyOrder": 4.0
-      },
-      "waypoint": {
-        "propertyOrder": 5.0,
-        "title": "Waypoint",
-        "description": "Waypoint of this Edge",
-        "＄ref": "graphics.Waypoint"
-      },
-      "class": {
-        "propertyOrder": 6.0,
-        "const": "diagram.Edge"
-      }
-    },
-    "required": [
-      "waypoint"
-    ]
-  },
-  /* 15 */
-  {
-    "_id": "model.Notation",
-    "title": "Model Notation",
-    "description": "Notation of the Model",
-    "type": "string",
-    "enum": [
-      "model.notation.BPMN",
-      "model.notation.FPMN"
-    ]
-  },
-  /* 16 */
-  {
-    "_id": "model.Element",
-    "title": "Model Element",
-    "description": "A Model Element",
-    "type": "object",
-    "＄overrides": [
-      "Element"
-    ],
-    "additionalProperties": true,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Model Element"
-      },
-      "notation": {
-        "propertyOrder": 2.0,
-        "title": "Notation",
-        "description": "Notation of this Model Element",
-        "＄ref": "model.Notation",
-        "readOnly": true
-      },
-      "name": {
-        "propertyOrder": 3.0,
-        "title": "Name",
-        "description": "Name of this Model Element",
-        "type": "string"
-      },
-      "documentation": {
-        "propertyOrder": 4.0,
-        "title": "Documentation",
-        "description": "Documentation of this Model Element",
-        "＄ref": "Type#Text"
-      },
-      "class": {
-        "propertyOrder": 5.0,
-        "description": "Class of this Model Element"
-      }
-    },
-    "required": [
-      "notation",
-      "name"
-    ]
-  },
-  /* 17 */
-  {
-    "_id": "model.Root",
-    "title": "Model Root",
-    "description": "A Model Root Element",
-    "type": "object",
-    "＄overrides": [
-      "model.Element"
-    ],
-    "additionalProperties": true,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Model Root"
-      },
-      "notation": {
-        "propertyOrder": 2.0,
-        "description": "Notation of this Model Root"
-      },
-      "name": {
-        "propertyOrder": 3.0,
-        "description": "Name of this Model Root"
-      },
-      "documentation": {
-        "propertyOrder": 4.0,
-        "description": "Documentation of this Model Root"
-      },
-      "class": {
-        "propertyOrder": 5.0,
-        "description": "Class of this Model Root"
-      }
-    }
-  },
-  /* 18 */
-  {
-    "_id": "model.Child",
-    "title": "Model Child",
-    "description": "A Model Child Element",
-    "type": "object",
-    "＄overrides": [
-      "model.Element"
-    ],
-    "additionalProperties": true,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Model Child"
-      },
-      "notation": {
-        "propertyOrder": 2.0,
-        "description": "Notation of this Model Child"
-      },
-      "parentId": {
-        "propertyOrder": 3.0,
-        "title": "Parent Id",
-        "description": "ID of the Model Element that owns this Model Child",
-        "＄ref": "Type#Uuid",
-        "readOnly": true,
-        "private": true
-      },
-      "name": {
-        "propertyOrder": 4.0,
-        "description": "Name of this Model Child"
-      },
-      "documentation": {
-        "propertyOrder": 5.0,
-        "description": "Documentation of this Model Child"
-      },
-      "class": {
-        "propertyOrder": 6.0,
-        "description": "Class of this Model Child"
-      }
-    },
-    "required": [
-      "parentId"
-    ]
-  },
-  /* 19 */
-  {
-    "_id" : "model.FPMN.Element",
-    "title" : "FPMN Element",
-    "description" : "A FPMN Element",
-    "type" : "object",
-    "＄overrides" : [
-      "model.Element"
-    ],
-    "additionalProperties" : true,
-    "properties" : {
-      "id" : {
-        "propertyOrder" : 1.0,
-        "description" : "ID of this FPMN Element"
-      },
-      "notation" : {
-        "propertyOrder" : 2.0,
-        "const" : "model.notation.FPMN"
-      },
-      "name" : {
-        "propertyOrder" : 3.0,
-        "description" : "Name of this FPMN Element"
-      },
-      "documentation" : {
-        "propertyOrder" : 4.0,
-        "description" : "Documentation of this FPMN Element"
-      },
-      "class" : {
-        "propertyOrder" : 5.0,
-        "description" : "Class of this FPMN Element"
-      }
-    }
-  },
-  /* 20 */
-  {
-    "_id": "model.FPMN.Procedure",
-    "title": "Procedure",
-    "description": "A Procedure Element",
-    "type": "object",
-    "＄overrides": [
-      "model.FPMN.Element",
-      "model.Root"
-    ],
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Procedure"
-      },
-      "notation": {
-        "propertyOrder": 2.0
-      },
-      "name": {
-        "propertyOrder": 3.0,
-        "description": "Name of this Procedure"
-      },
-      "documentation": {
-        "propertyOrder": 4.0,
-        "description": "Documentation of this Procedure"
-      },
-      "mission": {
-        "propertyOrder": 5.0,
-        "title": "Mission",
-        "description": "Long-term objective explaining the existence of this Procedure",
-        "＄ref": "Type#Text"
-      },
-      "regulatoryRefs": {
-        "propertyOrder": 6.0,
-        "title": "Regulatory references",
-        "description": "Regulatory references to this Procedure",
-        "＄ref": "Type#Text"
-      },
-      "class": {
-        "propertyOrder": 7.0,
-        "const": "model.FPMN.Procedure"
-      }
-    }
-  },
-  /* 21 */
-  {
-    "_id": "model.FPMN.Phase",
-    "title": "Phase",
-    "description": "A Procedure's Phase Element",
-    "type": "object",
-    "＄overrides": [
-      "model.FPMN.Element",
-      "model.Child"
-    ],
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "propertyOrder": 1.0,
-        "description": "ID of this Phase"
-      },
-      "notation": {
-        "propertyOrder": 2.0
-      },
-      "parentId": {
-        "propertyOrder": 3.0,
-        "documentation": "ID of the Procedure owning this Phase"
-      },
-      "prevPhaseId": {
-        "propertyOrder": 4.0,
-        "title": "Previous Phase Id",
-        "description": "ID of the previous Phase",
-        "＄ref": "Type#Uuid",
-        "readOnly": true,
-        "private": true
-      },
-      "nextPhaseId": {
-        "propertyOrder": 5.0,
-        "title": "Next Phase Id",
-        "description": "ID of the next Phase",
-        "＄ref": "Type#Uuid",
-        "readOnly": true,
-        "private": true
-      },
-      "eServiceId": {
-        "propertyOrder": 6.0,
-        "title": "E-Service ID",
-        "description": "ID of the E-Service associated to this Phase",
-        "type": "string"
-      },
-      "name": {
-        "propertyOrder": 7.0,
-        "description": "Name of this Phase"
-      },
-      "documentation": {
-        "propertyOrder": 8.0,
-        "description": "Documentation of this Phase"
-      },
-      "class": {
-        "propertyOrder": 9.0,
-        "const": "model.FPMN.Phase"
-      }
-    }
-  }
-]
+[{
+	"_id": "Type",
+	"title": "Type",
+	"description": "Type Definitions",
+	"definitions": {
+		"null": {
+			"_id": "#Null",
+			"type": "null"
+		},
+		"boolean": {
+			"_id": "#Boolean",
+			"type": "boolean"
+		},
+		"integer": {
+			"_id": "#Integer",
+			"type": "integer"
+		},
+		"number": {
+			"_id": "#Number",
+			"type": "number"
+		},
+		"string": {
+			"_id": "#String",
+			"type": "string"
+		},
+		"object": {
+			"_id": "#Object",
+			"type": "object"
+		},
+		"array": {
+			"_id": "#Array",
+			"type": "array"
+		},
+		"uuid": {
+			"_id": "#Uuid",
+			"type": "string",
+			"format": "uuid"
+		},
+		"url": {
+			"_id": "#Url",
+			"type": "string",
+			"format": "uri",
+			"pattern": "^([a-zA-Z][a-zA-Zd+\\-.]*):\\/\\/"
+		},
+		"text": {
+			"_id": "#Text",
+			"type": "string"
+		},
+		"non-negative-number": {
+			"_id": "#NonNegativeNumber",
+			"type": "number",
+			"minimum": 0.0
+		},
+		"date-time": {
+			"_id": "#DateTime",
+			"title": "DateTime",
+			"type": "object",
+			"properties": {
+				"＄date": {
+					"type": "string",
+					"description": "ISO-8601 date-time representation"
+				}
+			},
+			"required": [
+				"＄date"
+			]
+		}
+	}
+},
+{
+	"_id": "Classifiable",
+	"title": "Classifiable Object",
+	"description": "An Object with an associated Class",
+	"type": "object",
+	"additionalProperties": true,
+	"properties": {
+		"class": {
+			"propertyOrder": 1.0,
+			"title": "Class",
+			"description": "Class of this Object",
+			"type": "string",
+			"readOnly": true
+		}
+	},
+	"required": [
+		"class"
+	]
+},
+{
+	"_id": "Element",
+	"title": "Element",
+	"description": "A Classifiable Object with an associated ID",
+	"type": "object",
+	"＄overrides": [
+		"Classifiable"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"title": "ID",
+			"description": "ID of this Element",
+			"＄ref": "Type#Uuid",
+			"readOnly": true
+		},
+		"class": {
+			"propertyOrder": 2.0,
+			"description": "Class of this Element"
+		}
+	},
+	"required": [
+		"id"
+	]
+},
+{
+	"_id": "graphics.Point",
+	"title": "Point",
+	"description": "Point Object",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"x": {
+			"propertyOrder": 1.0,
+			"title": "X",
+			"description": "X coordinate of this Point",
+			"type": "number"
+		},
+		"y": {
+			"propertyOrder": 2.0,
+			"title": "Y",
+			"description": "Y coordinate of this Point",
+			"type": "number"
+		}
+	},
+	"required": [
+		"x",
+		"y"
+	]
+},
+{
+	"_id": "graphics.Dimensions",
+	"title": "Dimensions",
+	"description": "Dimensions Object",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"width": {
+			"propertyOrder": 1.0,
+			"title": "Width",
+			"description": "Width of this Dimensions",
+			"＄ref": "Type#NonNegativeNumber"
+		},
+		"height": {
+			"propertyOrder": 2.0,
+			"title": "Height",
+			"description": "Height of this Dimensions",
+			"＄ref": "Type#NonNegativeNumber"
+		}
+	},
+	"required": [
+		"width",
+		"height"
+	]
+},
+{
+	"_id": "graphics.Bounds",
+	"title": "Bounds",
+	"description": "Bounds Object",
+	"type": "object",
+	"＄overrides": [
+		"graphics.Point",
+		"graphics.Dimensions"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"x": {
+			"propertyOrder": 1.0,
+			"description": "x coordinate of the top-left corner of this Bounds"
+		},
+		"y": {
+			"propertyOrder": 2.0,
+			"description": "y coordinate of the top-left corner of this Bounds"
+		},
+		"width": {
+			"propertyOrder": 3.0,
+			"description": "width of this Bounds"
+		},
+		"height": {
+			"propertyOrder": 4.0,
+			"description": "height of this Bounds"
+		}
+	}
+},
+{
+	"_id": "graphics.Waypoint",
+	"title": "Waypoint",
+	"description": "Waypoint Array",
+	"type": "array",
+	"additionalProperties": false,
+	"items": {
+		"＄ref": "graphics.Point"
+	}
+},
+{
+	"_id": "graphics.Label",
+	"title": "Label",
+	"description": "Graphics Label",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"hAlign": {
+			"propertyOrder": 1.0,
+			"title": "H Align",
+			"description": "horizontal alignment of text in this Label",
+			"type": "string",
+			"enum": [
+				"start",
+				"end",
+				"left",
+				"right",
+				"center",
+				"justify"
+			]
+		},
+		"vAlign": {
+			"propertyOrder": 2.0,
+			"title": "V Align",
+			"description": "vertical alignment of text in this Label",
+			"type": "string",
+			"enum": [
+				"baseline",
+				"bottom",
+				"length",
+				"middle",
+				"percentage",
+				"sub",
+				"super",
+				"text-bottom",
+				"text-top",
+				"top"
+			]
+		},
+		"bounds": {
+			"propertyOrder": 3.0,
+			"title": "Bounds",
+			"description": "Bounds of this Label",
+			"＄ref": "graphics.Bounds"
+		}
+	},
+	"required": [
+		"hAlign",
+		"vAlign",
+		"bounds"
+	]
+},
+{
+	"_id": "diagram.Summary",
+	"title": "Diagram Summary",
+	"description": "Diagram Summary",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"diagramId": {
+			"propertyOrder": 1.0,
+			"title": "Diagram Id",
+			"description": "ID of the Diagram",
+			"＄ref": "Type#Uuid",
+			"readOnly": true
+		},
+		"elementId": {
+			"propertyOrder": 2.0,
+			"title": "Diagram Element Id",
+			"description": "ID of the Diagram Element",
+			"＄ref": "Type#Uuid",
+			"readOnly": true
+		},
+		"eServiceId": {
+			"propertyOrder": 3.0,
+			"title": "Diagram Element Id",
+			"description": "ID of the E-Service",
+			"type": "string",
+			"readOnly": true
+		},
+		"notation": {
+			"propertyOrder": 4.0,
+			"title": "Notation",
+			"description": "Model Notation of the Diagram",
+			"＄ref": "model.Notation",
+			"readOnly": true
+		},
+		"name": {
+			"propertyOrder": 5.0,
+			"title": "Diagram Name",
+			"description": "Name of the Diagram",
+			"type": "string",
+			"readOnly": true
+		},
+		"documentation": {
+			"propertyOrder": 6.0,
+			"title": "Documentation",
+			"description": "Documentation of the Diagram",
+			"＄ref": "Type#Text",
+			"readOnly": true
+		},
+		"path": {
+			"propertyOrder": 7.0,
+			"title": "Path",
+			"description": "Path to the Diagram Element",
+			"type": "string",
+			"pattern": "(//.*)+",
+			"readOnly": true
+		},
+		"phases": {
+			"propertyOrder": 8.0,
+			"title": "Phases",
+			"description": "Phases of the Procedure",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"eServiceId": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"documentation": {
+						"＄ref": "Type#Text"
+					}
+				},
+				"required": [
+					"name"
+				]
+			},
+			"readOnly": true
+		},
+		"url": {
+			"propertyOrder": 9.0,
+			"title": "Url",
+			"description": "link to the Diagram (with eventually the focused Diagram Element) in the web application",
+			"＄ref": "Type#Url",
+			"readOnly": true
+		},
+		"svg": {
+			"propertyOrder": 10.0,
+			"title": "Svg",
+			"description": "link to the svg image of the Diagram",
+			"＄ref": "Type#Url",
+			"readOnly": true
+		}
+	},
+	"required": [
+		"diagramId",
+		"notation",
+		"name",
+		"url",
+		"svg"
+	]
+},
+{
+	"_id": "diagram.Element",
+	"title": "Diagram Element",
+	"description": "A Graphical Representation of a Model Element",
+	"type": "object",
+	"＄overrides": [
+		"Element"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Diagram Element"
+		},
+		"modelId": {
+			"propertyOrder": 2.0,
+			"title": "Model Id",
+			"description": "ID of the associated Model Element",
+			"＄ref": "Type#Uuid"
+		},
+		"class": {
+			"propertyOrder": 3.0,
+			"description": "Class of this Diagram Element"
+		}
+	},
+	"required": [
+		"modelId"
+	]
+},
+{
+	"_id": "diagram.Root",
+	"title": "Diagram Root",
+	"description": "A Diagram Root Element",
+	"type": "object",
+	"＄overrides": [
+		"diagram.Element"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Diagram Root"
+		},
+		"modelId": {
+			"propertyOrder": 2.0
+		},
+		"dimensions": {
+			"propertyOrder": 3.0,
+			"title": "Dimensions",
+			"description": "Dimensions of this Diagram Root",
+			"＄ref": "graphics.Dimensions"
+		},
+		"class": {
+			"propertyOrder": 4.0,
+			"const": "diagram.Root"
+		}
+	},
+	"required": [
+		"dimensions"
+	]
+},
+{
+	"_id": "diagram.Child",
+	"title": "Diagram Child",
+	"description": "A Diagram Child Element",
+	"type": "object",
+	"＄overrides": [
+		"diagram.Element"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Diagram Child"
+		},
+		"modelId": {
+			"propertyOrder": 2.0
+		},
+		"rootId": {
+			"propertyOrder": 3.0,
+			"title": "Diagram Root Id",
+			"description": "ID of the Diagram Root owning this Diagram Child",
+			"＄ref": "Type#Uuid"
+		},
+		"label": {
+			"propertyOrder": 4.0,
+			"title": "Label",
+			"description": "Label of this Diagram Child",
+			"＄ref": "graphics.Label"
+		},
+		"class": {
+			"propertyOrder": 5.0
+		}
+	},
+	"required": [
+		"rootId"
+	]
+},
+{
+	"_id": "diagram.Shape",
+	"title": "Shape",
+	"description": "Shape Diagram Element",
+	"type": "object",
+	"＄overrides": [
+		"diagram.Child"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Shape"
+		},
+		"modelId": {
+			"propertyOrder": 2.0
+		},
+		"rootId": {
+			"propertyOrder": 3.0
+		},
+		"label": {
+			"propertyOrder": 4.0
+		},
+		"bounds": {
+			"propertyOrder": 5.0,
+			"title": "Bounds",
+			"description": "Bounds of this Shape",
+			"＄ref": "graphics.Bounds",
+			"readOnly": true
+		},
+		"class": {
+			"propertyOrder": 6.0,
+			"const": "diagram.Shape"
+		}
+	},
+	"required": [
+		"bounds"
+	]
+},
+{
+	"_id": "diagram.Edge",
+	"title": "Edge",
+	"description": "Edge Diagram Element",
+	"type": "object",
+	"＄overrides": [
+		"diagram.Child"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Edge"
+		},
+		"modelId": {
+			"propertyOrder": 2.0
+		},
+		"rootId": {
+			"propertyOrder": 3.0
+		},
+		"label": {
+			"propertyOrder": 4.0
+		},
+		"waypoint": {
+			"propertyOrder": 5.0,
+			"title": "Waypoint",
+			"description": "Waypoint of this Edge",
+			"＄ref": "graphics.Waypoint"
+		},
+		"class": {
+			"propertyOrder": 6.0,
+			"const": "diagram.Edge"
+		}
+	},
+	"required": [
+		"waypoint"
+	]
+},
+{
+	"_id": "model.Notation",
+	"title": "Model Notation",
+	"description": "Notation of the Model",
+	"type": "string",
+	"enum": [
+		"model.notation.BPMN",
+		"model.notation.FPMN"
+	]
+},
+{
+	"_id": "model.Element",
+	"title": "Model Element",
+	"description": "A Model Element",
+	"type": "object",
+	"＄overrides": [
+		"Element"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Model Element"
+		},
+		"notation": {
+			"propertyOrder": 2.0,
+			"title": "Notation",
+			"description": "Notation of this Model Element",
+			"＄ref": "model.Notation",
+			"readOnly": true
+		},
+		"name": {
+			"propertyOrder": 3.0,
+			"title": "Name",
+			"description": "Name of this Model Element",
+			"type": "string"
+		},
+		"documentation": {
+			"propertyOrder": 4.0,
+			"title": "Documentation",
+			"description": "Documentation of this Model Element",
+			"＄ref": "Type#Text"
+		},
+		"class": {
+			"propertyOrder": 5.0,
+			"description": "Class of this Model Element"
+		}
+	},
+	"required": [
+		"notation",
+		"name"
+	]
+},
+{
+	"_id": "model.Root",
+	"title": "Model Root",
+	"description": "A Model Root Element",
+	"type": "object",
+	"＄overrides": [
+		"model.Element"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Model Root"
+		},
+		"notation": {
+			"propertyOrder": 2.0,
+			"description": "Notation of this Model Root"
+		},
+		"name": {
+			"propertyOrder": 3.0,
+			"description": "Name of this Model Root"
+		},
+		"documentation": {
+			"propertyOrder": 4.0,
+			"description": "Documentation of this Model Root"
+		},
+		"class": {
+			"propertyOrder": 5.0,
+			"description": "Class of this Model Root"
+		}
+	}
+},
+{
+	"_id": "model.Child",
+	"title": "Model Child",
+	"description": "A Model Child Element",
+	"type": "object",
+	"＄overrides": [
+		"model.Element"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Model Child"
+		},
+		"notation": {
+			"propertyOrder": 2.0,
+			"description": "Notation of this Model Child"
+		},
+		"parentId": {
+			"propertyOrder": 3.0,
+			"title": "Parent Id",
+			"description": "ID of the Model Element that owns this Model Child",
+			"＄ref": "Type#Uuid",
+			"readOnly": true,
+			"private": true
+		},
+		"name": {
+			"propertyOrder": 4.0,
+			"description": "Name of this Model Child"
+		},
+		"documentation": {
+			"propertyOrder": 5.0,
+			"description": "Documentation of this Model Child"
+		},
+		"class": {
+			"propertyOrder": 6.0,
+			"description": "Class of this Model Child"
+		}
+	},
+	"required": [
+		"parentId"
+	]
+},
+{
+	"_id": "model.FPMN.Element",
+	"title": "FPMN Element",
+	"description": "A FPMN Element",
+	"type": "object",
+	"＄overrides": [
+		"model.Element"
+	],
+	"additionalProperties": true,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this FPMN Element"
+		},
+		"notation": {
+			"propertyOrder": 2.0,
+			"const": "model.notation.FPMN"
+		},
+		"name": {
+			"propertyOrder": 3.0,
+			"description": "Name of this FPMN Element"
+		},
+		"documentation": {
+			"propertyOrder": 4.0,
+			"description": "Documentation of this FPMN Element"
+		},
+		"class": {
+			"propertyOrder": 5.0,
+			"description": "Class of this FPMN Element"
+		}
+	}
+},
+{
+	"_id": "model.FPMN.Procedure",
+	"title": "Procedure",
+	"description": "A Procedure Element",
+	"type": "object",
+	"＄overrides": [
+		"model.Root",
+		"model.FPMN.Element"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Procedure"
+		},
+		"notation": {
+			"propertyOrder": 2.0
+		},
+		"name": {
+			"propertyOrder": 3.0,
+			"description": "Name of this Procedure"
+		},
+		"documentation": {
+			"propertyOrder": 4.0,
+			"description": "Documentation of this Procedure"
+		},
+		"mission": {
+			"propertyOrder": 5.0,
+			"title": "Mission",
+			"description": "Long-term objective explaining the existence of this Procedure",
+			"＄ref": "Type#Text"
+		},
+		"regulatoryRefs": {
+			"propertyOrder": 6.0,
+			"title": "Regulatory references",
+			"description": "Regulatory references to this Procedure",
+			"＄ref": "Type#Text"
+		},
+		"class": {
+			"propertyOrder": 7.0,
+			"const": "model.FPMN.Procedure"
+		}
+	}
+},
+{
+	"_id": "model.FPMN.Phase",
+	"title": "Phase",
+	"description": "A Procedure's Phase Element",
+	"type": "object",
+	"＄overrides": [
+		"model.Child",
+		"model.FPMN.Element"
+	],
+	"additionalProperties": false,
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0,
+			"description": "ID of this Phase"
+		},
+		"notation": {
+			"propertyOrder": 2.0
+		},
+		"parentId": {
+			"propertyOrder": 3.0,
+			"documentation": "ID of the Procedure owning this Phase"
+		},
+		"prevPhaseId": {
+			"propertyOrder": 4.0,
+			"title": "Previous Phase Id",
+			"description": "ID of the previous Phase",
+			"＄ref": "Type#Uuid",
+			"readOnly": true,
+			"private": true
+		},
+		"nextPhaseId": {
+			"propertyOrder": 5.0,
+			"title": "Next Phase Id",
+			"description": "ID of the next Phase",
+			"＄ref": "Type#Uuid",
+			"readOnly": true,
+			"private": true
+		},
+		"eServiceId": {
+			"propertyOrder": 6.0,
+			"title": "E-Service ID",
+			"description": "ID of the E-Service associated to this Phase",
+			"type": "string",
+			"private": true
+		},
+		"name": {
+			"propertyOrder": 7.0,
+			"description": "Name of this Phase"
+		},
+		"documentation": {
+			"propertyOrder": 8.0,
+			"description": "Documentation of this Phase"
+		},
+		"class": {
+			"propertyOrder": 9.0,
+			"const": "model.FPMN.Phase"
+		}
+	}
+}]
+

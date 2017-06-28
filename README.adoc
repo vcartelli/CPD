@@ -55,6 +55,12 @@ There are other two scripts to help database maintenance:
  some diagrams.
  * `db-dump.sh`: this script creates a backup of the database overwriting any previous data in the `dump` directory.
 
+Both scripts require a parameter that represents the pilot ID (trento|galicia|sheffield) in order to restore/dump the db
+from/in a separate directory for each pilot.
+
+.Example:
+  ./restore.sh trento
+
 === [[properties]]example.properties
 
 This is an example Java properties file that contains all the configuration parameters for the application.

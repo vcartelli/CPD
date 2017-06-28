@@ -43,8 +43,24 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "title": "EServiceCount",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID of the Diagram",
+                  "example": "43467de2-9f42-477f-9f00-13b70f53ce24"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "Number of e-services associated to the Diagram",
+                  "example": 1
+                }
+              },
+              "required": [
+                "id",
+                "count"
+              ]
             }
           },
           "400": {
@@ -73,7 +89,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/diagram:DiagramSummary"
+                "$ref": "#/definitions/diagram.Summary"
               }
             }
           },
@@ -111,7 +127,7 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/diagram:DiagramSummary"
+              "$ref": "#/definitions/diagram.Summary"
             }
           },
           "400": {
@@ -148,24 +164,7 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "dateRange": {
-                  "type": "object",
-                  "properties": {
-                    "from": {
-                      "$ref": "#/definitions/DateTime",
-                      "description": "ISO-8601 date-time where the list begins (included)"
-                    }
-                  }
-                },
-                "feedbackList": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/UserFeedback"
-                  }
-                }
-              }
+              "$ref": "#/definitions/UserFeedbacks"
             }
           },
           "400": {
@@ -210,28 +209,7 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "dateRange": {
-                  "type": "object",
-                  "properties": {
-                    "from": {
-                      "$ref": "#/definitions/DateTime",
-                      "description": "ISO-8601 date-time where to start listing (included)"
-                    },
-                    "to": {
-                      "$ref": "#/definitions/DateTime",
-                      "description": "ISO-8601 date-time where to top listing (excluded)"
-                    }
-                  }
-                },
-                "feedbackList": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/UserFeedback"
-                  }
-                }
-              }
+              "$ref": "#/definitions/UserFeedbacks"
             }
           },
           "400": {
@@ -245,7 +223,23 @@
     }
   },
   "definitions": {
-    "DateTime": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^([a-zA-Z][a-zA-Zd+\\-.]*):\\/\\/"
+    },
+    "text": {
+      "type": "string"
+    },
+    "non-negative-number": {
+      "type": "number",
+      "minimum": 0.0
+    },
+    "date-time": {
       "title": "DateTime",
       "type": "object",
       "properties": {
@@ -258,95 +252,196 @@
         "$date"
       ]
     },
-    "UserFeedback": {
-      "title": "UserFeedback",
+    "model.Notation": {
+      "title": "Model Notation",
+      "description": "Notation of the Model",
+      "type": "string",
+      "enum": [
+        "model.notation.BPMN",
+        "model.notation.FPMN"
+      ]
+    },
+    "diagram.Summary": {
+      "title": "Diagram Summary",
+      "description": "Diagram Summary",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "ID of the feedback"
-        },
-        "userId": {
-          "type": "string",
-          "description": "ID of the user who posted the feedback"
-        },
-        "feedback": {
-          "type": "string",
-          "description": "the posted feedback text"
-        },
         "diagramId": {
           "type": "string",
-          "description": "ID of the diagram where the feedback has been posted"
+          "title": "Diagram Id",
+          "description": "ID of the Diagram",
+          "example": "43467de2-9f42-477f-9f00-13b70f53ce24"
         },
         "elementId": {
           "type": "string",
-          "description": "ID of the diagram element where the feedback has been posted"
+          "title": "Diagram Element Id",
+          "description": "ID of the Diagram Element"
         },
-        "dateTime": {
-          "$ref": "#/definitions/DateTime",
-          "description": "ISO-8601 date-time of when the feedback has been posted"
-        }
-      }
-    },
-    "basic:Typed": {
-      "title": "Typed",
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "type of this Typed"
-        }
-      },
-      "required": [
-        "type"
-      ]
-    },
-    "diagram:DiagramSummary": {
-      "title": "DiagramSummary",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/basic:Typed"
-        }
-      ],
-      "properties": {
-        "url": {
-          "type": "string",
-          "description": "link to the Diagram (with eventually the focused DiagramElement) in the web application"
-        },
-        "svg": {
-          "type": "string",
-          "description": "link to the svg image of the Diagram"
-        },
-        "diagramId": {
-          "type": "string",
-          "description": "ID of the Diagram"
+        "eServiceId": {
+          "title": "Diagram Element Id",
+          "description": "ID of the E-Service",
+          "type": "string"
         },
         "notation": {
-          "type": "string",
-          "description": "Notation of the Diagram"
-        },
-        "diagramElementId": {
-          "type": "string",
-          "description": "optional ID of the focused DiagramElement in the url"
+          "title": "Notation",
+          "description": "Model Notation of the Diagram",
+          "$ref": "#/definitions/model.Notation",
+          "example": "model.notation.FPMN"
         },
         "name": {
+          "title": "Diagram Name",
+          "description": "Name of the Diagram",
           "type": "string",
-          "description": "name of the SemanticElement associated to the Diagram"
+          "example": "Ammissione al servizio di nido d’infanzia"
         },
         "documentation": {
+          "title": "Documentation",
+          "description": "Documentation of the Diagram",
           "type": "string",
-          "description": "name of the SemanticElement associated to the Diagram"
+          "example": "Il servizio di asilo nido si propone di offrire il servizio..."
+        },
+        "path": {
+          "title": "Path",
+          "description": "Path to the Diagram Element",
+          "type": "string",
+          "example": "//Ammissione al servizio di nido d’infanzia//Richiesta di ammissione"
+        },
+        "phases": {
+          "title": "Phases",
+          "description": "Phases of the Procedure",
+          "type": "array",
+          "items": {
+            "title": "Phase",
+            "type": "object",
+            "properties": {
+              "eServiceId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string",
+                "example": "Richiesta di ammissione"
+              },
+              "documentation": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        "url": {
+          "title": "Url",
+          "description": "link to the Diagram (with eventually the focused Diagram Element) in the web application",
+          "type": "string",
+          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}en/diagram/43467de2-9f42-477f-9f00-13b70f53ce24"
+        },
+        "svg": {
+          "title": "Svg",
+          "description": "link to the svg image of the Diagram",
+          "type": "string",
+          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}assets/svg/43467de2-9f42-477f-9f00-13b70f53ce24.svg"
         }
       },
       "required": [
-        "url",
-        "svg",
         "diagramId",
         "notation",
         "name",
-        "documentation"
+        "phases",
+        "url",
+        "svg"
       ]
+    },
+    "UserFeedbacks": {
+      "title": "UserFeedbackList",
+      "description": "The list of user feedbacks within a date-time range",
+      "type": "object",
+      "properties": {
+        "dateTimeRange": {
+          "type": "object",
+          "properties": {
+            "$gte": {
+              "$ref": "#/definitions/date-time",
+              "example": {
+                "$date": "2017-02-15T12:32+01:00"
+              }
+            },
+            "$lt": {
+              "$ref": "#/definitions/date-time"
+            }
+          },
+          "required": [
+            "$gte"
+          ]
+        },
+        "feedbackList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the feedback",
+                "example": "4053a4e7-efb1-4c1c-99ba-2ed53176b37e"
+              },
+              "userId": {
+                "type": "string",
+                "description": "ID of the user who posted the feedback",
+                "example": "citizen 1"
+              },
+              "message": {
+                "type": "string",
+                "description": "the posted feedback text",
+                "example": "Il permesso potrebbe essere rilasciato via PEC"
+              },
+              "diagramId": {
+                "type": "string",
+                "description": "ID of the diagram where the feedback has been posted",
+                "example": "62c02032-0b13-436c-9a96-00a7e479801b"
+              },
+              "elementId": {
+                "type": "string",
+                "description": "ID of the diagram element where the feedback has been posted",
+                "example": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677"
+              },
+              "dateTime": {
+                "$ref": "#/definitions/date-time",
+                "description": "ISO-8601 date-time of when the feedback has been posted",
+                "example": {
+                  "$date": "2017-03-15T12:35:20.201Z"
+                }
+              },
+              "path": {
+                "type": "string",
+                "example": "//Rilascio autorizzazione per attività temporanea (rumore)//Rilascio del permesso"
+              },
+              "url": {
+                "title": "Url",
+                "description": "link to the Diagram (with the focused Diagram Element) in the web application",
+                "type": "string",
+                "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}en/diagram/62c02032-0b13-436c-9a96-00a7e479801b/f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677"
+              },
+              "svg": {
+                "title": "Svg",
+                "description": "link to the svg image of the Diagram",
+                "type": "string",
+                "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}assets/svg/62c02032-0b13-436c-9a96-00a7e479801b.svg"
+              }
+            },
+            "required": [
+              "id",
+              "userId",
+              "message",
+              "diagramId",
+              "elementId",
+              "dateTime",
+              "path",
+              "url"
+            ]
+          }
+        }
+      }
     },
     "Error": {
       "type": "object",
