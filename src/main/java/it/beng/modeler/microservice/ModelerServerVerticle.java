@@ -41,6 +41,31 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // Create a router object
         Router router = Router.router(vertx);
 
+        router.route().handler(rc -> {
+            if (rc.user() == null) {
+                String userAgent = rc.request().getHeader("User-Agent");
+                System.out.println("User-Agent: " + userAgent);
+                if (userAgent.contains("Windows NT")
+                    && userAgent.contains("Trident")
+                    && (userAgent.contains("MSIE") || userAgent.contains("rv:11"))) {
+                    rc.response()
+                      .putHeader("Content-Type", "text/html; charset=UTF-8")
+                      .setChunked(true)
+                      .write("<html><body>" +
+                          "<p>Internet Explorer is not supported!</p>" +
+                          "<p>Please consider upgrading to <a href=\"https://www.microsoft.com/Windows\">Windows 10</a></p>" +
+                          "<p>Or use one of the supported browsers:</p>" +
+                          "<ul>" +
+                          "<li><a href=\"https://chrome.google.com\">Google Chrome</a></li>" +
+                          "<li><a href=\"https://www.mozilla.org/firefox\">Mozilla Firefox</a></li>" +
+                          "</ul>" +
+                          "</body></html>", "UTF-8").end();
+                    return;
+                }
+            }
+            rc.next();
+        });
+
         // configure CORS origins and allowed methods
         router.route().handler(
             CorsHandler.create(config.server.allowedOriginPattern)
