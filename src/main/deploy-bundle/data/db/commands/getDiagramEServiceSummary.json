@@ -102,7 +102,7 @@
             "as": "phase",
             "in": {
               "eServiceId": "$$phase.eServiceId",
-              "name:": "$$phase.name",
+              "name": "$$phase.name",
               "documentation": "$$phase.documentation"
             }
           }
