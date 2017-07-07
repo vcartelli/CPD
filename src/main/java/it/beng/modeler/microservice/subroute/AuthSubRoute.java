@@ -42,17 +42,17 @@ public final class AuthSubRoute extends VoidSubRoute {
         rc.session().put("state", state);
     }
 
-    public static void loginRedirect(RoutingContext rc, String baseHref) {
+    public static void loginRedirect(RoutingContext rc) {
         JsonObject state = AuthSubRoute.getState(rc);
-        String path = config.server.appPath(rc);
+        String appHref = config.server.appHref(rc);
         if (rc.user() != null)
-            redirect(rc, path + state.getString("redirect"));
+            redirect(rc, appHref + state.getString("redirect"));
         else {
-            path += "/login";
-            if (!"/".equals(state.getString("redirect"))) {
-                path += "/" + base64.encode(state.encode());
+            appHref += "login";
+            if (!"".equals(state.getString("redirect"))) {
+                appHref += "/" + base64.encode(state.encode());
             }
-            redirect(rc, path);
+            redirect(rc, appHref);
         }
     }
 
@@ -97,7 +97,7 @@ public final class AuthSubRoute extends VoidSubRoute {
             }
         }
         router.route(HttpMethod.GET, path + ":provider/login/handler").handler(rc -> {
-            loginRedirect(rc, baseHref);
+            loginRedirect(rc);
         });
 
         // logout
@@ -143,7 +143,7 @@ public final class AuthSubRoute extends VoidSubRoute {
         // TODO: save user state
         rc.clearUser();
         rc.session().destroy();
-        redirect(rc, config.server.appPath(rc) + "/login");
+        redirect(rc, config.server.appHref(rc) + "login");
     }
 
     private void getOAuth2Providers(RoutingContext rc) {
@@ -175,7 +175,6 @@ public final class AuthSubRoute extends VoidSubRoute {
                             } else {
                                 JSON_OBJECT_RESPONSE_END(rc, user.put("isCitizen", true));
                             }
-                            JSON_OBJECT_RESPONSE_END(rc, user);
                         } else throw new ResponseError(rc, isCivilServant.cause());
                     });
                 } else throw new ResponseError(rc, isAdmin.cause());

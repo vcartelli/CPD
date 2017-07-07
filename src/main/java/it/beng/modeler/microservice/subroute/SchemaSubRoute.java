@@ -61,8 +61,8 @@ public final class SchemaSubRoute extends VoidSubRoute {
         simLagTime();
         String $id;
         {
-            String tmp = rc.request().absoluteURI();
-            $id = tmp.substring(0, tmp.length() - "/merged".length());
+            String abs = config.server.schema.fixUriScheme(rc.request().absoluteURI());
+            $id = abs.substring(0, abs.length() - "/merged".length());
         }
         schemaTools.getMergedSchema($id, getMergedSchema -> {
             if (getMergedSchema.succeeded())
@@ -81,8 +81,8 @@ public final class SchemaSubRoute extends VoidSubRoute {
         }
         String $id;
         {
-            String tmp = rc.request().absoluteURI();
-            $id = tmp.substring(0, tmp.length() - ("/validate/").length() - collection.length());
+            String abs = config.server.schema.fixUriScheme(rc.request().absoluteURI());
+            $id = abs.substring(0, abs.length() - ("/validate/").length() - collection.length());
         }
         schemaTools.getSchema($id, getSchema -> {
             if (getSchema.succeeded()) {
@@ -144,7 +144,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
 
     private void getSchema(RoutingContext rc) {
         simLagTime();
-        final String $id = rc.request().absoluteURI();
+        final String $id = config.server.schema.fixUriScheme(rc.request().absoluteURI());
         schemaTools.getSchema($id, getSchema -> {
             if (getSchema.succeeded())
                 JSON_OBJECT_RESPONSE_END(rc, getSchema.result());
@@ -154,7 +154,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
     }
 
     private void validate(RoutingContext rc) {
-        final String $id = rc.request().absoluteURI();
+        final String $id = config.server.schema.fixUriScheme(rc.request().absoluteURI());
         final JsonObject body = rc.getBodyAsJson();
         boolean ok = body != null;
         if (ok) {
@@ -175,7 +175,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
     private void save(RoutingContext rc) {
 //        isAuthorized(rc, "schema", "editor", isAuthorized -> {
 //            if (isAuthorized.succeeded()) {
-        final String $id = rc.request().absoluteURI();
+        final String $id = config.server.schema.fixUriScheme(rc.request().absoluteURI());
         final JsonObject body = rc.getBodyAsJson();
         boolean ok = body != null;
         if (ok) {

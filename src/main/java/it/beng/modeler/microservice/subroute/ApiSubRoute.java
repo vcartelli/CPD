@@ -141,8 +141,8 @@ public final class ApiSubRoute extends VoidSubRoute {
         MongoDB.Command command = mongodb.command(
             "getDiagramSummaryList",
             new HashMap<String, String>() {{
-                put("appDiagramUrl", config.server.pub.appHref(rc) + config.app.diagramPath);
-                put("appDiagramSvg", config.server.pub.assetsHref() + "svg/");
+                put("appDiagramUrl", config.server.appHref(rc) + config.app.diagramPath);
+                put("appDiagramSvg", config.server.assetsHref() + "svg/");
             }}
         );
         mongodb.runCommand("aggregate", command, ModelTools.JSON_ENTITY_TO_MONGO_DB, ar -> {
@@ -161,8 +161,8 @@ public final class ApiSubRoute extends VoidSubRoute {
             "getDiagramEServiceSummary",
             new HashMap<String, String>() {{
                 put("eServiceId", eServiceId);
-                put("appDiagramUrl", config.server.pub.appHref(rc) + config.app.diagramPath);
-                put("appDiagramSvg", config.server.pub.assetsHref() + "svg/");
+                put("appDiagramUrl", config.server.appHref(rc) + config.app.diagramPath);
+                put("appDiagramSvg", config.server.assetsHref() + "svg/");
             }}
         );
         mongodb.runCommand("aggregate", command, ModelTools.JSON_ENTITY_TO_MONGO_DB, ar -> {
@@ -194,8 +194,8 @@ public final class ApiSubRoute extends VoidSubRoute {
             "getUserFeedback",
             new HashMap<String, String>() {{
                 put("dateTimeRange", dateTimeRange.encode());
-                put("appDiagramUrl", config.server.pub.appHref(rc) + config.app.diagramPath);
-                put("appDiagramSvg", config.server.pub.assetsHref() + "svg/");
+                put("appDiagramUrl", config.server.appHref(rc) + config.app.diagramPath);
+                put("appDiagramSvg", config.server.assetsHref() + "svg/");
             }}
         );
         mongodb.runCommand("aggregate", command, ModelTools.JSON_ENTITY_TO_MONGO_DB, ar -> {

@@ -13,8 +13,22 @@ import java.util.*;
 public final class config {
 
     public static final String DATA_PATH = "data/";
+    public static final String ASSETS_PATH = "assets/";
 
     private static JsonObject _config;
+
+    private static List<String> HOSTS;
+
+    public static String host(String scheme, String hostname, int port) {
+        StringBuilder s = new StringBuilder(hostname);
+        switch (scheme) {
+            case "http":
+                if (port != 80) s.append(":").append(port);
+            case "https":
+                if (port != 443) s.append(":").append(port);
+        }
+        return s.toString();
+    }
 
     public static class OAuth2Config {
         public static class Flow {
@@ -33,7 +47,6 @@ public final class config {
         public Map<String, Flow> flows;
     }
 
-    public static final String ASSETS_PATH = "assets/";
     public static Boolean develop;
     public static String version;
 
@@ -46,7 +59,7 @@ public final class config {
     public static final class server {
         public static String name;
         public static String scheme;
-        public static String host;
+        public static String hostname;
         public static Integer port;
         public static String baseHref;
         public static String allowedOriginPattern;
@@ -54,36 +67,8 @@ public final class config {
 
         public static class pub {
             public static String scheme;
-            public static String host;
+            public static String hostname;
             public static Integer port;
-
-            public static String origin() {
-                StringBuilder s = new StringBuilder().append(server.pub.scheme).append("://").append(server.pub.host);
-                if (("http".equals(pub.scheme) && pub.port != 80) ||
-                    ("https".equals(pub.scheme) && pub.port != 443))
-                    s.append(":").append(server.pub.port);
-                return s.toString();
-            }
-
-            public static String href() {
-                return new StringBuilder(server.pub.origin()).append(server.baseHref).toString();
-            }
-
-            public static String apiHref() {
-                return new StringBuilder(server.pub.href()).append(server.api.path).toString();
-            }
-
-            public static String assetsHref() {
-                return new StringBuilder(server.pub.href()).append(ASSETS_PATH).toString();
-            }
-
-            public static String appHref() {
-                return new StringBuilder(server.pub.href()).append(app.path).toString();
-            }
-
-            public static String appHref(RoutingContext rc) {
-                return new StringBuilder(server.pub.appHref()).append(locale(rc) + "/").toString();
-            }
 
         }
 
@@ -97,7 +82,14 @@ public final class config {
         public static class schema {
             public static String path;
 
-            public static String uriBase() {return server.href() + schema.path;}
+            public static String uriBase() {
+                return server.href() + path;
+            }
+
+            public static String fixUriScheme(String uri) {
+                return uri.replaceFirst("^" + config.server.scheme, config.server.pub.scheme);
+            }
+
         }
 
         public static class auth {
@@ -113,31 +105,23 @@ public final class config {
         }
 
         public static String origin() {
-            StringBuilder s = new StringBuilder().append(server.scheme).append("://").append(server.host);
-            if (("http".equals(server.scheme) && server.port != 80) ||
-                ("https".equals(server.scheme) && server.port != 443))
-                s.append(":").append(server.port);
-            return s.toString();
+            return pub.scheme + "://" + host(pub.scheme, pub.hostname, pub.port);
         }
 
         public static String href() {
-            return server.origin() + server.baseHref;
+            return origin() + server.baseHref;
         }
 
         public static String apiHref() {
-            return server.href() + api.path;
+            return href() + api.path;
         }
 
         public static String assetsHref() {
-            return server.href() + ASSETS_PATH;
+            return href() + ASSETS_PATH;
         }
 
-        public static String appHref() {
-            return server.href() + app.path;
-        }
-
-        public static String appPath(RoutingContext rc) {
-            return server.baseHref + app.path + locale(rc);
+        public static String appHref(RoutingContext rc) {
+            return href() + app.path + locale(rc) + "/";
         }
 
     }
@@ -199,73 +183,73 @@ public final class config {
         return path;
     }
 
-    public static void set(JsonObject main) {
+    public static void set(JsonObject config) {
 
-        develop = main.getBoolean("develop", false);
-        version = main.getString("version");
+        develop = config.getBoolean("develop", false);
+        version = config.getString("version");
 
         JsonObject node;
 
         /* ssl */
-        node = main.getJsonObject("ssl");
+        node = config.getJsonObject("ssl");
         ssl.enabled = node.getBoolean("enabled");
         ssl.keyStoreFilename = node.getString("keyStoreFilename");
         ssl.keyStorePassword = node.getString("keyStorePassword");
 
         /* server */
-        node = main.getJsonObject("server");
+        node = config.getJsonObject("server");
         server.name = node.getString("name", "BEng CPD Server");
         server.scheme = node.getString("scheme", "https");
-        server.host = node.getString("host", "localhost");
+        server.hostname = node.getString("hostname", "localhost");
         server.port = node.getInteger("port", 8901);
         server.baseHref = checkBaseHref(node.getString("baseHref", "/"));
         server.allowedOriginPattern = node.getString("allowedOriginPattern");
         server.simLagTime = node.getLong("simLagTime", -1L);
         /* server.pub */
-        node = main.getJsonObject("server").getJsonObject("pub");
+        node = config.getJsonObject("server").getJsonObject("pub");
         server.pub.scheme = node.getString("scheme", server.scheme);
-        server.pub.host = node.getString("host", server.host);
+        server.pub.hostname = node.getString("hostname", server.hostname);
         server.pub.port = node.getInteger("port", server.port);
         /* server.cacheBuilder */
-        node = main.getJsonObject("server").getJsonObject("cacheBuilder");
+        node = config.getJsonObject("server").getJsonObject("cacheBuilder");
         server.cacheBuilder.concurrencyLevel = node.getInteger("concurrencyLevel", 1);
         server.cacheBuilder.initialCapacity = node.getInteger("initialCapacity", 100);
         server.cacheBuilder.maximumSize = node.getInteger("maximumSize", 1000);
         server.cacheBuilder.expireAfterAccess = node.getString("expireAfterAccess", "60m");
         /* server.schema */
-        node = main.getJsonObject("server").getJsonObject("schema");
+        node = config.getJsonObject("server").getJsonObject("schema");
         server.schema.path = checkPath(node.getString("path", "schema/"));
         /* server.auth */
-        node = main.getJsonObject("server").getJsonObject("auth");
+        node = config.getJsonObject("server").getJsonObject("auth");
         server.auth.path = checkPath(node.getString("path", "auth/"));
         /* server.api */
-        node = main.getJsonObject("server").getJsonObject("api");
+        node = config.getJsonObject("server").getJsonObject("api");
         server.api.path = checkPath(node.getString("path", "api/"));
         /* server.assets */
-        node = main.getJsonObject("server").getJsonObject("assets");
+        node = config.getJsonObject("server").getJsonObject("assets");
         server.assets.allowListing = node.getBoolean("allowListing", false);
 
         /* ROOT app */
-        node = main.getJsonObject("app");
+        node = config.getJsonObject("app");
         app.path = checkPath(node.getString("path", ""));
         app.locales = node.getJsonArray("locales").getList();
         app.routes = node.getJsonArray("routes").getList();
         app.diagramPath = node.getString("diagramPath", "diagram/");
 
         /* mongodb */
-        node = main.getJsonObject("mongodb");
+        node = config.getJsonObject("mongodb");
         if ("".equals(node.getString("username"))) node.put("username", (String) null);
         if ("".equals(node.getString("password"))) node.put("password", (String) null);
 
         /* oauth2 */
-        node = main.getJsonObject("oauth2");
+        node = config.getJsonObject("oauth2");
         oauth2.origin = node.getString("origin");
         oauth2.configs = new LinkedList<>();
         for (Object provider : node.getJsonArray("providers")) {
             JsonObject p = JsonObject.class.cast(provider);
             OAuth2Config oAuth2Config = new OAuth2Config();
             oAuth2Config.provider = p.getString("provider");
-            oAuth2Config.logoUrl = server.baseHref + p.getString("logoUrl");
+            oAuth2Config.logoUrl = server.baseHref + app.path + p.getString("logoUrl");
             oAuth2Config.site = p.getString("site");
             oAuth2Config.tokenPath = p.getString("tokenPath");
             oAuth2Config.authPath = p.getString("authPath");
@@ -285,23 +269,23 @@ public final class config {
 
         /* model */
         // roles.position
-        node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("access");
+        node = config.getJsonObject("role").getJsonObject("cpd").getJsonObject("access");
         role.cpd.access.prefix = node.getString("prefix");
         role.cpd.access.admin = node.getString("admin");
         role.cpd.access.civilServant = node.getString("civilServant");
         role.cpd.access.citizen = node.getString("citizen");
         // roles.context
-        node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("context");
+        node = config.getJsonObject("role").getJsonObject("cpd").getJsonObject("context");
         role.cpd.context.prefix = node.getString("prefix");
         // roles.context.diagram
-        node = main.getJsonObject("role").getJsonObject("cpd").getJsonObject("context").getJsonObject("diagram");
+        node = config.getJsonObject("role").getJsonObject("cpd").getJsonObject("context").getJsonObject("diagram");
         role.cpd.context.diagram.editor = node.getString("editor");
         role.cpd.context.diagram.owner = node.getString("owner");
         role.cpd.context.diagram.reviewer = node.getString("reviewer");
         role.cpd.context.diagram.collaborator = node.getString("collaborator");
         role.cpd.context.diagram.observer = node.getString("observer");
 
-        _config = main;
+        _config = config;
 
     }
 
@@ -316,10 +300,10 @@ public final class config {
         String locale = null;
         // TODO: re-enable user language
 //        if (rc.user() != null) locale = rc.user().principal().getJsonObject("profile").getString("language");
-        if (locale == null) {
-            locale = rc.request().getHeader("Accept-Language");
-            if (locale != null) locale = locale.substring(0, 2);
-        }
+//        if (locale == null) {
+        locale = rc.request().getHeader("Accept-Language");
+        if (locale != null) locale = locale.substring(0, 2);
+//        }
         if (locale != null && SPANISH_ALTERNATIVES.contains(locale)) locale = "es";
         if (locale == null || !config.app.locales.contains(locale)) locale = "en";
         return locale;

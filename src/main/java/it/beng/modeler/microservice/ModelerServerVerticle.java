@@ -44,7 +44,6 @@ public class ModelerServerVerticle extends AbstractVerticle {
         router.route().handler(rc -> {
             if (rc.user() == null) {
                 String userAgent = rc.request().getHeader("User-Agent");
-                System.out.println("User-Agent: " + userAgent);
                 if (userAgent.contains("Windows NT")
                     && userAgent.contains("Trident")
                     && (userAgent.contains("MSIE") || userAgent.contains("rv:11"))) {
@@ -185,7 +184,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
 
         // redirect base-href to app
         router.route(HttpMethod.GET, baseHref).handler(rc -> {
-            SubRoute.redirect(rc, config.server.appPath(rc));
+            SubRoute.redirect(rc, config.server.appHref(rc));
         });
 
         // create the mongodb client
@@ -203,22 +202,25 @@ public class ModelerServerVerticle extends AbstractVerticle {
         router.route(HttpMethod.GET, baseHref + "create-demo-data").handler(this::crateDemoData);
 */
 
-        // in this order: assets, schema, auth, api, root
-        new AssetsSubRoute(vertx, router, mongodb, schemaTools, modelTools);
+        // in this order: schema, auth, api, assets, app
         new SchemaSubRoute(vertx, router, mongodb, schemaTools, modelTools);
         new AuthSubRoute(vertx, router, mongodb, schemaTools, modelTools);
         new ApiSubRoute(vertx, router, mongodb, schemaTools, modelTools);
+        new AssetsSubRoute(vertx, router, mongodb, schemaTools, modelTools);
         new AppSubRoute(vertx, router, mongodb, schemaTools, modelTools);
 
         // redirect all non-handled [GET] to app
         router.route(HttpMethod.GET, "/*").handler(rc -> {
             String path = rc.request().path();
             if (path.startsWith(baseHref))
-                path = path.replace(baseHref, "/");
-            if (path.length() > 3 && config.app.locales.contains(path.substring(1, 3)))
+                path = path.replace(baseHref, "");
+            if ('/' == path.charAt(2) && path.length() > 2 && config.app.locales.contains(path.substring(0, 2)))
                 path = path.substring(3);
-            System.out.println("redirecting to " + path);
-            SubRoute.redirect(rc, config.server.appPath(rc) + path);
+            if (path.startsWith(config.app.path))
+                path = path.substring(config.app.path.length());
+            path = config.server.appHref(rc) + path;
+            if (config.develop) System.out.println("redirecting to " + path);
+            SubRoute.redirect(rc, path);
         });
 
         // handle failures
@@ -232,7 +234,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
             switch (rc.statusCode()) {
                 case 404: {
                     // let root application find the resource or show the 404 not found page
-                    rc.reroute(config.server.appPath(rc));
+                    rc.reroute(config.server.appHref(rc));
                     break;
                 }
                 default: {

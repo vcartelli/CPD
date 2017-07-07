@@ -50,7 +50,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
     protected void init() {
         router.route(HttpMethod.GET, path + "login/handler").handler(this::redirectUrlHandler);
         router.route(HttpMethod.GET, baseHref + "oauth2/client/callback").handler(rc -> {
-            redirect(rc, config.server.appPath(rc) + "/oauth2/client/callback");
+            redirect(rc, config.server.appHref(rc) + "oauth2/client/callback");
         });
         router.route(HttpMethod.GET, path + "hash/:hash").handler(this::setupAccess);
     }
@@ -62,7 +62,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         url.append("response_type=token");
         url.append("&");
         url.append("redirect_uri=");
-        url.append(config.server.pub.origin());
+        url.append(config.server.origin());
         url.append(baseHref + "oauth2/client/callback");
         url.append("&");
         url.append("client_id=");
@@ -117,7 +117,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                   setUserRoles(rc, user.principal());
                   if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
                   client.close();
-                  loginRedirect(rc, baseHref + config.app.path);
+                  loginRedirect(rc);
               });
     }
 

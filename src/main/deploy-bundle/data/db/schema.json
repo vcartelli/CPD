@@ -79,7 +79,10 @@
 			"title": "Class",
 			"description": "Class of this Object",
 			"type": "string",
-			"readOnly": true
+			"readOnly": true,
+      "＄input": {
+
+      }
 		}
 	},
 	"required": [

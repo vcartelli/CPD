@@ -78,7 +78,7 @@ public abstract class SubRoute<T> {
     public SubRoute(String path, Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools,
                     ModelTools modelTools, T userData) {
         this.baseHref = config.server.baseHref;
-        this.path = (path.startsWith("/") ? "" : this.baseHref) + path;
+        this.path = baseHref + path;
         System.out.println("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;

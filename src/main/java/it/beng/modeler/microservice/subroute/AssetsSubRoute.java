@@ -17,7 +17,7 @@ import it.beng.modeler.model.ModelTools;
 public final class AssetsSubRoute extends VoidSubRoute {
 
     public AssetsSubRoute(Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools, ModelTools modelTools) {
-        super(config.ASSETS_PATH, vertx, router, mongodb, schemaTools, modelTools);
+        super(config.app.path + config.ASSETS_PATH, vertx, router, mongodb, schemaTools, modelTools);
     }
 
     @Override
