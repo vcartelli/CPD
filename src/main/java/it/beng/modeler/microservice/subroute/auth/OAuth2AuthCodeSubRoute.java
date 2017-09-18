@@ -18,12 +18,16 @@ import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.model.ModelTools;
 
+import java.util.logging.Logger;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
  * @author vince
  */
 public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
+
+    private static Logger logger = Logger.getLogger(OAuth2AuthCodeSubRoute.class.getName());
 
     public static final String FLOW_TYPE = "AUTH_CODE";
 
@@ -53,7 +57,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
                 JsonObject o = new JsonObject(decoded);
                 userId = o.getString("sub");
                 if (userId != null) {
-                    if (config.develop) System.out.println("userId found: " + userId);
+                    logger.finest("userId found: " + userId);
                     break;
                 }
             } catch (Exception e) {
@@ -97,7 +101,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
                           }
                       }
                       setUserRoles(rc, user.principal());
-                      if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
+                      logger.finest("auth_code user principal: " + Json.encodePrettily(rc.user().principal()));
                       client.close();
                       rc.next();
                   });

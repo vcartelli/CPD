@@ -18,6 +18,7 @@ import it.beng.modeler.microservice.subroute.auth.OAuth2ImplicitSubRoute;
 import it.beng.modeler.model.ModelTools;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -25,6 +26,8 @@ import java.util.UUID;
  * @author vince
  */
 public final class AuthSubRoute extends VoidSubRoute {
+
+    private static Logger logger = Logger.getLogger(AuthSubRoute.class.getName());
 
     public AuthSubRoute(Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools, ModelTools modelTools) {
         super(config.server.auth.path, vertx, router, mongodb, schemaTools, modelTools);
@@ -88,12 +91,11 @@ public final class AuthSubRoute extends VoidSubRoute {
                         new OAuth2ImplicitSubRoute(vertx, router, mongodb, schemaTools, modelTools, oAuth2Config);
                         break;
                     default: {
-                        System.err.println("Provider '" + oAuth2Config.provider + "' will not be available.");
+                        logger.warning("Provider '" + oAuth2Config.provider + "' will not be available.");
                         continue;
                     }
                 }
-                System.out
-                    .println("Provider '" + oAuth2Config.provider + "' will follow the '" + flowType + "' flow.");
+                logger.info("Provider '" + oAuth2Config.provider + "' will follow the '" + flowType + "' flow.");
             }
         }
         router.route(HttpMethod.GET, path + ":provider/login/handler").handler(rc -> {
@@ -122,9 +124,9 @@ public final class AuthSubRoute extends VoidSubRoute {
     private void login(RoutingContext rc) {
         String provider = rc.request().getParam("provider");
         rc.clearUser();
-        if (config.develop) System.out.println("user cleared");
+        logger.finest("user cleared");
         String encodedState = rc.request().getParam("state");
-        if (config.develop) System.out.println("encoded state: " + encodedState);
+        logger.finest("encoded state: " + encodedState);
         JsonObject state = null;
         if (encodedState != null)
             try {
@@ -134,7 +136,7 @@ public final class AuthSubRoute extends VoidSubRoute {
             }
         if (state == null) state = new JsonObject().put("redirect", "/");
         state.put("provider", provider).put("login_id", UUID.randomUUID().toString());
-        if (config.develop) System.out.println("state: " + state.encodePrettily());
+        logger.finest("state: " + state.encodePrettily());
         setState(rc, state);
         rc.reroute(path + provider + "/login/handler");
     }

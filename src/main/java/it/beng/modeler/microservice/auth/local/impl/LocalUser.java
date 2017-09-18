@@ -11,12 +11,16 @@ import io.vertx.ext.auth.User;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 
+import java.util.logging.Logger;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
  * @author vince
  */
 public class LocalUser extends AbstractUser implements User {
+
+    private static Logger logger = Logger.getLogger(LocalUser.class.getName());
 
     private JsonObject principal;
     private LocalAuthProvider authProvider;
@@ -101,7 +105,7 @@ public class LocalUser extends AbstractUser implements User {
     }
 
     public static void isPermitted(final String role, final JsonObject userRoles, final Handler<AsyncResult<Boolean>> resultHandler) {
-        if (config.develop) System.out.println("checking role " + role);
+        logger.finest("checking role " + role);
         boolean has = false;
         if (role != null && !userRoles.isEmpty()) {
             if (role.startsWith(config.role.cpd.access.prefix))

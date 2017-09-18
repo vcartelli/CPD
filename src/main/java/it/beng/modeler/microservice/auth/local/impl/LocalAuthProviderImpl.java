@@ -7,9 +7,10 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import it.beng.microservice.db.MongoDB;
-import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.model.ModelTools;
+
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -17,6 +18,8 @@ import it.beng.modeler.model.ModelTools;
  * @author vince
  */
 public class LocalAuthProviderImpl implements LocalAuthProvider {
+
+    private static Logger logger = Logger.getLogger(LocalAuthProviderImpl.class.getName());
 
     private final Vertx vertx;
     private final MongoDB mongodb;
@@ -36,7 +39,7 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
             return;
         }
 
-        if (config.develop) System.out.println("authenticating " + authInfo.encodePrettily());
+        logger.finest("authenticating " + authInfo.encodePrettily());
 
         String username = authInfo.getString("username");
         if (username == null) {

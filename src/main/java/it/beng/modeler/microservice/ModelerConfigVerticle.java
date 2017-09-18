@@ -4,6 +4,10 @@ import io.vertx.core.DeploymentOptions;
 import it.beng.microservice.common.MicroServiceVerticle;
 import it.beng.modeler.config;
 
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
@@ -11,17 +15,21 @@ import it.beng.modeler.config;
  */
 public class ModelerConfigVerticle extends MicroServiceVerticle {
 
+    private static Logger logger = Logger.getLogger(ModelerConfigVerticle.class.getName());
+
     @Override
     public void start() {
-        super.start();
 
         config.set(config());
+        if (config.develop) LogManager.getLogManager().getLogger("it.beng").setLevel(Level.FINEST);
+
+        super.start();
 
         vertx.deployVerticle(new ModelerServerVerticle(), new DeploymentOptions().setConfig(config()), ar -> {
                 if (ar.succeeded()) {
-                    System.out.println("Succesfully deployed ModelerServerVerticle: " + ar.result());
+                    logger.info("Succesfully deployed ModelerServerVerticle: " + ar.result());
                 } else {
-                    System.err.println("Cannot deploy ModelerServerVerticle: " + ar.cause().getMessage());
+                    logger.severe("Cannot deploy ModelerServerVerticle: " + ar.cause().getMessage());
                 }
             }
         );

@@ -9,12 +9,16 @@ import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.model.ModelTools;
 
+import java.util.logging.Logger;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
  * @author vince
  */
 public final class AppSubRoute extends VoidSubRoute {
+
+    private static Logger logger = Logger.getLogger(AppSubRoute.class.getName());
 
     public AppSubRoute(Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools, ModelTools modelTools) {
         super(config.app.path, vertx, router, mongodb, schemaTools, modelTools);
@@ -26,10 +30,10 @@ public final class AppSubRoute extends VoidSubRoute {
         for (String route : config.app.routes) {
             router.route(HttpMethod.GET, path + ":locale/" + route).handler(rc -> {
                 String locale = rc.request().getParam("locale");
-                if (config.develop) System.out.println("rerouting " + path + locale + "/" + route + " to app");
+                logger.finest("rerouting " + path + locale + "/" + route + " to app");
                 rc.reroute(path + locale);
             });
-            System.out.println(path + ":locale/" + route + " will be managed by root web application");
+            logger.info(path + ":locale/" + route + " will be managed by root web application");
         }
 
         /*** STATIC RESOURCES (swagger-ui) ***/

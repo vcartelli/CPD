@@ -20,6 +20,8 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
 import it.beng.modeler.model.ModelTools;
 
+import java.util.logging.Logger;
+
 import static it.beng.modeler.microservice.subroute.AuthSubRoute.loginRedirect;
 
 /**
@@ -28,6 +30,8 @@ import static it.beng.modeler.microservice.subroute.AuthSubRoute.loginRedirect;
  * @author vince
  */
 public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
+
+    private static Logger logger = Logger.getLogger(OAuth2ImplicitSubRoute.class.getName());
 
     public static final String FLOW_TYPE = "IMPLICIT";
 
@@ -115,7 +119,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                       }
                   }
                   setUserRoles(rc, user.principal());
-                  if (config.develop) System.out.println(Json.encodePrettily(rc.user().principal()));
+                  logger.finest("implicit user principal: " + Json.encodePrettily(rc.user().principal()));
                   client.close();
                   loginRedirect(rc);
               });

@@ -9,12 +9,16 @@ import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.model.ModelTools;
 
+import java.util.logging.Logger;
+
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *
  * @author vince
  */
 public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
+
+    private static Logger logger = Logger.getLogger(OAuth2ClientSubRoute.class.getName());
 
     public static final String FLOW_TYPE = "CLIENT";
 
@@ -40,10 +44,9 @@ public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
             if (ar.succeeded()) {
                 AccessToken accessToken = ar.result();
                 setToken(vertx, accessToken);
-                System.out
-                    .println("client access token correctly created: " + accessToken.principal().encodePrettily());
+                logger.info("client access token correctly created: " + accessToken.principal().encodePrettily());
             } else {
-                System.err.println("COULD NOT GET CLIENT TOKEN");
+                logger.warning("COULD NOT GET CLIENT TOKEN");
                 ar.cause().printStackTrace();
             }
         });

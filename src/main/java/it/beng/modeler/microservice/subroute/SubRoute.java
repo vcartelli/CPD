@@ -26,6 +26,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -33,6 +34,8 @@ import java.util.Random;
  * @author vince
  */
 public abstract class SubRoute<T> {
+
+    private static Logger logger = Logger.getLogger(SubRoute.class.getName());
 
     static HttpServerResponse JSON_HEADER_RESPONSE(RoutingContext rc) {
         return rc.response().putHeader("content-type", "application/json; charset=utf-8");
@@ -79,7 +82,7 @@ public abstract class SubRoute<T> {
                     ModelTools modelTools, T userData) {
         this.baseHref = config.server.baseHref;
         this.path = baseHref + path;
-        System.out.println("sub-route registered: " + this.path);
+        logger.info("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;
         this.mongodb = mongodb;

@@ -154,6 +154,15 @@
             </resource>
         </resources>
         <plugins>
+<!-- 
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <debug>${cpd.develop}</debug>
+                        <debugLevel>lines,vars,source</debugLevel>
+                    </configuration>                
+            </plugin>
+ -->
             <plugin>
                 <!-- copy the cluster configuration -->
                 <artifactId>maven-dependency-plugin</artifactId>

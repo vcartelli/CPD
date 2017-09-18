@@ -9,7 +9,8 @@ import io.vertx.ext.web.handler.impl.AuthHandlerImpl;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
-import it.beng.modeler.microservice.subroute.SubRoute;
+
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -17,6 +18,8 @@ import it.beng.modeler.microservice.subroute.SubRoute;
  * @author vince
  */
 public class LocalAuthHandlerImpl extends AuthHandlerImpl implements LocalAuthHandler {
+
+    private static Logger logger = Logger.getLogger(LocalAuthHandlerImpl.class.getName());
 
     public LocalAuthHandlerImpl(AuthProvider authProvider) {
         super(authProvider);
@@ -33,7 +36,7 @@ public class LocalAuthHandlerImpl extends AuthHandlerImpl implements LocalAuthHa
             authProvider.authenticate(state.getJsonObject("authInfo"), rh -> {
                 if (rh.succeeded()) {
                     LocalUser authenticated = (LocalUser) rh.result();
-                    if (config.develop) System.out.println(Json.encodePrettily(authenticated.principal()));
+                    logger.finest(Json.encodePrettily(authenticated.principal()));
                     rc.setUser(authenticated);
                     this.authorise(authenticated, rc);
                 } else {

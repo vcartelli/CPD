@@ -19,6 +19,7 @@ import it.beng.modeler.microservice.subroute.*;
 import it.beng.modeler.model.ModelTools;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -26,6 +27,8 @@ import java.util.concurrent.TimeUnit;
  * @author vince
  */
 public class ModelerServerVerticle extends AbstractVerticle {
+
+    private static Logger logger = Logger.getLogger(ModelerServerVerticle.class.getName());
 
     static {
 //        Typed.init();
@@ -74,7 +77,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
                        .allowedMethod(HttpMethod.DELETE)   // delete # <collection>/:id
                        .allowedHeader("X-PINGARUNER")
                        .allowedHeader("Content-Type"));
-        System.out.println("CORS pattern is: " + config.server.allowedOriginPattern);
+        logger.info("CORS pattern is: " + config.server.allowedOriginPattern);
 
         // create cookie and session handler
         router.route().handler(CookieHandler.create());
@@ -178,7 +181,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
                  IE8+ do not allow opening of attachments in the context of this resource
 */
               .putHeader("X-Download-Options", "noopen");
-            if (config.develop) System.out.println("[" + rc.request().method() + "] " + rc.request().uri());
+            logger.finest("[" + rc.request().method() + "] " + rc.request().uri());
             rc.next();
         });
 
@@ -190,10 +193,10 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // create the mongodb client
         // use \uFF04 instead of $
         MongoDB mongodb = MongoDB.createShared(vertx, config().getJsonObject("mongodb"),
-            config.DATA_PATH + "db/commands/", false/*config.develop*/);
+            config.DATA_PATH + "db/commands/");
         vertx.getOrCreateContext().put("mongodb", mongodb);
         SchemaTools schemaTools = new SchemaTools(vertx, config().getJsonObject("mongodb"), "schema",
-            config.server.schema.uriBase(), config.develop);
+            config.server.schema.uriBase(), config.server.scheme);
         vertx.getOrCreateContext().put("schemaTools", schemaTools);
         ModelTools modelTools = new ModelTools(vertx, mongodb, schemaTools, config.develop);
         vertx.getOrCreateContext().put("modelTools", modelTools);
@@ -219,7 +222,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
             if (path.startsWith(config.app.path))
                 path = path.substring(config.app.path.length());
             path = config.server.appHref(rc) + path;
-            if (config.develop) System.out.println("redirecting to " + path);
+            logger.finest("redirecting to " + path);
             SubRoute.redirect(rc, path);
         });
 
@@ -227,10 +230,10 @@ public class ModelerServerVerticle extends AbstractVerticle {
         router.route().failureHandler(rc -> {
             JsonObject error = rc.get("error");
             if (error == null) {
-                if (config.develop) System.err.println("!!! no error info found in Routing Context !!!");
+                logger.warning("!!! no error info found in Routing Context !!!");
                 error = ResponseError.json(rc, null);
             }
-            System.err.println("ERROR (" + error.getInteger("statusCode") + "): " + error.encodePrettily());
+            logger.severe("ERROR (" + error.getInteger("statusCode") + "): " + error.encodePrettily());
             switch (rc.statusCode()) {
                 case 404: {
                     // let root application find the resource or show the 404 not found page
@@ -263,10 +266,10 @@ public class ModelerServerVerticle extends AbstractVerticle {
              .requestHandler(router::accept)
              .listen(config.server.port, ar -> {
                      if (ar.succeeded()) {
-                         System.out.println("HTTP Server started: " + config.server.origin());
+                         logger.info("HTTP Server started: " + config.server.origin());
                          startFuture.complete();
                      } else {
-                         System.err.println("Cannot start HTTP Server: " + config.server.origin() +
+                         logger.severe("Cannot start HTTP Server: " + config.server.origin() +
                              ". Cause: " + ar.cause().getMessage());
                          startFuture.fail(ar.cause());
                      }
