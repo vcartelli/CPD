@@ -8,7 +8,7 @@ import it.beng.modeler.microservice.auth.local.impl.LocalAuthHandlerImpl;
  *
  * @author vince
  */
-public interface LocalAuthHandler extends AuthHandler {
+public interface LocalAuthHandler /*extends AuthHandler*/ {
     static LocalAuthHandler create(LocalAuthProvider authProvider) {
         return new LocalAuthHandlerImpl(authProvider) {
         };

@@ -385,5 +385,102 @@
 		"height": 120.0
 	},
 	"class": "diagram.Shape"
+},
+{
+	"_id": "b48d3888-3e31-4413-9101-c1e08c478c29",
+	"class": "diagram.Root",
+	"modelId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"dimensions": {
+		"width": 820,
+		"height": 240
+	}
+},
+{
+	"_id": "23bd8c89-96e3-493b-84b0-d04d6d6be0b0",
+	"class": "diagram.Shape",
+	"modelId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"rootId": "b48d3888-3e31-4413-9101-c1e08c478c29",
+	"label": {
+		"hAlign": "center",
+		"vAlign": "middle",
+		"bounds": {
+			"x": 40,
+			"y": 40,
+			"width": 220,
+			"height": 40
+		}
+	},
+	"bounds": {
+		"x": 40,
+		"y": 40,
+		"width": 740,
+		"height": 160
+	}
+},
+{
+	"_id": "2f42d3a0-5fa2-4cff-88de-beaa2d55d94e",
+	"class": "diagram.Shape",
+	"modelId": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
+	"rootId": "b48d3888-3e31-4413-9101-c1e08c478c29",
+	"label": {
+		"hAlign": "center",
+		"vAlign": "middle",
+		"bounds": {
+			"x": 40,
+			"y": 80,
+			"width": 220,
+			"height": 120
+		}
+	},
+	"bounds": {
+		"x": 40,
+		"y": 80,
+		"width": 260,
+		"height": 120
+	}
+},
+{
+	"_id": "a09a4436-5c52-4205-891d-8c2b247cfec6",
+	"class": "diagram.Shape",
+	"modelId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
+	"rootId": "b48d3888-3e31-4413-9101-c1e08c478c29",
+	"label": {
+		"hAlign": "center",
+		"vAlign": "middle",
+		"bounds": {
+			"x": 300,
+			"y": 80,
+			"width": 220,
+			"height": 120
+		}
+	},
+	"bounds": {
+		"x": 260,
+		"y": 80,
+		"width": 300,
+		"height": 120
+	}
+},
+{
+	"_id": "17f1481a-3c7c-4e25-9bb9-e18c7a30a004",
+	"class": "diagram.Shape",
+	"modelId": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7",
+	"rootId": "b48d3888-3e31-4413-9101-c1e08c478c29",
+	"label": {
+		"hAlign": "center",
+		"vAlign": "middle",
+		"bounds": {
+			"x": 560,
+			"y": 80,
+			"width": 220,
+			"height": 120
+		}
+	},
+	"bounds": {
+		"x": 520,
+		"y": 80,
+		"width": 260,
+		"height": 120
+	}
 }]
 

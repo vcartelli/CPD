@@ -54,7 +54,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
     protected void init() {
         router.route(HttpMethod.GET, path + "login/handler").handler(this::redirectUrlHandler);
         router.route(HttpMethod.GET, baseHref + "oauth2/client/callback").handler(rc -> {
-            redirect(rc, config.server.appHref(rc) + "oauth2/client/callback");
+            redirect(rc, config.server.appPath(rc) + "oauth2/client/callback");
         });
         router.route(HttpMethod.GET, path + "hash/:hash").handler(this::setupAccess);
     }

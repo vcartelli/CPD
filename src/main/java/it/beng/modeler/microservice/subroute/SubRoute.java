@@ -1,6 +1,7 @@
 package it.beng.modeler.microservice.subroute;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -242,9 +243,14 @@ public abstract class SubRoute<T> {
     }
 
     public static void redirect(RoutingContext rc, String location) {
+        String loc = location.replace("//", "/");
+        logger.finest("REDIRECT: " + loc);
+        if (loc.length() != location.length()) {
+            logger.finest("DOUBLE SLASH FOUND: " + location + " --> " + loc);
+        }
         rc.response()
-          .setStatusCode(302)
-          .putHeader("Location", location)
+          .setStatusCode(HttpResponseStatus.FOUND.code())
+          .putHeader("Location", loc)
           .end();
     }
 

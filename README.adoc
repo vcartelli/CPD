@@ -1,5 +1,4 @@
-Collaborative Procedure Designer
-================================
+= Collaborative Procedure Designer
 
 The Collaborative Procedure Designer (CPD) is a web server&application that provides services to draw administrative
 procedures in a collaborative way.
@@ -28,6 +27,10 @@ instructions in the “<<properties,example.properties>>” section:
 * `develop.properties`: this (optional) file has to be used when you want to try the application locally in your
   development environment (e.g. eclipse) and try some different config parameters without touching the
   `production.properties`.
+
+IMPORTANT: Before you compile from a new release, make sure to do a diff of the new pulled `example.properties` with
+           your own versions of `production.properties` and/or `development.properties` in order to find out any
+           possible new or renamed property.
 
 == [[build-pre]]Build prerequisites
 
@@ -59,7 +62,7 @@ Both scripts require a parameter that represents the pilot ID (trento|galicia|sh
 from/in a separate directory for each pilot.
 
 .Example:
-  ./restore.sh trento
+  ./db-restore.sh trento
 
 === [[properties]]example.properties
 
@@ -70,7 +73,7 @@ The POM handles two Java properties files called `production.properties` and `de
 to test different configurations in your IDE, create the `develop.properties` in the same way and refer to the “<<ide,
 Running from your favourite development environment>>” section for further configurations.
 
-.*Please make sure to review at least the values for this main properties*:
+.Please make sure to review at least the values for this main properties:
 
 * `cpd.ssl.enabled`: `true` or `false` depending on whether you want to use https or http (this can impact on
   `cpd.server.scheme` and `cpd.server.allowedOriginPattern` properties, check and revise them accordingly);
@@ -89,12 +92,12 @@ IMPORTANT: If you plan to use your own signed certificate, make sure it is given
 * `cpd.server.port`: the port to use;
 * `cpd.server.baseHref`: the *base href* of the server, must start and end with a `/` character (e.g. `/` or `/cpd/`);
 * `cpd.server.allowedOriginPattern`: this is a *regex pattern* for link:http://www.w3.org/TR/cors[CORS] allowed origins
-  (use `*` to allow calls from the entire planet, but for security reasons it is always best to put in only the origins
+  (use `***` to allow calls from the entire planet, but for security reasons it is always best to put in only the origins
   that will *actually* use the API, e.g. `http:\\\\/\\\\/localhost:(8080|8901)`;
 
 WARNING: Remember that in Java properties files the double backslash `\\` must be escaped two times: `\\\\`).
 
-* `cpd.server.pub.scheme`, `cpd.server.pub.host`, `cpd.server.pub.port`: these properties ar related to
+* `cpd.server.pub.scheme`, `cpd.server.pub.host`, `cpd.server.pub.port`: these properties are similar to
   `cpd.server.scheme`, `cpd.server.host` and `cpd.server.port` respectively. Change them when the application is running
   behind a proxy: set these properties to the proxy scheme, domain and port values. An example excerpt from a
   `production.properties` of an instance running behind an Apache2 reverse proxy follows:
@@ -107,13 +110,13 @@ WARNING: Remember that in Java properties files the double backslash `\\` must b
     cpd.server.pub.host=simpatico.example.com
     cpd.server.pub.port=443
 
-* `cpd.app.useLocalAuth`: `true` or `false` in order to enable or disable the local login;
+* `cpd.app.useLocalAuth`: `true` or `false` in order to enable or disable the local database-based login;
 * `cpd.mongodb.host`: the mongodb hostname;
 * `cpd.mongodb.port`: the mongodb port;
 * `cpd.mongodb.username`: the mongodb username (leave blank in case of none);
 * `cpd.mongodb.password`: the mongodb password for user (leave blank in case of none);
 * `cpd.oauth2.origin`: the oauth2 origin to send to the authority (e.g. `http://localhost:8901`);
-* `cpd.oauth2.providers`: this property must be a list of comma separated json objects. Each json object must contain
+* `cpd.oauth2.providers`: this property *must* be a list of comma separated json objects. Each json object must contain
   the following fields:
 
 [source,javascript]
@@ -310,3 +313,20 @@ Alternatively, you can configure your IDE to launch the application by setting t
 
 After running the application, you can check that everything is working by opening in your browser the url you defined
 in the relative <<properties,`.properties`>> file (e.g. `http://localhost:8901/cpd/`).
+
+=== User roles
+
+The current CPD version handles two user roles:
+
+1. *browser* is the default role. It allows to browse the available diagrams and submit questions and feedbacks.
+2. *editor* allows the creation and editing (both graphic and data) of the diagrams.
+
+In order to enable the *editor role* for a given user, it is needed to edit the `roles.json` file.
+The following rules apply to each string of the `roles.json` array:
+
+1. the string *must* match the UTF8 displayName (the name shown in the main toolbar of the application). In the AAC
+   case it is “name surname”;
+2. the string must be lower cased;
+3. every single space must be replaced by a dash “`-`”.
+
+e.g. “Enrique Sanz Yagüe” -> “enrique sanz yagüe” -> “enrique-sanz-yagüe”

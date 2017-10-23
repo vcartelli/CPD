@@ -47,15 +47,15 @@ public final class AuthSubRoute extends VoidSubRoute {
 
     public static void loginRedirect(RoutingContext rc) {
         JsonObject state = AuthSubRoute.getState(rc);
-        String appHref = config.server.appHref(rc);
+        String appPath = config.server.appPath(rc);
         if (rc.user() != null)
-            redirect(rc, appHref + state.getString("redirect"));
+            redirect(rc, appPath + state.getString("redirect"));
         else {
-            appHref += "login";
+            appPath += "login";
             if (!"".equals(state.getString("redirect"))) {
-                appHref += "/" + base64.encode(state.encode());
+                appPath += "/" + base64.encode(state.encode());
             }
-            redirect(rc, appHref);
+            redirect(rc, appPath);
         }
     }
 
@@ -145,7 +145,7 @@ public final class AuthSubRoute extends VoidSubRoute {
         // TODO: save user state
         rc.clearUser();
         rc.session().destroy();
-        redirect(rc, config.server.appHref(rc) + "login");
+        redirect(rc, config.server.appPath(rc) + "login");
     }
 
     private void getOAuth2Providers(RoutingContext rc) {

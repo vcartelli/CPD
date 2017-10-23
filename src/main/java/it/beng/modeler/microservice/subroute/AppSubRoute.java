@@ -36,15 +36,15 @@ public final class AppSubRoute extends VoidSubRoute {
             logger.info(path + ":locale/" + route + " will be managed by root web application");
         }
 
-        /*** STATIC RESOURCES (swagger-ui) ***/
-
+        /* STATIC RESOURCES (CPD app) */
         for (String locale : config.app.locales) {
             router.route(HttpMethod.GET, path + locale + "/*").handler(StaticHandler.create("web/ROOT/" + locale)
                                                                                     .setDirectoryListing(false)
                                                                                     .setAllowRootFileSystemAccess(false)
                                                                                     .setAlwaysAsyncFS(true)
                                                                                     .setCachingEnabled(true)
-                                                                                    .setFilesReadOnly(true));
+                                                                                    .setFilesReadOnly(true)
+            );
         }
     }
 }

@@ -187,7 +187,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
 
         // redirect base-href to app
         router.route(HttpMethod.GET, baseHref).handler(rc -> {
-            SubRoute.redirect(rc, config.server.appHref(rc));
+            SubRoute.redirect(rc, config.server.appPath(rc));
         });
 
         // create the mongodb client
@@ -214,16 +214,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
 
         // redirect all non-handled [GET] to app
         router.route(HttpMethod.GET, "/*").handler(rc -> {
-            String path = rc.request().path();
-            if (path.startsWith(baseHref))
-                path = path.replace(baseHref, "");
-            if ('/' == path.charAt(2) && path.length() > 2 && config.app.locales.contains(path.substring(0, 2)))
-                path = path.substring(3);
-            if (path.startsWith(config.app.path))
-                path = path.substring(config.app.path.length());
-            path = config.server.appHref(rc) + path;
-            logger.finest("redirecting to " + path);
-            SubRoute.redirect(rc, path);
+            rc.reroute(config.server.appPath(rc));
         });
 
         // handle failures
@@ -237,7 +228,7 @@ public class ModelerServerVerticle extends AbstractVerticle {
             switch (rc.statusCode()) {
                 case 404: {
                     // let root application find the resource or show the 404 not found page
-                    rc.reroute(config.server.appHref(rc));
+                    rc.reroute(config.server.appPath(rc));
                     break;
                 }
                 default: {

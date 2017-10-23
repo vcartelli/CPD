@@ -112,16 +112,32 @@ public final class config {
             return origin() + server.baseHref;
         }
 
+        public static String path() {
+            return server.baseHref;
+        }
+
         public static String apiHref() {
             return href() + api.path;
+        }
+
+        public static String apiPath() {
+            return path() + api.path;
         }
 
         public static String assetsHref() {
             return href() + ASSETS_PATH;
         }
 
+        public static String assetsPath() {
+            return path() + ASSETS_PATH;
+        }
+
         public static String appHref(RoutingContext rc) {
             return href() + app.path + locale(rc) + "/";
+        }
+
+        public static String appPath(RoutingContext rc) {
+            return path() + app.path + locale(rc) + "/";
         }
 
     }

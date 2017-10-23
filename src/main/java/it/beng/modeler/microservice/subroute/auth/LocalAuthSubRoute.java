@@ -9,7 +9,6 @@ import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.ResponseError;
-import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
 import it.beng.modeler.microservice.subroute.VoidSubRoute;
@@ -41,11 +40,23 @@ public final class LocalAuthSubRoute extends VoidSubRoute {
         // create local user login handler
         router.route(HttpMethod.GET, path + "login/handler").handler(rc -> {
             JsonObject state = AuthSubRoute.getState(rc);
-            if (state.getJsonObject("authInfo") == null) {
-                rc.fail(new ResponseError(rc, "no authInfo supplied to login state"));
+            if (state != null) {
+                JsonObject authInfo = state.getJsonObject("authInfo");
+                if (authInfo == null) {
+                    rc.fail(new ResponseError(rc, "no authInfo supplied to login state"));
+                } else { // rc.next();
+                    localAuthProvider.authenticate(authInfo, result -> {
+                        if (result.succeeded()) {
+                            rc.setUser(result.result());
+                        } else {
+                            rc.fail(result.cause());
+                        }
+                        rc.next();
+                    });
+                }
             } else rc.next();
         });
-        router.route(HttpMethod.GET, path + "login/handler").handler(LocalAuthHandler.create(localAuthProvider));
+//        router.route(HttpMethod.GET, path + "login/handler").handler(LocalAuthHandler.create(localAuthProvider));
     }
 
 }

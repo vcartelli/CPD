@@ -24,7 +24,8 @@ public final class AssetsSubRoute extends VoidSubRoute {
     protected void init() {
         router.route(HttpMethod.GET, path + "*").handler(
             StaticHandler.create("web/assets")
-                         .setDirectoryListing(config.server.assets.allowListing));
+                         .setDirectoryListing(config.server.assets.allowListing)
+        );
     }
 
 }

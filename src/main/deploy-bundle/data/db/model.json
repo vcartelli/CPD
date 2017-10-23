@@ -146,5 +146,42 @@
 	"name": "Notificación de resoluciones",
 	"documentation": "El plazo máximo para dictar y notificar a los interesados la resolución expresa será de tres meses, contados desde el día siguiente a la finalización del plazo de presentación de solicitudes.\n\nLas notificaciones de resoluciones y actos administrativos se practicarán preferentemente por medios electrónicos y, en todo caso, cuando las personas interesadas resulten obligadas a recibirlas por esta vía. Las personas interesadas que no estén obligadas a recibir notificaciónes electrónicas podrán decidir y comunicar en cualquier momento que las notificaciones sucesivas se practiquen o dejen de practicar por medios electrónicos.\n\nLas notificaciones electrónicas se realizarán mediante el Sistema de notificación electrónica de Galicia-Notifica disponible a través de la sede electrónica de la Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá a las personas interesadas avisos de la puesta a disposición de las notificaciones, mediante un correo electrónico dirigido a la cuenta de correo que conste en la solicitud a efectos de notificación. Estos avisos no tendrán, en ningún caso, efectos de notificación practicada y su falta no impedirá que la notificación sea considerada plenamente válida.\n\nLas notificaciones por medios electrónicos se entenderán practicadas en el momento en que se produzca el acceso a su contenido. Cuando la notificación por medios electrónicos sea de carácter obligatorio, o fuese expresamente elegida por el interesado, se entenderá rechazada cuando hayan transcurrido diez días naturales desde la puesta a disposición de la notificación sin que se acceda a su contenido.\n\nSe el envío de la notificación electrónica no es posible por problemas técnicos, la Administración general y del sector público autonómico de Galicia practicará la notificación por los medios previstos en la normativa reguladora del procedimiento administrativo común",
 	"class": "model.FPMN.Phase"
+},
+{
+	"_id": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"class": "model.FPMN.Procedure",
+	"notation": "model.notation.FPMN",
+	"name": "Parenting Skills Workshop",
+	"documentation": "In Sheffield, parents and carers can access a range of groups that offer practical advice and support with parenting. We deliver programmes that are evidence based, and tried and tested. This means that the content is written by professional psychologists who have years of research into what works to manage behaviours and difficulties that we can all face as parents.  These programmes are delivered across the world and have over 30 years of research behind them.  \n\nWe can work with your family when there are difficulties in managing your child's behaviour and to help build closer relationships. You can learn new skills to help you:\n\n• build parenting confidence\n• find ways to encourage better behaviour in children\n• deal with anger management or family conflict\n• cope with stress",
+	"mission": "Managing child's behaviour.\nHelp in build closer relationships."
+},
+{
+	"_id": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
+	"class": "model.FPMN.Phase",
+	"notation": "model.notation.FPMN",
+	"name": "Workshop application",
+	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
+	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"nextPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
+	"eServiceId": "psw001"
+},
+{
+	"_id": "f330df6e-b2ab-493c-af69-a5f44f38071e",
+	"class": "model.FPMN.Phase",
+	"notation": "model.notation.FPMN",
+	"name": "Workshop booking",
+	"documentation": "• The administrator receives the user’s submitted form.\n• The administrator assesses the user’s day and time requirements, and will look to book the user’s first available preference.\n• The administrator will add the user’s details to the available workshop.\n• The administrator books the user onto a course session.",
+	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"prevPhaseId": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
+	"nextPhaseId": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7"
+},
+{
+	"_id": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7",
+	"class": "model.FPMN.Phase",
+	"notation": "model.notation.FPMN",
+	"name": "Booked workshop notification",
+	"documentation": "• The administrator will add the booking information to an email – The email includes the workshop information day/time, workshop location.\n• The administrator sends the email to the user’s email address which was entered onto the form.",
+	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"prevPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e"
 }]
 

@@ -86,7 +86,7 @@ public final class ApiSubRoute extends VoidSubRoute {
 
         /* STATIC RESOURCES (swagger-ui) */
 
-        // IMPORTANT!!1: redirect api to api/
+        // IMPORTANT!!1: (strange behaviour with swagger) redirect api to api/
         // it MUST be done with regex (i.e. must be exactly "api") to avoid infinite redirections
         router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
               .handler(rc -> redirect(rc, path));
