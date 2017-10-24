@@ -67,7 +67,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         url.append("&");
         url.append("redirect_uri=");
         url.append(config.server.origin());
-        url.append(baseHref + "oauth2/client/callback");
+        url.append(baseHref).append("oauth2/client/callback");
         url.append("&");
         url.append("client_id=");
         url.append(oauth2ClientOptions.getClientID());

@@ -242,15 +242,15 @@ public abstract class SubRoute<T> {
             .put("$date", dateTime != null ? dateTime.toString() : null);
     }
 
-    public static void redirect(RoutingContext rc, String location) {
-        String loc = location.replace("//", "/");
-        logger.finest("REDIRECT: " + loc);
-        if (loc.length() != location.length()) {
-            logger.finest("DOUBLE SLASH FOUND: " + location + " --> " + loc);
+    public static void redirect(RoutingContext rc, final String location) {
+        final String _location = location.replaceAll("(?<!:)/{2,}","/");
+        logger.finest("REDIRECT: " + _location);
+        if (_location.length() != location.length()) {
+            logger.finest("DOUBLE SLASH FOUND: " + location + " --> " + _location);
         }
         rc.response()
           .setStatusCode(HttpResponseStatus.FOUND.code())
-          .putHeader("Location", loc)
+          .putHeader("Location", _location)
           .end();
     }
 
