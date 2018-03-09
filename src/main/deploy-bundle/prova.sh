@@ -65,7 +65,8 @@ do
 #cat "$input" | xxd -p -r > "${input%'.hex'}"; rm "$input"; 
 IFS='=' read -r -a array <<< "$input"
 echo "read ${array[0]}=${array[1]}"
-if [[ "${array[0]}" != "cpd.server.pub.scheme" ]]; then # || [[ "${array[0]}" != "cpd.oauth2.origin" ]]; then 
+#if  [ ${array[0]} != "cpd.server.pub.scheme" ] || [ ${array[0]} != "cpd.oauth2.origin" ] ; then
+if ! [[ ${array[0]} =~ ^cpd\.(server\.pub\.scheme|oauth2\.origin)$ ]] ; then  
 	echo "Insert value for property \"${array[0]}\" [${array[1]}]"
 	read userinput
 	echo "user input=$userinput"
