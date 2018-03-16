@@ -3,7 +3,7 @@
 /production.properties
 /config/
 /web/
-
+keystore.jks
 ### OSX fork resources
 .DS_Store
 

@@ -7,18 +7,18 @@ JSONCONF1=./conf/config.json
 EXAMPLEJSONCONF2=./web/assets/conf/example.config.json
 JSONCONF2=./web/assets/conf/config.json
 KEYSTOREFILE=keystore.jks
-OAUTH2PROVIDERSFILE=.oauth2providers.json
+OAUTH2PROVIDERSFILE=oauth2providers.json
 
 #checking if oauth2providers file exists
 if [ -f $OAUTH2PROVIDERSFILE ]; then
-	echo "found a $OAUTH2PROVIDERSFILE file. Do you want to keep it? (Y/n)"
+	echo "found an $OAUTH2PROVIDERSFILE file. Do you want to keep it? (Y/n)"
         read keepit
         if [ "$keepit" = "n" ]; then
                 echo "generate a new $OAUTH2PROVIDERSFILE file (use example.oauth2providers.json as a template) and re-run the script!"
 		exit 0
         fi
 else
-	echo "generate a $OAUTH2PROVIDERSFILE file (use example.oauth2providers.json as a template) and re-run the script!"
+	echo "generate an $OAUTH2PROVIDERSFILE file (use example.oauth2providers.json as a template) and re-run the script!"
 	exit 0
 fi
 
