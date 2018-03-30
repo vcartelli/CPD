@@ -1,33 +1,24 @@
-FROM ubuntu:16.04 as builder
-
-#ENV HOME /home/gdimodica/Software/CPD-github/CPD
-
-#Configure the building environment
-RUN apt-get update
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:openjdk-r/ppa 
-RUN apt-get update && apt-get install --fix-missing -y -f \
-openjdk-8-jdk \
-maven \
-mongodb 
+#FROM frolvlad/alpine-oraclejdk8 as builder
+#Configure the develop environment
+#RUN apk update
+#RUN apk add mongodb
+#RUN apk add maven
 
 #EXPOSE 22
-VOLUME /home/gdimodica/.m2
-WORKDIR /app
-ADD . /app
-RUN ./prepare-bundle.sh
+#VOLUME /home/gdimodica/.m2
+#WORKDIR /app
+#ADD pom.xml /app
+#RUN mvn verify --fail-never
+#ADD . /app
+#RUN ./prepare-bundle-docker.sh
 
-FROM ubuntu:latest
+FROM anapsix/alpine-java
 #Configure the production environment
-RUN apt-get update
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:openjdk-r/ppa
-RUN apt-get update && apt-get install --fix-missing -y -f \
-openjdk-8-jre \
-mongodb
+RUN apk update
+RUN apk add mongodb
 
-WORKDIR /app
-COPY --from=builder /app/target ./target
-#CMD ["target/deploy-bundle/configure.sh"]
+WORKDIR /CPD
+COPY --from=gdimodica/beng-repo:cpd-develop /app/target/deploy-bundle .
+RUN chmod 754 *.sh
 
 
