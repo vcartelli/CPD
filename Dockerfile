@@ -8,7 +8,7 @@ WORKDIR /app
 ADD pom.xml /app
 RUN mvn verify --fail-never
 ADD . /app
-RUN ./prepare-bundle-docker.sh
+RUN ./prepare-bundle.sh
 
 
 
