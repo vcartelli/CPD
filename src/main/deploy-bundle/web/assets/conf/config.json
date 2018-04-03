@@ -1,0 +1,44 @@
+{
+  "server": {
+    "baseHref": "/cpd/",
+    "useLocalAuth": false,
+    "schema": {
+      "path": "schema/"
+    },
+    "auth": {
+      "path": "auth/",
+      "login": "login/{provider}",
+      "logout": "logout",
+      "getOAuth2Providers": "oauth2/providers",
+      "getUser": "user",
+      "getUserIsAuthenticated": "user/isAuthenticated",
+      "getUserHasAccess": "user/hasAccess/{accessRole}",
+      "getUserIsAuthorized": "user/isAuthorized/{contextName}/{contextId}/{contextRole}"
+    },
+    "api": {
+      "path": "api/",
+      "getDiagramSummaryList": "diagram/summary/list",
+      "postUserFeedback": "user/feedback",
+      "getDiagramElement": "diagram/{id}",
+      "putDiagramElement": "diagram",
+      "delDiagramElement": "diagram/{id}",
+      "getModelElement": "model/{id}",
+      "putModelElement": "model",
+      "delModelElement": "model/{id}",
+      "getDiagramElements": "diagram/{rootId}/elements",
+      "getDiagramModels": "diagram/{rootId}/models",
+      "getStencilSetDefinition": "data/stencilSetDefinition/{notation}"
+    }
+  },
+  "qae": {
+    "href": "https://simpatico.morelab.deusto.es/qae/",
+    "api": {
+      "path": "api/",
+      "getQuestionCount": "stats/diagrams/{elementId}"
+    },
+    "link": {
+      "newQuestion": "questions/create?tags",
+      "relatedQuestions": "diagrams/list/{elementId}"
+    }
+  }
+}

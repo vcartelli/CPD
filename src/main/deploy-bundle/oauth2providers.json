@@ -1,0 +1,37 @@
+[
+  {
+    "provider":"Google",
+    "logoUrl":"assets/img/oauth2_google_logo.png",
+    "site":"https://accounts.google.com",
+    "authPath":"/o/oauth2/auth",
+    "tokenPath":"https://www.googleapis.com/oauth2/v3/token",
+    "introspectionPath":"https://www.googleapis.com/oauth2/v3/tokeninfo",
+    "clientId":"my google app client id",
+    "clientSecret":"my google app client secret",
+    "flows":[
+      {
+        "flowType":"AUTH_CODE",
+        "scope":"email",
+        "getUserProfile": "https://www.googleapis.com/plus/v1/people/{userId}"
+      }
+    ]
+  }, {
+    "provider":"AAC",
+    "logoUrl":"assets/img/oauth2_aac_logo.png",
+    "site":"http://my.aac:8080",
+    "authPath":"/aac/eauth/authorize",
+    "tokenPath":"/aac/oauth/token",
+    "clientId":"my aac app client id",
+    "clientSecret":"my aac app client secret",
+    "flows":[
+      {
+        "flowType":"IMPLICIT",
+        "scope":"profile.basicprofile.me",
+        "getUserProfile": "http://my.aac:8080/aac/basicprofile/me"
+      },
+      {
+        "flowType":"CLIENT"
+      }
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "develop": false,
+  "version": "1.4-SNAPSHOT",
+  "ssl": {
+    "enabled": false,
+    "keyStoreFilename": "keystore.jks",
+    "keyStorePassword": "simpatico"
+  },
+  "server": {
+    "name": "Collaborative Procedure Designer Server",
+    "scheme": "http",
+    "hostname": "localhost",
+    "port": 8901,
+    "baseHref": "/cpd/",
+    "allowedOriginPattern": "^https?:\\/\\/(localhost:8901|origin1|origin2|...)$",
+    "simLagTime": -1,
+    "pub": {
+      "scheme": "https",
+      "hostname": "example.host.com",
+      "port": 443
+    },
+    "cacheBuilder": {
+      "concurrencyLevel": 1,
+      "initialCapacity": 100,
+      "maximumSize": 1000,
+      "expireAfterAccess": "60s"
+    },
+    "schema": {
+      "path": "schema/"
+    },
+    "auth": {
+      "path": "auth/"
+    },
+    "api": {
+      "path": "api/"
+    },
+    "assets": {
+      "allowListing": false
+    }
+  },
+  "app": {
+    "path": "",
+    "locales": ["en","es","it"],
+    "routes": ["login","login/*","diagram/*","oauth2/client/callback","schema-validator"],
+    "diagramPath": "diagram/"
+  },
+  "mongodb": {
+    "host": "localhost",
+    "port": 27017,
+    "username": "",
+    "password": "",
+    "db_name": "cpd",
+    "useObjectId": false,
+    "maxPoolSize": 100,
+    "maxIdleTimeMS": 60000,
+    "maxLifeTimeMS": 3600000
+  },
+  "oauth2": {
+    "origin": "http://localhost:8901",
+    "providers": [{"provider":"Google","logoUrl":"assets/img/oauth2_google_logo.png","site":"https://accounts.google.com","authPath":"/o/oauth2/auth","tokenPath":"https://www.googleapis.com/oauth2/v3/token","introspectionPath":"https://www.googleapis.com/oauth2/v3/tokeninfo","clientId":"mygoogleappclientid","clientSecret":"mygoogleappclientsecret","flows":[{"flowType":"AUTH_CODE","scope":"email","getUserProfile":"https://www.googleapis.com/plus/v1/people/{userId}"}]},{"provider":"AAC","logoUrl":"assets/img/oauth2_aac_logo.png","site":"http://my.aac:8080","authPath":"/aac/eauth/authorize","tokenPath":"/aac/oauth/token","clientId":"myaacappclientid","clientSecret":"myaacappclientsecret","flows":[{"flowType":"IMPLICIT","scope":"profile.basicprofile.me","getUserProfile":"http://my.aac:8080/aac/basicprofile/me"},{"flowType":"CLIENT"}]}]
+  }
+}
