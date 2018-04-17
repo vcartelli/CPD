@@ -1,0 +1,13 @@
+[{
+	"_id": "4053a4e7-efb1-4c1c-99ba-2ed53176b37e",
+	"dateTime": {
+		"$date": "2017-03-15T12:35:20.201Z"
+	},
+	"userId": "citizen1@simpatico.eu",
+	"message": "Il permesso potrebbe essere rilasciato via PEC",
+	"coordinates": {
+		"diagramId": "a66534ca-8713-4081-986b-14a1b48c9414",
+		"elementId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9"
+	}
+}]
+

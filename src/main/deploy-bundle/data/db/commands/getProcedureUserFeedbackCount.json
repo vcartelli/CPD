@@ -1,0 +1,52 @@
+{
+  "aggregate": "models",
+  "pipeline": [{
+    "$match": {
+      "＄domain": "Model.FPMN.Diagram"
+    }
+  }, {
+    "$project": {
+      "_id": 1.0,
+      "diagram": "$$ROOT"
+    }
+  }, {
+    "$lookup": {
+      "from": "diagrams",
+      "localField": "diagram.planeId",
+      "foreignField": "_id",
+      "as": "procedure"
+    }
+  }, {
+    "$unwind": "$procedure"
+  }, {
+    "$lookup": {
+      "from": "models",
+      "localField": "procedure.modelId",
+      "foreignField": "_id",
+      "as": "procedure"
+    }
+  }, {
+    "$match": {
+      {procedureId}
+      "procedure.＄domain": "Model.FPMN.Procedure"
+    }
+  }, {
+    "$unwind": "$procedure"
+  }, {
+    "$lookup": {
+      "from": "user.feedbacks",
+      "localField": "_id",
+      "foreignField": "coordinates.diagramId",
+      "as": "feedbacks"
+    }
+  }, {
+    "$unwind": "$feedbacks"
+  }, {
+    "$group": {
+      "_id": "$procedure._id",
+      "count": {
+        "$sum": 1.0
+      }
+    }
+  }]
+}

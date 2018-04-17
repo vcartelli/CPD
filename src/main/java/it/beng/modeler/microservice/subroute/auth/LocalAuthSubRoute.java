@@ -1,18 +1,19 @@
 package it.beng.modeler.microservice.subroute.auth;
 
+import java.util.logging.Logger;
+
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.UserSessionHandler;
-import it.beng.microservice.db.MongoDB;
-import it.beng.microservice.schema.SchemaTools;
+import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
-import it.beng.modeler.microservice.ResponseError;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
-import it.beng.modeler.microservice.subroute.AuthSubRoute;
+import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.VoidSubRoute;
-import it.beng.modeler.model.ModelTools;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -21,9 +22,12 @@ import it.beng.modeler.model.ModelTools;
  */
 public final class LocalAuthSubRoute extends VoidSubRoute {
 
-    public LocalAuthSubRoute(Vertx vertx, Router router, MongoDB mongodb,
-                             SchemaTools schemaTools, ModelTools modelTools) {
-        super(config.server.auth.path + "local/", vertx, router, mongodb, schemaTools, modelTools);
+    private static Logger logger = Logger.getLogger(LocalAuthSubRoute.class.getName());
+
+    public static final String PROVIDER = "local";
+
+    public LocalAuthSubRoute(Vertx vertx, Router router) {
+        super(config.server.auth.path + PROVIDER + "/", vertx, router, false);
     }
 
     @Override
@@ -38,25 +42,31 @@ public final class LocalAuthSubRoute extends VoidSubRoute {
         router.route().handler(UserSessionHandler.create(localAuthProvider));
 
         // create local user login handler
-        router.route(HttpMethod.GET, path + "login/handler").handler(rc -> {
-            JsonObject state = AuthSubRoute.getState(rc);
-            if (state != null) {
-                JsonObject authInfo = state.getJsonObject("authInfo");
-                if (authInfo == null) {
-                    rc.fail(new ResponseError(rc, "no authInfo supplied to login state"));
-                } else { // rc.next();
-                    localAuthProvider.authenticate(authInfo, result -> {
-                        if (result.succeeded()) {
-                            rc.setUser(result.result());
-                        } else {
-                            rc.fail(result.cause());
+        router.route(HttpMethod.POST, path + "login/handler").handler(context -> {
+            final JsonObject authInfo = context.getBodyAsJson();
+            if (authInfo != null) {
+                localAuthProvider.authenticate(authInfo, result -> {
+                    if (result.succeeded()) {
+                        Session session = context.session();
+                        if (session != null) {
+                            // the user has upgraded from unauthenticated to authenticated
+                            // session should be upgraded as recommended by owasp
+                            session.regenerateId();
                         }
-                        rc.next();
-                    });
-                }
-            } else rc.next();
+                        User user = result.result();
+                        JsonObject loginState = context.get("loginState");
+                        user.principal().put("loginState", loginState);
+                        context.setUser(user);
+                        logger.finest("local user principal: " + context.user().principal().encodePrettily());
+                        // return the user
+                        new JsonResponse(context).end(context.user().principal());
+                    } else {
+                        context.fail(result.cause());
+                    }
+                });
+            } else
+                context.fail(ServerError.message("no authInfo body in login post"));
         });
-//        router.route(HttpMethod.GET, path + "login/handler").handler(LocalAuthHandler.create(localAuthProvider));
     }
 
 }

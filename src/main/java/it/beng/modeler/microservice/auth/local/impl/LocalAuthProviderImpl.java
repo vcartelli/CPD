@@ -1,5 +1,7 @@
 package it.beng.modeler.microservice.auth.local.impl;
 
+import java.util.logging.Logger;
+
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -7,10 +9,8 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import it.beng.microservice.db.MongoDB;
+import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
-import it.beng.modeler.model.ModelTools;
-
-import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -21,12 +21,12 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
 
     private static Logger logger = Logger.getLogger(LocalAuthProviderImpl.class.getName());
 
-    private final Vertx vertx;
+    // private final Vertx vertx;
     private final MongoDB mongodb;
 
     public LocalAuthProviderImpl(Vertx vertx) {
-        this.vertx = vertx;
-        this.mongodb = vertx.getOrCreateContext().get("mongodb");
+        // this.vertx = vertx;
+        this.mongodb = config.mongoDB();
         if (mongodb == null)
             throw new IllegalStateException("could not find mongodb in current context");
     }
@@ -41,30 +41,31 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
 
         logger.finest("authenticating " + authInfo.encodePrettily());
 
-        String username = authInfo.getString("username");
-        if (username == null) {
-            resultHandler.handle(Future.failedFuture("authInfo must contain username in 'username' field"));
+        String id = authInfo.getString("username");
+        if (id == null || "".equals(id.trim())) {
+            resultHandler.handle(Future.failedFuture("no username provided"));
             return;
         }
 
         String password = authInfo.getString("password");
-        if (password == null) {
-            resultHandler.handle(Future.failedFuture("authInfo must contain password in 'password' field"));
+        if (password == null || "".equals(password.trim())) {
+            resultHandler.handle(Future.failedFuture("no password provided"));
             return;
         }
 
-        mongodb.findOne("user", new JsonObject()
-            .put("id", username), new JsonObject(), ModelTools.JSON_ENTITY_TO_MONGO_DB, ar -> {
+        JsonObject auth = new JsonObject().put("id", id).put("password", password);
+        mongodb.findOne(config.USER_COLLECTION, auth, new JsonObject(), ar -> {
             if (ar.succeeded()) {
-                JsonObject user = ar.result();
-                if (user != null && password.equals(user.getString("password"))) {
-                    user.getJsonObject("profile").put("provider", "local");
-                    resultHandler.handle(Future.succeededFuture(new LocalUser(user, this)));
+                JsonObject account = ar.result();
+                if (account != null/*  && password.equals(user.getString("password")) */) {
+                    User user = new LocalUser(new JsonObject(), this);
+                    user.principal().put("account", account);
+                    resultHandler.handle(Future.succeededFuture(user));
                 } else {
                     resultHandler.handle(Future.failedFuture("Invalid username/password"));
                 }
             } else {
-                resultHandler.handle(Future.failedFuture("Invalid username/password"));
+                resultHandler.handle(Future.failedFuture(ar.cause()));
             }
         });
 

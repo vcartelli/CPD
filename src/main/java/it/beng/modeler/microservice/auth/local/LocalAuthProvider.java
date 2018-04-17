@@ -16,6 +16,3 @@ public interface LocalAuthProvider extends AuthProvider {
     }
 
 }
-
-
-

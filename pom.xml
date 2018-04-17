@@ -1,23 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>it.beng</groupId>
         <artifactId>microservice-stack</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.4-SNAPSHOT</version>
     </parent>
-
     <artifactId>cpd-server</artifactId>
     <packaging>jar</packaging>
-
     <name>beng Modeler Server</name>
-
     <properties>
         <main.verticle>it.beng.modeler.microservice.ModelerConfigVerticle</main.verticle>
     </properties>
-
     <profiles>
         <profile>
             <id>develop</id>
@@ -44,14 +39,12 @@
             </properties>
         </profile>
     </profiles>
-
     <repositories>
         <repository>
             <id>beng-public</id>
             <url>http://nexus.business-engineering.it/nexus/repository/maven-public/</url>
         </repository>
     </repositories>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -62,7 +55,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>it.beng</groupId>
@@ -95,7 +87,6 @@
             <version>21.0</version>
         </dependency>
     </dependencies>
-
     <build>
         <resources>
             <!-- 1. copy unfiltered resources -->
@@ -154,14 +145,8 @@
             </resource>
         </resources>
         <plugins>
-<!-- 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <debug>${cpd.develop}</debug>
-                        <debugLevel>lines,vars,source</debugLevel>
-                    </configuration>                
-            </plugin>
+            <!-- 
+            <plugin><artifactId>maven-compiler-plugin</artifactId><configuration><debug>${cpd.develop}</debug><debugLevel>lines,vars,source</debugLevel></configuration></plugin>
  -->
             <plugin>
                 <!-- copy the cluster configuration -->
@@ -189,6 +174,25 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+<!--                 <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+ -->                <configuration>
+                    <mainClass>it.beng.microservice.common.Launcher</mainClass>
+                    <arguments>
+                        <argument>run</argument>
+                        <argument>it.beng.modeler.microservice.ModelerConfigVerticle</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -200,5 +204,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

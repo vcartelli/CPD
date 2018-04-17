@@ -1,0 +1,46 @@
+{
+  "aggregate": "models",
+  "pipeline": [{
+    "$match": {
+      "_id": "{diagramId}",
+      "＄domain": "Model.FPMN.Diagram"
+    }
+  }, {
+    "$project": {
+      "diagram": "$$ROOT"
+    }
+  }, {
+    "$lookup": {
+      "from": "diagrams",
+      "localField": "diagram.planeId",
+      "foreignField": "_id",
+      "as": "plane"
+    }
+  }, {
+    "$unwind": "$plane"
+  }, {
+    "$lookup": {
+      "from": "diagrams",
+      "localField": "plane._id",
+      "foreignField": "planeId",
+      "as": "elements"
+    }
+  }, {
+    "$lookup": {
+      "from": "models",
+      "localField": "plane.modelId",
+      "foreignField": "_id",
+      "as": "root"
+    }
+  }, {
+    "$unwind": "$root"
+  }, {
+    "$graphLookup": {
+      "from": "models",
+      "startWith": "$root._id",
+      "connectFromField": "_id",
+      "connectToField": "parentId",
+      "as": "childs"
+    }
+  }]
+}

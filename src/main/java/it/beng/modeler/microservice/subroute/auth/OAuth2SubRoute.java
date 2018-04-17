@@ -1,21 +1,24 @@
 package it.beng.modeler.microservice.subroute.auth;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClientOptions;
-import io.vertx.core.json.JsonArray;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2ClientOptions;
 import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.UserSessionHandler;
-import it.beng.microservice.db.MongoDB;
-import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
-import it.beng.modeler.microservice.ResponseError;
 import it.beng.modeler.microservice.subroute.SubRoute;
-import it.beng.modeler.model.ModelTools;
+import it.beng.modeler.microservice.utils.AuthUtils;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -24,21 +27,34 @@ import it.beng.modeler.model.ModelTools;
  */
 public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
+    private static Logger logger = Logger.getLogger(OAuth2SubRoute.class.getName());
+
+    protected final static String FIRST_NAME = "firstName";
+    protected final static String LAST_NAME = "lastName";
+    protected final static String DISPLAY_NAME = "displayName";
+    protected final static String EMAIL = "email";
+    protected static final Map<String, Map<String, String>> PROVIDER_MAPS = new HashMap<>();
+    static {
+        Map<String, String> provider;
+        /* AAC */
+        provider = new HashMap<>();
+        provider.put(FIRST_NAME, "it.smartcommunitylab.aac.givenname");
+        provider.put(LAST_NAME, "it.smartcommunitylab.aac.surname");
+        provider.put(DISPLAY_NAME, "displayName");
+        provider.put(EMAIL, "OIDC_CLAIM_email");
+        PROVIDER_MAPS.put("AAC", provider);
+        /* Google */
+        provider = new HashMap<>();
+        provider.put(FIRST_NAME, "givenName");
+        provider.put(LAST_NAME, "familyName");
+        provider.put(DISPLAY_NAME, "displayName");
+        provider.put(EMAIL, "value");
+        PROVIDER_MAPS.put("Google", provider);
+    }
+
     public final static String AUTHORIZATION_CODE_GRANT = "AUTHORIZATION_CODE_GRANT";
     public final static String CLIENT_CREDENTIALS_GRANT = "CLIENT_CREDENTIALS_GRANT";
     public final static String IMPLICIT_GRANT = "IMPLICIT_GRANT";
-
-    private static final JsonObject CITIZEN_ROLE = new JsonObject()
-        .put("access", config.role.cpd.access.citizen)
-        .put("context", new JsonObject()
-            .put("diagram", new JsonObject()));
-
-    private static final JsonObject EDIT_ALL_ROLE = new JsonObject()
-        .put("access", config.role.cpd.access.civilServant)
-        .put("context", new JsonObject()
-            .put("diagram", new JsonObject()
-                .put("*", new JsonArray()
-                    .add("role:cpd:context:diagram:editor"))));
 
     protected config.OAuth2Config oauth2Config;
     protected config.OAuth2Config.Flow oauth2Flow;
@@ -46,6 +62,7 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
     protected OAuth2Auth oauth2Provider;
 
     static class Config {
+
         config.OAuth2Config oauth2Config;
         String oauth2FlowType;
 
@@ -55,19 +72,20 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
         }
     }
 
-    public OAuth2SubRoute(Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools, ModelTools modelTools,
-                          config.OAuth2Config oauth2Config, String flowType) {
-        super(config.server.auth.path + oauth2Config.provider + "/", vertx, router, mongodb, schemaTools,
-            modelTools, new OAuth2SubRoute.Config(oauth2Config, flowType));
+    public OAuth2SubRoute(Vertx vertx, Router router, config.OAuth2Config oauth2Config, String flowType) {
+        super(config.server.auth.path + oauth2Config.provider + "/",
+            vertx,
+            router,
+            false,
+            new OAuth2SubRoute.Config(oauth2Config, flowType));
     }
 
     protected abstract void init();
 
     private static OAuth2FlowType flowType(String flowType) {
-        if (flowType != null)
-            try {
-                return OAuth2FlowType.valueOf(flowType);
-            } catch (IllegalArgumentException ignored) {}
+        if (flowType != null) try {
+            return OAuth2FlowType.valueOf(flowType);
+        } catch (IllegalArgumentException ignored) {}
         return OAuth2FlowType.AUTH_CODE;
     }
 
@@ -99,34 +117,40 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
     }
 
-    private String generateUserId(JsonObject profile) {
-        String displayName = profile.getString("displayName");
-        if (displayName == null || displayName.trim().length() == 0) {
-            displayName = "anonymous";
-            profile.put("displayName", displayName);
+    protected void getUserRoles(final JsonObject account, Handler<AsyncResult<Void>> handler) {
+        String id = account.getString("id");
+        if ("".equals(id.trim())) {
+            account.put("roles", AuthUtils.LOGGED_IN_CITIZEN_ROLES);
+            handler.handle(Future.succeededFuture());
+            return;
         }
-        String userId = displayName.toLowerCase().replace(" ", "-");
-        profile.put("id", userId);
-        return userId;
-    }
-
-    protected void setUserRoles(RoutingContext rc, JsonObject principal) {
-        final String userId = generateUserId(principal.getJsonObject("profile"));
-        vertx.fileSystem()
-             .readFile(config.DATA_PATH + "roles.json", ar -> {
-                 if (ar.succeeded()) {
-                     final JsonArray document = ar.result().toJsonArray();
-                     if (document.contains(userId))
-                         principal.put("roles", new JsonObject()
-                             .put("cpd", EDIT_ALL_ROLE));
-                     else
-                         principal.put("roles", new JsonObject()
-                             .put("cpd", CITIZEN_ROLE));
-                 } else {
-                     throw new ResponseError(rc, ar.cause());
-                 }
-             });
-
+        mongodb.findOne(config.USER_COLLECTION, new JsonObject().put("id", id), new JsonObject(), find -> {
+            if (find.succeeded()) {
+                JsonObject roles;
+                if (find.result() != null) {
+                    roles = find.result().getJsonObject("roles");
+                } else {
+                    roles = AuthUtils.LOGGED_IN_CITIZEN_ROLES;
+                }
+                account.put("roles", roles);
+                if (account.equals(find.result())) {
+                    handler.handle(Future.succeededFuture());
+                } else {
+                    // update the record if something has changed
+                    logger.warning("user record for " + account.getString("id") + " has changed, updating db record");
+                    mongodb.save(config.USER_COLLECTION, account, save -> {
+                        if (save.succeeded()) {
+                            handler.handle(Future.succeededFuture());
+                        } else {
+                            handler.handle(Future.failedFuture(save.cause()));
+                            return;
+                        }
+                    });
+                }
+            } else {
+                handler.handle(Future.failedFuture(find.cause()));
+            }
+        });
     }
 
 }

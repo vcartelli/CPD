@@ -1,33 +1,25 @@
 package it.beng.modeler.microservice.subroute;
 
+import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.Base64;
+import java.util.logging.Logger;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
-import it.beng.modeler.microservice.UserIsNotAuthorizedError;
-import it.beng.modeler.microservice.auth.local.impl.LocalUser;
-import it.beng.modeler.model.ModelTools;
-
-import java.nio.charset.StandardCharsets;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Random;
-import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -36,39 +28,15 @@ import java.util.logging.Logger;
  */
 public abstract class SubRoute<T> {
 
-    private static Logger logger = Logger.getLogger(SubRoute.class.getName());
-
-    static HttpServerResponse JSON_HEADER_RESPONSE(RoutingContext rc) {
-        return rc.response().putHeader("content-type", "application/json; charset=utf-8");
-    }
-
-    static void JSON_NULL_RESPONSE(RoutingContext rc) {
-        JSON_HEADER_RESPONSE(rc).end("null");
-    }
-
-    static void JSON_OBJECT_RESPONSE_END(RoutingContext rc, JsonObject jsonObject) {
-        if (jsonObject != null)
-            JSON_HEADER_RESPONSE(rc).end(config.develop ? jsonObject.encodePrettily() : jsonObject.encode());
-        else
-            JSON_NULL_RESPONSE(rc);
-    }
-
-    static void JSON_ARRAY_RESPONSE_END(RoutingContext rc, JsonArray jsonArray) {
-        if (jsonArray != null)
-            JSON_HEADER_RESPONSE(rc).end(config.develop ? jsonArray.encodePrettily() : jsonArray.encode());
-        else
-            JSON_NULL_RESPONSE(rc);
-    }
-
-    static void JSON_ARRAY_RESPONSE_END(RoutingContext rc, List list) {
-        JSON_ARRAY_RESPONSE_END(rc, new JsonArray(list));
-    }
+    protected Logger logger = Logger.getLogger(this.getClass().getName());
 
     static {
         Json.mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
-        Json.mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+        // Json.mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+        Json.mapper.setDefaultPropertyInclusion(JsonInclude.Value.construct(Include.ALWAYS, Include.NON_NULL));
         Json.prettyMapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
-        Json.prettyMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+        // Json.prettyMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, true);
+        Json.prettyMapper.setDefaultPropertyInclusion(JsonInclude.Value.construct(Include.ALWAYS, Include.NON_NULL));
     }
 
     protected final String baseHref;
@@ -77,149 +45,83 @@ public abstract class SubRoute<T> {
     protected final Router router;
     protected final MongoDB mongodb;
     protected final SchemaTools schemaTools;
-    protected final ModelTools modelTools;
+    // protected final ModelTools modelTools;
+    protected final boolean isPrivate;
 
-    public SubRoute(String path, Vertx vertx, Router router, MongoDB mongodb, SchemaTools schemaTools,
-                    ModelTools modelTools, T userData) {
+    public SubRoute(String path, Vertx vertx, Router router, boolean isPrivate, T userData) {
         this.baseHref = config.server.baseHref;
         this.path = baseHref + path;
         logger.info("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;
-        this.mongodb = mongodb;
-        this.schemaTools = schemaTools;
-        this.modelTools = modelTools;
+        this.mongodb = config.mongoDB();
+        this.schemaTools = config.schemaTools();
+        // this.modelTools = modelTools;
+        this.isPrivate = isPrivate;
+        if (isPrivate) {
+            router.route(path + "*").handler(SubRoute::privateRoute);
+        }
         this.init(userData);
     }
 
     protected abstract void init(T userData);
 
-    // TODO: this is just for simulating a remote call lagtime. Delete it when done.
-    static void simLagTime(Long simLagTime) {
-        if (!config.develop) return;
-        if (simLagTime == null)
-            simLagTime = config.server.simLagTime;
-        if (simLagTime > 0) try {
-            long ms = (long) (Math.max(0, simLagTime * (1 + new Random().nextGaussian() / 3)));
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    protected static void privateRoute(RoutingContext context) {
+        if (context.user() == null) {
+            failUnauthorized(context);
+        } else {
+            context.next();
         }
     }
 
-    static void simLagTime() {
-        simLagTime(config.server.simLagTime);
+    protected static void failUnauthorized(RoutingContext context) {
+        context.fail(HttpResponseStatus.UNAUTHORIZED.code());
+    }
+
+    protected static void failMethodNotAllowed(RoutingContext context) {
+        context.fail(HttpResponseStatus.METHOD_NOT_ALLOWED.code());
     }
 
     public static final class base64 {
+
         public static String decode(String encoded) {
-            return new String(Base64.getDecoder().decode(encoded
-                .replace('_', '/')
-                .replace('-', '+')
-            ), StandardCharsets.ISO_8859_1);
+            return new String(Base64.getDecoder().decode(encoded.replace('_', '/').replace('-', '+')),
+                StandardCharsets.ISO_8859_1);
         }
 
         public static String encode(String decoded) {
-            return Base64.getEncoder().encodeToString(decoded.getBytes(StandardCharsets.ISO_8859_1))
-                         .replace('/', '_')
-                         .replace('+', '-');
+            return Base64.getEncoder()
+                .encodeToString(decoded.getBytes(StandardCharsets.ISO_8859_1))
+                .replace('/', '_')
+                .replace('+', '-');
+        }
+
+        public static String encode(JsonObject jsonObject) {
+            return encode(jsonObject.encode());
         }
     }
 
-    static void isAuthorized(RoutingContext rc, String role, Handler<AsyncResult<Boolean>> handler) {
-        User user = rc.user();
-        if (user instanceof LocalUser)
-            user.isAuthorised(role, handler);
-        else if (user instanceof AccessToken)
-            LocalUser.isPermitted(role, user.principal().getJsonObject("roles").getJsonObject("cpd"), handler);
-        else
-            handler.handle(Future.succeededFuture(false));
-    }
-
-    void isAuthorized(RoutingContext rc, String context, String role, Handler<AsyncResult<Void>> handler) {
-        final User user = rc.user();
-        if (user != null) {
-            final String authority = context + "|" + role;
-            if (user instanceof LocalUser)
-                user.isAuthorised(authority, isAuthorized -> {
-                    if (isAuthorized.succeeded()) {
-                        if (isAuthorized.result())
-                            handler.handle(Future.succeededFuture());
-                        else
-                            handler.handle(Future.failedFuture(new UserIsNotAuthorizedError()));
-                    } else {
-                        handler.handle(Future.failedFuture(isAuthorized.cause()));
-                    }
-                });
-            else if (user instanceof AccessToken)
-                LocalUser.isPermitted(authority, user.principal().getJsonObject("roles").getJsonObject("cpd"),
-                    isPermitted -> {
-                        if (isPermitted.succeeded()) {
-                            if (isPermitted.result())
-                                handler.handle(Future.succeededFuture());
-                            else
-                                handler.handle(Future.failedFuture(new UserIsNotAuthorizedError()));
-                        } else {
-                            handler.handle(Future.failedFuture(isPermitted.cause()));
-                        }
-                    });
-        } else handler.handle(Future.failedFuture(new UserIsNotAuthorizedError()));
-    }
-
-    void isDiagramEditor(RoutingContext rc, String rootId, Handler<AsyncResult<Void>> handler) {
-        isAuthorized(rc,
-            "diagram|" + rootId,
-            "role:cpd:context:diagram:editor",
-            handler);
-    }
-
-    void isDiagramEditor(RoutingContext rc, JsonObject entity, Handler<AsyncResult<Void>> handler) {
-        isDiagramEditor(rc, modelTools.getDiagramRootId(entity), handler);
-    }
-
-    void isModelEditor(RoutingContext rc, JsonObject entity, Handler<AsyncResult<Void>> handler) {
-        User user = rc.user();
-        if (user == null) {
-            handler.handle(Future.failedFuture(new UserIsNotAuthorizedError()));
-            return;
+    protected static boolean isLoggedInFailOtherwise(RoutingContext context) {
+        if (context.user() == null) {
+            context.fail(HttpResponseStatus.UNAUTHORIZED.code());
+            return false;
         }
-        if (config.role.cpd.access
-            .civilServant.equals(user.principal().getJsonObject("roles").getJsonObject("cpd").getString("access")))
-            handler.handle(Future.succeededFuture());
-        else
-            handler.handle(Future.failedFuture(new UserIsNotAuthorizedError()));
-/*
-        List<String> rootIds = new LinkedList<>();
-        Counter entityCounter = new Counter(diagramIds);
-        for (String entityId : diagramIds) {
-            modelTools.getDiagramEntity(entityId, getDiagramEntity -> {
-                if (getDiagramEntity.succeeded()) {
-                    rootIds.add(modelTools.getDiagramRootId(getDiagramEntity.result()));
-                }
-                if (!entityCounter.next()) {
-                    Counter rootCounter = new Counter(rootIds);
-                    rootCounter.data().put("isAuthorized", false);
-                    for (String rootId : rootIds) {
-                        isDiagramEditor(rc, rootId, isDiagramEditor -> {
-                            if (isDiagramEditor.succeeded() && !rootCounter.data().getBoolean("isAuthorized")) {
-                                rootCounter.data().put("isAuthorized", true);
-                            }
-                            if (!rootCounter.next()) {
-                                if (rootCounter.data().getBoolean("isAuthorized"))
-                                    handler.handle(Future.succeededFuture());
-                                else
-                                    handler.handle(Future.failedFuture(new UserIsNotAuthorizedError()));
-                            }
-                        });
-                    }
-                }
-            });
-        }
-*/
+        return true;
     }
 
-    static OffsetDateTime parseDateTime(String value) {
-        if (value == null) return null;
+    protected static boolean isAdminFailOtherwise(RoutingContext context) {
+        User user = context.user();
+        if (user == null
+                || !"admin".equals(user.principal().getJsonObject("account").getJsonObject("roles").getString("system"))) {
+            context.fail(HttpResponseStatus.UNAUTHORIZED.code());
+            return false;
+        }
+        return true;
+    }
+
+    protected static OffsetDateTime parseDateTime(String value) {
+        if (value == null)
+            return null;
         OffsetDateTime dateTime = null;
         try {
             dateTime = OffsetDateTime.parse(value);
@@ -237,21 +139,13 @@ public abstract class SubRoute<T> {
         return dateTime;
     }
 
-    static JsonObject mongoDateTime(OffsetDateTime dateTime) {
-        return new JsonObject()
-            .put("$date", dateTime != null ? dateTime.toString() : null);
+    protected static JsonObject mongoDateTime(OffsetDateTime dateTime) {
+        return new JsonObject().put("$date", dateTime != null ? dateTime.toString() : null);
     }
 
-    public static void redirect(RoutingContext rc, final String location) {
-        final String _location = location.replaceAll("(?<!:)/{2,}","/");
-        logger.finest("REDIRECT: " + _location);
-        if (_location.length() != location.length()) {
-            logger.finest("DOUBLE SLASH FOUND: " + location + " --> " + _location);
-        }
-        rc.response()
-          .setStatusCode(HttpResponseStatus.FOUND.code())
-          .putHeader("Location", _location)
-          .end();
+    public static void redirect(RoutingContext context, final String location) {
+        final String _location = location.replaceAll("(?<!:)/{2,}", "/");
+        context.response().setStatusCode(HttpResponseStatus.FOUND.code()).putHeader("Location", _location).end();
     }
 
 }

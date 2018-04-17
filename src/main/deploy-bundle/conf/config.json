@@ -28,8 +28,15 @@
     "schema": {
       "path": "${cpd.server.schema.path}"
     },
+    "eventBus": {
+      "path": "${cpd.server.eventBus.path}",
+      "definitionsAddress": "${cpd.server.eventBus.definitionsAddress}"
+    },
     "auth": {
       "path": "${cpd.server.auth.path}"
+    },
+    "data": {
+      "path": "${cpd.server.data.path}"
     },
     "api": {
       "path": "${cpd.server.api.path}"
@@ -39,10 +46,9 @@
     }
   },
   "app": {
-    "path": "${cpd.app.path}",
+    "useLocalAuth": ${cpd.app.useLocalAuth},
     "locales": [${cpd.app.locales}],
-    "routes": [${cpd.app.routes}],
-    "diagramPath": "${cpd.app.diagramPath}"
+    "designerPath": "${cpd.app.designerPath}"
   },
   "mongodb": {
     "host": "${cpd.mongodb.host}",
@@ -58,25 +64,5 @@
   "oauth2": {
     "origin": "${cpd.oauth2.origin}",
     "providers": [${cpd.oauth2.providers}]
-  },
-  "role": {
-    "cpd": {
-      "access": {
-        "prefix": "${role.cpd.access.prefix}",
-        "admin": "${role.cpd.access.admin}",
-        "civilServant": "${role.cpd.access.civilServant}",
-        "citizen": "${role.cpd.access.citizen}"
-      },
-      "context": {
-        "prefix": "${role.cpd.context.prefix}",
-        "diagram": {
-          "owner": "${role.cpd.context.diagram.owner}",
-          "editor": "${role.cpd.context.diagram.editor}",
-          "reviewer": "${role.cpd.context.diagram.reviewer}",
-          "collaborator": "${role.cpd.context.diagram.collaborator}",
-          "observer": "${role.cpd.context.diagram.observer}"
-        }
-      }
-    }
   }
 }

@@ -1,0 +1,32 @@
+{
+  "aggregate": "models",
+  "pipeline": [{
+    "$match": {
+      "_id": "{procedureId}",
+      "＄domain": "Model.FPMN.Procedure"
+    }
+  }, {
+    "$graphLookup": {
+      "from": "models",
+      "startWith": "$_id",
+      "connectFromField": "_id",
+      "connectToField": "parentId",
+      "as": "childs"
+    }
+  }, {
+    "$unwind": "$childs"
+  }, {
+    "$match": {
+      "childs.eServiceId": {
+        "$exists": true
+      }
+    }
+  }, {
+    "$group": {
+      "_id": "$_id",
+      "count": {
+        "$sum": 1
+      }
+    }
+  }]
+}

@@ -18,24 +18,22 @@
     "${cpd.server.pub.scheme}"
   ],
   "paths": {
-    "/stats/diagram/{diagramId}/eServiceCount": {
+    "/stats/procedure/{procedureId}/eServiceCount": {
       "get": {
         "tags": [
           "stats"
         ],
-        "summary": "Fetch the number of e-service in diagram",
-        "description": "Fetches the number of all the e-services that are associated to the _Diagram_ identified by **{diagramId}**.",
-        "operationId": "getDiagramEServiceCount",
-        "parameters": [
-          {
-            "name": "diagramId",
-            "in": "path",
-            "description": "ID of diagram",
-            "required": true,
-            "type": "string",
-            "default": "43467de2-9f42-477f-9f00-13b70f53ce24"
-          }
-        ],
+        "summary": "Fetch the number of e-service in the procedure",
+        "description": "Fetches the number of all the e-services that are associated to the _Procedure_ identified by **{procedureId}**.",
+        "operationId": "getProcedureEServiceCount",
+        "parameters": [{
+          "name": "procedureId",
+          "in": "path",
+          "description": "ID of the procedure",
+          "required": true,
+          "type": "string",
+          "default": "33f60d00-79d5-4d8f-89cc-166ab4577b97"
+        }],
         "produces": [
           "application/json"
         ],
@@ -48,12 +46,12 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "description": "ID of the Diagram",
-                  "example": "43467de2-9f42-477f-9f00-13b70f53ce24"
+                  "description": "ID of the Procedure",
+                  "example": "33f60d00-79d5-4d8f-89cc-166ab4577b97"
                 },
                 "count": {
                   "type": "integer",
-                  "description": "Number of e-services associated to the Diagram",
+                  "description": "Number of e-services associated to the Procedure",
                   "example": 1
                 }
               },
@@ -72,14 +70,66 @@
         }
       }
     },
-    "/diagram/summary/list": {
+    "/stats/procedure/{procedureId}/userFeedbackCount": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Fetch the number of user feedbacks in the procedure",
+        "description": "Fetches the number of all the user feedbacks submitted in the _Procedure_ identified by **{procedureId}**.",
+        "operationId": "getProcedureUserFeedbackCount",
+        "parameters": [{
+          "name": "procedureId",
+          "in": "path",
+          "description": "ID of the procedure",
+          "required": true,
+          "type": "string",
+          "default": "32585f79-cce0-4aca-86bf-f8df7a641091"
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "title": "UserFeedbackCount",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID of the Procedure",
+                  "example": "32585f79-cce0-4aca-86bf-f8df7a641091"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "Number of user feedbacks submitted in the Procedure",
+                  "example": 1
+                }
+              },
+              "required": [
+                "id",
+                "count"
+              ]
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/procedure/summary/list": {
       "get": {
         "tags": [
           "summary"
         ],
-        "summary": "List all the diagram summaries",
-        "description": "Retrieves the list of **all** _DiagramSummary_.",
-        "operationId": "getDiagramSummaryList",
+        "summary": "List all the procedures summaries",
+        "description": "Retrieves the list of **all** _ProcedureSummary_.",
+        "operationId": "getProcedureSummaryList",
         "produces": [
           "application/json"
         ],
@@ -89,7 +139,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/diagram.Summary"
+                "$ref": "#/definitions/Procedure.Summary"
               }
             }
           },
@@ -102,32 +152,65 @@
         }
       }
     },
-    "/diagram/eService/{eServiceId}/summary": {
+    "/procedure/{procedureId}/summary": {
       "get": {
         "tags": [
           "summary"
         ],
-        "summary": "Fetch the diagram summary by e-service ID",
-        "description": "Retrieves the _DiagramSummary_ for the given e-service **{eServiceId}**.",
-        "operationId": "getDiagramEServiceSummary",
+        "summary": "Fetch the procedure summary by procedure ID",
+        "description": "Retrieves the _ProcedureSummary_ for the given procedure **{procedureId}**.",
+        "operationId": "getProcedureSummary",
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "eServiceId",
-            "in": "path",
-            "description": "id of e-service",
-            "required": true,
-            "type": "string",
-            "default": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5"
-          }
-        ],
+        "parameters": [{
+          "name": "procedureId",
+          "in": "path",
+          "description": "id of the procedure",
+          "required": true,
+          "type": "string",
+          "default": "c9561247-d5a7-4578-98b9-58021ee68ae0"
+        }],
         "responses": {
           "200": {
             "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/diagram.Summary"
+              "$ref": "#/definitions/Procedure.Summary"
+            }
+          },
+          "400": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/procedure/eService/{eServiceId}/summary": {
+      "get": {
+        "tags": [
+          "summary"
+        ],
+        "summary": "Fetch the procedure summary by e-service ID",
+        "description": "Retrieves the _ProcedureSummary_ for the given e-service **{eServiceId}**.",
+        "operationId": "getProcedureEServiceSummary",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [{
+          "name": "eServiceId",
+          "in": "path",
+          "description": "id of the e-service",
+          "required": true,
+          "type": "string",
+          "default": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5"
+        }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Procedure.Summary"
             }
           },
           "400": {
@@ -150,16 +233,14 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "fromDateTime",
-            "in": "path",
-            "description": "ISO-8601 date-time from which to show the results",
-            "required": true,
-            "type": "string",
-            "default": "2017-02-15T12:32:00+01:00"
-          }
-        ],
+        "parameters": [{
+          "name": "fromDateTime",
+          "in": "path",
+          "description": "ISO-8601 date-time from which to show the results",
+          "required": true,
+          "type": "string",
+          "default": "2017-02-15T12:32:00+01:00"
+        }],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -187,8 +268,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
+        "parameters": [{
             "name": "fromDateTime",
             "in": "path",
             "description": "ISO-8601 date-time where the list begins (included)",
@@ -261,51 +341,55 @@
         "model.notation.FPMN"
       ]
     },
-    "diagram.Summary": {
-      "title": "Diagram Summary",
+    "Procedure.Summary": {
+      "title": "Procedure Summary",
       "description": "Diagram Summary",
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "diagramId": {
+        "id": {
           "type": "string",
-          "title": "Diagram Id",
-          "description": "ID of the Diagram",
+          "title": "Procedure ID",
+          "description": "ID of the Procedure",
           "example": "43467de2-9f42-477f-9f00-13b70f53ce24"
-        },
-        "elementId": {
-          "type": "string",
-          "title": "Diagram Element Id",
-          "description": "ID of the Diagram Element"
-        },
-        "eServiceId": {
-          "title": "Diagram Element Id",
-          "description": "ID of the E-Service",
-          "type": "string"
         },
         "notation": {
           "title": "Notation",
-          "description": "Model Notation of the Diagram",
+          "description": "Notation of the Diagram",
           "$ref": "#/definitions/model.Notation",
-          "example": "model.notation.FPMN"
+          "example": "Model.Notation.FPMN"
+        },
+        "version": {
+          "type": "integer",
+          "title": "Version",
+          "description": "Version of the diagram"
+        },
+        "created": {
+          "$ref": "#/definitions/date-time",
+          "title": "Creation timestamp",
+          "description": "Date and time of diagram creation"
+        },
+        "lastModified": {
+          "$ref": "#/definitions/date-time",
+          "title": "Last modification timestamp",
+          "description": "Date and time of diagram last modification"
+        },
+        "language": {
+          "type": "string",
+          "title": "Language",
+          "description": "Language used for name and documentation fields"
         },
         "name": {
-          "title": "Diagram Name",
-          "description": "Name of the Diagram",
+          "title": "Procedure Name",
+          "description": "Name of the Procedure",
           "type": "string",
           "example": "Ammissione al servizio di nido d’infanzia"
         },
         "documentation": {
           "title": "Documentation",
-          "description": "Documentation of the Diagram",
+          "description": "Documentation of the Procedure",
           "type": "string",
           "example": "Il servizio di asilo nido si propone di offrire il servizio..."
-        },
-        "path": {
-          "title": "Path",
-          "description": "Path to the Diagram Element",
-          "type": "string",
-          "example": "//Ammissione al servizio di nido d’infanzia//Richiesta di ammissione"
         },
         "phases": {
           "title": "Phases",
@@ -315,7 +399,17 @@
             "title": "Phase",
             "type": "object",
             "properties": {
-              "eServiceId": {
+              "id": {
+                "type": "string"
+              },
+              "eServiceIds": {
+                "type": "array",
+                "item": {
+                  "type": "string",
+                  "example": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5"
+                }
+              },
+              "language": {
                 "type": "string"
               },
               "name": {
@@ -324,29 +418,39 @@
               },
               "documentation": {
                 "type": "string"
+              },
+              "url": {
+                "type": "string"
               }
             },
             "required": [
-              "name"
+              "id",
+              "language",
+              "name",
+              "url"
             ]
           }
         },
         "url": {
           "title": "Url",
-          "description": "link to the Diagram (with eventually the focused Diagram Element) in the web application",
+          "description": "link to the Diagram in the web application",
           "type": "string",
-          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}en/diagram/43467de2-9f42-477f-9f00-13b70f53ce24"
+          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}en/en/procedures/designer/d2c43fe1-2127-4969-8c07-5b1479c44ba2/33f60d00-79d5-4d8f-89cc-166ab4577b97"
         },
         "svg": {
           "title": "Svg",
           "description": "link to the svg image of the Diagram",
           "type": "string",
-          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}assets/svg/43467de2-9f42-477f-9f00-13b70f53ce24.svg"
+          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}api/model/diagram/d2c43fe1-2127-4969-8c07-5b1479c44ba2.svg"
         }
       },
       "required": [
-        "diagramId",
+        "id",
         "notation",
+        "version",
+        "created",
+        "lastModified",
+        "language",
         "name",
         "phases",
         "url",
@@ -368,7 +472,10 @@
               }
             },
             "$lt": {
-              "$ref": "#/definitions/date-time"
+              "$ref": "#/definitions/date-time",
+              "example": {
+                "$date": "2017-04-15T00:00+01:00"
+              }
             }
           },
           "required": [
@@ -385,26 +492,6 @@
                 "description": "ID of the feedback",
                 "example": "4053a4e7-efb1-4c1c-99ba-2ed53176b37e"
               },
-              "userId": {
-                "type": "string",
-                "description": "ID of the user who posted the feedback",
-                "example": "citizen 1"
-              },
-              "message": {
-                "type": "string",
-                "description": "the posted feedback text",
-                "example": "Il permesso potrebbe essere rilasciato via PEC"
-              },
-              "diagramId": {
-                "type": "string",
-                "description": "ID of the diagram where the feedback has been posted",
-                "example": "62c02032-0b13-436c-9a96-00a7e479801b"
-              },
-              "elementId": {
-                "type": "string",
-                "description": "ID of the diagram element where the feedback has been posted",
-                "example": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677"
-              },
               "dateTime": {
                 "$ref": "#/definitions/date-time",
                 "description": "ISO-8601 date-time of when the feedback has been posted",
@@ -412,9 +499,34 @@
                   "$date": "2017-03-15T12:35:20.201Z"
                 }
               },
-              "path": {
+              "userId": {
                 "type": "string",
-                "example": "//Rilascio autorizzazione per attività temporanea (rumore)//Rilascio del permesso"
+                "description": "ID of the user who posted the feedback",
+                "example": "citizen1@simpatico.eu"
+              },
+              "message": {
+                "type": "string",
+                "description": "the posted feedback text",
+                "example": "Il permesso potrebbe essere rilasciato via PEC"
+              },
+              "coordinates": {
+                "type": "object",
+                "properties": {
+                  "diagramId": {
+                    "type": "string",
+                    "description": "ID of the diagram where the feedback has been posted",
+                    "example": "62c02032-0b13-436c-9a96-00a7e479801b"
+                  },
+                  "elementId": {
+                    "type": "string",
+                    "description": "ID of the diagram element where the feedback has been posted",
+                    "example": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677"
+                  }
+                },
+                "required": [
+                  "diagramId",
+                  "elementId"
+                ]
               },
               "url": {
                 "title": "Url",
@@ -431,12 +543,10 @@
             },
             "required": [
               "id",
+              "dateTime",
               "userId",
               "message",
-              "diagramId",
-              "elementId",
-              "dateTime",
-              "path",
+              "coordinates",
               "url"
             ]
           }

@@ -1,6 +1,5 @@
 package it.beng.modeler.microservice.auth.local;
 
-import io.vertx.ext.web.handler.AuthHandler;
 import it.beng.modeler.microservice.auth.local.impl.LocalAuthHandlerImpl;
 
 /**
@@ -10,7 +9,6 @@ import it.beng.modeler.microservice.auth.local.impl.LocalAuthHandlerImpl;
  */
 public interface LocalAuthHandler /*extends AuthHandler*/ {
     static LocalAuthHandler create(LocalAuthProvider authProvider) {
-        return new LocalAuthHandlerImpl(authProvider) {
-        };
+        return new LocalAuthHandlerImpl(authProvider) {};
     }
 }

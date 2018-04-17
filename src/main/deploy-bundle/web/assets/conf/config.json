@@ -5,6 +5,10 @@
     "schema": {
       "path": "${cpd.server.schema.path}"
     },
+    "eventBus": {
+      "path": "${cpd.server.eventBus.path}",
+      "diagramAddress": "${cpd.server.eventBus.diagramAddress}"
+    },
     "auth": {
       "path": "${cpd.server.auth.path}",
       "login": "${cpd.server.auth.login}",
@@ -15,10 +19,19 @@
       "getUserHasAccess": "${cpd.server.auth.getUserHasAccess}",
       "getUserIsAuthorized": "${cpd.server.auth.getUserIsAuthorized}"
     },
+    "data": {
+      "path": "${cpd.server.data.path}"
+    },
     "api": {
       "path": "${cpd.server.api.path}",
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
       "postUserFeedback": "${cpd.server.api.postUserFeedback}",
+
+      "getModelDiagramSVG": "${cpd.server.api.getModelDiagramSVG}",
+      "getModelDiagramMyList": "${cpd.server.api.getModelDiagramMyList}",
+      "getModelDiagramSearchTextList": "${cpd.server.api.getModelDiagramSearchTextList}",
+      "getModelDiagramNewerList": "${cpd.server.api.getModelDiagramNewerList}",
+
       "getDiagramElement": "${cpd.server.api.getDiagramElement}",
       "putDiagramElement": "${cpd.server.api.putDiagramElement}",
       "delDiagramElement": "${cpd.server.api.delDiagramElement}",
@@ -39,26 +52,6 @@
     "link": {
       "newQuestion": "${cpd.qae.link.newQuestion}",
       "relatedQuestions": "${cpd.qae.link.relatedQuestions}"
-    }
-  },
-  "role": {
-    "cpd": {
-      "access": {
-        "prefix": "${role.cpd.access.prefix}",
-        "admin": "${role.cpd.access.admin}",
-        "civilServant": "${role.cpd.access.civilServant}",
-        "citizen": "${role.cpd.access.citizen}"
-      },
-      "context": {
-        "prefix": "${role.cpd.context.prefix}",
-        "diagram": {
-          "owner": "${role.cpd.context.diagram.owner}",
-          "editor": "${role.cpd.context.diagram.editor}",
-          "reviewer": "${role.cpd.context.diagram.reviewer}",
-          "collaborator": "${role.cpd.context.diagram.collaborator}",
-          "observer": "${role.cpd.context.diagram.observer}"
-        }
-      }
     }
   }
 }

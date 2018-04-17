@@ -1,9 +1,25 @@
 package it.beng.modeler;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.stream.Collectors;
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-
-import java.util.*;
+import it.beng.microservice.db.MongoDB;
+import it.beng.microservice.schema.SchemaTools;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -14,18 +30,67 @@ public final class config {
 
     public static final String DATA_PATH = "data/";
     public static final String ASSETS_PATH = "assets/";
+    public static final String USER_COLLECTION = "users";
+
+    public static final List<String> KNOWN_DIAGRAMS = Arrays.asList(
+        "Model.Example.Diagram",
+        "Model.BPMN.Diagram",
+        "Model.FPMN.Diagram");
+
+    public static final class Thing {
+        private Thing() {}
+
+        public static final class Keys {
+            private Keys() {}
+
+            public static final String DIAGRAM = "diagram";
+        }
+
+        public static final class Query {
+            public final String collection;
+            public final JsonObject match;
+
+            public Query(String collection, JsonObject query) {
+                this.collection = collection;
+                this.match = query;
+            }
+        }
+
+        private static final Map<String, Query> QUERIES = new HashMap<String, Query>() {
+            private static final long serialVersionUID = 1L;
+            {
+                put(Thing.Keys.DIAGRAM, new Query("models", new JsonObject()
+                    .put("$or", new JsonArray(KNOWN_DIAGRAMS.stream()
+                        .map(domain -> new JsonObject().put("$domain", domain))
+                        .collect(Collectors.toList())))));
+            }
+        };
+
+        public static Query query(String key) {
+            return QUERIES.get(key);
+        }
+
+        public static Collection<String> knownKeys() {
+            return QUERIES.keySet();
+        }
+
+    }
 
     private static JsonObject _config;
-
-    private static List<String> HOSTS;
+    private static MongoDB _mongoDB;
+    private static SchemaTools _schemaTools;
 
     public static String host(String scheme, String hostname, int port) {
         StringBuilder s = new StringBuilder(hostname);
         switch (scheme) {
             case "http":
-                if (port != 80) s.append(":").append(port);
+                if (port != 80)
+                    s.append(":").append(port);
+                break;
             case "https":
-                if (port != 443) s.append(":").append(port);
+                if (port != 443)
+                    s.append(":").append(port);
+                break;
         }
         return s.toString();
     }
@@ -64,6 +129,7 @@ public final class config {
         public static String baseHref;
         public static String allowedOriginPattern;
         public static Long simLagTime;
+        public static List<String> subroutePaths = new LinkedList<>();
 
         public static class pub {
             public static String scheme;
@@ -89,7 +155,6 @@ public final class config {
             public static String fixUriScheme(String uri) {
                 return uri.replaceFirst("^" + config.server.scheme, config.server.pub.scheme);
             }
-
         }
 
         public static class auth {
@@ -98,6 +163,11 @@ public final class config {
 
         public static class api {
             public static String path;
+        }
+
+        public static class eventBus {
+            public static String path;
+            public static String diagramAddress;
         }
 
         public static class assets {
@@ -133,48 +203,39 @@ public final class config {
         }
 
         public static String appHref(RoutingContext rc) {
-            return href() + app.path + locale(rc) + "/";
+            return href() + /* app.path + */ languageCode(rc) + "/";
         }
 
         public static String appPath(RoutingContext rc) {
-            return path() + app.path + locale(rc) + "/";
+            return path() + /* app.path + */ languageCode(rc) + "/";
+        }
+
+        public static boolean isSubRoute(final String path) {
+            return !subroutePaths.stream()
+                .filter(p -> path.startsWith(p))
+                .collect(Collectors.toList())
+                .isEmpty();
         }
 
     }
 
     public static class app {
-        public static String path;
+        // public static String path;
+        // TODO: loginPage and notFoundPage must go in the configuration file
+        public static String loginPage = "login";
+        public static String notFoundPage = "404";
+        public static boolean useLocalAuth;
         public static List<String> locales;
-        public static List<String> routes;
-        public static String diagramPath;
+        public static String designerPath;
+
+        public static List<String> localePaths() {
+            return locales.stream().map(locale -> (locale + "/")).collect(Collectors.toList());
+        }
     }
 
     public static class oauth2 {
         public static String origin;
         public static List<OAuth2Config> configs;
-    }
-
-    public static class role {
-        public static class cpd {
-            public static class access {
-                public static String prefix;
-                public static String admin;
-                public static String civilServant;
-                public static String citizen;
-            }
-
-            public static class context {
-                public static String prefix;
-
-                public static class diagram {
-                    public static String editor;
-                    public static String owner;
-                    public static String reviewer;
-                    public static String collaborator;
-                    public static String observer;
-                }
-            }
-        }
     }
 
     private static String checkBaseHref(String href) {
@@ -187,7 +248,7 @@ public final class config {
         return href;
     }
 
-    private static String checkPath(String path) {
+    private static String checkPath(String path, boolean isSubRoute) {
         if (path == null)
             throw new IllegalStateException("path cannot be null!");
         if (path.length() > 0) {
@@ -196,15 +257,20 @@ public final class config {
             if (!path.endsWith("/"))
                 throw new IllegalStateException("path MUST end with '/' character!");
         }
+        if (isSubRoute)
+            server.subroutePaths.add(path);
         return path;
     }
 
-    public static void set(JsonObject config) {
-
-        develop = config.getBoolean("develop", false);
-        version = config.getString("version");
+    public static void set(final Vertx vertx, final JsonObject config, final Handler<AsyncResult<Void>> handler) {
 
         JsonObject node;
+
+        develop = config.getBoolean("develop", false);
+        if (develop) {
+            LogManager.getLogManager().getLogger("it.beng").setLevel(Level.FINEST);
+        }
+        version = config.getString("version");
 
         /* ssl */
         node = config.getJsonObject("ssl");
@@ -234,28 +300,27 @@ public final class config {
         server.cacheBuilder.expireAfterAccess = node.getString("expireAfterAccess", "60m");
         /* server.schema */
         node = config.getJsonObject("server").getJsonObject("schema");
-        server.schema.path = checkPath(node.getString("path", "schema/"));
+        server.schema.path = checkPath(node.getString("path", "schema/"), true);
         /* server.auth */
         node = config.getJsonObject("server").getJsonObject("auth");
-        server.auth.path = checkPath(node.getString("path", "auth/"));
+        server.auth.path = checkPath(node.getString("path", "auth/"), true);
         /* server.api */
         node = config.getJsonObject("server").getJsonObject("api");
-        server.api.path = checkPath(node.getString("path", "api/"));
+        server.api.path = checkPath(node.getString("path", "api/"), true);
+        /* server.eventBus */
+        node = config.getJsonObject("server").getJsonObject("eventBus");
+        server.eventBus.path = checkPath(node.getString("path", "eventbus/"), true);
+        server.eventBus.diagramAddress = node.getString("diagramAddress", "cpd::diagram");
         /* server.assets */
         node = config.getJsonObject("server").getJsonObject("assets");
         server.assets.allowListing = node.getBoolean("allowListing", false);
 
         /* ROOT app */
         node = config.getJsonObject("app");
-        app.path = checkPath(node.getString("path", ""));
+        // app.path = checkPath(node.getString("path", ""), false);
+        app.useLocalAuth = node.getBoolean("useLocalAuth", false);
         app.locales = node.getJsonArray("locales").getList();
-        app.routes = node.getJsonArray("routes").getList();
-        app.diagramPath = node.getString("diagramPath", "diagram/");
-
-        /* mongodb */
-        node = config.getJsonObject("mongodb");
-        if ("".equals(node.getString("username"))) node.put("username", (String) null);
-        if ("".equals(node.getString("password"))) node.put("password", (String) null);
+        app.designerPath = checkPath(node.getString("designerPath", "designer/"), false);
 
         /* oauth2 */
         node = config.getJsonObject("oauth2");
@@ -265,7 +330,7 @@ public final class config {
             JsonObject p = JsonObject.class.cast(provider);
             OAuth2Config oAuth2Config = new OAuth2Config();
             oAuth2Config.provider = p.getString("provider");
-            oAuth2Config.logoUrl = server.baseHref + app.path + p.getString("logoUrl");
+            oAuth2Config.logoUrl = server.baseHref + /* app.path + */ p.getString("logoUrl");
             oAuth2Config.site = p.getString("site");
             oAuth2Config.tokenPath = p.getString("tokenPath");
             oAuth2Config.authPath = p.getString("authPath");
@@ -283,25 +348,40 @@ public final class config {
             oauth2.configs.add(oAuth2Config);
         }
 
-        /* model */
-        // roles.position
-        node = config.getJsonObject("role").getJsonObject("cpd").getJsonObject("access");
-        role.cpd.access.prefix = node.getString("prefix");
-        role.cpd.access.admin = node.getString("admin");
-        role.cpd.access.civilServant = node.getString("civilServant");
-        role.cpd.access.citizen = node.getString("citizen");
-        // roles.context
-        node = config.getJsonObject("role").getJsonObject("cpd").getJsonObject("context");
-        role.cpd.context.prefix = node.getString("prefix");
-        // roles.context.diagram
-        node = config.getJsonObject("role").getJsonObject("cpd").getJsonObject("context").getJsonObject("diagram");
-        role.cpd.context.diagram.editor = node.getString("editor");
-        role.cpd.context.diagram.owner = node.getString("owner");
-        role.cpd.context.diagram.reviewer = node.getString("reviewer");
-        role.cpd.context.diagram.collaborator = node.getString("collaborator");
-        role.cpd.context.diagram.observer = node.getString("observer");
-
         _config = config;
+
+        /* mongodb */
+        node = config.getJsonObject("mongodb");
+        if ("".equals(node.getString("username")))
+            node.put("username", (String) null);
+        if ("".equals(node.getString("password")))
+            node.put("password", (String) null);
+        _mongoDB = MongoDB.createShared(vertx, node, DATA_PATH + "db/commands/", new HashMap<String, String>() {
+            private static final long serialVersionUID = 1L;
+            {
+                put("id", "_id");
+                put("$domain", "\uFF04domain");
+            }
+        });
+
+        _schemaTools = new SchemaTools(vertx,
+            node,
+            "schemas",
+            server.schema.uriBase(),
+            server.scheme,
+            new HashMap<String, String>() {
+                private static final long serialVersionUID = 1L;
+                {
+                    put("$date", "\uFF04date");
+                    put("$domain", "\uFF04domain");
+                }
+            },
+            complete -> {
+                if (complete.succeeded())
+                    handler.handle(Future.succeededFuture());
+                else
+                    handler.handle(Future.failedFuture(complete.cause()));
+            });
 
     }
 
@@ -309,20 +389,74 @@ public final class config {
         return _config;
     }
 
+    public static MongoDB mongoDB() {
+        return _mongoDB;
+    }
+
+    public static SchemaTools schemaTools() {
+        return _schemaTools;
+    }
+
     private static final List<String> SPANISH_ALTERNATIVES = Arrays.asList("ca", "gl");
 
-    public static String locale(RoutingContext rc) {
-        if (config.develop) return "en";
-        String locale = null;
-        // TODO: re-enable user language
-//        if (rc.user() != null) locale = rc.user().principal().getJsonObject("profile").getString("language");
-//        if (locale == null) {
-        locale = rc.request().getHeader("Accept-Language");
-        if (locale != null) locale = locale.substring(0, 2);
-//        }
-        if (locale != null && SPANISH_ALTERNATIVES.contains(locale)) locale = "es";
-        if (locale == null || !config.app.locales.contains(locale)) locale = "en";
-        return locale;
+    public static String languageCode(RoutingContext rc) {
+        if (config.develop)
+            return "en";
+        String code = rc.preferredLanguage().tag();
+        if (code != null && SPANISH_ALTERNATIVES.contains(code))
+            code = "es";
+        if (code == null || !config.app.locales.contains(code))
+            code = "en";
+        return code;
+    }
+
+    public static String language(String code) {
+        switch (code) {
+            case "da":
+                return "danish";
+            case "nl":
+                return "dutch";
+            case "en":
+                return "english";
+            case "fi":
+                return "finnish";
+            case "fr":
+                return "french";
+            case "de":
+                return "german";
+            case "hu":
+                return "hungarian";
+            case "it":
+                return "italian";
+            case "nb":
+                return "norwegian";
+            case "pt":
+                return "portuguese";
+            case "ro":
+                return "romanian";
+            case "ru":
+                return "russian";
+            case "es":
+                return "spanish";
+            case "sv":
+                return "swedish";
+            case "tr":
+                return "turkish";
+            case "ara":
+                return "arabic";
+            case "prs":
+                return "dari";
+            case "pes":
+                return "iranian persian";
+            case "urd":
+                return "urdu";
+            case "zhs":
+                return "simplified chinese";
+            case "zht":
+                return "traditional chinese";
+            default:
+                return "english";
+        }
     }
 
 }
