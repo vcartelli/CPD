@@ -1,7 +1,5 @@
 package it.beng.modeler.microservice.subroute;
 
-import java.util.Map;
-
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
@@ -11,6 +9,9 @@ import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.modeler.microservice.http.JsonResponse;
+import it.beng.modeler.microservice.utils.JsonUtils;
+
+import java.util.Map;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -106,11 +107,10 @@ public final class DataSubRoute extends VoidSubRoute {
         FindOptions options = new FindOptions();
         options.setFields(new JsonObject().put(context.pathParam("field"), 1));
         mongodb.findWithOptions(collection, query, options, getItem -> {
-            JsonResponse response = new JsonResponse(context);
-            if (getItem.succeeded() && getItem.result().size() > 0)
-                response.end(getItem.result().get(0));
+            if (getItem.succeeded())
+                new JsonResponse(context).end(JsonUtils.firstOrNull(getItem.result()));
             else
-                response.end(null);
+                new JsonResponse(context).end(null);
         });
     }
 

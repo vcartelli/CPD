@@ -45,7 +45,7 @@
 	"bounds": {
 		"x": 40.0,
 		"y": 80.0,
-		"width": 260.0,
+		"width": 220.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -65,7 +65,7 @@
 	"bounds": {
 		"x": 260.0,
 		"y": 80.0,
-		"width": 300.0,
+		"width": 260.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -137,7 +137,7 @@
 	"bounds": {
 		"x": 40.0,
 		"y": 80.0,
-		"width": 260.0,
+		"width": 220.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -157,7 +157,7 @@
 	"bounds": {
 		"x": 260.0,
 		"y": 80.0,
-		"width": 300.0,
+		"width": 260.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -177,7 +177,7 @@
 	"bounds": {
 		"x": 520.0,
 		"y": 80.0,
-		"width": 300.0,
+		"width": 260.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -249,7 +249,7 @@
 	"bounds": {
 		"x": 40.0,
 		"y": 80.0,
-		"width": 260.0,
+		"width": 220.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -341,7 +341,7 @@
 	"bounds": {
 		"x": 260.0,
 		"y": 80.0,
-		"width": 300.0,
+		"width": 260.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"
@@ -394,7 +394,7 @@
 		"x": 40.0,
 		"y": 40.0,
 		"width": 740.0,
-		"height": 160.0
+		"height": 320.0
 	},
 	"＄domain": "Di.Shape"
 },
@@ -413,8 +413,8 @@
 	"bounds": {
 		"x": 40.0,
 		"y": 80.0,
-		"width": 260.0,
-		"height": 120.0
+		"width": 220.0,
+		"height": 280.0
 	},
 	"＄domain": "Di.Shape"
 },
@@ -433,8 +433,8 @@
 	"bounds": {
 		"x": 260.0,
 		"y": 80.0,
-		"width": 300.0,
-		"height": 120.0
+		"width": 260.0,
+		"height": 280.0
 	},
 	"＄domain": "Di.Shape"
 },
@@ -454,7 +454,39 @@
 		"x": 520.0,
 		"y": 80.0,
 		"width": 260.0,
-		"height": 120.0
+		"height": 280.0
+	},
+	"＄domain": "Di.Shape"
+},
+{
+	"_id": "example_plane",
+	"modelId": "example_root",
+	"unit": "px",
+	"bounds": {
+		"x": 0.0,
+		"y": 0.0,
+		"width": 820.0,
+		"height": 240.0
+	},
+	"＄domain": "Di.Plane"
+},
+{
+	"_id": "a76920fa-9aba-4854-a8c6-62a59683b840",
+	"planeId": "b48d3888-3e31-4413-9101-c1e08c478c29",
+	"modelId": "2db10e64-d935-4c93-80e9-b5df43956d8a",
+	"label": {
+		"bounds": {
+			"x": 80.0,
+			"y": 240.0,
+			"width": 120.0,
+			"height": 80.0
+		}
+	},
+	"bounds": {
+		"x": 80.0,
+		"y": 240.0,
+		"width": 120.0,
+		"height": 80.0
 	},
 	"＄domain": "Di.Shape"
 }]

@@ -71,7 +71,7 @@
 	"displayName": "Vincenzo Cartelli",
 	"roles": {
 		"system": "admin",
-		"interaction": "civil-servant",
+		"interaction": "citizen",
 		"things": {
 			"diagram": {
 				"123": [
@@ -87,7 +87,7 @@
 					"reviewer"
 				],
 				"d2c43fe1-2127-4969-8c07-5b1479c44ba2": [
-					"owner"
+					"editor"
 				]
 			}
 		}

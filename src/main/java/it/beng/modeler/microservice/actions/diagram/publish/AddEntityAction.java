@@ -1,7 +1,5 @@
 package it.beng.modeler.microservice.actions.diagram.publish;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import it.beng.modeler.microservice.actions.PublishAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
@@ -23,8 +21,4 @@ public class AddEntityAction extends PublishAction implements DiagramAction {
         return super.isValid() && true;
     }
 
-    @Override
-    public void handle(JsonObject account, Handler<AsyncResult<JsonObject>> handler) {
-        
-    }
 }

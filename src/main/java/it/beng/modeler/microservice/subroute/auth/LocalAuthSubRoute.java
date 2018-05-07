@@ -1,7 +1,5 @@
 package it.beng.modeler.microservice.subroute.auth;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -14,6 +12,8 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.VoidSubRoute;
+
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -47,16 +47,16 @@ public final class LocalAuthSubRoute extends VoidSubRoute {
             if (authInfo != null) {
                 localAuthProvider.authenticate(authInfo, result -> {
                     if (result.succeeded()) {
+                        User user = result.result();
+                        JsonObject loginState = context.get("loginState");
+                        user.principal().put("loginState", loginState);
+                        context.setUser(user);
                         Session session = context.session();
                         if (session != null) {
                             // the user has upgraded from unauthenticated to authenticated
                             // session should be upgraded as recommended by owasp
                             session.regenerateId();
                         }
-                        User user = result.result();
-                        JsonObject loginState = context.get("loginState");
-                        user.principal().put("loginState", loginState);
-                        context.setUser(user);
                         logger.finest("local user principal: " + context.user().principal().encodePrettily());
                         // return the user
                         new JsonResponse(context).end(context.user().principal());

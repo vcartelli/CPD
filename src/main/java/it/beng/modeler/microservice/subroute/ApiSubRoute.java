@@ -1,16 +1,10 @@
 package it.beng.modeler.microservice.subroute;
 
-import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import com.hazelcast.com.eclipsesource.json.ParseException;
-
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -26,6 +20,15 @@ import it.beng.modeler.config;
 import it.beng.modeler.config.Thing;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.utils.AuthUtils;
+import it.beng.modeler.microservice.utils.JsonUtils;
+
+import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -48,27 +51,31 @@ public final class ApiSubRoute extends VoidSubRoute {
         // stats
         // deprecated ...
         router.route(HttpMethod.GET, path + "stats/diagram/:procedureId/eServiceCount")
-            .handler(this::getProcedureEServiceCount);
+              .handler(this::getProcedureEServiceCount);
         // ... replaced by
         router.route(HttpMethod.GET, path + "stats/procedure/:procedureId/eServiceCount")
-            .handler(this::getProcedureEServiceCount);
+              .handler(this::getProcedureEServiceCount);
         // deprecated ...
         router.route(HttpMethod.GET, path + "stats/diagram/:procedureId/userFeedbackCount")
-            .handler(this::getProcedureUserFeedbackCount);
+              .handler(this::getProcedureUserFeedbackCount);
         // ... replaced by
         router.route(HttpMethod.GET, path + "stats/procedure/:procedureId/userFeedbackCount")
-            .handler(this::getProcedureUserFeedbackCount);
+              .handler(this::getProcedureUserFeedbackCount);
 
         // summary
         // deprecated ...
-        router.route(HttpMethod.GET, path + "diagram/summary/list").handler(this::getProcedureSummary);
+        router.route(HttpMethod.GET, path + "diagram/summary/list").handler(this::getProcedureSummaryList);
         // ... replaced by
-        router.route(HttpMethod.GET, path + "procedure/summary/list").handler(this::getProcedureSummary);
+        router.route(HttpMethod.GET, path + "procedure/summary/list").handler(this::getProcedureSummaryList);
         router.route(HttpMethod.GET, path + "procedure/:procedureId/summary").handler(this::getProcedureSummary);
         // Deprecated ...
-        router.route(HttpMethod.GET, path + "diagram/eService/:eServiceId/summary").handler(this::getProcedureSummary);
+        router.route(HttpMethod.GET, path + "diagram/eService/:eServiceId/summary")
+              .handler(this::getProcedureEServiceSummary);
         // ... replaced by
-        router.route(HttpMethod.GET, path + "procedure/eService/:eServiceId/summary").handler(this::getProcedureSummary);
+        router.route(HttpMethod.GET, path + "procedure/eService/:eServiceId/summary")
+              .handler(this::getProcedureEServiceSummary);
+        // new E-Service InteractionTask for Servicepedia
+        router.route(HttpMethod.GET, path + "eService/:eServiceId/summary").handler(this::getEServiceSummary);
 
         // feedback
         router.route(HttpMethod.GET, path + "user/feedback/:fromDateTime").handler(this::getUserFeedback);
@@ -82,7 +89,7 @@ public final class ApiSubRoute extends VoidSubRoute {
         router.route(HttpMethod.GET, path + "model/diagram/:id.svg").handler(this::getModelDiagramSVG);
         router.route(HttpMethod.GET, path + "model/diagram/my").handler(this::getModelDiagramMyList);
         router.route(HttpMethod.GET, path + "model/diagram/search/:text")
-            .handler(this::getModelDiagramSearchTextList);
+              .handler(this::getModelDiagramSearchTextList);
         router.route(HttpMethod.GET, path + "model/diagram/newer/:limit").handler(this::getModelDiagramNewerList);
 
         // // diagram
@@ -108,7 +115,7 @@ public final class ApiSubRoute extends VoidSubRoute {
         // IMPORTANT!!1: (strange behaviour with swagger) redirect "api" to "api/"
         // it MUST be done with regex (i.e. must be exactly "api") to avoid infinite redirections
         router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
-            .handler(context -> redirect(context, path));
+              .handler(context -> redirect(context, path));
         router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/swagger-ui"));
     }
 
@@ -118,18 +125,18 @@ public final class ApiSubRoute extends VoidSubRoute {
         String procedureId = context.pathParam("procedureId");
         MongoDB.Command command = mongodb.command("getProcedureEServiceCount", new HashMap<String, String>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put("procedureId", procedureId);
             }
         });
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
-                JsonResponse response = new JsonResponse(context);
                 JsonArray result = ar.result().getJsonArray("result");
                 if (result.size() > 0)
-                    response.end(result.getJsonObject(0));
+                    new JsonResponse(context).end(result.getJsonObject(0));
                 else
-                    response.end(new JsonObject().put("id", procedureId).put("count", 0));
+                    new JsonResponse(context).end(new JsonObject().put("id", procedureId).put("count", 0));
             } else {
                 context.fail(ar.cause());
             }
@@ -140,6 +147,7 @@ public final class ApiSubRoute extends VoidSubRoute {
         String procedureId = context.pathParam("procedureId");
         MongoDB.Command command = mongodb.command("getProcedureUserFeedbackCount", new HashMap<String, String>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put("procedureId", procedureId != null ? "\"procedure._id\":\"" + procedureId + "\"," : "");
             }
@@ -153,8 +161,7 @@ public final class ApiSubRoute extends VoidSubRoute {
                         response.end(result.getJsonObject(0));
                     else
                         response.end(result);
-                }
-                else
+                } else
                     response.end(new JsonObject().put("id", procedureId).put("count", 0));
             } else {
                 context.fail(ar.cause());
@@ -162,23 +169,81 @@ public final class ApiSubRoute extends VoidSubRoute {
         });
     }
 
-    private void getProcedureSummary(RoutingContext context) {
-        String procedureId = context.pathParam("procedureId");
-        String eServiceId = context.pathParam("eServiceId");
+    private void getProcedureSummaryCommand(
+        String procedureId,
+        String eServiceId,
+        String appHref,
+        Handler<AsyncResult<JsonArray>> handler) {
         MongoDB.Command command = mongodb.command("getProcedureSummary", new HashMap<String, String>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put("procedureId", procedureId != null ? "\"procedure._id\":\"" + procedureId + "\"," : "");
                 put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": [\"" + eServiceId + "\"]" : "");
-                put("appDiagramUrl", config.server.appHref(context) + config.app.designerPath);
+                put("appDiagramUrl", appHref + config.app.designerPath);
                 put("appDiagramSvg", config.server.apiHref() + "model/diagram/");
             }
         });
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
-                new JsonResponse(context).end(ar.result().getJsonArray("result"));
+                handler.handle(Future.succeededFuture(ar.result().getJsonArray("result")));
             } else {
-                context.fail(ar.cause());
+                handler.handle(Future.failedFuture(ar.cause()));
+            }
+        });
+    }
+
+    private void getProcedureSummaryList(RoutingContext context) {
+        getProcedureSummaryCommand(null, null, config.server.appHref(context), command -> {
+            if (command.succeeded()) {
+                new JsonResponse(context).end(command.result());
+            } else {
+                context.fail(command.cause());
+            }
+        });
+    }
+
+    private void getProcedureSummary(RoutingContext context) {
+        String procedureId = context.pathParam("procedureId");
+        if (procedureId == null) {
+            context.fail(new NullPointerException());
+            return;
+        }
+        getProcedureSummaryCommand(procedureId, null, config.server.appHref(context), command -> {
+            if (command.succeeded()) {
+                new JsonResponse(context).end(JsonUtils.firstOrNull(command.result()));
+            } else {
+                context.fail(command.cause());
+            }
+        });
+    }
+
+    private void getProcedureEServiceSummary(RoutingContext context) {
+        String eServiceId = context.pathParam("eServiceId");
+        if (eServiceId == null) {
+            context.fail(new NullPointerException());
+            return;
+        }
+        getProcedureSummaryCommand(null, eServiceId, config.server.appHref(context), command -> {
+            if (command.succeeded()) {
+                new JsonResponse(context).end(JsonUtils.firstOrNull(command.result()));
+            } else {
+                context.fail(command.cause());
+            }
+        });
+    }
+
+    private void getEServiceSummary(RoutingContext context) {
+        String eServiceId = context.pathParam("eServiceId");
+        if (eServiceId == null) {
+            context.fail(new NullPointerException());
+            return;
+        }
+        mongodb.findOne("models", new JsonObject().put("eServiceId", eServiceId), new JsonObject(), findOne -> {
+            if (findOne.succeeded()) {
+                new JsonResponse(context).end(findOne.result());
+            } else {
+                JsonResponse.endWithEmptyObject(context);
             }
         });
     }
@@ -193,13 +258,15 @@ public final class ApiSubRoute extends VoidSubRoute {
     private void getUserFeedback(RoutingContext context) {
         OffsetDateTime fromDateTime = parseDateTime(context.pathParam("fromDateTime"));
         if (fromDateTime == null) {
-            context.fail(ServerError.message("cannot parse date-time from '" + context.pathParam("fromDateTime") + "'"));
+            context
+                .fail(ServerError.message("cannot parse date-time from '" + context.pathParam("fromDateTime") + "'"));
             // context.fail(new ServerError("cannot parse date-time from '" + context.pathParam("fromDateTime") + "'"));
         }
         OffsetDateTime toDateTime = parseDateTime(context.pathParam("toDateTime"));
         JsonObject dateTimeRange = mongoDateTimeRange(fromDateTime, toDateTime);
         MongoDB.Command command = mongodb.command("getUserFeedback", new HashMap<String, String>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put("dateTimeRange", dateTimeRange.encode());
                 put("appDiagramUrl", config.server.appHref(context) + config.app.designerPath);
@@ -209,8 +276,8 @@ public final class ApiSubRoute extends VoidSubRoute {
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 new JsonResponse(context).end(new JsonObject().put("dateTimeRange", dateTimeRange)
-                    .put("feedbackList",
-                        ar.result().getJsonArray("result")));
+                                                              .put("feedbackList",
+                                                                  ar.result().getJsonArray("result")));
             } else {
                 context.fail(ar.cause());
             }
@@ -235,19 +302,14 @@ public final class ApiSubRoute extends VoidSubRoute {
                 context.fail(ServerError.message("no diagram ID in feedback"));
                 return;
             }
-            String rootId = feedback.getString("rootId");
-            if (rootId == null || rootId.trim().length() == 0) {
-                context.fail(ServerError.message("no root ID in feedback"));
-                return;
-            }
             String elementId = feedback.getString("elementId");
             if (elementId == null || elementId.trim().length() == 0) {
                 context.fail(ServerError.message("no element ID in feedback"));
                 return;
             }
             feedback.put("id", UUID.randomUUID().toString())
-                .put("userId", user.principal().getJsonObject("account").getString("id"))
-                .put("dateTime", mongoDateTime(OffsetDateTime.now()));
+                    .put("userId", user.principal().getJsonObject("account").getString("id"))
+                    .put("dateTime", mongoDateTime(OffsetDateTime.now()));
             //        schemaTools.validate();
 
             mongodb.save("user.feedbacks", feedback, save -> {
@@ -287,14 +349,14 @@ public final class ApiSubRoute extends VoidSubRoute {
         if (diagramIds != null) {
             andQuery.add(new JsonObject()
                 .put("$or", new JsonArray(diagramIds.stream()
-                    .filter(id -> id != null && !id.isEmpty())
-                    .map(id -> new JsonObject().put("id", id))
-                    .collect(Collectors.toList()))));
+                                                    .filter(id -> id != null && !id.isEmpty())
+                                                    .map(id -> new JsonObject().put("id", id))
+                                                    .collect(Collectors.toList()))));
         }
         if (searchText != null) {
             andQuery.add(new JsonObject().put("$text",
                 new JsonObject().put("$search", searchText)
-            // .put("$language", config.languageCode(context))
+                                .put("$language", config.languageCode(context))
             ));
         }
         final JsonObject query = new JsonObject().put("$and", andQuery);
@@ -315,9 +377,9 @@ public final class ApiSubRoute extends VoidSubRoute {
     private void getModelDiagramMyList(RoutingContext context) {
         final JsonObject diagramRoles = AuthUtils.getUserThingRoles(context.user(), Thing.Keys.DIAGRAM);
         getModelDiagramList(context, diagramRoles.stream()
-            .filter(roleEntry -> !((JsonArray) roleEntry.getValue()).isEmpty())
-            .map(roleEntry -> roleEntry.getKey())
-            .collect(Collectors.toList()), null, null);
+                                                 .filter(roleEntry -> !((JsonArray) roleEntry.getValue()).isEmpty())
+                                                 .map(roleEntry -> roleEntry.getKey())
+                                                 .collect(Collectors.toList()), null, null);
     }
 
     private void getModelDiagramSearchTextList(RoutingContext context) {

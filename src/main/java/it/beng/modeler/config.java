@@ -1,16 +1,5 @@
 package it.beng.modeler;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.stream.Collectors;
-
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -20,6 +9,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
+
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.stream.Collectors;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -97,8 +91,11 @@ public final class config {
 
     public static class OAuth2Config {
         public static class Flow {
-            public String scope;
+            public List<String> scope;
             public String getUserProfile;
+            public String scopeString(String delimiter) {
+                return String.join(delimiter, scope);
+            }
         }
 
         public String provider;
@@ -236,6 +233,10 @@ public final class config {
     public static class oauth2 {
         public static String origin;
         public static List<OAuth2Config> configs;
+        public static class aac {
+            public static String givenname;
+            public static String surname;
+        }
     }
 
     private static String checkBaseHref(String href) {
@@ -341,12 +342,17 @@ public final class config {
             for (Object flow : p.getJsonArray("flows")) {
                 JsonObject f = JsonObject.class.cast(flow);
                 OAuth2Config.Flow oAuth2ConfigFlow = new OAuth2Config.Flow();
-                oAuth2ConfigFlow.scope = f.getString("scope");
+                JsonArray scope = f.getJsonArray("scope");
+                if (scope != null)
+                    oAuth2ConfigFlow.scope = scope.getList();
                 oAuth2ConfigFlow.getUserProfile = f.getString("getUserProfile");
                 oAuth2Config.flows.put(f.getString("flowType"), oAuth2ConfigFlow);
             }
             oauth2.configs.add(oAuth2Config);
         }
+        node = node.getJsonObject("aac");
+        oauth2.aac.givenname = node.getString("givenname", "it.smartcommunitylab.aac.givenname");
+        oauth2.aac.surname = node.getString("surname", "it.smartcommunitylab.aac.surname");
 
         _config = config;
 

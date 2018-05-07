@@ -1,18 +1,13 @@
 package it.beng.modeler.microservice.subroute;
 
-import java.nio.charset.StandardCharsets;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.Base64;
-import java.util.logging.Logger;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Router;
@@ -20,6 +15,12 @@ import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
+
+import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.Base64;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -145,7 +146,15 @@ public abstract class SubRoute<T> {
 
     public static void redirect(RoutingContext context, final String location) {
         final String _location = location.replaceAll("(?<!:)/{2,}", "/");
-        context.response().setStatusCode(HttpResponseStatus.FOUND.code()).putHeader("Location", _location).end();
+        context.response()
+              // disable all caching
+              .putHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
+              .putHeader("Pragma", "no-cache")
+              .putHeader(HttpHeaders.EXPIRES, "0")
+              .putHeader(HttpHeaders.LOCATION, _location)
+              .setStatusCode(HttpResponseStatus.FOUND.code())
+              .end("Redirecting to " + _location + ".");
+        // .setStatusCode(HttpResponseStatus.FOUND.code()).putHeader("Location", _location).end();
     }
 
 }

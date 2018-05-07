@@ -13,7 +13,7 @@
     }
   },
   "host": "${cpd.server.pub.host}:${cpd.server.pub.port}",
-  "basePath": "${cpd.server.baseHref}${cpd.server.api.path}",
+  "basePath": "${cpd.server.baseHref}api/",
   "schemes": [
     "${cpd.server.pub.scheme}"
   ],

@@ -1,19 +1,12 @@
 package it.beng.modeler.microservice.subroute;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
-import java.util.logging.Logger;
-
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.codegen.annotations.Nullable;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.oauth2.AccessToken;
-import io.vertx.ext.web.Cookie;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
@@ -24,6 +17,11 @@ import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2AuthCodeSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ClientSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ImplicitSubRoute;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -148,7 +146,7 @@ public final class AuthSubRoute extends VoidSubRoute {
         context.clearUser();
         Session session = context.session();
         if (session != null) {
-            session.destroy();
+            session.regenerateId();
         }
         new JsonResponse(context).end(true);
     }

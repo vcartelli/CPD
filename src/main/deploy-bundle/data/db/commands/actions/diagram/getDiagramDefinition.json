@@ -2,8 +2,7 @@
   "aggregate": "models",
   "pipeline": [{
     "$match": {
-      "_id": "{diagramId}",
-      "＄domain": "Model.FPMN.Diagram"
+      "_id": "{diagramId}"
     }
   }, {
     "$project": {

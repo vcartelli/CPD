@@ -1,15 +1,10 @@
 package it.beng.modeler.microservice.subroute.auth;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClientOptions;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2ClientOptions;
@@ -19,6 +14,10 @@ import io.vertx.ext.web.handler.UserSessionHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.SubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -34,22 +33,31 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
     protected final static String DISPLAY_NAME = "displayName";
     protected final static String EMAIL = "email";
     protected static final Map<String, Map<String, String>> PROVIDER_MAPS = new HashMap<>();
+    protected static final Map<String, Map<String, String>> AAC_PROVIDER_MAPS = new HashMap<>();
     static {
         Map<String, String> provider;
-        /* AAC */
-        provider = new HashMap<>();
-        provider.put(FIRST_NAME, "it.smartcommunitylab.aac.givenname");
-        provider.put(LAST_NAME, "it.smartcommunitylab.aac.surname");
-        provider.put(DISPLAY_NAME, "displayName");
-        provider.put(EMAIL, "OIDC_CLAIM_email");
-        PROVIDER_MAPS.put("AAC", provider);
         /* Google */
         provider = new HashMap<>();
-        provider.put(FIRST_NAME, "givenName");
-        provider.put(LAST_NAME, "familyName");
-        provider.put(DISPLAY_NAME, "displayName");
-        provider.put(EMAIL, "value");
+        provider.put(FIRST_NAME, "given_name");
+        provider.put(LAST_NAME, "family_name");
+        provider.put(EMAIL, "email");
         PROVIDER_MAPS.put("Google", provider);
+        /* AAC */
+        provider = new HashMap<>();
+        provider.put(FIRST_NAME, config.oauth2.aac.givenname);
+        provider.put(LAST_NAME, config.oauth2.aac.surname);
+        provider.put(EMAIL, "OIDC_CLAIM_email");
+        AAC_PROVIDER_MAPS.put("google", provider);
+        provider = new HashMap<>();
+        provider.put(FIRST_NAME, config.oauth2.aac.givenname);
+        provider.put(LAST_NAME, config.oauth2.aac.surname);
+        provider.put(EMAIL, "id");
+        AAC_PROVIDER_MAPS.put("facebook", provider);
+        provider = new HashMap<>();
+        provider.put(FIRST_NAME, config.oauth2.aac.givenname);
+        provider.put(LAST_NAME, config.oauth2.aac.surname);
+        provider.put(EMAIL, "email");
+        AAC_PROVIDER_MAPS.put("internal", provider);
     }
 
     public final static String AUTHORIZATION_CODE_GRANT = "AUTHORIZATION_CODE_GRANT";
@@ -117,7 +125,7 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
     }
 
-    protected void getUserRoles(final JsonObject account, Handler<AsyncResult<Void>> handler) {
+    protected void readOrCreateUser(final JsonObject account, Handler<AsyncResult<Void>> handler) {
         String id = account.getString("id");
         if ("".equals(id.trim())) {
             account.put("roles", AuthUtils.LOGGED_IN_CITIZEN_ROLES);

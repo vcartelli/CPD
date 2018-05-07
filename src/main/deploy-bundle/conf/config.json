@@ -30,7 +30,7 @@
     },
     "eventBus": {
       "path": "${cpd.server.eventBus.path}",
-      "definitionsAddress": "${cpd.server.eventBus.definitionsAddress}"
+      "diagramAddress": "${cpd.server.eventBus.diagramAddress}"
     },
     "auth": {
       "path": "${cpd.server.auth.path}"
@@ -63,6 +63,10 @@
   },
   "oauth2": {
     "origin": "${cpd.oauth2.origin}",
-    "providers": [${cpd.oauth2.providers}]
+    "providers": [${cpd.oauth2.providers}],
+    "aac": {
+      "givenname": "${cpd.oauth2.aac.givenname}",
+      "surname": "${cpd.oauth2.aac.surname}"
+    }
   }
 }

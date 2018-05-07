@@ -10,19 +10,20 @@
       "dateTime": 1,
       "userId": 1,
       "message": 1,
-      "coordinates": 1,
+      "diagramId": 1,
+      "elementId": 1,
       "url": {
         "$concat": [
           "{appDiagramUrl}",
-          "$coordinates.diagramId",
+          "$diagramId",
           "/",
-          "$coordinates.elementId"
+          "$elementId"
         ]
       },
       "svg": {
         "$concat": [
           "{appDiagramSvg}",
-          "$coordinates.diagramId",
+          "$diagramId",
           ".svg"
         ]
       }

@@ -6,8 +6,15 @@ db.models.aggregate(
 		{
 			$match: {
 			  "_id": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3", // "{diagramId}"
-			  "＄domain": "Model.FPMN.Diagram"
 			}
+			
+			/*
+			 *                           model         parent
+			 * TODO: diagram -> plane -<                 ^
+			 *                           depictions -> model
+			 *                                           v
+			 *                                         childs
+			 */
 		},
 
 		// Stage 2

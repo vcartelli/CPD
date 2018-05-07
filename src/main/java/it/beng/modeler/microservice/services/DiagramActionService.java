@@ -11,7 +11,7 @@ public class DiagramActionService extends ActionService {
 
     // TODO: creare un modello "Initial FPMN" da usare come template nella creazione di un nuovo diagramma
 
-    // register here all handled IncomingActions
+    // register here all handled IncomingActions (Publish/Send)
     static {
         /* PUBLISH */
         registerIncomingAction(AddEntityAction.TYPE, AddEntityAction.class);

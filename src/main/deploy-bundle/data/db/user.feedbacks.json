@@ -5,9 +5,17 @@
 	},
 	"userId": "citizen1@simpatico.eu",
 	"message": "Il permesso potrebbe essere rilasciato via PEC",
-	"coordinates": {
-		"diagramId": "a66534ca-8713-4081-986b-14a1b48c9414",
-		"elementId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9"
+	"diagramId": "a66534ca-8713-4081-986b-14a1b48c9414",
+	"elementId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9"
+},
+{
+	"_id": "a6761862-dfe3-483a-b5e5-0f3c5158ea68",
+	"message": "Hello! I think this is just a trial text",
+	"diagramId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"elementId": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
+	"userId": "vincenzo.cartelli@gmail.com",
+	"dateTime": {
+		"$date": "2018-05-03T16:35:05.028Z"
 	}
 }]
 

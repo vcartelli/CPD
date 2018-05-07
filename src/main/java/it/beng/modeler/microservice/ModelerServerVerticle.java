@@ -1,38 +1,25 @@
 package it.beng.modeler.microservice;
 
-import java.time.Instant;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
-import io.vertx.core.http.ClientAuth;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.JksOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
-import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
-import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
-import it.beng.modeler.microservice.subroute.ApiSubRoute;
-import it.beng.modeler.microservice.subroute.AppSubRoute;
-import it.beng.modeler.microservice.subroute.AssetsSubRoute;
-import it.beng.modeler.microservice.subroute.AuthSubRoute;
-import it.beng.modeler.microservice.subroute.DataSubRoute;
-import it.beng.modeler.microservice.subroute.EventBusSubRoute;
-import it.beng.modeler.microservice.subroute.SchemaSubRoute;
-import it.beng.modeler.microservice.subroute.SubRoute;
+import it.beng.modeler.microservice.subroute.*;
+
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -190,6 +177,9 @@ public class ModelerServerVerticle extends AbstractVerticle {
         logger.info("Session cookie name is " + "cpd.web.session." + config.server.scheme);
         router.route().handler(sessionHandler);
 
+        // this must be declared here, before the body handler
+        new EventBusSubRoute(vertx, router);
+
         // enable body handler for [POST] and [PUT] methods
         final BodyHandler bodyHandler = BodyHandler.create();
         //        router.route().method(HttpMethod.GET).handler(bodyHandler);
@@ -206,7 +196,6 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // ModelTools modelTools = new ModelTools(vertx, config.mongoDB(), schemaTools, config.develop);
         // vertx.getOrCreateContext().put("modelTools", modelTools);
 
-        new EventBusSubRoute(vertx, router);
         new AuthSubRoute(vertx, router);
         new AssetsSubRoute(vertx, router);
         new AppSubRoute(vertx, router);
@@ -252,16 +241,17 @@ public class ModelerServerVerticle extends AbstractVerticle {
             // .setUseAlpn(true)
             ;
         }
-        vertx.createHttpServer(serverOptions).requestHandler(router::accept).listen(config.server.port, ar -> {
-            if (ar.succeeded()) {
-                logger.info("HTTP Server started: " + config.server.origin());
-                startFuture.complete();
-            } else {
-                logger.severe(
-                    "Cannot start HTTP Server: " + config.server.origin() + ". Cause: " + ar.cause().getMessage());
-                startFuture.fail(ar.cause());
-            }
-        });
+        vertx.createHttpServer(serverOptions)
+            .requestHandler(router::accept).listen(config.server.port, ar -> {
+                if (ar.succeeded()) {
+                    logger.info("HTTP Server started: " + config.server.origin());
+                    startFuture.complete();
+                } else {
+                    logger.severe(
+                        "Cannot start HTTP Server: " + config.server.origin() + ". Cause: " + ar.cause().getMessage());
+                    startFuture.fail(ar.cause());
+                }
+            });
     }
 
 }

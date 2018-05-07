@@ -1,8 +1,5 @@
 package it.beng.modeler.microservice.subroute.auth;
 
-import java.util.UUID;
-import java.util.logging.Logger;
-
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
@@ -21,6 +18,9 @@ import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
+
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -58,7 +58,8 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
     }
 
     private void loginHandler(RoutingContext context) {
-        StringBuilder url = new StringBuilder(oauth2ClientOptions.getSite() + oauth2ClientOptions.getAuthorizationPath())
+        StringBuilder url = new StringBuilder(oauth2ClientOptions.getSite() + oauth2ClientOptions
+            .getAuthorizationPath())
             .append("?")
             .append("response_type=token")
             .append("&")
@@ -72,7 +73,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
             .append(oauth2ClientOptions.getClientID())
             .append("&")
             .append("scope=")
-            .append(oauth2Flow.scope/* .replace(" ", ",") */)
+            .append(oauth2Flow.scopeString(" "))
             .append("&")
             .append("state=")
             .append((String) context.session().get("encodedState"));
@@ -80,82 +81,89 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
     }
 
     private void loginWithHash(final RoutingContext context) {
-
         final JsonObject hash = context.getBodyAsJson();
         logger.finest("receiverd hash: " + hash.encodePrettily());
         AuthSubRoute.checkEncodedStateStateCookie(context, hash.getString("state"));
         hash.remove("state");
+        final AccessToken user = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider, hash);
+        // add user to the session
+        context.setUser(user);
+        Session session = context.session();
+        if (session != null) {
+            // the user has upgraded from unauthenticated to authenticated
+            // session should be upgraded as recommended by owasp
+            session.regenerateId();
+        }
         final WebClient client = WebClient.create(vertx,
             new WebClientOptions().setUserAgent("CPD-WebClient/1.0").setFollowRedirects(false));
         client.requestAbs(HttpMethod.GET, oauth2Flow.getUserProfile)
-            .putHeader("Accept", "application/json")
-            .putHeader("Authorization", "Bearer " + hash.getString("access_token"))
-            .putHeader("scope", String.join(",", oauth2Flow.scope.split("(\\s|,)")))
-            .as(BodyCodec.jsonObject())
-            .send(cr -> {
-                client.close();
-                if (cr.succeeded()) {
-                    HttpResponse<JsonObject> response = cr.result();
-                    if (response.statusCode() == HttpResponseStatus.OK.code()) {
-                        final JsonObject body = response.body();
-                        logger.finest("body: " + body.encodePrettily());
-                        final JsonObject state = new JsonObject(
-                            base64.decode(context.session().remove("encodedState")));
-                        final JsonObject loginState = state.getJsonObject("loginState");
-                        final String provider = loginState.getString("provider");
-                        final String firstName = PROVIDER_MAPS.get(provider).get(FIRST_NAME);
-                        final String lastName = PROVIDER_MAPS.get(provider).get(LAST_NAME);
-                        final String displayName = PROVIDER_MAPS.get(provider).get(DISPLAY_NAME);
-                        final String email = PROVIDER_MAPS.get(provider).get(EMAIL);
-                        JsonObject account = new JsonObject();
-                        body.getJsonObject("accounts")
-                            .stream()
-                            .filter(entry -> entry.getValue() instanceof JsonObject)
-                            .limit(1)
-                            .forEach(entry -> {
-                                JsonObject values = (JsonObject) entry.getValue();
-                                // use email as account ID
-                                account.put("id", values.getString(email, UUID.randomUUID().toString()));
-                                account.put(FIRST_NAME, values.getString(firstName, "Guest"));
-                                account.put(LAST_NAME, values.getString(lastName, ""));
-                                account.put(DISPLAY_NAME, values.getString(displayName, ""));
-                                // generate displayName if it does not exists
-                                if ("".equals(account.getString(DISPLAY_NAME, "").trim()))
-                                    account.put(DISPLAY_NAME,
-                                        (account.getString(FIRST_NAME) + " " + account.getString(LAST_NAME))
-                                            .trim());
-                            });
-                        // create user
-                        hash.put("scope", oauth2Flow.scope).put("loginState", loginState);
-                        final AccessToken user = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider, hash);
-                        Session session = context.session();
-                        if (session != null) {
-                            // the user has upgraded from unauthenticated to authenticated
-                            // session should be upgraded as recommended by owasp
-                            session.regenerateId();
-                        }
-                        // set user account
-                        user.principal().put("account", account);
-                        // add user to the session
-                        context.setUser(user);
-                        // set user roles
-                        getUserRoles(account, roles -> {
-                            if (roles.succeeded()) {
-                                // respond
-                                logger.finest("oauth2 implicit flow user principal: "
-                                        + context.user().principal().encodePrettily());
-                                new JsonResponse(context).end(user.principal());
-                            } else {
-                                context.fail(roles.cause());
-                            }
-                        });
-                    } else {
-                        context.fail(ServerError.message("error while fetching user account"));
-                    }
-                } else {
-                    context.fail(cr.cause());
-                }
-            });
+              .putHeader("Accept", "application/json")
+              .putHeader("Authorization", "Bearer " + hash.getString("access_token"))
+              .putHeader("scope", oauth2Flow.scopeString(","))
+              .as(BodyCodec.jsonObject())
+              .send(cr -> {
+                  client.close();
+                  if (cr.succeeded()) {
+                      HttpResponse<JsonObject> response = cr.result();
+                      if (response.statusCode() == HttpResponseStatus.OK.code()) {
+                          final JsonObject body = response.body();
+                          logger.finest("body: " + body.encodePrettily());
+                          final JsonObject state = new JsonObject(
+                              base64.decode(context.session().remove("encodedState")));
+                          final JsonObject loginState = state.getJsonObject("loginState");
+                          String provider = loginState.getString("provider");
+                          Map<String, Map<String, String>> providerMaps;
+                          JsonObject providerAccount;
+                          if ("AAC".equals(provider)) {
+                              providerMaps = AAC_PROVIDER_MAPS;
+                              final JsonObject aac = body.getJsonObject("accounts");
+                              provider = aac.fieldNames().iterator().next();
+                              providerAccount = aac.getJsonObject(provider);
+                          } else {
+                              providerMaps = PROVIDER_MAPS;
+                              providerAccount = body;
+                          }
+                          final String email = providerMaps.get(provider).get(EMAIL);
+                          // use email as account ID
+                          final String id = providerAccount.getString(email);
+                          if (id == null) {
+                              context.fail(HttpResponseStatus.UNAUTHORIZED.code());
+                              return;
+                          }
+                          final String firstName = providerMaps.get(provider).get(FIRST_NAME);
+                          final String lastName = providerMaps.get(provider).get(LAST_NAME);
+                          JsonObject account = new JsonObject();
+                          account.put("id", id);
+                          account.put(FIRST_NAME, providerAccount.getString(firstName, "Guest").trim());
+                          account.put(LAST_NAME, providerAccount.getString(lastName, "").trim());
+                          // generate displayName if it does not exists
+                          account.put(DISPLAY_NAME,
+                              (account.getString(FIRST_NAME) + " " + account.getString(LAST_NAME))
+                                  .trim());
+                          // create user
+                          hash.put("scope", oauth2Flow.scope).put("loginState", loginState);
+                          // set user account
+                          user.principal().put("account", account);
+                          // set user roles
+                          readOrCreateUser(account, roles -> {
+                              if (roles.succeeded()) {
+                                  // respond
+                                  logger.finest("oauth2 implicit flow user principal: "
+                                      + user.principal().encodePrettily());
+                                  new JsonResponse(context).end(user.principal());
+                              } else {
+                                  context.fail(roles.cause());
+                              }
+                          });
+                      } else {
+                          context.setUser(null);
+                          context.fail(ServerError.message("error while fetching user account"));
+                      }
+                  } else {
+                      context.setUser(null);
+                      context.fail(cr.cause());
+                  }
+              });
     }
 
 }

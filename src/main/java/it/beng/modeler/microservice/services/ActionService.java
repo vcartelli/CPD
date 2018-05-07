@@ -1,12 +1,5 @@
 package it.beng.modeler.microservice.services;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -15,7 +8,15 @@ import io.vertx.ext.web.handler.sockjs.BridgeEvent;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.actions.IncomingAction;
+import it.beng.modeler.microservice.actions.PublishAction;
 import it.beng.modeler.microservice.utils.EventBusUtils;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public abstract class ActionService extends BridgeEventService {
 
@@ -31,7 +32,6 @@ public abstract class ActionService extends BridgeEventService {
         JsonObject json = event.getRawMessage().getJsonObject("body");
         if (json == null) {
             EventBusUtils.fail(event, "illegal state: no json found in message body");
-            return null;
         }
         String type = json.getString("type");
         if (type == null) {
@@ -40,8 +40,18 @@ public abstract class ActionService extends BridgeEventService {
         }
         Class<? extends IncomingAction> actionClass = INCOMING_ACTIONS.get(type);
         if (actionClass == null) {
-            EventBusUtils.fail(event, "illegal state: no incoming action registered for type " + type);
-            return null;
+            if (config.develop) {
+                return new PublishAction(json) {
+                    @Override
+                    protected String innerType() {
+                        return this.json.getString("type");
+                    }
+
+                };
+            } else {
+                EventBusUtils.fail(event, "illegal state: no incoming action registered for type " + type);
+                return null;
+            }
         }
         try {
             IncomingAction action = actionClass.getDeclaredConstructor(JsonObject.class).newInstance(json);
