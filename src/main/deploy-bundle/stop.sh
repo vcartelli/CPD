@@ -1,9 +1,10 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-if [ -f cpd.pid ]; then
-  echo "cpd-server is going to be killed..."
-  kill $(cat cpd.pid)
-  rm cpd.pid
+APP_ID="cpd-server"
+if (java -jar "$APP_ID".jar list | grep -q "$APP_ID")
+then
+  echo "stopping $APP_ID..."
+  java -jar "$APP_ID".jar stop "$APP_ID"
 else
-  echo "pid file not found, is the server running?"
+  echo "$APP_ID not found, is it running?"
 fi

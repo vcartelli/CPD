@@ -91,6 +91,78 @@
 	"＄domain": "Di.Shape"
 },
 {
+	"_id": "62c02032-0b13-436c-9a96-00a7e479801b",
+	"modelId": "32585f79-cce0-4aca-86bf-f8df7a641091",
+	"unit": "px",
+	"bounds": {
+		"x": 0.0,
+		"y": 0.0,
+		"width": 560.0,
+		"height": 240.0
+	},
+	"＄domain": "Di.Plane"
+},
+{
+	"_id": "bac66934-c93e-4b5b-a3ac-db46d2b000f3",
+	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
+	"modelId": "32585f79-cce0-4aca-86bf-f8df7a641091",
+	"label": {
+		"bounds": {
+			"x": 40.0,
+			"y": 40.0,
+			"width": 480.0,
+			"height": 40.0
+		}
+	},
+	"bounds": {
+		"x": 40.0,
+		"y": 40.0,
+		"width": 480.0,
+		"height": 160.0
+	},
+	"＄domain": "Di.Shape"
+},
+{
+	"_id": "1bf755de-3540-48af-b4d1-e13b2f0c96fe",
+	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
+	"modelId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
+	"label": {
+		"bounds": {
+			"x": 40.0,
+			"y": 80.0,
+			"width": 220.0,
+			"height": 120.0
+		}
+	},
+	"bounds": {
+		"x": 40.0,
+		"y": 80.0,
+		"width": 220.0,
+		"height": 120.0
+	},
+	"＄domain": "Di.Shape"
+},
+{
+	"_id": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677",
+	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
+	"modelId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
+	"label": {
+		"bounds": {
+			"x": 300.0,
+			"y": 80.0,
+			"width": 220.0,
+			"height": 120.0
+		}
+	},
+	"bounds": {
+		"x": 260.0,
+		"y": 80.0,
+		"width": 260.0,
+		"height": 120.0
+	},
+	"＄domain": "Di.Shape"
+},
+{
 	"_id": "60cc24d0-bb36-4580-9150-ee62eb32ab7a",
 	"modelId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
 	"unit": "px",
@@ -203,78 +275,6 @@
 	"＄domain": "Di.Shape"
 },
 {
-	"_id": "62c02032-0b13-436c-9a96-00a7e479801b",
-	"modelId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-	"unit": "px",
-	"bounds": {
-		"x": 0.0,
-		"y": 0.0,
-		"width": 560.0,
-		"height": 240.0
-	},
-	"＄domain": "Di.Plane"
-},
-{
-	"_id": "bac66934-c93e-4b5b-a3ac-db46d2b000f3",
-	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
-	"modelId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-	"label": {
-		"bounds": {
-			"x": 40.0,
-			"y": 40.0,
-			"width": 480.0,
-			"height": 40.0
-		}
-	},
-	"bounds": {
-		"x": 40.0,
-		"y": 40.0,
-		"width": 480.0,
-		"height": 160.0
-	},
-	"＄domain": "Di.Shape"
-},
-{
-	"_id": "1bf755de-3540-48af-b4d1-e13b2f0c96fe",
-	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
-	"modelId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
-	"label": {
-		"bounds": {
-			"x": 40.0,
-			"y": 80.0,
-			"width": 220.0,
-			"height": 120.0
-		}
-	},
-	"bounds": {
-		"x": 40.0,
-		"y": 80.0,
-		"width": 220.0,
-		"height": 120.0
-	},
-	"＄domain": "Di.Shape"
-},
-{
-	"_id": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677",
-	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
-	"modelId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
-	"label": {
-		"bounds": {
-			"x": 300.0,
-			"y": 80.0,
-			"width": 220.0,
-			"height": 120.0
-		}
-	},
-	"bounds": {
-		"x": 260.0,
-		"y": 80.0,
-		"width": 260.0,
-		"height": 120.0
-	},
-	"＄domain": "Di.Shape"
-},
-{
 	"_id": "9fd2003a-8dcd-407a-9c48-b46951427947",
 	"modelId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
 	"unit": "px",
@@ -321,7 +321,7 @@
 	"bounds": {
 		"x": 40.0,
 		"y": 80.0,
-		"width": 260.0,
+		"width": 220.0,
 		"height": 120.0
 	},
 	"＄domain": "Di.Shape"

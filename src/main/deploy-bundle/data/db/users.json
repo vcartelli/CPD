@@ -1,5 +1,6 @@
 [{
 	"_id": "admin",
+	"provider": "local",
 	"password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
 	"firstName": "Simpatico",
 	"lastName": "Administrator",
@@ -11,7 +12,8 @@
 	}
 },
 {
-	"_id": "citizen1@simpatico.eu",
+	"_id": "citizen 1",
+	"provider": "local",
 	"password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
 	"firstName": "Simpatico",
 	"lastName": "Citizen #1",
@@ -29,7 +31,8 @@
 	}
 },
 {
-	"_id": "citizen2@simpatico.eu",
+	"_id": "citizen 2",
+	"provider": "local",
 	"password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
 	"firstName": "Simpatico",
 	"lastName": "Citizen #2",
@@ -41,7 +44,8 @@
 	}
 },
 {
-	"_id": "civilservant1@simpatico.eu",
+	"_id": "civil servant 1",
+	"provider": "local",
 	"password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
 	"firstName": "Simpatico",
 	"lastName": "Civil Servant #1",
@@ -53,7 +57,8 @@
 	}
 },
 {
-	"_id": "civilservant2@simpatico.eu",
+	"_id": "civil servant 2",
+	"provider": "local",
 	"password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
 	"firstName": "Simpatico",
 	"lastName": "Civil Servant #2",
@@ -65,12 +70,43 @@
 	}
 },
 {
-	"_id": "vincenzo.cartelli@gmail.com",
+	"_id": "118205980783581793280",
+	"provider": "Google",
 	"firstName": "Vincenzo",
 	"lastName": "Cartelli",
 	"displayName": "Vincenzo Cartelli",
 	"roles": {
-		"system": "admin",
+		"system": "user",
+		"interaction": "citizen",
+		"things": {
+			"diagram": {
+				"123": [
+					"editor"
+				],
+				"b2892ad2-997d-4ab7-a49a-0ae6dab1adf3": [
+					"editor"
+				],
+				"e46da25d-d043-4bc4-a3d4-3d366dfc476c": [
+					"observer"
+				],
+				"195d68a0-b425-42f4-9b7d-669c5ca698ec": [
+					"reviewer"
+				],
+				"d2c43fe1-2127-4969-8c07-5b1479c44ba2": [
+					"editor"
+				]
+			}
+		}
+	}
+},
+{
+	"_id": "25204",
+	"provider": "AAC",
+	"firstName": "Vincenzo",
+	"lastName": "Cartelli",
+	"displayName": "Vincenzo Cartelli",
+	"roles": {
+		"system": "user",
 		"interaction": "citizen",
 		"things": {
 			"diagram": {

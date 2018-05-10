@@ -233,10 +233,6 @@ public final class config {
     public static class oauth2 {
         public static String origin;
         public static List<OAuth2Config> configs;
-        public static class aac {
-            public static String givenname;
-            public static String surname;
-        }
     }
 
     private static String checkBaseHref(String href) {
@@ -350,9 +346,6 @@ public final class config {
             }
             oauth2.configs.add(oAuth2Config);
         }
-        node = node.getJsonObject("aac");
-        oauth2.aac.givenname = node.getString("givenname", "it.smartcommunitylab.aac.givenname");
-        oauth2.aac.surname = node.getString("surname", "it.smartcommunitylab.aac.surname");
 
         _config = config;
 

@@ -5,7 +5,7 @@ import it.beng.modeler.microservice.actions.ReplyAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 
 public class DefinitionLoadedAction extends ReplyAction implements DiagramAction {
-    public static final String TYPE = "[Diagram Action] Definition Loaded";
+    public static final String TYPE = "[Diagram Action Reply] Definition Loaded";
 
     public DefinitionLoadedAction(JsonObject definition) {
         super(new JsonObject()

@@ -6,7 +6,7 @@ import it.beng.modeler.microservice.actions.PublishAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 
 public class ChangeEntityAction extends PublishAction implements DiagramAction {
-    public static final String TYPE = "[Diagram Action] Change Entity";
+    public static final String TYPE = "[Diagram Action Publish] Change Entity";
 
     public ChangeEntityAction(JsonObject action) {
         super(action);

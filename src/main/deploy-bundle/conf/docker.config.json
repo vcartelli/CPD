@@ -48,7 +48,7 @@
   "app": {
     "useLocalAuth": true,
     "locales": ["en","es","it"],
-    "designerPath": "procedures/designer/"
+    "designerPath": "procedures/"
   },
   "mongodb": {
     "host": "${cpd.mongodb.host}",

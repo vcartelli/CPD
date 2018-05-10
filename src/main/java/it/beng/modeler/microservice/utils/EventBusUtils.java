@@ -1,13 +1,13 @@
 package it.beng.modeler.microservice.utils;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.eventbus.ReplyFailure;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.ext.web.handler.impl.UserHolder;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
+
+import java.util.logging.Logger;
 
 public final class EventBusUtils {
 
@@ -25,20 +25,11 @@ public final class EventBusUtils {
     public static JsonObject account(BridgeEvent event) {
         UserHolder userHolder = event.socket().webSession().get("__vertx.userHolder");
         User user = userHolder != null
-                ? userHolder.context.user()
-                : null;
-        JsonObject account = user != null
-                ? user.principal().getJsonObject("account")
-                : null;
-        String id = account != null
-                ? account.getString("id")
-                : null;
-        JsonObject userRoles = account != null
-                ? account.getJsonObject("roles")
-                : AuthUtils.LOGGED_OUT_CITIZEN_ROLES;
-        return new JsonObject()
-            .put("id", id)
-            .put("roles", userRoles);
+            ? userHolder.context.user()
+            : null;
+        return user != null
+            ? user.principal().getJsonObject("account")
+            : null;
     }
 
     public static void complete(BridgeEvent event) {

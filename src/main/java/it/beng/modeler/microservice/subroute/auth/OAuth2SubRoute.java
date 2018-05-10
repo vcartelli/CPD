@@ -14,6 +14,7 @@ import io.vertx.ext.web.handler.UserSessionHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.SubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
+import it.beng.modeler.microservice.utils.JsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,36 +29,28 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
     private static Logger logger = Logger.getLogger(OAuth2SubRoute.class.getName());
 
+    protected final static String ID = "id";
+    protected final static String PROVIDER = "provider";
     protected final static String FIRST_NAME = "firstName";
     protected final static String LAST_NAME = "lastName";
     protected final static String DISPLAY_NAME = "displayName";
-    protected final static String EMAIL = "email";
-    protected static final Map<String, Map<String, String>> PROVIDER_MAPS = new HashMap<>();
-    protected static final Map<String, Map<String, String>> AAC_PROVIDER_MAPS = new HashMap<>();
+    protected final static String ROLES = "roles";
+    protected static final Map<String, Map<String, String>> ACCOUNT_PROVIDERS = new HashMap<>();
+
     static {
         Map<String, String> provider;
         /* Google */
         provider = new HashMap<>();
+        provider.put(ID, "id");
         provider.put(FIRST_NAME, "given_name");
         provider.put(LAST_NAME, "family_name");
-        provider.put(EMAIL, "email");
-        PROVIDER_MAPS.put("Google", provider);
+        ACCOUNT_PROVIDERS.put("Google", provider);
         /* AAC */
         provider = new HashMap<>();
-        provider.put(FIRST_NAME, config.oauth2.aac.givenname);
-        provider.put(LAST_NAME, config.oauth2.aac.surname);
-        provider.put(EMAIL, "OIDC_CLAIM_email");
-        AAC_PROVIDER_MAPS.put("google", provider);
-        provider = new HashMap<>();
-        provider.put(FIRST_NAME, config.oauth2.aac.givenname);
-        provider.put(LAST_NAME, config.oauth2.aac.surname);
-        provider.put(EMAIL, "id");
-        AAC_PROVIDER_MAPS.put("facebook", provider);
-        provider = new HashMap<>();
-        provider.put(FIRST_NAME, config.oauth2.aac.givenname);
-        provider.put(LAST_NAME, config.oauth2.aac.surname);
-        provider.put(EMAIL, "email");
-        AAC_PROVIDER_MAPS.put("internal", provider);
+        provider.put(ID, "userId");
+        provider.put(FIRST_NAME, "name");
+        provider.put(LAST_NAME, "surname");
+        ACCOUNT_PROVIDERS.put("AAC", provider);
     }
 
     public final static String AUTHORIZATION_CODE_GRANT = "AUTHORIZATION_CODE_GRANT";
@@ -125,30 +118,41 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
     }
 
-    protected void readOrCreateUser(final JsonObject account, Handler<AsyncResult<Void>> handler) {
-        String id = account.getString("id");
-        if ("".equals(id.trim())) {
-            account.put("roles", AuthUtils.LOGGED_IN_CITIZEN_ROLES);
-            handler.handle(Future.succeededFuture());
-            return;
+    protected void getOrCreateAccount(final JsonObject userInfo, final String provider, Handler<AsyncResult<JsonObject>> handler) {
+        if (userInfo == null || provider == null) {
+            handler.handle(Future.failedFuture("cannot determine user info"));
         }
-        mongodb.findOne(config.USER_COLLECTION, new JsonObject().put("id", id), new JsonObject(), find -> {
+
+        final Map<String, String> accountProvider = ACCOUNT_PROVIDERS.get(provider);
+        if (accountProvider == null) {
+            handler.handle(Future.failedFuture("cannot determine account provider"));
+        }
+
+        final String id = userInfo.getString(accountProvider.get(ID), null);
+        if (id == null) {
+            handler.handle(Future.failedFuture("cannot determine user id"));
+        }
+
+        mongodb.findOne(config.USER_COLLECTION, new JsonObject().put(ID, id).put(PROVIDER, provider), new JsonObject(), find -> {
             if (find.succeeded()) {
-                JsonObject roles;
-                if (find.result() != null) {
-                    roles = find.result().getJsonObject("roles");
+                final JsonObject account = JsonUtils.coalesce(find.result(), new JsonObject());
+                if (id.equals(account.getString("id"))) {
+                    handler.handle(Future.succeededFuture(account));
                 } else {
-                    roles = AuthUtils.LOGGED_IN_CITIZEN_ROLES;
-                }
-                account.put("roles", roles);
-                if (account.equals(find.result())) {
-                    handler.handle(Future.succeededFuture());
-                } else {
-                    // update the record if something has changed
-                    logger.warning("user record for " + account.getString("id") + " has changed, updating db record");
+                    final String firstName = userInfo.getString(accountProvider.get(FIRST_NAME), "Guest").trim();
+                    final String lastName = userInfo.getString(accountProvider.get(LAST_NAME), "").trim();
+                    final String displayName = (firstName + " " + lastName).trim();
+                    account
+                        .put(ID, id)
+                        .put(PROVIDER, provider)
+                        .put(FIRST_NAME, firstName)
+                        .put(FIRST_NAME, firstName)
+                        .put(LAST_NAME, lastName)
+                        .put(DISPLAY_NAME, displayName)
+                        .put(ROLES, AuthUtils.LOGGED_IN_CITIZEN_ROLES);
                     mongodb.save(config.USER_COLLECTION, account, save -> {
                         if (save.succeeded()) {
-                            handler.handle(Future.succeededFuture());
+                            handler.handle(Future.succeededFuture(account));
                         } else {
                             handler.handle(Future.failedFuture(save.cause()));
                             return;

@@ -56,6 +56,18 @@
 	"＄domain": "Model.FPMN.Phase"
 },
 {
+	"_id": "96951ff6-dbe1-493e-962f-47cfd8f0aab5",
+	"notation": "Model.Notation.FPMN",
+	"parentId": "a46c29cc-5814-47d0-86a9-22f6d678335a",
+	"subject": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.EService",
+	"eServiceId": "2",
+	"language": "italian",
+	"name": "Compilazione della Richiesta di Ammissione",
+	"documentation": "La domanda di ammissione ai nidi d’infanzia comunali può essere presentata dal 1° settembre al 30 aprile precedenti il periodo di erogazione del servizio (da inizio settembre a fine luglio).\n\nÈ possibile presentare domanda sia per il servizio di nido a tempo pieno sia per il servizio a tempo parziale, indicando in entrambi i casi al massimo due preferenze.\n\nLa prima scelta, nel caso della domanda a tempo pieno, è vincolata alla residenza del bambino ed effettuata fra i nidi collocati nella propria area di utenza (vedi allegato) mentre la scelta dei nidi d'infanzia a tempo parziale è libera rispetto alle strutture disponibili.\n\nNella domanda il richiedente indica:\n• le sue complete generalità;\n• la situazione complessiva del bambino e del nucleo familiare di riferimento;\n• la situazione economica del nucleo familiare attraverso l'attestazione ICEF rilasciata da un CAF abilitato (se si intende avvalere di questo punteggio);\n• il/i nido/i prescelto/i;\n• ogni altro elemento utile ad acquisire d'ufficio le informazioni dichiarate nella domanda",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "a66534ca-8713-4081-986b-14a1b48c9414",
 	"notation": "Model.Notation.FPMN",
 	"planeId": "62c02032-0b13-436c-9a96-00a7e479801b",
@@ -100,6 +112,18 @@
 	"name": "Rilascio del permesso",
 	"documentation": "Il Consiglio valuta la richiesta e sulla base delle regole interne rilascia il permesso di deroga acustica.",
 	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "ebe8bfa0-1c31-4933-a07f-5349cbae0f27",
+	"notation": "Model.Notation.FPMN",
+	"parentId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
+	"subject": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.EService",
+	"eServiceId": "3",
+	"language": "italian",
+	"name": "Compilazione della Richiesta di Permesso",
+	"documentation": "Documentazione necessaria alla presentazione dell'istanza.\nModulo:\n• Deroga acustica per attività edilizia temporanea\nAllegati:\n• Altri allegati all'istanza\n• Copia del documento d'identità\n• Pagamento dell'imposta di bollo\n• Ricevuta dei diritti di segreteria/istruttoria\n• Ulteriori particelle o subalterni oggetto del procedimento\n• Valutazione di impatto acustico per cantieri particolarmente complessi",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",

@@ -13,7 +13,7 @@ import it.beng.modeler.microservice.utils.JsonUtils;
 import java.util.HashMap;
 
 public class LoadDefinitionAction extends SendAction implements DiagramAction {
-    public static final String TYPE = "[Diagram Action] Load Definition";
+    public static final String TYPE = "[Diagram Action Send] Load Definition";
 
     public LoadDefinitionAction(JsonObject action) {
         super(action);

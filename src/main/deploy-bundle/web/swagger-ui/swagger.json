@@ -505,7 +505,7 @@
           "title": "Url",
           "description": "link to the Diagram in the web application",
           "type": "string",
-          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}en/en/procedures/designer/d2c43fe1-2127-4969-8c07-5b1479c44ba2/33f60d00-79d5-4d8f-89cc-166ab4577b97"
+          "example": "https://${cpd.server.pub.host}:${cpd.server.pub.port}${cpd.server.baseHref}en/en/procedures/d2c43fe1-2127-4969-8c07-5b1479c44ba2/33f60d00-79d5-4d8f-89cc-166ab4577b97"
         },
         "svg": {
           "title": "Svg",

@@ -18,4 +18,8 @@ public final class JsonUtils {
     public static JsonObject firstOrNull(List<JsonObject> list) {
         return list != null && list.size() > 0 ? list.get(0) : null;
     }
+
+    public static JsonObject coalesce(JsonObject jsonObject, JsonObject def) {
+        return jsonObject != null ? jsonObject : def;
+    }
 }

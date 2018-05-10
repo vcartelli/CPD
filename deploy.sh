@@ -13,9 +13,10 @@ then
   exit 1
 fi
 ./prepare-bundle.sh production
-ssh $USER@$SERVER 'if [ ! -d cpd-server ]; then echo "creating cpd-server dir..."; mkdir cpd-server; fi'
-ssh $USER@$SERVER 'if [ -f "cpd-server/cpd.pid" ]; then echo "stopping remote server..."; ~/cpd-server/stop.sh; fi'
+APP_ID="cpd-server"
+ssh $USER@$SERVER 'if [ ! -d "'$APP_ID'" ]; then echo "creating '$APP_ID' dir..."; mkdir "'$APP_ID'"; fi'
+ssh $USER@$SERVER 'if (java -jar "'$APP_ID/$APP_ID'".jar list | grep -q "'$APP_ID'"); then echo "stopping remote server..."; ~/"'$APP_ID'"/stop.sh; fi'
 echo "deploying to $SERVER..."
-scp -r target/deploy-bundle/* $USER@$SERVER:cpd-server/
+scp -r target/deploy-bundle/* $USER@$SERVER:"$APP_ID"/
 echo "starting remote server..."
-ssh $USER@$SERVER '~/cpd-server/start.sh'
+ssh $USER@$SERVER '~/"'$APP_ID'"/start.sh'

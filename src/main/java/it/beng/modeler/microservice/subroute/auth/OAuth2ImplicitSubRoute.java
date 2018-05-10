@@ -19,7 +19,6 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -106,53 +105,22 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                   if (cr.succeeded()) {
                       HttpResponse<JsonObject> response = cr.result();
                       if (response.statusCode() == HttpResponseStatus.OK.code()) {
-                          final JsonObject body = response.body();
-                          logger.finest("body: " + body.encodePrettily());
-                          final JsonObject state = new JsonObject(
-                              base64.decode(context.session().remove("encodedState")));
+                          logger.finest("body: " + response.body().encodePrettily());
+
+                          final JsonObject state = new JsonObject(base64
+                              .decode(context.session().remove("encodedState")));
                           final JsonObject loginState = state.getJsonObject("loginState");
-                          String provider = loginState.getString("provider");
-                          Map<String, Map<String, String>> providerMaps;
-                          JsonObject providerAccount;
-                          if ("AAC".equals(provider)) {
-                              providerMaps = AAC_PROVIDER_MAPS;
-                              final JsonObject aac = body.getJsonObject("accounts");
-                              provider = aac.fieldNames().iterator().next();
-                              providerAccount = aac.getJsonObject(provider);
-                          } else {
-                              providerMaps = PROVIDER_MAPS;
-                              providerAccount = body;
-                          }
-                          final String email = providerMaps.get(provider).get(EMAIL);
-                          // use email as account ID
-                          final String id = providerAccount.getString(email);
-                          if (id == null) {
-                              context.fail(HttpResponseStatus.UNAUTHORIZED.code());
-                              return;
-                          }
-                          final String firstName = providerMaps.get(provider).get(FIRST_NAME);
-                          final String lastName = providerMaps.get(provider).get(LAST_NAME);
-                          JsonObject account = new JsonObject();
-                          account.put("id", id);
-                          account.put(FIRST_NAME, providerAccount.getString(firstName, "Guest").trim());
-                          account.put(LAST_NAME, providerAccount.getString(lastName, "").trim());
-                          // generate displayName if it does not exists
-                          account.put(DISPLAY_NAME,
-                              (account.getString(FIRST_NAME) + " " + account.getString(LAST_NAME))
-                                  .trim());
-                          // create user
-                          hash.put("scope", oauth2Flow.scope).put("loginState", loginState);
-                          // set user account
-                          user.principal().put("account", account);
-                          // set user roles
-                          readOrCreateUser(account, roles -> {
-                              if (roles.succeeded()) {
-                                  // respond
-                                  logger.finest("oauth2 implicit flow user principal: "
+                          final String provider = loginState.getString("provider");
+
+                          getOrCreateAccount(response.body(), provider, readOrCreateUser -> {
+                              if (readOrCreateUser.succeeded()) {
+                                  user.principal().put("account", readOrCreateUser.result());
+                                  // redirect
+                                  logger.finest("implicit flow user principal: "
                                       + user.principal().encodePrettily());
                                   new JsonResponse(context).end(user.principal());
                               } else {
-                                  context.fail(roles.cause());
+                                  context.fail(readOrCreateUser.cause());
                               }
                           });
                       } else {
@@ -165,5 +133,4 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                   }
               });
     }
-
 }
