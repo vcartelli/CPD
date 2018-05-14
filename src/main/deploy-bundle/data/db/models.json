@@ -194,6 +194,18 @@
 	"＄domain": "Model.FPMN.Phase"
 },
 {
+	"_id": "02735cb1-68db-448f-ac4c-d48895dd21ca",
+	"notation": "Model.Notation.FPMN",
+	"parentId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+	"subject": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.EService",
+	"eServiceId": "BS607A",
+	"language": "spanish",
+	"name": "Lorem ipsum dolor sit amet",
+	"documentation": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
 	"notation": "Model.Notation.FPMN",
 	"planeId": "9fd2003a-8dcd-407a-9c48-b46951427947",
@@ -250,6 +262,18 @@
 	"name": "Notificación de resoluciones",
 	"documentation": "El plazo máximo para dictar y notificar a los interesados la resolución expresa será de tres meses, contados desde el día siguiente a la finalización del plazo de presentación de solicitudes.\n\nLas notificaciones de resoluciones y actos administrativos se practicarán preferentemente por medios electrónicos y, en todo caso, cuando las personas interesadas resulten obligadas a recibirlas por esta vía. Las personas interesadas que no estén obligadas a recibir notificaciónes electrónicas podrán decidir y comunicar en cualquier momento que las notificaciones sucesivas se practiquen o dejen de practicar por medios electrónicos.\n\nLas notificaciones electrónicas se realizarán mediante el Sistema de notificación electrónica de Galicia-Notifica disponible a través de la sede electrónica de la Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá a las personas interesadas avisos de la puesta a disposición de las notificaciones, mediante un correo electrónico dirigido a la cuenta de correo que conste en la solicitud a efectos de notificación. Estos avisos no tendrán, en ningún caso, efectos de notificación practicada y su falta no impedirá que la notificación sea considerada plenamente válida.\n\nLas notificaciones por medios electrónicos se entenderán practicadas en el momento en que se produzca el acceso a su contenido. Cuando la notificación por medios electrónicos sea de carácter obligatorio, o fuese expresamente elegida por el interesado, se entenderá rechazada cuando hayan transcurrido diez días naturales desde la puesta a disposición de la notificación sin que se acceda a su contenido.\n\nSe el envío de la notificación electrónica no es posible por problemas técnicos, la Administración general y del sector público autonómico de Galicia practicará la notificación por los medios previstos en la normativa reguladora del procedimiento administrativo común",
 	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "446ab019-5828-4e50-a37c-f4fde686f69c",
+	"notation": "Model.Notation.FPMN",
+	"parentId": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
+	"subject": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.EService",
+	"eServiceId": "BS613B",
+	"language": "spanish",
+	"name": "Egestas diam in arcu cursus euismod quis viverra nibh cras",
+	"documentation": "Auctor urna nunc id cursus metus aliquam eleifend mi in. Arcu bibendum at varius vel. Nulla facilisi nullam vehicula ipsum a arcu. Nisl suscipit adipiscing bibendum est ultricies integer quis. Tristique senectus et netus et malesuada fames ac turpis. Est ultricies integer quis auctor elit. Nibh tellus molestie nunc non blandit massa enim. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Arcu non odio euismod lacinia at quis. In iaculis nunc sed augue lacus viverra vitae congue eu. Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Adipiscing bibendum est ultricies integer quis auctor elit sed. Sed arcu non odio euismod lacinia at quis risus sed. Et netus et malesuada fames ac turpis. Laoreet suspendisse interdum consectetur libero id.",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
