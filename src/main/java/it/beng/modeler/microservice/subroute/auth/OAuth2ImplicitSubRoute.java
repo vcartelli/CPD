@@ -84,15 +84,6 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         logger.finest("receiverd hash: " + hash.encodePrettily());
         AuthSubRoute.checkEncodedStateStateCookie(context, hash.getString("state"));
         hash.remove("state");
-        final AccessToken user = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider, hash);
-        // add user to the session
-        context.setUser(user);
-        Session session = context.session();
-        if (session != null) {
-            // the user has upgraded from unauthenticated to authenticated
-            // session should be upgraded as recommended by owasp
-            session.regenerateId();
-        }
         final WebClient client = WebClient.create(vertx,
             new WebClientOptions().setUserAgent("CPD-WebClient/1.0").setFollowRedirects(false));
         client.requestAbs(HttpMethod.GET, oauth2Flow.getUserProfile)
@@ -112,15 +103,23 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                           final JsonObject loginState = state.getJsonObject("loginState");
                           final String provider = loginState.getString("provider");
 
-                          getOrCreateAccount(response.body(), provider, readOrCreateUser -> {
-                              if (readOrCreateUser.succeeded()) {
-                                  user.principal().put("account", readOrCreateUser.result());
-                                  // redirect
-                                  logger.finest("implicit flow user principal: "
-                                      + user.principal().encodePrettily());
+                          getOrCreateAccount(response.body(), provider, getOrCreateAccount -> {
+                              if (getOrCreateAccount.succeeded()) {
+                                  final AccessToken user = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider, hash);
+                                  // add user to the session
+                                  user.principal().put("account", getOrCreateAccount.result());
+                                  user.principal().put("loginState", loginState);
+                                  context.setUser(user);
+                                  Session session = context.session();
+                                  if (session != null) {
+                                      // the user has upgraded from unauthenticated to authenticated
+                                      // session should be upgraded as recommended by owasp
+                                      session.regenerateId();
+                                  }
+                                  logger.finest("implicit flow user principal: " + user.principal().encodePrettily());
                                   new JsonResponse(context).end(user.principal());
                               } else {
-                                  context.fail(readOrCreateUser.cause());
+                                  context.fail(getOrCreateAccount.cause());
                               }
                           });
                       } else {

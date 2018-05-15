@@ -666,24 +666,15 @@
                 "description": "the posted feedback text",
                 "example": "Il permesso potrebbe essere rilasciato via PEC"
               },
-              "coordinates": {
-                "type": "object",
-                "properties": {
-                  "diagramId": {
-                    "type": "string",
-                    "description": "ID of the diagram where the feedback has been posted",
-                    "example": "62c02032-0b13-436c-9a96-00a7e479801b"
-                  },
-                  "elementId": {
-                    "type": "string",
-                    "description": "ID of the diagram element where the feedback has been posted",
-                    "example": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677"
-                  }
-                },
-                "required": [
-                  "diagramId",
-                  "elementId"
-                ]
+              "diagramId": {
+                "type": "string",
+                "description": "ID of the diagram where the feedback has been posted",
+                "example": "62c02032-0b13-436c-9a96-00a7e479801b"
+              },
+              "modelId": {
+                "type": "string",
+                "description": "ID of the model element where the feedback has been posted",
+                "example": "f17b9bf0-f2b7-4eb3-b8a4-0bd638dda677"
               },
               "url": {
                 "title": "Url",
@@ -703,7 +694,8 @@
               "dateTime",
               "userId",
               "message",
-              "coordinates",
+              "diagramId",
+              "modelId",
               "url"
             ]
           }

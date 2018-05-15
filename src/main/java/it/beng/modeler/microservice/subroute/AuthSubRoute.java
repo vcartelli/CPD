@@ -146,7 +146,7 @@ public final class AuthSubRoute extends VoidSubRoute {
         context.clearUser();
         Session session = context.session();
         if (session != null) {
-            session.regenerateId();
+            session.destroy();
         }
         new JsonResponse(context).end(true);
     }
@@ -156,7 +156,7 @@ public final class AuthSubRoute extends VoidSubRoute {
         for (config.OAuth2Config providerConfig : config.oauth2.configs) {
             providers.add(new JsonObject().put("provider", providerConfig.provider).put("logoUrl", providerConfig.logoUrl));
         }
-        new JsonResponse(context).status(HttpResponseStatus.OK).end(providers);
+        new JsonResponse(context).end(providers);
     }
 
     private void getUserIsAuthenticated(RoutingContext context) {

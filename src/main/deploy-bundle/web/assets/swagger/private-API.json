@@ -510,11 +510,15 @@
           "type": "string",
           "description": "ID of the feedback"
         },
+        "dateTime": {
+          "$ref": "#/definitions/DateTime",
+          "description": "ISO-8601 date-time of when the feedback has been posted"
+        },
         "userId": {
           "type": "string",
           "description": "ID of the user who posted the feedback"
         },
-        "feedback": {
+        "message": {
           "type": "string",
           "description": "the posted feedback text"
         },
@@ -522,15 +526,20 @@
           "type": "string",
           "description": "ID of the diagram where the feedback has been posted"
         },
-        "elementId": {
+        "modelId": {
           "type": "string",
-          "description": "ID of the diagram element where the feedback has been posted"
-        },
-        "dateTime": {
-          "$ref": "#/definitions/DateTime",
-          "description": "ISO-8601 date-time of when the feedback has been posted"
+          "description": "ID of the model element where the feedback has been posted"
         }
-      }
+      },
+      "required": [
+        "id",
+        "dateTime",
+        "userId",
+        "message",
+        "diagramId",
+        "modelId",
+        "url"
+      ]
     },
     "basic:Typed": {
       "title": "Typed",

@@ -58,7 +58,6 @@ public final class LocalAuthSubRoute extends VoidSubRoute {
                             session.regenerateId();
                         }
                         logger.finest("local user principal: " + context.user().principal().encodePrettily());
-                        // return the user
                         new JsonResponse(context).end(context.user().principal());
                     } else {
                         context.fail(result.cause());
