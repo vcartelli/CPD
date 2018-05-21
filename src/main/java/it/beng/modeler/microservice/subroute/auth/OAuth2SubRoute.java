@@ -108,6 +108,12 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
         if (this.oauth2Config.introspectionPath != null)
             oauth2ClientOptions.setIntrospectionPath(oauth2Config.introspectionPath);
 
+        JsonObject headers = oauth2ClientOptions.getHeaders();
+        if (headers == null)
+            headers = new JsonObject();
+
+        oauth2ClientOptions.setHeaders(headers.put("Accept", "application/json"));
+
         // create OAuth2 Provider
         oauth2Provider = OAuth2Auth.create(vertx, flowType(oauth2SubRouteConfig.oauth2FlowType), oauth2ClientOptions);
 

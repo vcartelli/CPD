@@ -905,7 +905,7 @@
 		"Model.FPMN.Interaction.Element"
 	],
 	"properties": {
-		"incomingSequenceIds": {
+		"incomingIds": {
 			"title": "Incoming Sequences IDs",
 			"description": "Array of incoming Interaciton Sequence IDs",
 			"type": "array",
@@ -915,7 +915,7 @@
 			},
 			"uniqueItems": true
 		},
-		"outgoingSequenceIds": {
+		"outgoingIds": {
 			"title": "Outgoing Sequences IDs",
 			"description": "Array of outgoing Interaciton Sequence IDs",
 			"type": "array",
@@ -954,10 +954,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingSequenceIds": {
+		"incomingIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingSequenceIds": {
+		"outgoingIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
@@ -997,10 +997,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingSequenceIds": {
+		"incomingIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingSequenceIds": {
+		"outgoingIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
@@ -1040,10 +1040,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingSequenceIds": {
+		"incomingIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingSequenceIds": {
+		"outgoingIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
@@ -1098,10 +1098,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingSequenceIds": {
+		"incomingIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingSequenceIds": {
+		"outgoingIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
