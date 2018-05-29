@@ -29,7 +29,10 @@ public final class config {
     public static final List<String> KNOWN_DIAGRAMS = Arrays.asList(
         "Model.Example.Diagram",
         "Model.BPMN.Diagram",
-        "Model.FPMN.Diagram");
+        "Model.FPMN.Diagram"
+    );
+
+    public static final Map<String, String> DOMAIN_COLLECTIONS = new HashMap<>();
 
     public static final class Thing {
         private Thing() {}
@@ -52,11 +55,15 @@ public final class config {
 
         private static final Map<String, Query> QUERIES = new HashMap<String, Query>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put(Thing.Keys.DIAGRAM, new Query("models", new JsonObject()
-                    .put("$or", new JsonArray(KNOWN_DIAGRAMS.stream()
-                        .map(domain -> new JsonObject().put("$domain", domain))
-                        .collect(Collectors.toList())))));
+                    .put("$or", new JsonArray(
+                        KNOWN_DIAGRAMS.stream()
+                                      .map(domain -> new JsonObject().put("$domain", domain))
+                                      .collect(Collectors.toList())
+                    ))
+                ));
             }
         };
 
@@ -93,6 +100,7 @@ public final class config {
         public static class Flow {
             public List<String> scope;
             public String getUserProfile;
+
             public String scopeString(String delimiter) {
                 return String.join(delimiter, scope);
             }
@@ -209,9 +217,9 @@ public final class config {
 
         public static boolean isSubRoute(final String path) {
             return !subroutePaths.stream()
-                .filter(p -> path.startsWith(p))
-                .collect(Collectors.toList())
-                .isEmpty();
+                                 .filter(p -> path.startsWith(p))
+                                 .collect(Collectors.toList())
+                                 .isEmpty();
         }
 
     }
@@ -357,6 +365,7 @@ public final class config {
             node.put("password", (String) null);
         _mongoDB = MongoDB.createShared(vertx, node, DATA_PATH + "db/commands/", new HashMap<String, String>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put("id", "_id");
                 put("$domain", "\uFF04domain");
@@ -370,9 +379,11 @@ public final class config {
             server.scheme,
             new HashMap<String, String>() {
                 private static final long serialVersionUID = 1L;
+
                 {
                     put("$date", "\uFF04date");
                     put("$domain", "\uFF04domain");
+                    put("$hidden", "\uFF04hidden");
                 }
             },
             complete -> {
@@ -396,16 +407,19 @@ public final class config {
         return _schemaTools;
     }
 
-    private static final List<String> SPANISH_ALTERNATIVES = Arrays.asList("ca", "gl");
+    private static final Map<String, String> LANG_ALTERNATIVES = new HashMap<String, String>() {{
+        put("ca", "es");
+//        put("gl", "es");
+    }};
 
     public static String languageCode(RoutingContext rc) {
         if (config.develop)
             return "en";
         String code = rc.preferredLanguage().tag();
-        if (code != null && SPANISH_ALTERNATIVES.contains(code))
-            code = "es";
         if (code == null || !config.app.locales.contains(code))
             code = "en";
+        if (LANG_ALTERNATIVES.containsKey(code))
+            return LANG_ALTERNATIVES.get(code);
         return code;
     }
 

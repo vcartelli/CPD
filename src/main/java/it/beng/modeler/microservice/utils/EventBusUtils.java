@@ -36,15 +36,15 @@ public final class EventBusUtils {
         event.complete(true);
     }
 
-    public static void fail(BridgeEvent event, String failureMessage) {
+    public static void fail(BridgeEvent event, String message) {
         JsonObject envelope = new JsonObject()
             .put("type", "err")
             .put("address", event.getRawMessage().getString("replyAddress"))
             .put("failureCode", -1)
             .put("failureType", ReplyFailure.RECIPIENT_FAILURE.name().toLowerCase())
-            .put("message", failureMessage);
+            .put("message", message);
         event.socket().write(envelope.encode());
-        event.fail(failureMessage);
+        event.fail(message);
     }
 
     public static void fail(BridgeEvent event, Throwable exception) {

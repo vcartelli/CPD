@@ -2,9 +2,9 @@ package it.beng.modeler.microservice.services;
 
 import io.vertx.core.Vertx;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
-import it.beng.modeler.microservice.actions.diagram.publish.AddEntityAction;
-import it.beng.modeler.microservice.actions.diagram.publish.ChangeEntityAction;
-import it.beng.modeler.microservice.actions.diagram.publish.RemoveEntityAction;
+import it.beng.modeler.microservice.actions.diagram.publish.CreateThingsAction;
+import it.beng.modeler.microservice.actions.diagram.publish.UpdateThingsAction;
+import it.beng.modeler.microservice.actions.diagram.publish.DeleteThingsAction;
 import it.beng.modeler.microservice.actions.diagram.send.LoadDefinitionAction;
 
 public class DiagramActionService extends ActionService {
@@ -14,9 +14,9 @@ public class DiagramActionService extends ActionService {
     // register here all handled IncomingActions (Publish/Send)
     static {
         /* PUBLISH */
-        registerIncomingAction(AddEntityAction.TYPE, AddEntityAction.class);
-        registerIncomingAction(ChangeEntityAction.TYPE, ChangeEntityAction.class);
-        registerIncomingAction(RemoveEntityAction.TYPE, RemoveEntityAction.class);
+        registerIncomingAction(CreateThingsAction.TYPE, CreateThingsAction.class);
+        registerIncomingAction(UpdateThingsAction.TYPE, UpdateThingsAction.class);
+        registerIncomingAction(DeleteThingsAction.TYPE, DeleteThingsAction.class);
         /* SEND */
         registerIncomingAction(LoadDefinitionAction.TYPE, LoadDefinitionAction.class);
     }

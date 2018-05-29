@@ -1,14 +1,13 @@
 package it.beng.modeler.microservice.actions.diagram.publish;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import it.beng.modeler.microservice.actions.PublishAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 
-public class ChangeEntityAction extends PublishAction implements DiagramAction {
-    public static final String TYPE = "[Diagram Action Publish] Change Entity";
+public class DeleteThingsAction extends PublishAction implements DiagramAction {
+    public static final String TYPE = "[Diagram Action Publish] Delete Things";
 
-    public ChangeEntityAction(JsonObject action) {
+    public DeleteThingsAction(JsonObject action) {
         super(action);
     }
 
@@ -19,11 +18,7 @@ public class ChangeEntityAction extends PublishAction implements DiagramAction {
 
     @Override
     public boolean isValid() {
-        return super.isValid() && changes() != null;
-    }
-
-    public JsonArray changes() {
-        return json.getJsonArray("changes");
+        return super.isValid() && true;
     }
 
 }

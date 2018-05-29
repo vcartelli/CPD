@@ -151,14 +151,16 @@ public abstract class ActionService extends BridgeEventService {
     }
 
     private void process(BridgeEvent event) {
-        createIncomingAction(event).handle(EventBusUtils.account(event), action -> {
-            if (action.succeeded()) {
-                event.getRawMessage().put("body", action.result());
-                EventBusUtils.complete(event);
-            } else {
-                EventBusUtils.fail(event, action.cause());
-            }
-        });
+        IncomingAction incomingAction = createIncomingAction(event);
+        if (incomingAction != null)
+            incomingAction.handle(EventBusUtils.account(event), action -> {
+                if (action.succeeded()) {
+                    event.getRawMessage().put("body", action.result());
+                    EventBusUtils.complete(event);
+                } else {
+                    EventBusUtils.fail(event, action.cause());
+                }
+            });
     }
 
 }

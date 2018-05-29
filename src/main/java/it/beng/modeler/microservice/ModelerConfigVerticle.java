@@ -3,6 +3,7 @@ package it.beng.modeler.microservice;
 import java.util.logging.Logger;
 
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Future;
 import it.beng.microservice.common.MicroServiceVerticle;
 import it.beng.modeler.config;
 
@@ -73,4 +74,9 @@ public class ModelerConfigVerticle extends MicroServiceVerticle {
 
     }
 
+    @Override
+    public void stop(Future<Void> future) throws Exception {
+        logger.info("Shutting down server...");
+        super.stop(future);
+    }
 }

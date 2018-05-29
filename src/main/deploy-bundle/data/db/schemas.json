@@ -248,7 +248,8 @@
 			"title": "Domain",
 			"description": "Domain of this Object",
 			"＄ref": "type#domain",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		}
 	},
 	"required": [
@@ -266,7 +267,8 @@
 			"title": "ID",
 			"description": "ID of this Object",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		}
 	},
 	"required": [
@@ -298,7 +300,8 @@
 			"title": "Model Id",
 			"description": "ID of the Model Element associated to this Diagram Thing",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		}
 	},
 	"required": [
@@ -357,7 +360,8 @@
 			"title": "Plane ID",
 			"description": "ID of the Plane owning this Diagram Element",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"label": {
 			"title": "Label",
@@ -469,13 +473,15 @@
 			"title": "Notation",
 			"description": "Notation of this Model",
 			"＄ref": "Model.Notation",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"language": {
 			"title": "Language",
 			"description": "Language used for this Model",
 			"＄ref": "type#language",
-			"default": "en"
+			"default": "en",
+			"＄hidden": true
 		},
 		"name": {
 			"title": "Name",
@@ -508,7 +514,8 @@
 			"title": "Plane ID",
 			"description": "ID of the Diagram Plane associated to this Diagram",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"version": {
 			"title": "Version",
@@ -616,10 +623,11 @@
 	],
 	"properties": {
 		"parentId": {
-			"title": "Parten Id",
+			"title": "Partent Id",
 			"description": "ID of the Model Element owning this Model Child",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		}
 	},
 	"required": [
@@ -720,10 +728,10 @@
 	"title": "Procedure Category",
 	"type": "string",
 	"enum": [
-		"Infanzia",
-		"Edilizia",
-		"Health",
-		"Social Service"
+		"Model.FPMN.Procedure.Category.Childhood",
+		"Model.FPMN.Procedure.Category.Construction",
+		"Model.FPMN.Procedure.Category.Health",
+		"Model.FPMN.Procedure.Category.SocialService"
 	]
 },
 {
@@ -748,14 +756,14 @@
 		"name": {
 			"propertyOrder": 4.0
 		},
+		"documentation": {
+			"propertyOrder": 5.0
+		},
 		"category": {
-			"propertyOrder": 5.0,
+			"propertyOrder": 6.0,
 			"title": "Category",
 			"description": "Category of this Procedure",
 			"＄ref": "Model.FPMN.Procedure.Category"
-		},
-		"documentation": {
-			"propertyOrder": 6.0
 		},
 		"mission": {
 			"propertyOrder": 7.0,
@@ -799,14 +807,16 @@
 			"title": "Previous Phase Id",
 			"description": "ID of the previous Phase",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"nextPhaseId": {
 			"propertyOrder": 5.0,
 			"title": "Next Phase Id",
 			"description": "ID of the next Phase",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"language": {
 			"propertyOrder": 6.0
@@ -857,14 +867,16 @@
 			"title": "Source Node ID",
 			"description": "ID of the Source Interaction Node",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"targetNodeId": {
 			"propertyOrder": 5.0,
 			"title": "Target Node ID",
 			"description": "ID of the Target Interaction Node",
 			"＄ref": "type#uuid",
-			"readOnly": true
+			"readOnly": true,
+			"＄hidden": true
 		},
 		"language": {
 			"propertyOrder": 6.0
@@ -905,7 +917,7 @@
 		"Model.FPMN.Interaction.Element"
 	],
 	"properties": {
-		"incomingIds": {
+		"incomingSequenceIds": {
 			"title": "Incoming Sequences IDs",
 			"description": "Array of incoming Interaciton Sequence IDs",
 			"type": "array",
@@ -913,9 +925,10 @@
 				"＄ref": "type#uuid",
 				"readOnly": true
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"＄hidden": true
 		},
-		"outgoingIds": {
+		"outgoingSequenceIds": {
 			"title": "Outgoing Sequences IDs",
 			"description": "Array of outgoing Interaciton Sequence IDs",
 			"type": "array",
@@ -923,7 +936,8 @@
 				"＄ref": "type#uuid",
 				"readOnly": true
 			},
-			"uniqueItems": true
+			"uniqueItems": true,
+			"＄hidden": true
 		},
 		"subject": {
 			"title": "Subject",
@@ -954,10 +968,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingIds": {
+		"incomingSequenceIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingIds": {
+		"outgoingSequenceIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
@@ -997,10 +1011,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingIds": {
+		"incomingSequenceIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingIds": {
+		"outgoingSequenceIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
@@ -1040,10 +1054,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingIds": {
+		"incomingSequenceIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingIds": {
+		"outgoingSequenceIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {
@@ -1068,7 +1082,7 @@
 	"_id": "Model.FPMN.Interaction.Channel",
 	"title": "FPMN Interaction Channel",
 	"description": "A FPMN Interaction Channel",
-	"type": "string",
+	"＄ref": "type#enum",
 	"enum": [
 		"Model.FPMN.Interaction.Channel.EService",
 		"Model.FPMN.Interaction.Channel.EMail",
@@ -1098,10 +1112,10 @@
 		"parentId": {
 			"propertyOrder": 3.0
 		},
-		"incomingIds": {
+		"incomingSequenceIds": {
 			"propertyOrder": 4.0
 		},
-		"outgoingIds": {
+		"outgoingSequenceIds": {
 			"propertyOrder": 5.0
 		},
 		"subject": {

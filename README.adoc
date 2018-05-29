@@ -316,17 +316,72 @@ in the relative <<properties,`.properties`>> file (e.g. `http://localhost:8901/c
 
 === User roles
 
-The current CPD version handles two user roles:
+The current CPD version handles three types of roles for each account:
 
-1. *browser* is the default role. It allows to browse the available diagrams and submit questions and feedbacks.
-2. *editor* allows the creation and editing (both graphic and data) of the diagrams.
+1. *system role* can be one of “user”, “admin”. It defines the logged in status and the main security role.
+2. *action role* can be one of “citizen”, “civil-servant”. It identifies the main features associated to the user.
+3. *diagram role* can be one of “owner”, “reviewer”, “editor”, “observer”. It identifies the collaboration role inside a
+   diagram designing cycle.
 
-In order to enable the *editor role* for a given user, it is needed to edit the `roles.json` file.
-The following rules apply to each string of the `roles.json` array:
+This roles can be mapped to each user by accessing the mongodb console and altering the cpd.users collection. Each
+document in the collection has the following interface:
+[source,javascript]
+{
+    "_id" : string; // the user id as given from the auth provider (e.g. aac)
+    "provider" : string; // the auth provider name (e.g. "AAC")
+    "password" : string; // the md5 encoded password (only valid for "local" auth provider)
+    "firstName" : string;
+    "lastName" : string;
+    "displayName" : string; // the name shown in the welcome message
+    "roles" : {
+        "system" : "user" | "admin",
+        "interaction" : "citizen" | "civil-servant",
+        "things" : {
+            "diagram" : {
+                [key: string] : ("owner" | "reviewer" | "editor" | "observer")[]
+            }
+        }
+    }
+}
 
-1. the string *must* match the UTF8 displayName (the name shown in the main toolbar of the application). In the AAC
-   case it is “name surname”;
-2. the string must be lower cased;
-3. every single space must be replaced by a dash “`-`”.
+the `[key: string]` field is the diagram id; each user can have multiple diagram roles for the same diagram.
 
-e.g. “Enrique Sanz Yagüe” -> “enrique sanz yagüe” -> “enrique-sanz-yagüe”
+.example
+[source,javascript]
+{
+    "_id" : "citizen 1",
+    "provider" : "local",
+    "password" : "8fe7cf473d561fb98aac8f5ce9cd2d30",
+    "firstName" : "Simpatico",
+    "lastName" : "Citizen #1",
+    "displayName" : "Simpatico Citizen #1",
+    "roles" : {
+        "system" : "user",
+        "interaction" : "citizen",
+        "things" : {
+            "diagram" : {
+                "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3" : [
+                    "observer"
+                ]
+            }
+        }
+    }
+}
+
+Until the administration page will be available, from the mongodb shell it is possible to query for diagrams:
+
+ db.models.find({"＄domain":"Model.FPMN.Diagram"})
+
+NOTE: the “＄” (\uFF04) is not a “$” (\u0024).
+
+and update diagram roles accordingly:
+
+ db.users.update({_id: "user-id"}, {$set: {"roles": {
+  "system": ...
+  "interaction": ...
+  "things": {
+    "diagram": {
+      ...: [...]
+    }
+  }
+ }}});

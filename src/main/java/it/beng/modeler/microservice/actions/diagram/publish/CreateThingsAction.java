@@ -4,10 +4,10 @@ import io.vertx.core.json.JsonObject;
 import it.beng.modeler.microservice.actions.PublishAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 
-public class RemoveEntityAction extends PublishAction implements DiagramAction {
-    public static final String TYPE = "[Diagram Action Publish] Remove Entity";
+public class CreateThingsAction extends PublishAction implements DiagramAction {
+    public static final String TYPE = "[Diagram Action Publish] Create Things";
 
-    public RemoveEntityAction(JsonObject action) {
+    public CreateThingsAction(JsonObject action) {
         super(action);
     }
 
