@@ -100,14 +100,14 @@
         <resources>
             <!-- 1. copy unfiltered resources -->
             <!-- 1.1 copy ROOT/assets/**/* into deploy-bundle/assets -->
-            <!--<resource>
+            <resource>
                 <directory>src/main/deploy-bundle/web/ROOT/assets</directory>
                 <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <targetPath>../deploy-bundle/web/assets</targetPath>
-            </resource>-->
+            </resource>
             <!-- 1.2 copy all remaining resources except those to be filtered -->
             <!--<resource>
                 <directory>src/main/deploy-bundle</directory>
