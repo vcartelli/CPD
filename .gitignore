@@ -3,6 +3,8 @@
 /production.properties
 /config/
 /web/
+/config-persistent
+/mongo-persistent
 
 ### OSX fork resources
 .DS_Store
