@@ -10,11 +10,11 @@ if [ -f $OAUTH2PROVIDERSFILE ]; then
         read keepit
         if [ "$keepit" = "n" ]; then
                 echo "generate a new $OAUTH2PROVIDERSFILE file (use docker.oauth2providers.json as a template) and re-run the script!"
-		exit 0
+		exit 1
         fi
 else
 	echo "generate an $OAUTH2PROVIDERSFILE file (use docker.oauth2providers.json as a template) and re-run the script!"
-	exit 0
+	exit 1
 fi
 
 #checking if keystore exists
@@ -23,11 +23,11 @@ if [ -f $KEYSTOREFILE ]; then
         read keepit
         if [ "$keepit" = "n" ]; then
                 echo "generate a new keystore file and re-run the script!"
-		exit 0;
+		exit 1
         fi
 else
 	echo "generate a keystore file and re-run the script!"
-	exit 0
+	exit 1
 fi
 
 #checking if PRODUCTIONFILE exists

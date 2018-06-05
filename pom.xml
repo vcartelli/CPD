@@ -73,6 +73,8 @@
 					<copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh" verbose="true" overwrite="true"/>
 					<copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh" verbose="true" overwrite="true"/>
 					<copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh" verbose="true" overwrite="true"/>
+					<copy file="docker/docker.properties" tofile="target/deploy-bundle/docker.properties" verbose="true" overwrite="true"/>
+					<copy file="docker/docker.oauth2providers.json" tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true" overwrite="true"/>
 					<copy file="docker/conf/docker.cluster.xml" tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true" overwrite="true"/>
 					<copy file="docker/conf/docker.config.json" tofile="target/deploy-bundle/conf/docker.config.json" verbose="true" overwrite="true"/>
 					<copy file="docker/web/assets/conf/docker.config.json" tofile="target/deploy-bundle/web/assets/conf/docker.config.json" verbose="true" overwrite="true"/>
