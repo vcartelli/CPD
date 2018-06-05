@@ -3,8 +3,8 @@ package it.beng.modeler.microservice.services;
 import io.vertx.core.Vertx;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 import it.beng.modeler.microservice.actions.diagram.publish.CreateThingsAction;
-import it.beng.modeler.microservice.actions.diagram.publish.UpdateThingsAction;
 import it.beng.modeler.microservice.actions.diagram.publish.DeleteThingsAction;
+import it.beng.modeler.microservice.actions.diagram.publish.UpdateThingsAction;
 import it.beng.modeler.microservice.actions.diagram.send.LoadDefinitionAction;
 
 public class DiagramActionService extends ActionService {

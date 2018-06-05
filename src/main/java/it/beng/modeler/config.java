@@ -6,6 +6,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
@@ -127,6 +128,7 @@ public final class config {
     }
 
     public static final class server {
+        public static String adminId;
         public static String name;
         public static String scheme;
         public static String hostname;
@@ -135,6 +137,15 @@ public final class config {
         public static String allowedOriginPattern;
         public static Long simLagTime;
         public static List<String> subroutePaths = new LinkedList<>();
+
+        public static void checkAndSetIfMainAdmin(User user) {
+            if (user == null) return;
+            JsonObject account = user.principal().getJsonObject("account");
+            if (account.getString("id", UUID.randomUUID().toString()).equals(adminId)) {
+                JsonObject roles = account.getJsonObject("roles");
+                roles.put("system", "admin");
+            }
+        }
 
         public static class pub {
             public static String scheme;
@@ -285,6 +296,7 @@ public final class config {
 
         /* server */
         node = config.getJsonObject("server");
+        server.adminId = node.getString("adminId", null);
         server.name = node.getString("name", "BEng CPD Server");
         server.scheme = node.getString("scheme", "https");
         server.hostname = node.getString("hostname", "localhost");

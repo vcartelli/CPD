@@ -47,7 +47,7 @@
   },
   "app": {
     "useLocalAuth": true,
-    "locales": ["en","es","it"],
+    "locales": ["en","es","it","gl"],
     "designerPath": "procedures/"
   },
   "mongodb": {

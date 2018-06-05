@@ -7,6 +7,7 @@
     "keyStorePassword": "${cpd.ssl.keystore.password}"
   },
   "server": {
+    "adminId": "${cpd.server.adminId}",
     "name": "${cpd.server.name}",
     "scheme": "${cpd.server.scheme}",
     "hostname": "${cpd.server.host}",
