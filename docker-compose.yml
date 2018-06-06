@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db: 
+    container_name: cpd_db
+    image: mongo:3.4
+    restart: always
+    volumes:
+      - data:/data/db
+    networks:
+      - cpdnet
+  app: 
+    container_name: cpd_app
+    build:
+      context: .
+    ports: 
+      - 8080:8080
+      - 8888:5701
+    networks:
+      - cpdnet
+    links: 
+      - db:db
+    depends_on: 
+      - db
+
+networks:
+  cpdnet: 
+
+volumes: 
+  data: 
+    driver: local
