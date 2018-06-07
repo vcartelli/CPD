@@ -4,12 +4,13 @@ The Collaborative Procedure Designer (CPD) is a web server&application that prov
 procedures in a collaborative way.
 
 = Getting started
-These instructions will get you a copy of the project up and running on your machine for testing or development
-purposes.
+These instructions will get you a copy of the project on your machine for testing or development purposes.
 
 * The “<<build,Building the application>>” section describes how to produce an executable copy of the application.
 * The “<<run,Running the application>>” section describes how to set up the runtime environment and execute the
   application.
+* The “<<dockerization,Deploying the application as a docker container>>” section describes how to build and set-up 
+  a docker container running the CPD  application.
 
 = [[build]]Building the application
 
@@ -385,3 +386,23 @@ and update diagram roles accordingly:
     }
   }
  }}});
+ 
+= [[dockerization]]Deploying the application as a docker container
+
+You can locally install a ready-to-run instance of the CPD application by means of the docker framework. These instructions assume
+that the 18.03.1-ce version of the docker framework will be used to deploy a docker container providing the CPD application.
+
+== [[Runnung]]Running the CPD application
+
+=== [[docker-run]]docker-run.sh
+This script pulls from a remote docker-hub repository the latest (up to date) docker image containing the CPD application and runs it. 
+Run it with superuser privileges (e.g., "sudo ./docker-run.sh"). If the script succeeds, you will be prompted in a new bash 
+shell within the newly created container.
+
+=== [[CPD-run]]start.sh
+This script triggers the CPD configuration and run steps. If launched for the first time, the user will be asked to configure some parameters 
+to correctly set-up the CPD application before running it. Upon a successful configuration, the CPD application gets automatically run.
+
+
+
+

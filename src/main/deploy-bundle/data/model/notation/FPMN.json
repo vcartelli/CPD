@@ -1,6 +1,33 @@
 {
-  "notation": "model.notation.FPMN",
+  "_id" : "Model.Notation.FPMN",
   "name": "Formal Procedure Model and Notation",
+  "documentation": "Formal Procedure Model and Notation",
+  "model" : {
+    "Model:FPMN:Diagram" : {
+      "graph": "plane"
+    },
+    "Model:FPMN:Procedure" : {
+      "concept": "Di.Shape"
+    },
+    "Model:FPMN:Phase" : {
+      "di": "Di.Shape"
+    },
+    "Model:FPMN:Interaction:Sequence" : {
+      "di": "Di.Edge"
+    },
+    "Model:FPMN:Interaction:Start" : {
+      "di": "Di.Shape"
+    },
+    "Model:FPMN:Interaction:End" : {
+      "di": "Di.Shape"
+    },
+    "Model:FPMN:Interaction:Decision" : {
+      "di": "Di.Shape"
+    },
+    "Model:FPMN:Interaction:Task" : {
+      "di": "Di.Shape"
+    }
+  },
   "description": "",
   "params": {
     "poolHeaderHeight": 40,

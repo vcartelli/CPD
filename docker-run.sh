@@ -1,3 +1,4 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-docker run -v "$PWD"/mongo-persistent:/var/lib/mongodb -v "$PWD"/config-persistent:/deploy/cpd-configuration  -p 8901:8901 -i -t cpd-deploy-ubuntu:latest /bin/bash
+docker pull gdimodica/modeler-microservice:cpd-remote-deploy
+docker run -v "$PWD"/mongo-persistent:/var/lib/mongodb -v "$PWD"/config-persistent:/deploy/cpd-configuration  -p 8901:8901 -i -t gdimodica/modeler-microservice:cpd-remote-deploy /bin/bash

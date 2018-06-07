@@ -66,24 +66,24 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <target name="copy and rename file">
-		                        <copy file="src/main/deploy-bundle/web/ROOT/en/index.html" tofile="target/deploy-bundle/web/ROOT/en/docker.index.html" verbose="true"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/es/index.html" tofile="target/deploy-bundle/web/ROOT/es/docker.index.html" verbose="true"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/it/index.html" tofile="target/deploy-bundle/web/ROOT/it/docker.index.html" verbose="true"/>
-					<copy file="src/main/deploy-bundle/web/ROOT/gl/index.html" tofile="target/deploy-bundle/web/ROOT/gl/docker.index.html" verbose="true"/>
-					<copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh" verbose="true" overwrite="true"/>
-					<copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh" verbose="true" overwrite="true"/>
-					<copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh" verbose="true" overwrite="true"/>
-					<copy file="docker/docker.properties" tofile="target/deploy-bundle/docker.properties" verbose="true" overwrite="true"/>
-					<copy file="docker/docker.oauth2providers.json" tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true" overwrite="true"/>
-					<copy file="docker/conf/docker.cluster.xml" tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true" overwrite="true"/>
-					<copy file="docker/conf/docker.config.json" tofile="target/deploy-bundle/conf/docker.config.json" verbose="true" overwrite="true"/>
-					<copy file="docker/web/assets/conf/docker.config.json" tofile="target/deploy-bundle/web/assets/conf/docker.config.json" verbose="true" overwrite="true"/>
-					<copy file="docker/web/assets/swagger/docker.private-API.json" tofile="target/deploy-bundle/web/assets/swagger/docker.private-API.json" verbose="true" overwrite="true"/>
-					<copy file="docker/web/swagger-ui/docker.swagger.json" tofile="target/deploy-bundle/web/swagger-ui/docker.swagger.json" verbose="true" overwrite="true"/>
-					<copy todir="target/deploy-bundle/dump">
+		                        <copy file="src/main/deploy-bundle/web/ROOT/en/index.html" tofile="target/deploy-bundle/web/ROOT/en/docker.index.html" verbose="true" failonerror="false"/>
+                                        <copy file="src/main/deploy-bundle/web/ROOT/es/index.html" tofile="target/deploy-bundle/web/ROOT/es/docker.index.html" verbose="true" failonerror="false"/>
+                                        <copy file="src/main/deploy-bundle/web/ROOT/it/index.html" tofile="target/deploy-bundle/web/ROOT/it/docker.index.html" verbose="true" failonerror="false"/>
+					<copy file="src/main/deploy-bundle/web/ROOT/gl/index.html" tofile="target/deploy-bundle/web/ROOT/gl/docker.index.html" verbose="true" failonerror="false"/>
+					<copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh" verbose="true" overwrite="true" />
+					<copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh" verbose="true" overwrite="true" />
+					<copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh" verbose="true" overwrite="true" />
+					<copy file="docker/docker.properties" tofile="target/deploy-bundle/docker.properties" verbose="true" overwrite="true" failonerror="false" />
+					<copy file="docker/docker.oauth2providers.json" tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true" overwrite="true" />
+					<copy file="docker/conf/docker.cluster.xml" tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true" overwrite="true" />
+					<copy file="docker/conf/docker.config.json" tofile="target/deploy-bundle/conf/docker.config.json" verbose="true" overwrite="true" />
+					<copy file="docker/web/assets/conf/docker.config.json" tofile="target/deploy-bundle/web/assets/conf/docker.config.json" verbose="true" overwrite="true" />
+					<copy file="docker/web/assets/swagger/docker.private-API.json" tofile="target/deploy-bundle/web/assets/swagger/docker.private-API.json" verbose="true" overwrite="true" />
+					<copy file="docker/web/swagger-ui/docker.swagger.json" tofile="target/deploy-bundle/web/swagger-ui/docker.swagger.json" verbose="true" overwrite="true" />
+					<copy todir="target/deploy-bundle/dump" failonerror="false">
   					   <fileset dir="dump"/>
 					</copy>					
-					<copy file="db-restore.sh" tofile="target/deploy-bundle/db-restore.sh" verbose="true"/>
+					<copy file="db-restore.sh" tofile="target/deploy-bundle/db-restore.sh" verbose="true" />
                                     </target>
                                 </configuration>
                                 <goals>
