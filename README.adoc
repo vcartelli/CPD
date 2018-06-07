@@ -389,20 +389,36 @@ and update diagram roles accordingly:
  
 = [[dockerization]]Deploying the application as a docker container
 
-You can locally install a ready-to-run instance of the CPD application by means of the docker framework. These instructions assume
-that the 18.03.1-ce version of the docker framework will be used to deploy a docker container providing the CPD application.
+You can locally install a ready-to-run instance of the CPD application by means of the docker framework. The following instructions assume
+that the 18.03.1-ce version of the docker framework is going to be used. 
 
 == [[Runnung]]Running the CPD application
 
 === [[docker-run]]docker-run.sh
-This script pulls from a remote docker-hub repository the latest (up to date) docker image containing the CPD application and runs it. 
-Run it with superuser privileges (e.g., "sudo ./docker-run.sh"). If the script succeeds, you will be prompted in a new bash 
-shell within the newly created container.
+This script pulls the latest (up to date) CPD docker image from a remote docker-hub repository and runs a container out of it. 
+The script must be run with superuser privileges (e.g., "sudo ./docker-run.sh"). If the script succeeds, the user is prompted 
+in a new bash shell within the newly created container, where the following scripts will be available.
+
+=== [[CPD-initialization]]db-restore.sh
+This script popultates the CPD databases with sample procedure diagrams. It must be launched only once, before the very first run 
+of the CPD application.
 
 === [[CPD-run]]start.sh
-This script triggers the CPD configuration and run steps. If launched for the first time, the user will be asked to configure some parameters 
-to correctly set-up the CPD application before running it. Upon a successful configuration, the CPD application gets automatically run.
+The script bundles the CPD configuration and run commands. First, the run script invokes the configuration script (<<configure, configure.sh>>). 
+Upon a successful configuration, the CPD application gets automatically run. Check with the log/cpd.log file for any errors 
+that may occur during the application boot. As for the configuration script, when it is launched for the first time the user will be 
+asked to configure some parameters to correctly set-up the CPD application before running it. Those values get persistently stored on 
+local folders. Subsequent run commands will cause the fecth of those values from the local folders (no need to re-configure). 
+Explicit re-configurations of such parameters must be invoked through the (<<configure, configure.sh>>) script.
 
+=== [[CPD-authentication]]oauth2providers.json
+This file must be manually created and edited (use the "vim" editor packaged with the docker image) to specify which oauth2 providers 
+will be called upon by the CPD in order to enforce the user authentication. A template (docker.oauth2providers.json) can be used 
+to figure out how to correctly edit this file.
 
-
+=== [[CPD-configure]]configure.sh
+The script allows the user to configure some important application parameters. For each parameter, the default value is pre-loaded from a template. 
+Most of those values can just be accepted by the user as they are. Some require the user to specify values according to the production environment that 
+the CPD application will be run into (cpd.server.scheme, cpd.server.host, cpd.server.port, ....., cpd.server.pub.scheme, cpd.server.pub.host, 
+cpd.server.pub.port).
 
