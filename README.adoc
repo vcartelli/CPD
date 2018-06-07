@@ -392,24 +392,26 @@ and update diagram roles accordingly:
 You can locally install a ready-to-run instance of the CPD application by means of the docker framework. The following instructions assume
 that the 18.03.1-ce version of the docker framework is going to be used. 
 
-== [[Runnung]]Running the CPD application
+== [[Installing and Runnung]]Installing and running the docker container
 
 === [[docker-run]]docker-run.sh
 This script pulls the latest (up to date) CPD docker image from a remote docker-hub repository and runs a container out of it. 
 The script must be run with superuser privileges (e.g., "sudo ./docker-run.sh"). If the script succeeds, the user is prompted 
 in a new bash shell within the newly created container, where the following scripts will be available.
 
+== [[CPD-application]]Configuring and running the CPD application
+
 === [[CPD-initialization]]db-restore.sh
 This script popultates the CPD databases with sample procedure diagrams. It must be launched only once, before the very first run 
 of the CPD application.
 
 === [[CPD-run]]start.sh
-The script bundles the CPD configuration and run commands. First, the run script invokes the configuration script (<<configure, configure.sh>>). 
+The script bundles the CPD configuration and run commands. First, the run script invokes the configuration script (<<CPD-configure, configure.sh>>). 
 Upon a successful configuration, the CPD application gets automatically run. Check with the log/cpd.log file for any errors 
 that may occur during the application boot. As for the configuration script, when it is launched for the first time the user will be 
 asked to configure some parameters to correctly set-up the CPD application before running it. Those values get persistently stored on 
 local folders. Subsequent run commands will cause the fecth of those values from the local folders (no need to re-configure). 
-Explicit re-configurations of such parameters must be invoked through the (<<configure, configure.sh>>) script.
+Explicit re-configurations of such parameters must be invoked through the (<<CPD-configure, configure.sh>>) script.
 
 === [[CPD-authentication]]oauth2providers.json
 This file must be manually created and edited (use the "vim" editor packaged with the docker image) to specify which oauth2 providers 
