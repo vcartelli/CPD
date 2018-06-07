@@ -387,19 +387,19 @@ and update diagram roles accordingly:
   }
  }}});
  
-= [[dockerization]]Deploying the application as a docker container
+= [[dockerization]]Deploy the application as a docker container
 
 You can locally install a ready-to-run instance of the CPD application by means of the docker framework. The following instructions assume
 that the 18.03.1-ce version of the docker framework is going to be used. 
 
-== [[Installing and Runnung]]Installing and running the docker container
+== [[Docker-pull]]Install and run the docker container
 
 === [[docker-run]]docker-run.sh
 This script pulls the latest (up to date) CPD docker image from a remote docker-hub repository and runs a container out of it. 
 The script must be run with superuser privileges (e.g., "sudo ./docker-run.sh"). If the script succeeds, the user is prompted 
 in a new bash shell within the newly created container, where the following scripts will be available.
 
-== [[CPD-application]]Configuring and running the CPD application
+== [[CPD-application]]Configure and run the CPD application
 
 === [[CPD-initialization]]db-restore.sh
 This script popultates the CPD databases with sample procedure diagrams. It must be launched only once, before the very first run 
