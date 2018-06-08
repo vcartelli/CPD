@@ -87,7 +87,8 @@ foundoauth2providers=false
 for input in $(grep "^[^#\!].*$" $PRODUCTIONFILE);
 do 
 #cat "$input" | xxd -p -r > "${input%'.hex'}"; rm "$input"; 
-IFS='=' read -r -a array <<< "$input"
+IFS='=' read -r key value <<< "$input"
+array=($key $value)
 echo "read ${array[0]}=${array[1]}"
 #if  [ ${array[0]} != "cpd.server.pub.scheme" ] || [ ${array[0]} != "cpd.oauth2.origin" ] ; then
 if ! [[ ${array[0]} =~ ^cpd\.(server\.scheme|oauth2\.origin|oauth2\.providers)$ ]] ; then  
