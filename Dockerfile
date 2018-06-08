@@ -1,7 +1,7 @@
 # Develop image
 FROM frolvlad/alpine-oraclejdk8 as builder
 
-#Configure the develop environment
+#Configure the develop environment 
 RUN apk update
 RUN apk add maven
 
