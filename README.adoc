@@ -422,5 +422,5 @@ to figure out how to correctly edit this file.
 The script allows the user to configure some important application parameters. For each parameter, the default value is pre-loaded from a template. 
 Most of those values can just be accepted by the user as they are. Some require the user to specify values according to the production environment that 
 the CPD application will be run into (cpd.server.scheme, cpd.server.host, cpd.server.port, ....., cpd.server.pub.scheme, cpd.server.pub.host, 
-cpd.server.pub.port).
+cpd.server.pub.port). See section <<properties, example.properties>> for hints on how to set up each value.
 
