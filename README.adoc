@@ -175,15 +175,17 @@ use the following property in the properties file:
     "logoUrl":"assets/img/oauth2_google_logo.png",\
     "site":"https://accounts.google.com",\
     "authPath":"/o/oauth2/auth",\
-    "tokenPath":"https://www.googleapis.com/oauth2/v3/token",\
-    "introspectionPath":"https://www.googleapis.com/oauth2/v3/tokeninfo",\
-    "clientId":"the client id of your application",\
-    "clientSecret":"the client secter of your application",\
+    "tokenPath":"https://accounts.google.com/o/oauth2/token",\
+    "clientId":"my google app client id",\
+    "clientSecret":"my google app client secret",\
     "flows":[\
       {\
         "flowType":"AUTH_CODE",\
-        "scope":"email",\
-        "getUserProfile": "https://www.googleapis.com/plus/v1/people/{userId}"\
+        "scope":[\
+          "https://www.googleapis.com/auth/userinfo.email",\
+          "https://www.googleapis.com/auth/userinfo.profile"\
+        ],\
+        "getUserProfile": "https://www.googleapis.com/oauth2/v1/userinfo"\
       }\
     ]\
   }
