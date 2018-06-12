@@ -132,7 +132,7 @@ WARNING: Remember that in Java properties files the double backslash `\\` must b
   "flows":[
     {
       "flowType":"IMPLICIT",                  // the oauth2 flow (see the following note)
-      "scope":"profile.basicprofile.me",      // the comma or space delimited scopes
+      "scope":["profile.basicprofile.me"],    // the json array of scopes
       "getUserProfile": "http://my.aac:8080/aac/basicprofile/me"
       // the endpoint at which to retrieve the user profile (absolute path)
     },
