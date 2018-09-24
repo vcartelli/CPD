@@ -196,12 +196,13 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // ModelTools modelTools = new ModelTools(vertx, config.mongoDB(), schemaTools, config.develop);
         // vertx.getOrCreateContext().put("modelTools", modelTools);
 
-        new AuthSubRoute(vertx, router);
         new AssetsSubRoute(vertx, router);
-        new AppSubRoute(vertx, router);
-        new SchemaSubRoute(vertx, router);
-        new DataSubRoute(vertx, router);
         new ApiSubRoute(vertx, router);
+        new SchemaSubRoute(vertx, router);
+        new AuthSubRoute(vertx, router);
+        new CollaborationsSubRoute(vertx, router);
+        new DataSubRoute(vertx, router);
+        new AppSubRoute(vertx, router);
 
         // if we arrived here it means no resource has been found, 
         // lets use the failure handler instead of default "Resource not found" page
@@ -218,12 +219,12 @@ public class ModelerServerVerticle extends AbstractVerticle {
                     else if (path.startsWith("/"))
                         path = path.substring(1);
                     if (config.server.isSubRoute(path))
-                        new JsonResponse(context).fail();
+                        new JsonResponse(context).fail(null, null);
                     else
                         SubRoute.redirect(context, config.server.appPath(context) + path);
                     break;
                 default:
-                    new JsonResponse(context).fail();
+                    new JsonResponse(context).fail(null, null);
             }
         });
 

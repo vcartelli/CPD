@@ -2,12 +2,12 @@ package it.beng.modeler.microservice.subroute.auth;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.UserSessionHandler;
-import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.http.JsonResponse;
@@ -58,14 +58,13 @@ public final class LocalAuthSubRoute extends VoidSubRoute {
                             session.regenerateId();
                         }
                         logger.finest("local user principal: " + context.user().principal().encodePrettily());
-                        config.server.checkAndSetIfMainAdmin(user);
                         new JsonResponse(context).end(context.user().principal());
                     } else {
                         context.fail(result.cause());
                     }
                 });
             } else
-                context.fail(ServerError.message("no authInfo body in login post"));
+                context.fail(new NoStackTraceThrowable("no authInfo body in login post"));
         });
     }
 

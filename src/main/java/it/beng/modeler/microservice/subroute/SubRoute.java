@@ -91,9 +91,9 @@ public abstract class SubRoute<T> {
 
         public static String encode(String decoded) {
             return Base64.getEncoder()
-                .encodeToString(decoded.getBytes(StandardCharsets.ISO_8859_1))
-                .replace('/', '_')
-                .replace('+', '-');
+                         .encodeToString(decoded.getBytes(StandardCharsets.ISO_8859_1))
+                         .replace('/', '_')
+                         .replace('+', '-');
         }
 
         public static String encode(JsonObject jsonObject) {
@@ -101,22 +101,35 @@ public abstract class SubRoute<T> {
         }
     }
 
-    protected static boolean isLoggedInFailOtherwise(RoutingContext context) {
-        if (context.user() == null) {
-            context.fail(HttpResponseStatus.UNAUTHORIZED.code());
-            return false;
+    private static boolean passOrFail(RoutingContext context, boolean passCondition, HttpResponseStatus status) {
+        if (!passCondition) {
+            context.fail(status.code());
         }
-        return true;
+        return passCondition;
+    }
+
+    protected static boolean isLoggedInOrFail(RoutingContext context) {
+        return passOrFail(context, context.user() != null, HttpResponseStatus.UNAUTHORIZED);
+    }
+
+    protected static boolean isAdmin(User user) {
+        return user != null && "admin".equals(
+            user.principal().getJsonObject("account").getJsonObject("roles").getString("system")
+        );
     }
 
     protected static boolean isAdminFailOtherwise(RoutingContext context) {
-        User user = context.user();
-        if (user == null
-                || !"admin".equals(user.principal().getJsonObject("account").getJsonObject("roles").getString("system"))) {
-            context.fail(HttpResponseStatus.UNAUTHORIZED.code());
-            return false;
-        }
-        return true;
+        return passOrFail(context, isAdmin(context.user()), HttpResponseStatus.UNAUTHORIZED);
+    }
+
+    protected static boolean isCivilServant(User user) {
+        return user != null && "civil-servant".equals(
+            user.principal().getJsonObject("account").getJsonObject("roles").getString("interaction")
+        );
+    }
+
+    protected static boolean isCivilServantFailOtherwise(RoutingContext context) {
+        return passOrFail(context, isCivilServant(context.user()), HttpResponseStatus.UNAUTHORIZED);
     }
 
     protected static OffsetDateTime parseDateTime(String value) {
@@ -146,13 +159,13 @@ public abstract class SubRoute<T> {
     public static void redirect(RoutingContext context, final String location) {
         final String _location = location.replaceAll("(?<!:)/{2,}", "/");
         context.response()
-              // disable all caching
-              .putHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
-              .putHeader("Pragma", "no-cache")
-              .putHeader(HttpHeaders.EXPIRES, "0")
-              .putHeader(HttpHeaders.LOCATION, _location)
-              .setStatusCode(HttpResponseStatus.FOUND.code())
-              .end("Redirecting to " + _location + ".");
+               // disable all caching
+               .putHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
+               .putHeader("Pragma", "no-cache")
+               .putHeader(HttpHeaders.EXPIRES, "0")
+               .putHeader(HttpHeaders.LOCATION, _location)
+               .setStatusCode(HttpResponseStatus.FOUND.code())
+               .end("Redirecting to " + _location + ".");
         // .setStatusCode(HttpResponseStatus.FOUND.code()).putHeader("Location", _location).end();
     }
 

@@ -14,7 +14,8 @@ import io.vertx.ext.web.handler.UserSessionHandler;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.subroute.SubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
-import it.beng.modeler.microservice.utils.JsonUtils;
+import it.beng.modeler.microservice.utils.CommonUtils;
+import it.beng.modeler.model.Domain;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,10 +140,12 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
             handler.handle(Future.failedFuture("cannot determine user id"));
         }
 
-        mongodb.findOne(config.USER_COLLECTION, new JsonObject().put(ID, id).put(PROVIDER, provider), new JsonObject(), find -> {
+        mongodb.findOne(Domain.Collection.USERS, new JsonObject().put(ID, id)
+                                                                 .put(PROVIDER, provider), new JsonObject(), find -> {
             if (find.succeeded()) {
-                final JsonObject account = JsonUtils.coalesce(find.result(), new JsonObject());
+                final JsonObject account = CommonUtils.coalesce(find.result(), new JsonObject());
                 if (id.equals(account.getString("id"))) {
+                    config.server.checkAndSetIfMainAdmin(account);
                     handler.handle(Future.succeededFuture(account));
                 } else {
                     final String firstName = userInfo.getString(accountProvider.get(FIRST_NAME), "Guest").trim();
@@ -156,8 +159,9 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
                         .put(LAST_NAME, lastName)
                         .put(DISPLAY_NAME, displayName)
                         .put(ROLES, AuthUtils.LOGGED_IN_CITIZEN_ROLES);
-                    mongodb.save(config.USER_COLLECTION, account, save -> {
+                    mongodb.save(Domain.Collection.USERS, account, save -> {
                         if (save.succeeded()) {
+                            config.server.checkAndSetIfMainAdmin(account);
                             handler.handle(Future.succeededFuture(account));
                         } else {
                             handler.handle(Future.failedFuture(save.cause()));

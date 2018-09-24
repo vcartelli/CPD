@@ -115,7 +115,7 @@ public final class DataSubRoute extends VoidSubRoute {
     }
 
     private void postCollection(RoutingContext context) {
-        if (isLoggedInFailOtherwise(context)) {
+        if (isLoggedInOrFail(context)) {
             String collection = context.pathParam("collection");
             JsonObject document = context.getBodyAsJson();
             schemaTools.validate(schemaTools.absRef(document.getString("$domain")), document, validate -> {

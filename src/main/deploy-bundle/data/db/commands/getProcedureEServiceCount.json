@@ -1,32 +1,35 @@
 {
   "aggregate": "models",
-  "pipeline": [{
-    "$match": {
-      "_id": "{procedureId}",
-      "＄domain": "Model.FPMN.Procedure"
-    }
-  }, {
-    "$graphLookup": {
-      "from": "models",
-      "startWith": "$_id",
-      "connectFromField": "_id",
-      "connectToField": "parentId",
-      "as": "childs"
-    }
-  }, {
-    "$unwind": "$childs"
-  }, {
-    "$match": {
-      "childs.eServiceId": {
-        "$exists": true
+  "pipeline": [
+    {
+      "$match": {
+        "_id": "{procedureId}"
+      }
+    },
+    {
+      "$lookup": {
+        "from": "models",
+        "localField": "designId",
+        "foreignField": "designId",
+        "as": "models"
+      }
+    },
+    {
+      "$unwind": "$models"
+    },
+    {
+      "$match": {
+        "models.＄domain": "Model.FPMN.Interaction.Task",
+        "models.channel": "Model.FPMN.Interaction.Channel.EForm"
+      }
+    },
+    {
+      "$group": {
+        "_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
+        "count": {
+          "$sum": 1.0
+        }
       }
     }
-  }, {
-    "$group": {
-      "_id": "$_id",
-      "count": {
-        "$sum": 1
-      }
-    }
-  }]
+  ]
 }

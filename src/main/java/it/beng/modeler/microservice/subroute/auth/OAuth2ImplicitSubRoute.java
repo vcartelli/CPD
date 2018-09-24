@@ -3,6 +3,7 @@ package it.beng.modeler.microservice.subroute.auth;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.auth.oauth2.impl.AccessTokenImpl;
@@ -14,7 +15,6 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
-import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
@@ -124,7 +124,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                           });
                       } else {
                           context.setUser(null);
-                          context.fail(ServerError.message("error while fetching user account"));
+                          context.fail(new NoStackTraceThrowable("error while fetching user account"));
                       }
                   } else {
                       context.setUser(null);

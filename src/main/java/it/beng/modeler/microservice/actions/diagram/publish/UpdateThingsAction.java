@@ -5,13 +5,12 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import it.beng.modeler.config;
-import it.beng.modeler.microservice.actions.diagram.DiagramAction;
-import it.beng.modeler.microservice.actions.diagram.DiagramPublishAction;
+import it.beng.modeler.model.Domain;
 
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class UpdateThingsAction extends DiagramPublishAction {
+public class UpdateThingsAction extends EditorAction {
     public static final String TYPE = "[Diagram Action Publish] Update Things";
 
     public UpdateThingsAction(JsonObject action) {
@@ -28,39 +27,31 @@ public class UpdateThingsAction extends DiagramPublishAction {
         return super.isValid() && updates() != null;
     }
 
-    public JsonArray updates() {
-        return json.getJsonArray("updates");
+    @Override
+    protected List<JsonObject> items() {
+        return this.updates().stream()
+                   .filter(item -> item instanceof JsonObject)
+                   .map(item -> (JsonObject) item)
+                   .collect(Collectors.toList());
     }
 
     @Override
-    public void handle(JsonObject account, Handler<AsyncResult<JsonObject>> handler) {
-        DiagramAction.isAuthorized(account, diagramId(), Collections.singletonList("editor"), isAuthorized -> {
-            if (isAuthorized.succeeded()) {
-                if (isAuthorized.result()) {
-                    this.updates().stream()
-                        .filter(item -> item instanceof JsonObject)
-                        .map(item -> (JsonObject) item)
-                        .forEach(item -> {
-                            JsonObject original = item.getJsonObject("original");
-                            JsonObject changes = item.getJsonObject("changes");
-                            mongodb.findOneAndUpdate(
-                                config.DOMAIN_COLLECTIONS.get(original.getString("$domain")),
-                                new JsonObject().put("id", original.getString("id")),
-                                new JsonObject().put("$set", changes),
-                                update -> {
-                                    if (update.succeeded()) {
-                                        handler.handle(Future.succeededFuture(json));
-                                    } else {
-                                        handler.handle(Future.failedFuture(update.cause()));
-                                    }
-                                });
-                        });
+    protected void forEach(JsonObject item, Handler<AsyncResult<Void>> handler) {
+        JsonObject original = item.getJsonObject("original");
+        JsonObject changes = item.getJsonObject("changes");
+        mongodb.findOneAndUpdate(
+            Domain.get(original.getString("$domain")).getCollection(),
+            new JsonObject().put("id", original.getString("id")),
+            new JsonObject().put("$set", changes), update -> {
+                if (update.failed()) {
+                    handler.handle(Future.failedFuture(update.cause()));
                 } else {
-                    handler.handle(Future.failedFuture("unauthorized"));
+                    handler.handle(Future.succeededFuture());
                 }
-            } else {
-                handler.handle(Future.failedFuture(isAuthorized.cause()));
-            }
-        });
+            });
+    }
+
+    public JsonArray updates() {
+        return json.getJsonArray("updates");
     }
 }

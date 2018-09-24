@@ -1,7 +1,5 @@
 package it.beng.modeler.microservice.auth.local.impl;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -11,6 +9,9 @@ import io.vertx.ext.auth.User;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
+import it.beng.modeler.model.Domain;
+
+import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -54,12 +55,13 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
         }
 
         JsonObject auth = new JsonObject().put("id", id).put("password", password);
-        mongodb.findOne(config.USER_COLLECTION, auth, new JsonObject(), ar -> {
+        mongodb.findOne(Domain.Collection.USERS, auth, new JsonObject(), ar -> {
             if (ar.succeeded()) {
                 JsonObject account = ar.result();
-                if (account != null/*  && password.equals(user.getString("password")) */) {
+                if (account != null) {
                     User user = new LocalUser(new JsonObject(), this);
                     user.principal().put("account", account);
+                    config.server.checkAndSetIfMainAdmin(account);
                     resultHandler.handle(Future.succeededFuture(user));
                 } else {
                     resultHandler.handle(Future.failedFuture("Invalid username/password"));

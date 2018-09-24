@@ -3,17 +3,21 @@ package it.beng.modeler.microservice.http;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
+import it.beng.modeler.microservice.utils.CommonUtils;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public final class JsonResponse {
 
     private static final Logger logger = Logger.getLogger(JsonResponse.class.getName());
+
+    private static Exception DEFAULT_EXCEPTION = new NullPointerException();
 
     public static HttpServerResponse setHeader(RoutingContext context) {
         return context.response().putHeader("Content-Type", "application/json; charset=utf-8");
@@ -62,31 +66,22 @@ public final class JsonResponse {
         this.response.end();
     }
 
-    public void fail() {
+    public void fail(Throwable failure, HttpResponseStatus status) {
         if (this.response.ended()) {
             return;
         }
-        Throwable failure;
-        HttpResponseStatus status;
-        if (this.context.failed()) {
-            failure = this.context.failure() != null
-                ? this.context.failure()
-                : new NullPointerException();
-            status = this.context.statusCode() != -1
+        failure = CommonUtils.coalesce(failure, context.failure(), DEFAULT_EXCEPTION);
+        status = CommonUtils.coalesce(status,
+            context.failed() && this.context.statusCode() != -1
                 ? HttpResponseStatus.valueOf(this.context.statusCode())
-                : HttpResponseStatus.INTERNAL_SERVER_ERROR;
-        } else {
-            failure = null;
-            status = HttpResponseStatus.INTERNAL_SERVER_ERROR;
-        }
+                : HttpResponseStatus.INTERNAL_SERVER_ERROR);
+        String message = CommonUtils.coalesce(failure.getLocalizedMessage(), status.reasonPhrase());
         JsonObject error = new JsonObject()
             .put("timestamp", Instant.now().toEpochMilli())
             .put("code", status.code())
-            .put("message", failure != null ? failure.getLocalizedMessage() : status.reasonPhrase())
-            .put("cause", failure != null ? new JsonObject(Json.encode(failure.getCause())) : "null");
-        if (failure instanceof ServerError) {
-            error.put("payload", ((ServerError) failure).payload);
-        }
+            .put("message", message);
+        if (failure.getCause() != null)
+            error.put("stackTrace", new JsonArray(Arrays.asList(failure.getStackTrace())));
         logger.severe("ERROR (" + status + "): " + error.encodePrettily());
         this.response.setStatusCode(status.code()).end(error.encode());
     }

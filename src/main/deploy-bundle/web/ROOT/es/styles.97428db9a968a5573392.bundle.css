@@ -36,44 +36,32 @@
 /* MAT DIALOG */
 /* MAT SNACKBAR */.snackbar-info{background:#009ee0!important}.snackbar-emphasis{background:#ff6d00!important}.snackbar-error{background:#ff1744!important}.mat-simple-snackbar-action{background-color:rgba(0,0,0,.25)!important;color:#fff}
 /* SVG colors *//* You can add global styles to this file, and also import other style files */.pad-l{padding-left:4px}.pad-r{padding-right:4px}.pad-lr{padding:0 4px}.small{font-size:.8em}.smaller{font-size:.7em}.bold{font-weight:700}.light{font-weight:300}.italic{font-style:italic}[logo]{vertical-align:middle;height:56px;width:auto}@media screen and (max-width:960px){[logo]{height:48px}[hide-under-960]{display:none}}@media screen and (max-width:600px){[logo]{height:40px}[hide-under-600]{display:none}}body{margin:0;border:0;padding:0;width:100vw;height:100vh;overflow:hidden}.user-image{display:inline-block;background-repeat:no-repeat;pointer-events:none;max-width:40px;max-height:40px;width:auto;height:auto;border-radius:50%;padding:0}
-
 /* MATERIAL */.mat-dialog-container{max-width:90vw;max-height:90vh;border-radius:20px}
-
 /*** button ***/
-
 /* .mat-button-toggle {
   color: rgba(255, 255, 255, .38);
 } */
-
 /* .mat-button-toggle:hover {
   background-color: rgba(0, 0, 0, .12);
 } */
-
 /* .mat-button-toggle-standalone {
   box-shadow: none !important;
   border-radius: 50% !important;
   overflow: unset !important;
 } */
-
 /* .mat-button-toggle-label-content { */
-
 /* per avere i bottoni quadrati anziché rettangolari */
-
 /* padding: unset !important;
 } */
-
 /* .mat-button-toggle-label-content > .mat-icon {
   padding: 8px;
 } */
-
 /* .mat-button-toggle-checked {
   background-color: rgba(0, 0, 0, .18);
   color: white;
   box-shadow: inset 0 3px 1px -2px rgba(0, 0, 0, .2), inset 0 2px 2px 0 rgba(0, 0, 0, .14), inset 0 1px 5px 0 rgba(0, 0, 0, .12) !important;
 } */
-
 /*** icon ***/mat-icon[mat-18]{font-size:18px}mat-icon[mat-24]{font-size:24px}mat-icon[mat-36]{font-size:36px}mat-icon[mat-48]{font-size:48px}
-
 /*
 mat-icon[mat-dark] {
   color: rgba(0, 0, 0, 0.54);
@@ -91,7 +79,6 @@ mat-icon[mat-light][mat-inactive] {
   color: rgba(255, 255, 255, 0.3);
 }
 */[small-button].mat-icon-button{right:-4px;line-height:24px;width:24px;height:24px}[small-button].mat-icon-button mat-icon{font-size:18px}
-
 /*
 [small-button] .mat-button-focus-overlay {
   top: 4px;
@@ -100,16 +87,10 @@ mat-icon[mat-light][mat-inactive] {
   bottom: 4px;
 }
 */
-
 /* bottom line */div.bottom-line{padding-top:2px;margin-bottom:8px;border-bottom:1px solid;border-color:rgba(0,0,0,.12)}
-
 /* column title */h3.column-title{
   /*text-align: center;*/margin:0 0 4px}mat-input-container.column-title{margin:-31px 0 -23px;width:100%;font-weight:700;font-size:large}.smooth-hide-top-8{position:absolute;height:8px;margin-right:0;top:37px;left:18px;right:12px;background:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.2)),to(transparent));background:linear-gradient(180deg,rgba(0,0,0,.2),transparent);-webkit-mask-box-image:-webkit-gradient(linear,left top,right top,color-stop(0,transparent),color-stop(.5,rgba(0,0,0,.8)),color-stop(1,transparent))}
-
 /*div#legend label.mat-input-placeholder {*/
-
 /*padding-bottom: 24px !important;*/
-
 /*}*/
-
 /* SVG */svg .shape{stroke-width:1;fill-opacity:1;stroke-opacity:1}svg .edge{stroke-width:2;stroke-opacity:1}svg .silhouette{stroke-width:7px;stroke-linejoin:round;stroke-opacity:0;fill-opacity:0}svg .silhouette.hover{fill-opacity:.125}svg .silhouette.selected{fill-opacity:.125;stroke-opacity:.25}svg div.foreign{display:table;width:100%;height:100%}svg div.foreign>span.foreign{display:table-cell;padding:.3em}

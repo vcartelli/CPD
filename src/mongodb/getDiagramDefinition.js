@@ -1,4 +1,4 @@
-db.models.aggregate(
+db.getCollection("models").aggregate(
 
 	// Pipeline
 	[
@@ -27,9 +27,9 @@ db.models.aggregate(
 		// Stage 3
 		{
 			$lookup: {
-			    from: "diagrams",
-			    localField: "diagram.planeId",
-			    foreignField: "_id",
+			    from: "dis",
+			    localField: "diagram._id",
+			    foreignField: "modelId",
 			    as: "plane"
 			}
 		},
@@ -42,20 +42,25 @@ db.models.aggregate(
 		// Stage 5
 		{
 			$lookup: {
-			    from: "diagrams",
+			    from: "dis",
 			    localField: "plane._id",
 			    foreignField: "planeId",
-			    as: "elements"
+			    as: "dis"
 			}
 		},
 
 		// Stage 6
 		{
-			$lookup: {
+			$graphLookup: {
 			    from: "models",
-			    localField: "plane.modelId",
-			    foreignField: "_id",
-			    as: "root"
+			    startWith: "$_id",
+			    connectFromField: "_id",
+			    connectToField: "designId",
+			    as: "root",
+			    maxDepth: 0,
+			    restrictSearchWithMatch: {
+			      parentId: {$exists: false}
+			    }
 			}
 		},
 

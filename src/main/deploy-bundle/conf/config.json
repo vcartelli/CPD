@@ -36,6 +36,9 @@
     "auth": {
       "path": "${cpd.server.auth.path}"
     },
+    "collaborations": {
+      "path": "collaborations/"
+    },
     "data": {
       "path": "${cpd.server.data.path}"
     },

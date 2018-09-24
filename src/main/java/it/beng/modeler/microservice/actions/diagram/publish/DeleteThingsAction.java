@@ -1,10 +1,16 @@
 package it.beng.modeler.microservice.actions.diagram.publish;
 
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import it.beng.modeler.microservice.actions.PublishAction;
-import it.beng.modeler.microservice.actions.diagram.DiagramAction;
+import it.beng.modeler.model.Domain;
 
-public class DeleteThingsAction extends PublishAction implements DiagramAction {
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class DeleteThingsAction extends EditorAction {
     public static final String TYPE = "[Diagram Action Publish] Delete Things";
 
     public DeleteThingsAction(JsonObject action) {
@@ -18,7 +24,32 @@ public class DeleteThingsAction extends PublishAction implements DiagramAction {
 
     @Override
     public boolean isValid() {
-        return super.isValid() && true;
+        return super.isValid() && things() != null;
+    }
+
+    @Override
+    protected List<JsonObject> items() {
+        return this.things().stream()
+                   .filter(item -> item instanceof JsonObject)
+                   .map(item -> (JsonObject) item)
+                   .collect(Collectors.toList());
+    }
+
+    @Override
+    protected void forEach(JsonObject item, Handler<AsyncResult<Void>> handler) {
+        mongodb.removeDocument(
+            Domain.get(item.getString("$domain")).getCollection(),
+            new JsonObject().put("id", item.getString("id")), delete -> {
+                if (delete.failed()) {
+                    handler.handle(Future.failedFuture(delete.cause()));
+                } else {
+                    handler.handle(Future.succeededFuture());
+                }
+            });
+    }
+
+    public JsonArray things() {
+        return json.getJsonArray("things");
     }
 
 }

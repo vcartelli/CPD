@@ -1,60 +1,38 @@
-db.models.aggregate(
+db.getCollection("models").aggregate(
 
 	// Pipeline
 	[
 		// Stage 1
 		{
 			$match: {
-			  "＄domain": "Model.FPMN.Diagram"
+			  // {procedureId}
+			  "＄domain": "Model.FPMN.Procedure"
 			}
 		},
 
 		// Stage 2
 		{
 			$project: {
-			    "diagram": "$$ROOT"
+			    "procedure": "$$ROOT"
 			}
 		},
 
 		// Stage 3
 		{
 			$lookup: {
-			    from: "diagrams",
-			    localField: "diagram.planeId",
+			    from: "models",
+			    localField: "procedure.designId",
 			    foreignField: "_id",
-			    as: "procedure"
+			    as: "diagram"
 			}
 		},
 
 		// Stage 4
 		{
-			$unwind: "$procedure"
+			$unwind: "$diagram"
 		},
 
 		// Stage 5
-		{
-			$lookup: {
-			    from: "models",
-			    localField: "procedure.modelId",
-			    foreignField: "_id",
-			    as: "procedure"
-			}
-		},
-
-		// Stage 6
-		{
-			$match: {
-			  // {procedureId}
-			  "procedure.＄domain": "Model.FPMN.Procedure"
-			}
-		},
-
-		// Stage 7
-		{
-			$unwind: "$procedure"
-		},
-
-		// Stage 8
 		{
 			$graphLookup: {
 			    "from": "models",
@@ -70,7 +48,7 @@ db.models.aggregate(
 			}
 		},
 
-		// Stage 9
+		// Stage 6
 		{
 			$graphLookup: {
 			      "from": "models",
@@ -81,12 +59,12 @@ db.models.aggregate(
 			}
 		},
 
-		// Stage 10
+		// Stage 7
 		{
 			$unwind: "$phases"
 		},
 
-		// Stage 11
+		// Stage 8
 		{
 			$graphLookup: {
 			      "from": "models",
@@ -95,6 +73,8 @@ db.models.aggregate(
 			      "connectToField": "parentId",
 			      "as": "eServices",
 			      "restrictSearchWithMatch": {
+			        "＄domain": "Model.FPMN.Interaction.Task",
+			            "channel": "Model.FPMN.Interaction.Channel.EForm",
 			        "eServiceId": {
 			          "$exists": true
 			        }
@@ -102,22 +82,22 @@ db.models.aggregate(
 			}
 		},
 
-		// Stage 12
+		// Stage 9
 		{
 			$addFields: {
 			    "phases.eServiceIds": "$eServices.eServiceId"
 			}
 		},
 
-		// Stage 13
+		// Stage 10
 		{
 			$group: {
 			      "_id": "$_id",
-			      "diagram": {
-			        "$first": "$diagram"
-			      },
 			      "procedure": {
 			        "$first": "$procedure"
+			      },
+			      "diagram": {
+			        "$first": "$diagram"
 			      },
 			      "phases": {
 			        "$push": "$phases"
@@ -125,14 +105,14 @@ db.models.aggregate(
 			}
 		},
 
-		// Stage 14
+		// Stage 11
 		{
 			$match: {
-			    "phases.eServiceIds": ["08677aef-2b6d-4fff-bf10-91b2fe82bdc5"] // {{eServiceId}}
+			    "phases.eServiceIds": "2" // {eServiceId}
 			}
 		},
 
-		// Stage 15
+		// Stage 12
 		{
 			$addFields: {
 			    "phases": {
@@ -159,7 +139,7 @@ db.models.aggregate(
 			}
 		},
 
-		// Stage 16
+		// Stage 13
 		{
 			$project: {
 			      "_id": "$procedure._id",

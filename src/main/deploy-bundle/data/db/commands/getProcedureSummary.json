@@ -1,107 +1,108 @@
 {
   "aggregate": "models",
-  "pipeline": [{
-    "$match": {
-      "＄domain": "Model.FPMN.Diagram"
-    }
-  }, {
-    "$project": {
-      "diagram": "$$ROOT"
-    }
-  }, {
-    "$lookup": {
-      "from": "diagrams",
-      "localField": "diagram.planeId",
-      "foreignField": "_id",
-      "as": "procedure"
-    }
-  }, {
-    "$unwind": "$procedure"
-  }, {
-    "$lookup": {
-      "from": "models",
-      "localField": "procedure.modelId",
-      "foreignField": "_id",
-      "as": "procedure"
-    }
-  }, {
+  "pipeline": [
+  {
     "$match": {
       {procedureId}
-      "procedure.＄domain": "Model.FPMN.Procedure"
+      "＄domain": "Model.FPMN.Procedure"
     }
-  }, {
-    "$unwind": "$procedure"
-  }, {
-    "$graphLookup": {
-      "from": "models",
-      "startWith": "$procedure._id",
-      "connectFromField": "_id",
-      "connectToField": "parentId",
-      "as": "phases",
-      "maxDepth": 0.0,
-      "restrictSearchWithMatch": {
-        "nextPhaseId": null,
-        "＄domain": "Model.FPMN.Phase"
+  },
+  {
+    "$project" : {
+      "procedure" : "$$ROOT"
+    }
+  },
+  {
+    "$lookup" : {
+      "from" : "models",
+      "localField" : "procedure.designId",
+      "foreignField" : "_id",
+      "as" : "diagram"
+    }
+  },
+  {
+    "$unwind" : "$diagram"
+  },
+  {
+    "$graphLookup" : {
+      "from" : "models",
+      "startWith" : "$procedure._id",
+      "connectFromField" : "_id",
+      "connectToField" : "parentId",
+      "as" : "phases",
+      "maxDepth" : 0.0,
+      "restrictSearchWithMatch" : {
+        "nextPhaseId" : null,
+        "＄domain" : "Model.FPMN.Phase"
       }
     }
-  }, {
-    "$graphLookup": {
-      "from": "models",
-      "startWith": "$phases._id",
-      "connectFromField": "prevPhaseId",
-      "connectToField": "_id",
-      "as": "phases"
+  },
+  {
+    "$graphLookup" : {
+      "from" : "models",
+      "startWith" : "$phases._id",
+      "connectFromField" : "prevPhaseId",
+      "connectToField" : "_id",
+      "as" : "phases"
     }
-  }, {
-    "$unwind": "$phases"
-  }, {
-    "$graphLookup": {
-      "from": "models",
-      "startWith": "$phases._id",
-      "connectFromField": "_id",
-      "connectToField": "parentId",
-      "as": "eServices",
-      "restrictSearchWithMatch": {
-        "eServiceId": {
-          "$exists": true
+  },
+  {
+    "$unwind" : "$phases"
+  },
+  {
+    "$graphLookup" : {
+      "from" : "models",
+      "startWith" : "$phases._id",
+      "connectFromField" : "_id",
+      "connectToField" : "parentId",
+      "as" : "eServices",
+      "restrictSearchWithMatch" : {
+        "＄domain" : "Model.FPMN.Interaction.Task",
+        "channel" : "Model.FPMN.Interaction.Channel.EForm",
+        "eServiceId" : {
+          "$exists" : true
         }
       }
     }
-  }, {
-    "$addFields": {
-      "phases.eServiceIds": "$eServices.eServiceId"
+  },
+  {
+    "$addFields" : {
+      "phases.eServiceIds" : "$eServices.eServiceId"
     }
-  }, {
-    "$group": {
-      "_id": "$_id",
-      "diagram": {
-        "$first": "$diagram"
+  },
+  {
+    "$group" : {
+      "_id" : "$_id",
+      "procedure" : {
+        "$first" : "$procedure"
       },
-      "procedure": {
-        "$first": "$procedure"
+      "diagram" : {
+        "$first" : "$diagram"
       },
-      "phases": {
-        "$push": "$phases"
+      "phases" : {
+        "$push" : "$phases"
       }
     }
-  }, {
+  },
+  {
     "$match": {
       {eServiceId}
     }
-  }, {
-    "$addFields": {
-      "phases": {
-        "$map": {
-          "input": "$phases",
-          "as": "phase",
-          "in": {
-            "_id": "$$phase._id",
-            "eServiceIds": "$$phase.eServiceIds",
-            "language": "$$phase.language",
-            "name": "$$phase.name",
-            "documentation": "$$phase.documentation",
-            "url": {
-              "$concat": [
+  },
+  {
+    "$addFields" : {
+      "phases" : {
+        "$map" : {
+          "input" : "$phases",
+          "as" : "phase",
+          "in" : {
+            "_id" : "$$phase._id",
+            "eServiceIds" : "$$phase.eServiceIds",
+            "language" : "$$phase.language",
+            "name" : "$$phase.name",
+            "documentation" : "$$phase.documentation",
+            "url" : {
+              "$concat" : [
                 "{appDiagramUrl}",
                 "$diagram._id",
                 "/",
@@ -112,34 +113,36 @@
         }
       }
     }
-  }, {
-    "$project": {
-      "_id": "$procedure._id",
-      "notation": "$diagram.notation",
-      "version": "$diagram.version",
-      "created": "$diagram.created",
-      "lastModified": "$diagram.lastModified",
-      "language": "$procedure.language",
-      "name": "$procedure.name",
-      "documentation": "$procedure.documentation",
-      "mission": "$procedure.mission",
-      "regulatoryRefs": "$procedure.regulatoryRefs",
-      "phases": "$phases",
-      "url": {
-        "$concat": [
+  },
+  {
+    "$project" : {
+      "_id" : "$procedure._id",
+      "notation" : "$diagram.notation",
+      "version" : "$diagram.version",
+      "created" : "$diagram.created",
+      "lastModified" : "$diagram.lastModified",
+      "language" : "$procedure.language",
+      "name" : "$procedure.name",
+      "documentation" : "$procedure.documentation",
+      "mission" : "$procedure.mission",
+      "regulatoryRefs" : "$procedure.regulatoryRefs",
+      "phases" : "$phases",
+      "url" : {
+        "$concat" : [
           "{appDiagramUrl}",
           "$diagram._id",
           "/",
           "$procedure._id"
         ]
       },
-      "svg": {
-        "$concat": [
+      "svg" : {
+        "$concat" : [
           "{appDiagramSvg}",
           "$diagram._id",
           ".svg"
         ]
       }
     }
-  }]
+  }
+]
 }

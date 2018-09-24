@@ -7,6 +7,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
@@ -14,18 +15,15 @@ import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.StaticHandler;
-import it.beng.microservice.common.ServerError;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
-import it.beng.modeler.config.Thing;
 import it.beng.modeler.microservice.http.JsonResponse;
-import it.beng.modeler.microservice.utils.AuthUtils;
 import it.beng.modeler.microservice.utils.JsonUtils;
+import it.beng.modeler.microservice.utils.QueryUtils;
+import it.beng.modeler.model.Domain;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -45,6 +43,11 @@ public final class ApiSubRoute extends VoidSubRoute {
 
     @Override
     protected void init() {
+
+        // IMPORTANT: redirect "api" to "api/" because of strange behaviour with swagger.
+        // It MUST be done with regex (i.e. must be exactly "api") to avoid infinite redirections
+        router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
+              .handler(context -> redirect(context, path));
 
         /* SIMPATICO public API */
 
@@ -86,11 +89,10 @@ public final class ApiSubRoute extends VoidSubRoute {
 
         // diagram
         // TODO: this sould return an array of svg, use root ID for single svg diagram
-        router.route(HttpMethod.GET, path + "model/diagram/:id.svg").handler(this::getModelDiagramSVG);
-        router.route(HttpMethod.GET, path + "model/diagram/my").handler(this::getModelDiagramMyList);
-        router.route(HttpMethod.GET, path + "model/diagram/search/:text")
-              .handler(this::getModelDiagramSearchTextList);
-        router.route(HttpMethod.GET, path + "model/diagram/newer/:limit").handler(this::getModelDiagramNewerList);
+        router.route(HttpMethod.GET, path + "diagram/:id.svg").handler(this::getModelDiagramSVG);
+        router.route(HttpMethod.GET, path + "diagram/my").handler(this::getDiagramMyList);
+        router.route(HttpMethod.GET, path + "diagram/search/:text").handler(this::getDiagramTextList);
+        router.route(HttpMethod.GET, path + "diagram/newer/:limit").handler(this::getDiagramNewerList);
 
         // // diagram
         // router.route(HttpMethod.GET, path + "diagram/:id").handler(this::getDiagramElement);
@@ -112,10 +114,6 @@ public final class ApiSubRoute extends VoidSubRoute {
 
         /* STATIC RESOURCES (swagger-ui) */
 
-        // IMPORTANT!!1: (strange behaviour with swagger) redirect "api" to "api/"
-        // it MUST be done with regex (i.e. must be exactly "api") to avoid infinite redirections
-        router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path.substring(0, path.length() - 1)) + "$")
-              .handler(context -> redirect(context, path));
         router.route(HttpMethod.GET, path + "*").handler(StaticHandler.create("web/swagger-ui"));
     }
 
@@ -149,7 +147,7 @@ public final class ApiSubRoute extends VoidSubRoute {
             private static final long serialVersionUID = 1L;
 
             {
-                put("procedureId", procedureId != null ? "\"procedure._id\":\"" + procedureId + "\"," : "");
+                put("procedureId", procedureId);
             }
         });
         mongodb.runCommand("aggregate", command, ar -> {
@@ -178,8 +176,8 @@ public final class ApiSubRoute extends VoidSubRoute {
             private static final long serialVersionUID = 1L;
 
             {
-                put("procedureId", procedureId != null ? "\"procedure._id\":\"" + procedureId + "\"," : "");
-                put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": [\"" + eServiceId + "\"]" : "");
+                put("procedureId", procedureId != null ? "\"_id\":\"" + procedureId + "\"," : "");
+                put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": \"" + eServiceId + "\"" : "");
                 put("appDiagramUrl", appHref + config.app.designerPath);
                 put("appDiagramSvg", config.server.apiHref() + "model/diagram/");
             }
@@ -258,9 +256,10 @@ public final class ApiSubRoute extends VoidSubRoute {
     private void getUserFeedback(RoutingContext context) {
         OffsetDateTime fromDateTime = parseDateTime(context.pathParam("fromDateTime"));
         if (fromDateTime == null) {
-            context
-                .fail(ServerError.message("cannot parse date-time from '" + context.pathParam("fromDateTime") + "'"));
-            // context.fail(new ServerError("cannot parse date-time from '" + context.pathParam("fromDateTime") + "'"));
+            context.fail(
+                new NoStackTraceThrowable("cannot parse '" + context.pathParam("fromDateTime") + "' as date-time")
+            );
+            return;
         }
         OffsetDateTime toDateTime = parseDateTime(context.pathParam("toDateTime"));
         JsonObject dateTimeRange = mongoDateTimeRange(fromDateTime, toDateTime);
@@ -285,26 +284,26 @@ public final class ApiSubRoute extends VoidSubRoute {
     }
 
     private void postUserFeedback(RoutingContext context) {
-        if (isLoggedInFailOtherwise(context)) {
+        if (isLoggedInOrFail(context)) {
             User user = context.user();
             if (user == null) {
-                context.fail(ServerError.message("user is not authenticated"));
+                context.fail(new NoStackTraceThrowable("user is not authenticated"));
                 return;
             }
             JsonObject feedback = context.getBodyAsJson();
             String message = feedback.getString("message");
             if (message == null || message.trim().length() == 0) {
-                context.fail(ServerError.message("no message in feedback"));
+                context.fail(new NoStackTraceThrowable("no message in feedback"));
                 return;
             }
             String diagramId = feedback.getString("diagramId");
             if (diagramId == null || diagramId.trim().length() == 0) {
-                context.fail(ServerError.message("no diagram ID in feedback"));
+                context.fail(new NoStackTraceThrowable("no diagram ID in feedback"));
                 return;
             }
             String elementId = feedback.getString("elementId");
             if (elementId == null || elementId.trim().length() == 0) {
-                context.fail(ServerError.message("no element ID in feedback"));
+                context.fail(new NoStackTraceThrowable("no element ID in feedback"));
                 return;
             }
             feedback.put("id", UUID.randomUUID().toString())
@@ -334,37 +333,56 @@ public final class ApiSubRoute extends VoidSubRoute {
             if (file.succeeded()) {
                 context.response().putHeader("Content-Type", "image/svg+xml").end(file.result());
             } else {
-                context.fail(file.cause());
+                vertx.fileSystem().readFile("web/assets/svg/diagram-not-found.svg", notFound -> {
+                    if (notFound.succeeded()) {
+                        context.response().putHeader("Content-Type", "image/svg+xml").end(notFound.result());
+                    } else {
+                        context.fail(notFound.cause());
+                    }
+                });
             }
         });
     }
 
-    private void getModelDiagramList(RoutingContext context, List<String> diagramIds, String searchText, Integer limit) {
+    private void getModelDiagramList(RoutingContext context,
+                                     List<String> diagramIds, List<String> userIds, String searchText, Integer limit) {
         if (diagramIds != null && diagramIds.isEmpty()) {
             JsonResponse.endWithEmptyArray(context);
             return;
         }
-        final Thing.Query diagramQuery = Thing.query(Thing.Keys.DIAGRAM);
-        final JsonArray andQuery = new JsonArray().add(diagramQuery.match);
+        final JsonArray andArray = new JsonArray();
         if (diagramIds != null) {
-            andQuery.add(new JsonObject()
-                .put("$or", new JsonArray(diagramIds.stream()
-                                                    .filter(id -> id != null && !id.isEmpty())
-                                                    .map(id -> new JsonObject().put("id", id))
-                                                    .collect(Collectors.toList()))));
+            andArray.add(QueryUtils.or("id", diagramIds));
         }
-        if (searchText != null) {
-            andQuery.add(new JsonObject().put("$text",
-                new JsonObject().put("$search", searchText)
-                                .put("$language", config.languageCode(context))
+        if (userIds != null) {
+            andArray.add(QueryUtils.or(
+                userIds.stream()
+                       .map(userId -> QueryUtils.or(
+                           Arrays.asList(
+                               "team.owner",
+                               "team.reviewer",
+                               "team.editor",
+                               "team.observer"),
+                           userId
+                       ))
+                       .collect(Collectors.toList())
             ));
         }
-        final JsonObject query = new JsonObject().put("$and", andQuery);
+        if (searchText != null) {
+            andArray.add(QueryUtils.text(searchText, config.languageCode(context)));
+        }
+        final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
+        final String collection = diagramDomain.getCollection();
+        final JsonObject query = QueryUtils.and(Arrays.asList(
+            diagramDomain.getQuery(),
+            andArray.isEmpty() ? null : new JsonObject().put("$and", andArray)
+        ));
+        logger.info("query: " + query.encodePrettily());
         final FindOptions findOptions = new FindOptions().setSort(new JsonObject().put("lastModified", -1));
         if (limit != null) {
             findOptions.setLimit(limit);
         }
-        mongodb.findWithOptions(diagramQuery.collection, query, findOptions, find -> {
+        mongodb.findWithOptions(collection, query, findOptions, find -> {
             if (find.succeeded()) {
                 new JsonResponse(context).end(find.result());
             } else {
@@ -374,20 +392,23 @@ public final class ApiSubRoute extends VoidSubRoute {
 
     }
 
-    private void getModelDiagramMyList(RoutingContext context) {
-        final JsonObject diagramRoles = AuthUtils.getUserThingRoles(context.user(), Thing.Keys.DIAGRAM);
-        getModelDiagramList(context, diagramRoles.stream()
-                                                 .filter(roleEntry -> !((JsonArray) roleEntry.getValue()).isEmpty())
-                                                 .map(roleEntry -> roleEntry.getKey())
-                                                 .collect(Collectors.toList()), null, null);
+    private void getDiagramMyList(RoutingContext context) {
+        String userId;
+        try {
+            userId = context.user().principal().getJsonObject("account").getString("id");
+        } catch (Exception e) {
+            JsonResponse.endWithEmptyArray(context);
+            return;
+        }
+        getModelDiagramList(context, null, Collections.singletonList(userId), null, null);
     }
 
-    private void getModelDiagramSearchTextList(RoutingContext context) {
+    private void getDiagramTextList(RoutingContext context) {
         String searchText = context.pathParam("text");
-        getModelDiagramList(context, null, searchText, null);
+        getModelDiagramList(context, null, null, searchText, null);
     }
 
-    private void getModelDiagramNewerList(RoutingContext context) {
+    private void getDiagramNewerList(RoutingContext context) {
         String limitStr = context.pathParam("limit");
         if (limitStr == null) {
             JsonResponse.endWithEmptyArray(context);
@@ -400,7 +421,7 @@ public final class ApiSubRoute extends VoidSubRoute {
             JsonResponse.endWithEmptyArray(context);
             return;
         }
-        getModelDiagramList(context, null, null, limit);
+        getModelDiagramList(context, null, null, null, limit);
     }
 
     // private void getDiagramElement(RoutingContext context) {

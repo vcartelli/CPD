@@ -1,45 +1,61 @@
 {
   "aggregate": "models",
-  "pipeline": [{
-    "$match": {
-      "_id": "{diagramId}"
+  "pipeline": [
+    {
+      "$match": {
+        "_id": "{diagramId}"
+      }
+    },
+    {
+      "$project": {
+        "diagram": "$$ROOT"
+      }
+    },
+    {
+      "$lookup": {
+        "from": "dis",
+        "localField": "diagram._id",
+        "foreignField": "modelId",
+        "as": "plane"
+      }
+    },
+    {
+      "$unwind": "$plane"
+    },
+    {
+      "$lookup": {
+        "from": "dis",
+        "localField": "plane._id",
+        "foreignField": "planeId",
+        "as": "dis"
+      }
+    },
+    {
+      "$graphLookup" : {
+        "from" : "models",
+        "startWith" : "$_id",
+        "connectFromField" : "_id",
+        "connectToField" : "designId",
+        "as" : "root",
+        "maxDepth" : 0.0,
+        "restrictSearchWithMatch" : {
+          "parentId" : {
+            "$exists" : false
+          }
+        }
+      }
+    },
+    {
+      "$unwind": "$root"
+    },
+    {
+      "$graphLookup": {
+        "from": "models",
+        "startWith": "$root._id",
+        "connectFromField": "_id",
+        "connectToField": "parentId",
+        "as": "childs"
+      }
     }
-  }, {
-    "$project": {
-      "diagram": "$$ROOT"
-    }
-  }, {
-    "$lookup": {
-      "from": "diagrams",
-      "localField": "diagram.planeId",
-      "foreignField": "_id",
-      "as": "plane"
-    }
-  }, {
-    "$unwind": "$plane"
-  }, {
-    "$lookup": {
-      "from": "diagrams",
-      "localField": "plane._id",
-      "foreignField": "planeId",
-      "as": "elements"
-    }
-  }, {
-    "$lookup": {
-      "from": "models",
-      "localField": "plane.modelId",
-      "foreignField": "_id",
-      "as": "root"
-    }
-  }, {
-    "$unwind": "$root"
-  }, {
-    "$graphLookup": {
-      "from": "models",
-      "startWith": "$root._id",
-      "connectFromField": "_id",
-      "connectToField": "parentId",
-      "as": "childs"
-    }
-  }]
+  ]
 }

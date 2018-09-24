@@ -528,7 +528,8 @@
         },
         "modelId": {
           "type": "string",
-          "description": "ID of the model element where the feedback has been posted"
+          "description": "ID of the model element where the feedback has been posted",
+          "example": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9"
         }
       },
       "required": [

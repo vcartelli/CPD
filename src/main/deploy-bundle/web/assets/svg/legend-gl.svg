@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-1 -747 2872 706" width="1436pt" height="353pt">
+    <defs>
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:100,300,400,700');
+        </style>
+        <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" viewBox="-1 -2 5 4" markerWidth="5" markerHeight="4" color="black">
+            <g>
+                <path d="M 2.4 0 L 0 -.9 L 0 .9 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+            </g>
+        </marker>
+    </defs>
+    <g stroke="none" stroke-opacity="1" stroke-dasharray="none" fill="none" fill-opacity="1">
+        <g>
+            <path d="M 1527 -526 L 1527 -612 L 1783 -612 L 1783 -612 L 1783 -569 L 1783 -526 L 1783 -526 Z" fill="white"/>
+            <path d="M 1527 -526 L 1527 -612 L 1783 -612 L 1783 -612 L 1783 -569 L 1783 -526 L 1783 -526 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 1271 -526 L 1271 -612 L 1527 -612 L 1527 -612 L 1551 -569 L 1527 -526 L 1527 -526 Z" fill="white"/>
+            <path d="M 1271 -526 L 1271 -612 L 1527 -612 L 1527 -612 L 1551 -569 L 1527 -526 L 1527 -526 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 1015 -526 L 1015 -612 L 1271 -612 L 1271 -612 L 1295 -569 L 1271 -526 L 1271 -526 Z" fill="white"/>
+            <path d="M 1015 -526 L 1015 -612 L 1271 -612 L 1271 -612 L 1295 -569 L 1271 -526 L 1271 -526 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <rect x="1015" y="-652" width="768" height="126" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+            <path d="M 16 -746 L 2854 -746 C 2862.8366 -746 2870 -738.8366 2870 -730 L 2870 -58 C 2870 -49.163444 2862.8366 -42 2854 -42 L 16 -42 C 7.163444 -42 1082166e-21 -49.163444 0 -58 L 42632564e-21 -730 C 4371473e-20 -738.8366 7.163444 -746 16 -746 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 1546.4 -225.32258 L 1517.6 -225.32258 C 1515.62 -225.32258 1514.018 -223.7113 1514.018 -221.74194 L 1514 -200.25806 C 1514 -198.2887 1515.62 -196.67742 1517.6 -196.67742 L 1546.4 -196.67742 C 1548.38 -196.67742 1550 -198.2887 1550 -200.25806 L 1550 -221.74194 C 1550 -223.7113 1548.38 -225.32258 1546.4 -225.32258 Z M 1546.4 -218.1613 L 1532 -209.20968 L 1517.6 -218.1613 L 1517.6 -221.74194 L 1532 -212.79032 L 1546.4 -221.74194 L 1546.4 -218.1613 Z" fill="black"/>
+            <rect x="47" y="-642" width="34" height="34" fill="white"/>
+            <rect x="47" y="-642" width="34" height="34" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+            <rect x="47" y="-588" width="34" height="34" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+            <path d="M 59.62706 -565.7129 L 53.937464 -571.4025 L 52 -569.4787 L 59.62706 -561.8516 L 76 -578.22456 L 74.07618 -580.1484 Z" fill="black"/>
+            <circle cx="64" cy="-463" r="24.000038" fill="white"/>
+            <circle cx="64" cy="-463" r="24.000038" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+            <text transform="translate(44.8 -494)" fill="black">
+                <tspan font-family="Helvetica" font-size="52" font-weight="bold" fill="black" x="3.318164" y="50" textLength="31.76367">?</tspan>
+            </text>
+            <path d="M 543 -314.7957 L 543 -272 L 732.0149 -272 L 745.00995 -302 L 732.005 -332 L 560.2973 -332 C 550.74426 -332 543 -324.29737 543 -314.7957 Z" fill="white"/>
+            <path d="M 543 -314.7957 L 543 -272 L 732.0149 -272 L 745.00995 -302 L 732.005 -332 L 560.2973 -332 C 550.74426 -332 543 -324.29737 543 -314.7957 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 741 -272 L 943 -272 L 943 -315.01075 C 943 -323.58414 936.695 -330.69283 928.4453 -332 L 741 -332 L 753 -302 Z" fill="#ccc"/>
+            <path d="M 741 -272 L 943 -272 L 943 -315.01075 C 943 -323.58414 936.695 -330.69283 928.4453 -332 L 741 -332 L 753 -302 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <rect x="543" y="-272.73118" width="400" height="124.73118" fill="white"/>
+            <rect x="543" y="-272.73118" width="400" height="124.73118" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 543 -104.98925 L 543 -148 L 943 -148 L 943 -104.98925 C 943 -95.48757 935.2557 -87.78495 925.7027 -87.78495 L 560.2973 -87.78495 C 550.74426 -87.78495 543 -95.48757 543 -104.98925 Z M 560.2973 -87.78495 C 560.2973 -87.78495 560.2973 -87.78495 560.2973 -87.78495 Z" fill="white"/>
+            <path d="M 543 -104.98925 L 543 -148 L 943 -148 L 943 -104.98925 C 943 -95.48757 935.2557 -87.78495 925.7027 -87.78495 L 560.2973 -87.78495 C 550.74426 -87.78495 543 -95.48757 543 -104.98925 Z M 560.2973 -87.78495 C 560.2973 -87.78495 560.2973 -87.78495 560.2973 -87.78495 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <rect x="47" y="-272.02463" width="400" height="124.73118" fill="white"/>
+            <rect x="47" y="-272.02463" width="400" height="124.73118" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 47 -104.28269 L 47 -147.29344 L 447 -147.29344 L 447 -104.28269 C 447 -94.78102 439.25574 -87.07839 429.7027 -87.07839 L 64.2973 -87.07839 C 54.744263 -87.07839 47 -94.78102 47 -104.28269 Z M 64.2973 -87.07839 C 64.2973 -87.07839 64.2973 -87.07839 64.2973 -87.07839 Z" fill="white"/>
+            <path d="M 47 -104.28269 L 47 -147.29344 L 447 -147.29344 L 447 -104.28269 C 447 -94.78102 439.25574 -87.07839 429.7027 -87.07839 L 64.2973 -87.07839 C 54.744263 -87.07839 47 -94.78102 47 -104.28269 Z M 64.2973 -87.07839 C 64.2973 -87.07839 64.2973 -87.07839 64.2973 -87.07839 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 326.4256 -135.15331 L 290.29658 -135.15331 C 287.8127 -135.15331 285.80303 -133.13198 285.80303 -130.66146 L 285.78045 -103.71037 C 285.78045 -101.23985 287.8127 -99.21852 290.29658 -99.21852 L 326.4256 -99.21852 C 328.9095 -99.21852 330.94174 -101.23985 330.94174 -103.71037 L 330.94174 -130.66146 C 330.94174 -133.13198 328.9095 -135.15331 326.4256 -135.15331 Z M 326.4256 -126.16961 L 308.3611 -114.93999 L 290.29658 -126.16961 L 290.29658 -130.66146 L 308.3611 -119.43184 L 326.4256 -130.66146 L 326.4256 -126.16961 Z" fill="black"/>
+            <path d="M 236.7276 -120.20544 C 240.3405 -113.14325 246.1613 -107.37871 253.26165 -103.76028 L 258.78136 -109.25032 C 259.45878 -109.9241 260.46237 -110.14869 261.3405 -109.84923 C 264.15054 -108.92591 267.18638 -108.42681 270.2975 -108.42681 C 271.67742 -108.42681 272.80645 -107.30385 272.80645 -105.93134 L 272.80645 -97.22215 C 272.80645 -95.84964 271.67742 -94.72667 270.2975 -94.72667 C 246.73835 -94.72667 227.64516 -113.71721 227.64516 -137.14969 C 227.64516 -138.5222 228.7742 -139.64516 230.15412 -139.64516 L 238.93548 -139.64516 C 240.3154 -139.64516 241.44444 -138.5222 241.44444 -137.14969 C 241.44444 -134.03035 241.94624 -131.03578 242.87455 -128.24086 C 243.15054 -127.36744 242.94982 -126.3942 242.2473 -125.69548 L 236.7276 -120.20544 Z" fill="black"/>
+            <path d="M 198.24888 -119.53196 C 202.1433 -119.53196 205.26354 -122.67565 205.26354 -126.57008 C 205.26354 -130.46451 202.1433 -133.6082 198.24888 -133.6082 C 194.35445 -133.6082 191.21075 -130.46451 191.21075 -126.57008 C 191.21075 -122.67565 194.35445 -119.53196 198.24888 -119.53196 Z M 179.48055 -119.53196 C 183.37497 -119.53196 186.4952 -122.67565 186.4952 -126.57008 C 186.4952 -130.46451 183.37497 -133.6082 179.48055 -133.6082 C 175.58612 -133.6082 172.44242 -130.46451 172.44242 -126.57008 C 172.44242 -122.67565 175.58612 -119.53196 179.48055 -119.53196 Z M 179.48055 -114.83988 C 174.01427 -114.83988 163.05826 -112.09501 163.05826 -106.62873 L 163.05826 -100.76363 L 195.90283 -100.76363 L 195.90283 -106.62873 C 195.90283 -112.09501 184.94682 -114.83988 179.48055 -114.83988 Z M 198.24888 -114.83988 C 197.56852 -114.83988 196.79433 -114.79296 195.97322 -114.72257 C 198.69462 -112.7519 200.59492 -110.10087 200.59492 -106.62873 L 200.59492 -100.76363 L 214.67116 -100.76363 L 214.67116 -106.62873 C 214.67116 -112.09501 203.71515 -114.83988 198.24888 -114.83988 Z" fill="black"/>
+            <path d="M 47 -314.7957 L 47 -272 L 120.01493 -272 L 133.00995 -302 L 120.00498 -332 L 64.2973 -332 C 54.744263 -332 47 -324.29737 47 -314.7957 Z" fill="white"/>
+            <path d="M 47 -314.7957 L 47 -272 L 120.01493 -272 L 133.00995 -302 L 120.00498 -332 L 64.2973 -332 C 54.744263 -332 47 -324.29737 47 -314.7957 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 80.26304 -302.64516 C 78.48239 -302.64516 77.03723 -301.2 77.03723 -299.41935 C 77.03723 -297.6387 78.48239 -296.19355 80.26304 -296.19355 C 82.04368 -296.19355 83.48885 -297.6387 83.48885 -299.41935 C 83.48885 -301.2 82.04368 -302.64516 80.26304 -302.64516 Z M 95.74691 -302.64516 C 93.96627 -302.64516 92.5211 -301.2 92.5211 -299.41935 C 92.5211 -297.6387 93.96627 -296.19355 95.74691 -296.19355 C 97.52756 -296.19355 98.97272 -297.6387 98.97272 -299.41935 C 98.97272 -301.2 97.52756 -302.64516 95.74691 -302.64516 Z M 88.00498 -327.80645 C 73.75981 -327.80645 62.19852 -316.24516 62.19852 -302 C 62.19852 -287.75484 73.75981 -276.19355 88.00498 -276.19355 C 102.25014 -276.19355 113.81143 -287.75484 113.81143 -302 C 113.81143 -316.24516 102.25014 -327.80645 88.00498 -327.80645 Z M 88.00498 -281.35484 C 76.62433 -281.35484 67.35981 -290.61935 67.35981 -302 C 67.35981 -302.7484 67.41143 -303.49677 67.48885 -304.21935 C 73.57917 -306.92903 78.404975 -311.90968 80.93401 -318.07742 C 85.60498 -311.47097 93.2953 -307.1613 101.99207 -307.1613 C 104.00498 -307.1613 105.94046 -307.39355 107.79852 -307.83226 C 108.34046 -306 108.65014 -304.0387 108.65014 -302 C 108.65014 -290.61935 99.38562 -281.35484 88.00498 -281.35484 Z" fill="black"/>
+            <path d="M 129 -272 L 447 -272 L 447 -315.01075 C 447 -323.58414 440.695 -330.69283 432.4453 -332 L 129 -332 L 141 -302 Z" fill="#ccc"/>
+            <path d="M 129 -272 L 447 -272 L 447 -315.01075 C 447 -323.58414 440.695 -330.69283 432.4453 -332 L 129 -332 L 141 -302 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path d="M 399.21813 -305.68664 L 399.21813 -288.48233 L 406.5914 -288.48233 L 406.5914 -305.68664 L 399.21813 -305.68664 Z M 413.96467 -305.68664 L 413.96467 -288.48233 L 421.33794 -288.48233 L 421.33794 -305.68664 L 413.96467 -305.68664 Z M 394.3026 -276.19355 L 441 -276.19355 L 441 -283.56682 L 394.3026 -283.56682 L 394.3026 -276.19355 Z M 428.7112 -305.68664 L 428.7112 -288.48233 L 436.0845 -288.48233 L 436.0845 -305.68664 L 428.7112 -305.68664 Z M 417.6513 -327.80645 L 394.3026 -315.51766 L 394.3026 -310.60215 L 441 -310.60215 L 441 -315.51766 L 417.6513 -327.80645 Z" fill="black"/>
+            <path d="M 1021.6 -265.45 C 1020.358 -265.45 1019.35 -264.442 1019.35 -263.2 C 1019.35 -261.958 1020.358 -260.95 1021.6 -260.95 C 1022.842 -260.95 1023.85 -261.958 1023.85 -263.2 C 1023.85 -264.442 1022.842 -265.45 1021.6 -265.45 Z M 1032.4 -265.45 C 1031.158 -265.45 1030.15 -264.442 1030.15 -263.2 C 1030.15 -261.958 1031.158 -260.95 1032.4 -260.95 C 1033.642 -260.95 1034.65 -261.958 1034.65 -263.2 C 1034.65 -264.442 1033.642 -265.45 1032.4 -265.45 Z M 1027 -283 C 1017.064 -283 1009 -274.936 1009 -265 C 1009 -255.064 1017.064 -247 1027 -247 C 1036.936 -247 1045 -255.064 1045 -265 C 1045 -274.936 1036.936 -283 1027 -283 Z M 1027 -250.6 C 1019.062 -250.6 1012.6 -257.062 1012.6 -265 C 1012.6 -265.522 1012.636 -266.044 1012.69 -266.548 C 1016.938 -268.438 1020.304 -271.912 1022.068 -276.214 C 1025.326 -271.606 1030.69 -268.6 1036.756 -268.6 C 1038.16 -268.6 1039.51 -268.762 1040.806 -269.068 C 1041.184 -267.79 1041.4 -266.422 1041.4 -265 C 1041.4 -257.062 1034.938 -250.6 1027 -250.6 Z" fill="black"/>
+            <path d="M 1014.1429 -213.57143 L 1014.1429 -201.57143 L 1019.2857 -201.57143 L 1019.2857 -213.57143 L 1014.1429 -213.57143 Z M 1024.4286 -213.57143 L 1024.4286 -201.57143 L 1029.5714 -201.57143 L 1029.5714 -213.57143 L 1024.4286 -213.57143 Z M 1010.7143 -193 L 1043.2857 -193 L 1043.2857 -198.14286 L 1010.7143 -198.14286 L 1010.7143 -193 Z M 1034.7143 -213.57143 L 1034.7143 -201.57143 L 1039.8571 -201.57143 L 1039.8571 -213.57143 L 1034.7143 -213.57143 Z M 1027 -229 L 1010.7143 -220.42857 L 1010.7143 -217 L 1043.2857 -217 L 1043.2857 -220.42857 L 1027 -229 Z" fill="black"/>
+            <path d="M 1027 -166 L 1027 -173.2 L 1009 -173.2 L 1009 -140.8 L 1045 -140.8 L 1045 -166 L 1027 -166 Z M 1016.2 -144.4 L 1012.6 -144.4 L 1012.6 -148 L 1016.2 -148 L 1016.2 -144.4 Z M 1016.2 -151.6 L 1012.6 -151.6 L 1012.6 -155.2 L 1016.2 -155.2 L 1016.2 -151.6 Z M 1016.2 -158.8 L 1012.6 -158.8 L 1012.6 -162.4 L 1016.2 -162.4 L 1016.2 -158.8 Z M 1016.2 -166 L 1012.6 -166 L 1012.6 -169.6 L 1016.2 -169.6 L 1016.2 -166 Z M 1023.4 -144.4 L 1019.8 -144.4 L 1019.8 -148 L 1023.4 -148 L 1023.4 -144.4 Z M 1023.4 -151.6 L 1019.8 -151.6 L 1019.8 -155.2 L 1023.4 -155.2 L 1023.4 -151.6 Z M 1023.4 -158.8 L 1019.8 -158.8 L 1019.8 -162.4 L 1023.4 -162.4 L 1023.4 -158.8 Z M 1023.4 -166 L 1019.8 -166 L 1019.8 -169.6 L 1023.4 -169.6 L 1023.4 -166 Z M 1041.4 -144.4 L 1027 -144.4 L 1027 -148 L 1030.6 -148 L 1030.6 -151.6 L 1027 -151.6 L 1027 -155.2 L 1030.6 -155.2 L 1030.6 -158.8 L 1027 -158.8 L 1027 -162.4 L 1041.4 -162.4 L 1041.4 -144.4 Z M 1037.8 -158.8 L 1034.2 -158.8 L 1034.2 -155.2 L 1037.8 -155.2 L 1037.8 -158.8 Z M 1037.8 -151.6 L 1034.2 -151.6 L 1034.2 -148 L 1037.8 -148 L 1037.8 -151.6 Z" fill="black"/>
+            <path d="M 1521.24 -267.407 C 1524.12 -261.77742 1528.76 -257.18226 1534.42 -254.29785 L 1538.82 -258.6742 C 1539.36 -259.2113 1540.16 -259.39032 1540.86 -259.1516 C 1543.1 -258.4156 1545.52 -258.01774 1548 -258.01774 C 1549.1 -258.01774 1550 -257.12258 1550 -256.0285 L 1550 -249.08602 C 1550 -247.99194 1549.1 -247.09677 1548 -247.09677 C 1529.22 -247.09677 1514 -262.23495 1514 -280.91398 C 1514 -282.00806 1514.9 -282.90323 1516 -282.90323 L 1523 -282.90323 C 1524.1 -282.90323 1525 -282.00806 1525 -280.91398 C 1525 -278.42742 1525.4 -276.04032 1526.14 -273.81237 C 1526.36 -273.11613 1526.2 -272.34032 1525.64 -271.78333 L 1521.24 -267.407 Z" fill="black"/>
+            <path d="M 1538.5455 -320.63636 C 1541.2618 -320.63636 1543.4382 -322.8291 1543.4382 -325.54545 C 1543.4382 -328.2618 1541.2618 -330.45455 1538.5455 -330.45455 C 1535.829 -330.45455 1533.6364 -328.2618 1533.6364 -325.54545 C 1533.6364 -322.8291 1535.829 -320.63636 1538.5455 -320.63636 Z M 1525.4545 -320.63636 C 1528.171 -320.63636 1530.3473 -322.8291 1530.3473 -325.54545 C 1530.3473 -328.2618 1528.171 -330.45455 1525.4545 -330.45455 C 1522.7382 -330.45455 1520.5455 -328.2618 1520.5455 -325.54545 C 1520.5455 -322.8291 1522.7382 -320.63636 1525.4545 -320.63636 Z M 1525.4545 -317.36364 C 1521.6418 -317.36364 1514 -315.4491 1514 -311.63636 L 1514 -307.54545 L 1536.909 -307.54545 L 1536.909 -311.63636 C 1536.909 -315.4491 1529.2673 -317.36364 1525.4545 -317.36364 Z M 1538.5455 -317.36364 C 1538.071 -317.36364 1537.531 -317.3309 1536.9582 -317.2818 C 1538.8564 -315.90727 1540.1818 -314.0582 1540.1818 -311.63636 L 1540.1818 -307.54545 L 1550 -307.54545 L 1550 -311.63636 C 1550 -315.4491 1542.3582 -317.36364 1538.5455 -317.36364 Z" fill="black"/>
+            <path d="M 1548.7273 -171.72727 L 1519.2727 -171.72727 C 1517.4727 -171.72727 1516 -170.25455 1516 -168.45455 L 1516 -148.81818 C 1516 -147.01818 1517.4727 -145.54545 1519.2727 -145.54545 L 1527.4545 -145.54545 L 1527.4545 -142.27273 L 1540.5455 -142.27273 L 1540.5455 -145.54545 L 1548.7273 -145.54545 C 1550.5273 -145.54545 1551.9836 -147.01818 1551.9836 -148.81818 L 1552 -168.45455 C 1552 -170.25455 1550.5273 -171.72727 1548.7273 -171.72727 Z M 1548.7273 -148.81818 L 1519.2727 -148.81818 L 1519.2727 -168.45455 L 1548.7273 -168.45455 L 1548.7273 -148.81818 Z M 1545.4545 -163.54545 L 1527.4545 -163.54545 L 1527.4545 -160.27273 L 1545.4545 -160.27273 L 1545.4545 -163.54545 Z M 1545.4545 -157 L 1527.4545 -157 L 1527.4545 -153.72727 L 1545.4545 -153.72727 L 1545.4545 -157 Z M 1525.8182 -163.54545 L 1522.5455 -163.54545 L 1522.5455 -160.27273 L 1525.8182 -160.27273 L 1525.8182 -163.54545 Z M 1525.8182 -157 L 1522.5455 -157 L 1522.5455 -153.72727 L 1525.8182 -153.72727 L 1525.8182 -157 Z" fill="black"/>
+            <path d="M 64 -541 C 50.752 -541 40 -530.248 40 -517 C 40 -503.752 50.752 -493 64 -493 C 77.248 -493 88 -503.752 88 -517 C 88 -530.248 77.248 -541 64 -541 Z M 66.4 -505 L 61.6 -505 L 61.6 -509.8 L 66.4 -509.8 L 66.4 -505 Z M 66.4 -514.6 L 61.6 -514.6 L 61.6 -529 L 66.4 -529 L 66.4 -514.6 Z" fill="black"/>
+<!--
+            <g transform="translate(-20 0)">
+                <circle cx="2460.5455" cy="-375" r="25.454586" fill="white"/>
+                <path d="M 2474.3193 -353.62575 C 2470.088 -350.90554 2465.4878 -349.54545 2460.5184 -349.54545 C 2455.585 -349.54545 2451.0028 -350.90554 2446.7716 -353.62575 C 2442.5404 -356.34596 2439.3446 -360.06592 2437.184 -364.78576 L 2430 -364.78576 L 2430 -385.1602 L 2437.184 -385.1602 C 2439.3446 -389.91606 2442.5404 -393.65404 2446.7716 -396.37425 C 2451.0028 -399.09446 2455.585 -400.45455 2460.5184 -400.45455 C 2465.4878 -400.45455 2470.088 -399.09446 2474.3193 -396.37425 C 2478.5505 -393.65404 2486 -387.72727 2486 -375 C 2486 -362.27273 2478.5505 -356.34596 2474.3193 -353.62575 Z M 2437.724 -375 C 2437.724 -368.76694 2439.9747 -363.40767 2444.476 -358.92202 C 2448.9773 -354.4364 2454.3247 -352.1936 2460.5184 -352.1936 C 2466.7842 -352.1936 2472.1496 -354.42737 2476.615 -358.895 C 2481.0802 -363.36263 2483.3128 -368.7309 2483.3128 -375 C 2483.3128 -381.19703 2481.0712 -386.5473 2476.588 -391.05096 C 2472.1046 -395.5546 2466.7482 -397.8064 2460.5184 -397.8064 C 2454.2887 -397.8064 2448.9323 -395.5636 2444.449 -391.078 C 2439.9657 -386.59233 2437.724 -381.23306 2437.724 -375 Z M 2477.9113 -373.32465 L 2477.9113 -376.67535 L 2481.2062 -376.67535 L 2481.2062 -373.32465 Z M 2473.806 -366.13685 L 2464.6236 -370.56842 C 2461.2026 -372.22577 2459.375 -373.1355 2459.141 -373.29763 C 2458.907 -373.45976 2458.709 -373.71196 2458.547 -374.05424 C 2458.385 -374.3965 2458.3038 -374.7658 2458.3038 -375.16213 C 2458.3038 -375.2702 2458.682 -379.3775 2459.4381 -387.48408 L 2461.6528 -387.48408 L 2462.625 -376.18896 L 2474.9404 -368.02837 Z M 2458.898 -354.3013 L 2458.898 -357.59795 L 2462.193 -357.59795 L 2462.193 -354.3013 Z M 2458.898 -392.348 L 2458.898 -395.6987 L 2462.193 -395.6987 L 2462.193 -392.348 Z M 2439.8307 -373.32465 L 2439.8307 -376.67535 L 2443.1796 -376.67535 L 2443.1796 -373.32465 Z" fill="black"/>
+            </g>
+            <line x1="1986" y1="-132" x2="2137.1" y2="-132" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="miter" stroke-width="8"/>
+            <line x1="1986" y1="-79" x2="2137.1" y2="-79" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="miter" stroke-width="8" stroke-dasharray="8,16"/>
+-->
+            <!-- text -->
+            <text transform="translate(5 -741)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="1373.984" y="33" textLength="112.032">Lenda</tspan>
+            </text>
+            <text transform="translate(1020 -647)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="24" font-weight="bold" x="306.328" y="22" textLength="180">Nome do servizo</tspan>
+            </text>
+            <text transform="translate(1020 -583.2999)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="24" font-weight="500" x="94.98" y="22" textLength="80.04">Fase 1</tspan>
+            </text>
+            <text transform="translate(1276 -583.2999)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="24" font-weight="500" x="94.98" y="22" textLength="80.04">Fase 2</tspan>
+            </text>
+            <text transform="translate(1532 -583.2999)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="24" font-weight="500" x="111" y="22" textLength="24">…</tspan>
+            </text>
+            <text transform="translate(1967 -636.8497)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="840">Cando se completa unha fase actívase a seguinte fase.</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="76.89978" textLength="840">Unha fase complétase soamente si todas as súas interaccións sexan</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="120.79956" textLength="440">completadas satisfactoriamente.</tspan>
+            </text>
+            <text transform="translate(63 -700.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="33" textLength="140">Eventos</tspan>
+            </text>
+            <text transform="translate(97 -646.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="380">Comezo dunha interacción</tspan>
+            </text>
+            <text transform="translate(97 -592.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" text-decoration="underline" x="0" y="33" textLength="110">Exitoso</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="120" y="33" textLength="440">cumplimento dunha interacción</tspan>
+            </text>
+            <text transform="translate(97 -538.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" text-decoration="underline" x="0" y="33" textLength="60.012">Mal</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="70.012" y="33" textLength="440">cumplimento dunha interacción</tspan>
+            </text>
+            <text transform="translate(97 -484.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="640">Decisión que condiciona o camiño a seguir</tspan>
+            </text>
+            <text transform="translate(63 -396.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="33" textLength="200">Interaccións</tspan>
+            </text>
+            <text transform="translate(207.36 -320.3749)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="30" font-weight="bold" x="10.59" y="28" textLength="163.41">Concello</tspan>
+            </text>
+            <text transform="translate(52 -248.45884)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="32" font-weight="500" x="21.592" y="29" textLength="355.712">Qué ocorre aquí</tspan>
+                <tspan font-family="Roboto Slab" font-size="32" font-weight="500" x="20" y="67.799805" textLength="360">durante esta interacción</tspan>
+            </text>
+            <text transform="translate(543.9598 -320.3749)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="30" font-weight="500" x="45.979975" y="28" textLength="100.05">Iniciador</tspan>
+            </text>
+            <text transform="translate(750.04 -320.3749)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="30" font-weight="500" x="20.97" y="28" textLength="150.06">Interlocutor</tspan>
+            </text>
+            <text transform="translate(548 -247.1154)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="30" font-weight="500" x="103.29" y="28" textLength="183.42">Descrición da</tspan>
+                <tspan font-family="Roboto Slab" font-size="30" font-weight="500" x="101.805" y="64.74982" textLength="190">interacción</tspan>
+            </text>
+            <text transform="translate(548 -136.26738)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="30" font-weight="500" x="29.37" y="28" textLength="320">Canle de comunicación</tspan>
+            </text>
+            <text transform="translate(1025 -396.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="33" textLength="400">Aspectos de interacción</tspan>
+            </text>
+            <text transform="translate(1059.5 -348.8499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="28" font-weight="500" x="0" y="26" textLength="309.708">
+                    (iniciador e interlocutor)</tspan>
+            </text>
+            <text transform="translate(1061 -286.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="430">Ti ou a persoa representante</tspan>
+            </text>
+            <text transform="translate(1061 -232.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="300">Organismo público</tspan>
+            </text>
+            <text transform="translate(1061 -178.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="300">Organismo privado</tspan>
+            </text>
+            <text transform="translate(1530 -394.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="33" textLength="400">Canles de comunicación</tspan>
+            </text>
+            <text transform="translate(1566 -340.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="194">Cara a cara</tspan>
+            </text>
+            <text transform="translate(1566 -286.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="164">Teléfono</tspan>
+            </text>
+            <text transform="translate(1566 -232.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="120">Correo</tspan>
+                <!--<tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="70.02">Correo electrónico</tspan>-->
+            </text>
+            <text transform="translate(1566 -180.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="360">Formulario electrónico</tspan>
+            </text>
+            <text transform="translate(1522 -126.94989)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="33" textLength="20.016">€</tspan>
+            </text>
+            <text transform="translate(1566 -126.94989)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="200">Pagamento</tspan>
+            </text>
+<!--
+            <text transform="translate(1978 -396.9499)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="bold" x="0" y="33" textLength="425,484">Data de fin da interacción:</tspan>
+            </text>
+            <text transform="translate(1978 -340.79956)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="33" textLength="820">Cando o símbolo dun reloj é conectado á interacción,</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="76.89978" textLength="820">existe unha data dentro da cal se debería de realizar esta interacción</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="120.79956" textLength="820">completa. O camiño a seguir dependerá si</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="0" y="164.69934" textLength="400">a interacción está completa</tspan>
+            </text>
+            <text transform="translate(2184 -154.94989)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" text-decoration="underline" x="0" y="33" textLength="98.064">within</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="108.064" y="33" textLength="202.104">na data de finalización indicada</tspan>
+            </text>
+            <text transform="translate(2184 -101.94989)" fill="black">
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" text-decoration="underline" x="0" y="33" textLength="116">beyond</tspan>
+                <tspan font-family="Roboto Slab" font-size="36" font-weight="500" x="125.416" y="33" textLength="202.104">a data de finalización</tspan>
+            </text>
+-->
+        </g>
+    </g>
+</svg>

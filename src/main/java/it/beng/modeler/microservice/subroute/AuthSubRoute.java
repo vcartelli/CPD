@@ -10,7 +10,6 @@ import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
-import it.beng.microservice.common.ServerError;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
@@ -41,7 +40,7 @@ public final class AuthSubRoute extends VoidSubRoute {
     public static void checkEncodedStateStateCookie(RoutingContext context, String encodedState) {
         if (encodedState == null || !encodedState.equals(context.session().get("encodedState"))) {
             logger.severe(HttpResponseStatus.NOT_FOUND.toString());
-            throw ServerError.message("invalid login transaction");
+            throw new IllegalStateException("invalid login transaction");
         }
         logger.fine("state check succesfull");
     }
@@ -101,6 +100,10 @@ public final class AuthSubRoute extends VoidSubRoute {
         // getUserIsAuthorized
         // router.route(HttpMethod.GET, path + "user/isAuthorized/:contextName/:contextId/:contextRole").handler(this::getUserIsAuthorized);
 
+        // getAccounts
+        router.route(HttpMethod.GET, path + "accounts").handler(this::getAccounts);
+        router.route(HttpMethod.PUT, path + "accounts").handler(this::putAccounts);
+
     }
 
     private void login(RoutingContext context) {
@@ -113,9 +116,9 @@ public final class AuthSubRoute extends VoidSubRoute {
         List<String> redirect = context.queryParam("redirect");
         if (redirect != null && redirect.size() > 0)
             try {
-            loginState.put("redirect", base64.decode(redirect.get(0)));
+                loginState.put("redirect", base64.decode(redirect.get(0)));
             } catch (Exception e) {
-            e.printStackTrace();
+                e.printStackTrace();
             }
         if (loginState.getValue("redirect") == null)
             loginState.put("redirect", "/");
@@ -154,7 +157,8 @@ public final class AuthSubRoute extends VoidSubRoute {
     private void getOAuth2Providers(RoutingContext context) {
         JsonArray providers = new JsonArray();
         for (config.OAuth2Config providerConfig : config.oauth2.configs) {
-            providers.add(new JsonObject().put("provider", providerConfig.provider).put("logoUrl", providerConfig.logoUrl));
+            providers
+                .add(new JsonObject().put("provider", providerConfig.provider).put("logoUrl", providerConfig.logoUrl));
         }
         new JsonResponse(context).end(providers);
     }
@@ -194,6 +198,38 @@ public final class AuthSubRoute extends VoidSubRoute {
         //     } else
         //         throw new ResponseError(context, isAdmin.cause());
         // })};
+    }
+
+    private void getAccounts(RoutingContext context) {
+        if (isAdminFailOtherwise(context)) {
+            mongodb.find("users", new JsonObject(), users -> {
+                if (users.succeeded()) {
+                    new JsonResponse(context).end(users.result());
+                } else {
+                    context.fail(users.cause());
+                }
+            });
+        }
+    }
+
+    private void putAccounts(RoutingContext context) {
+        if (isAdminFailOtherwise(context)) {
+            JsonObject account = context.getBodyAsJson();
+            String id = (String) account.remove("id");
+            if (id == null) {
+                context.fail(new NullPointerException());
+                return;
+            }
+            JsonObject query = new JsonObject().put("id", id);
+            mongodb.findOneAndReplace("users", query, account, update -> {
+                if (update.succeeded()) {
+                    new JsonResponse(context).end(update.result());
+                    logger.finest("Account UPDATED: " + account.encodePrettily());
+                } else {
+                    context.fail(update.cause());
+                }
+            });
+        }
     }
 
     // private void getUserHasAccess(RoutingContext context) {

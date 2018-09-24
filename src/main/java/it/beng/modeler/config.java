@@ -6,10 +6,10 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
+import it.beng.modeler.microservice.subroute.CollaborationsSubRoute;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -25,58 +25,6 @@ public final class config {
 
     public static final String DATA_PATH = "data/";
     public static final String ASSETS_PATH = "assets/";
-    public static final String USER_COLLECTION = "users";
-
-    public static final List<String> KNOWN_DIAGRAMS = Arrays.asList(
-        "Model.Example.Diagram",
-        "Model.BPMN.Diagram",
-        "Model.FPMN.Diagram"
-    );
-
-    public static final Map<String, String> DOMAIN_COLLECTIONS = new HashMap<>();
-
-    public static final class Thing {
-        private Thing() {}
-
-        public static final class Keys {
-            private Keys() {}
-
-            public static final String DIAGRAM = "diagram";
-        }
-
-        public static final class Query {
-            public final String collection;
-            public final JsonObject match;
-
-            public Query(String collection, JsonObject query) {
-                this.collection = collection;
-                this.match = query;
-            }
-        }
-
-        private static final Map<String, Query> QUERIES = new HashMap<String, Query>() {
-            private static final long serialVersionUID = 1L;
-
-            {
-                put(Thing.Keys.DIAGRAM, new Query("models", new JsonObject()
-                    .put("$or", new JsonArray(
-                        KNOWN_DIAGRAMS.stream()
-                                      .map(domain -> new JsonObject().put("$domain", domain))
-                                      .collect(Collectors.toList())
-                    ))
-                ));
-            }
-        };
-
-        public static Query query(String key) {
-            return QUERIES.get(key);
-        }
-
-        public static Collection<String> knownKeys() {
-            return QUERIES.keySet();
-        }
-
-    }
 
     private static JsonObject _config;
     private static MongoDB _mongoDB;
@@ -138,11 +86,11 @@ public final class config {
         public static Long simLagTime;
         public static List<String> subroutePaths = new LinkedList<>();
 
-        public static void checkAndSetIfMainAdmin(User user) {
-            if (user == null) return;
-            JsonObject account = user.principal().getJsonObject("account");
-            if (account.getString("id", UUID.randomUUID().toString()).equals(adminId)) {
+        public static void checkAndSetIfMainAdmin(JsonObject account) {
+            if (account == null || adminId == null) return;
+            if (adminId.equals(account.getString("id"))) {
                 JsonObject roles = account.getJsonObject("roles");
+                if (roles == null) return;
                 roles.put("system", "admin");
             }
         }
@@ -332,6 +280,8 @@ public final class config {
         node = config.getJsonObject("server").getJsonObject("assets");
         server.assets.allowListing = node.getBoolean("allowListing", false);
 
+        checkPath(CollaborationsSubRoute.PATH, true);
+
         /* ROOT app */
         node = config.getJsonObject("app");
         // app.path = checkPath(node.getString("path", ""), false);
@@ -424,15 +374,19 @@ public final class config {
 //        put("gl", "es");
     }};
 
-    public static String languageCode(RoutingContext rc) {
+    public static String languageCode(RoutingContext context) {
         if (config.develop)
             return "en";
-        String code = rc.preferredLanguage().tag();
+        String code = context.preferredLanguage().tag();
         if (code == null || !config.app.locales.contains(code))
             code = "en";
         if (LANG_ALTERNATIVES.containsKey(code))
             return LANG_ALTERNATIVES.get(code);
         return code;
+    }
+
+    public static String language(RoutingContext context) {
+        return language(languageCode(context));
     }
 
     public static String language(String code) {

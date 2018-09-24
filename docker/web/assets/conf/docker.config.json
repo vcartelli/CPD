@@ -17,7 +17,8 @@
       "getUser": "user",
       "getUserIsAuthenticated": "user/isAuthenticated",
       "getUserHasAccess": "user/hasAccess/{accessRole}",
-      "getUserIsAuthorized": "user/isAuthorized/{contextName}/{contextId}/{contextRole}"
+      "getUserIsAuthorized": "user/isAuthorized/{contextName}/{contextId}/{contextRole}",
+      "getAccounts": "accounts"
     },
     "data": {
       "path": "data/"
@@ -26,12 +27,10 @@
       "path": "api/",
       "getDiagramSummaryList": "procedure/summary/list",
       "postUserFeedback": "user/feedback",
-
-      "getModelDiagramSVG": "model/diagram/{id}.svg",
-      "getModelDiagramMyList": "model/diagram/my",
-      "getModelDiagramSearchTextList": "model/diagram/search/{text}",
-      "getModelDiagramNewerList": "model/diagram/newer/{limit}",
-
+      "getDiagramSVG": "diagram/{id}.svg",
+      "getDiagramMyList": "diagram/my",
+      "getDiagramSearchList": "diagram/search/{text}",
+      "getDiagramNewerList": "diagram/newer/{limit}",
       "getDiagramElement": "diagram/{id}",
       "putDiagramElement": "diagram",
       "delDiagramElement": "diagram/{id}",

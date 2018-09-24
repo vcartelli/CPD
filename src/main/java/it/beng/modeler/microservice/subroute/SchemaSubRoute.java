@@ -1,19 +1,19 @@
 package it.beng.modeler.microservice.subroute;
 
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.common.Counter;
-import it.beng.microservice.common.ServerError;
 import it.beng.microservice.schema.ValidationResult;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
+
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -32,7 +32,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
         router.route(HttpMethod.GET, path + "").handler(this::getList);
         router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path) + ".*/source$").handler(this::getSchemaSource);
         router.routeWithRegex(HttpMethod.GET, "^" + Pattern.quote(path) + ".*/validate/([^\\/]+)$")
-            .handler(this::validateCollection);
+              .handler(this::validateCollection);
         router.route(HttpMethod.GET, path + "*").handler(this::getSchema);
         router.route(HttpMethod.POST, path + "*").handler(this::validate);
         router.route(HttpMethod.PUT, path + "*").handler(this::save);
@@ -45,8 +45,8 @@ public final class SchemaSubRoute extends VoidSubRoute {
             if (getSchemaList.succeeded())
                 new JsonResponse(context).end(
                     getSchemaList.result().stream()
-                        .map(item -> item.put("$domain", schemaTools.relRef(item.getString("$id"))))
-                        .collect(Collectors.toList()));
+                                 .map(item -> item.put("$domain", schemaTools.relRef(item.getString("$id"))))
+                                 .collect(Collectors.toList()));
             else
                 context.fail(getSchemaList.cause());
         });
@@ -106,11 +106,11 @@ public final class SchemaSubRoute extends VoidSubRoute {
                                                 result.append("successfully validated.");
                                             else {
                                                 result.append("validation error: ")
-                                                    .append(validation.errors().encodePrettily());
+                                                      .append(validation.errors().encodePrettily());
                                             }
                                         } else {
                                             result.append("could not be validated: ")
-                                                .append(validate.cause().getMessage());
+                                                  .append(validate.cause().getMessage());
                                         }
                                         if (counter.next())
                                             result.append("\n\n");
@@ -162,8 +162,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
                 });
             }
         }
-        if (!ok)
-            context.fail(ServerError.message("no value to validate against " + $id));
+        if (!ok) context.fail(new NoStackTraceThrowable("no value to validate against " + $id));
     }
 
     private void save(RoutingContext context) {
@@ -185,14 +184,13 @@ public final class SchemaSubRoute extends VoidSubRoute {
                 });
             }
         }
-        if (!ok)
-            context.fail(ServerError.message("no schema to save for " + $id));
+        if (!ok) context.fail(new NoStackTraceThrowable("no schema to save for " + $id));
         //            } else throw new ResponseError(context, isAuthorized.cause());
         //        });
     }
 
     private void delete(RoutingContext context) {
-        context.fail(ServerError.message("API not implemented"));
+        context.fail(new NoStackTraceThrowable("API not implemented"));
         /*
         isAuthorized(context, "schema", "editor", isAuthorized -> {
             if (isAuthorized.succeeded()) {

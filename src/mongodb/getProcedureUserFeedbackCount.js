@@ -1,81 +1,50 @@
-db.models.aggregate(
+db.getCollection("models").aggregate(
 
 	// Pipeline
 	[
 		// Stage 1
 		{
 			$match: {
-			  "＄domain": "Model.FPMN.Diagram"
+			    _id: "32585f79-cce0-4aca-86bf-f8df7a641091"
 			}
 		},
 
 		// Stage 2
 		{
-			$project: {
-			  "_id": 1,
-			  "diagram": "$$ROOT"
+			$lookup: {
+			    from: "models",
+			    localField: "diagramId",
+			    foreignField: "diagramId",
+			    as: "models"
 			}
 		},
 
 		// Stage 3
 		{
-			$lookup: {
-			    from: "diagrams",
-			    localField: "diagram.planeId",
-			    foreignField: "_id",
-			    as: "procedure"
-			}
+			$unwind: "$models"
 		},
 
 		// Stage 4
 		{
-			$unwind: "$procedure"
-		},
-
-		// Stage 5
-		{
-			$lookup: {
-			    from: "models",
-			    localField: "procedure.modelId",
-			    foreignField: "_id",
-			    as: "procedure"
-			}
-		},
-
-		// Stage 6
-		{
-			$match: {
-			  // {procedureId}
-			  "procedure.＄domain": "Model.FPMN.Procedure"
-			}
-		},
-
-		// Stage 7
-		{
-			$unwind: "$procedure"
-		},
-
-		// Stage 8
-		{
 			$lookup: {
 			    from: "user.feedbacks",
-			    localField: "_id",
-			    foreignField: "coordinates.diagramId",
+			    localField: "models._id",
+			    foreignField: "modelId",
 			    as: "feedbacks"
 			}
 		},
 
-		// Stage 9
+		// Stage 5
 		{
 			$unwind: "$feedbacks"
 		},
 
-		// Stage 10
+		// Stage 6
 		{
 			$group: {
-			    "_id": "$procedure._id",
+			    _id: "32585f79-cce0-4aca-86bf-f8df7a641091",
 			    "count": {
-			      $sum: 1
+			      "$sum": 1.0
 			    }
 			}
 		},

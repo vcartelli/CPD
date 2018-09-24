@@ -7,8 +7,7 @@
 	"displayName": "Simpatico Administrator",
 	"roles": {
 		"system": "admin",
-		"interaction": "civil-servant",
-		"things": {}
+		"interaction": "civil-servant"
 	}
 },
 {
@@ -20,14 +19,7 @@
 	"displayName": "Simpatico Citizen #1",
 	"roles": {
 		"system": "user",
-		"interaction": "citizen",
-		"things": {
-			"diagram": {
-				"b2892ad2-997d-4ab7-a49a-0ae6dab1adf3": [
-					"observer"
-				]
-			}
-		}
+		"interaction": "citizen"
 	}
 },
 {
@@ -39,8 +31,7 @@
 	"displayName": "Simpatico Citizen #2",
 	"roles": {
 		"system": "user",
-		"interaction": "citizen",
-		"things": {}
+		"interaction": "citizen"
 	}
 },
 {
@@ -52,8 +43,7 @@
 	"displayName": "Simpatico Civil Servant #1",
 	"roles": {
 		"system": "user",
-		"interaction": "civil-servant",
-		"things": {}
+		"interaction": "civil-servant"
 	}
 },
 {
@@ -65,8 +55,7 @@
 	"displayName": "Simpatico Civil Servant #2",
 	"roles": {
 		"system": "user",
-		"interaction": "civil-servant",
-		"things": {}
+		"interaction": "civil-servant"
 	}
 },
 {
@@ -77,26 +66,7 @@
 	"displayName": "Vincenzo Cartelli",
 	"roles": {
 		"system": "user",
-		"interaction": "citizen",
-		"things": {
-			"diagram": {
-				"123": [
-					"editor"
-				],
-				"b2892ad2-997d-4ab7-a49a-0ae6dab1adf3": [
-					"editor"
-				],
-				"e46da25d-d043-4bc4-a3d4-3d366dfc476c": [
-					"observer"
-				],
-				"195d68a0-b425-42f4-9b7d-669c5ca698ec": [
-					"reviewer"
-				],
-				"d2c43fe1-2127-4969-8c07-5b1479c44ba2": [
-					"editor"
-				]
-			}
-		}
+		"interaction": "citizen"
 	}
 },
 {
@@ -106,27 +76,8 @@
 	"lastName": "Cartelli",
 	"displayName": "Vincenzo Cartelli",
 	"roles": {
-		"system": "user",
-		"interaction": "citizen",
-		"things": {
-			"diagram": {
-				"123": [
-					"editor"
-				],
-				"b2892ad2-997d-4ab7-a49a-0ae6dab1adf3": [
-					"editor"
-				],
-				"e46da25d-d043-4bc4-a3d4-3d366dfc476c": [
-					"observer"
-				],
-				"195d68a0-b425-42f4-9b7d-669c5ca698ec": [
-					"reviewer"
-				],
-				"d2c43fe1-2127-4969-8c07-5b1479c44ba2": [
-					"editor"
-				]
-			}
-		}
+		"system": "admin",
+		"interaction": "civil-servant"
 	}
 },
 {
@@ -136,27 +87,8 @@
 	"lastName": "Di Modica",
 	"displayName": "Giuseppe Di Modica",
 	"roles": {
-		"system": "user",
-		"interaction": "citizen",
-		"things": {
-			"diagram": {
-				"123": [
-					"editor"
-				],
-				"b2892ad2-997d-4ab7-a49a-0ae6dab1adf3": [
-					"editor"
-				],
-				"e46da25d-d043-4bc4-a3d4-3d366dfc476c": [
-					"observer"
-				],
-				"195d68a0-b425-42f4-9b7d-669c5ca698ec": [
-					"reviewer"
-				],
-				"d2c43fe1-2127-4969-8c07-5b1479c44ba2": [
-					"editor"
-				]
-			}
-		}
+		"system": "admin",
+		"interaction": "civil-servant"
 	}
 }]
 

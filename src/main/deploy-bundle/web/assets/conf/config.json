@@ -17,7 +17,8 @@
       "getUser": "${cpd.server.auth.getUser}",
       "getUserIsAuthenticated": "${cpd.server.auth.getUserIsAuthenticated}",
       "getUserHasAccess": "${cpd.server.auth.getUserHasAccess}",
-      "getUserIsAuthorized": "${cpd.server.auth.getUserIsAuthorized}"
+      "getUserIsAuthorized": "${cpd.server.auth.getUserIsAuthorized}",
+      "getAccounts": "${cpd.server.auth.getAccounts}"
     },
     "data": {
       "path": "${cpd.server.data.path}"
@@ -27,10 +28,10 @@
       "getDiagramSummaryList": "${cpd.server.api.getDiagramSummaryList}",
       "postUserFeedback": "${cpd.server.api.postUserFeedback}",
 
-      "getModelDiagramSVG": "${cpd.server.api.getModelDiagramSVG}",
-      "getModelDiagramMyList": "${cpd.server.api.getModelDiagramMyList}",
-      "getModelDiagramSearchTextList": "${cpd.server.api.getModelDiagramSearchTextList}",
-      "getModelDiagramNewerList": "${cpd.server.api.getModelDiagramNewerList}",
+      "getDiagramSVG": "${cpd.server.api.getDiagramSVG}",
+      "getDiagramMyList": "${cpd.server.api.getDiagramMyList}",
+      "getDiagramSearchList": "${cpd.server.api.getDiagramSearchList}",
+      "getDiagramNewerList": "${cpd.server.api.getDiagramNewerList}",
 
       "getDiagramElement": "${cpd.server.api.getDiagramElement}",
       "putDiagramElement": "${cpd.server.api.putDiagramElement}",
