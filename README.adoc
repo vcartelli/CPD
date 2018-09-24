@@ -459,3 +459,11 @@ The script allows the user to configure some important application parameters. F
 Most of those values can just be accepted by the user as they are. Some require the user to specify values according to the production environment that
 the CPD application will be run into (cpd.server.scheme, cpd.server.host, cpd.server.port, ....., cpd.server.pub.scheme, cpd.server.pub.host,
 cpd.server.pub.port). See section <<properties, example.properties>> for hints on how to set up each value.
+
+== [[CPD-update]] Update the CPD application
+After installing a new version of the CPD application, the following steps must be taken:
+
+1. remove the config-persistent directory from the host's file system ("sudo rm -fr config-persistent")
+2. remove the config-persistent directory from the host's file system ("sudo rm -fr mongo-persistent")
+
+
