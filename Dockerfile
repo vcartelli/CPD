@@ -1,6 +1,9 @@
 # Develop image
-FROM frolvlad/alpine-oraclejdk8 as builder
- 
+FROM alpine:3.6 as builder
+
+#Configure jdk
+RUN apk add --no-cache openjdk8
+
 #Configure the develop environment 
 RUN apk update
 RUN apk add maven
@@ -13,11 +16,14 @@ ADD . /develop
 RUN ./docker/docker.prepare-bundle.sh
 
 # Deploy image
-FROM frolvlad/alpine-oraclejdk8
+FROM alpine:3.6
+
+#Configure jre
+RUN apk add --no-cache openjdk8-jre
 
 #Configure the production environment
 RUN apk update
-RUN apk add mongodb mongodb-tools
+RUN apk add --no-cache mongodb==3.4.4-r0 mongodb-tools
 RUN apk add bash
 RUN apk add vim
 
