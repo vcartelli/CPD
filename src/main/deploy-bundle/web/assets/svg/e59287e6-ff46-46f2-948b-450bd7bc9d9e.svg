@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" width="1575" height="529" viewBox="82,-59,1575,529" data-element-id="e59287e6-ff46-46f2-948b-450bd7bc9d9e" class="">
-  <g class="viewport" transform="matrix(0.759924, 0, 0, 0.759924, -62.3138, 44.8355)">
+  <!--<g class="viewport" transform="matrix(0.759924, 0, 0, 0.759924, -62.3138, 44.8355)">-->
     <g class="layer-base" data-element-id="e59287e6-ff46-46f2-948b-450bd7bc9d9e">
       <g class="djs-group">
         <g class="djs-element djs-shape" data-element-id="852edac5-e0a7-46ad-b326-330904c18567" transform="translate(122, -19)" style="display: block;">
@@ -279,7 +279,7 @@
         </g>
       </g>
     </g>
-  </g>
+  <!--</g>--!
   <defs>
     <marker id="sequenceflow-end-black-black-66ac109e-9358-4624-9c17-a574b6e4f983" viewBox="0 0 20 20" refX="11" refY="10" markerWidth="10" markerHeight="10" orient="auto">
       <path d="M 1 5 L 11 10 L 1 15 Z" style="fill: black; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; stroke: black;"/>
