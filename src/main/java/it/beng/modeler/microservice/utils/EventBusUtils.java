@@ -42,7 +42,8 @@ public final class EventBusUtils {
             .put("address", event.getRawMessage().getString("replyAddress"))
             .put("failureCode", -1)
             .put("failureType", ReplyFailure.RECIPIENT_FAILURE.name().toLowerCase())
-            .put("message", message);
+            .put("message", message)
+            .put("payoad", event.getRawMessage());
         event.socket().write(envelope.encode());
         event.fail(message);
     }

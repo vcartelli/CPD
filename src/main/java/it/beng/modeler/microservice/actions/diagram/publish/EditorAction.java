@@ -9,7 +9,6 @@ import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramPublishAction;
 import it.beng.modeler.microservice.utils.QueryUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 public abstract class EditorAction extends DiagramPublishAction implements DiagramAction {
@@ -27,9 +26,9 @@ public abstract class EditorAction extends DiagramPublishAction implements Diagr
     public void handle(JsonObject account, Handler<AsyncResult<JsonObject>> handler) {
         QueryUtils.team(diagramId(), team -> {
             if (team.succeeded()) {
-                DiagramAction.isPermitted(account, team.result(), Collections.singletonList("editor"), isAuthorized -> {
-                    if (isAuthorized.succeeded()) {
-                        if (isAuthorized.result()) {
+                DiagramAction.isPermitted(account, team.result(), "editor", isPermitted -> {
+                    if (isPermitted.succeeded()) {
+                        if (isPermitted.result()) {
                             final Counter counter = new Counter(this.items());
                             this.items().forEach(item -> this.forEach(item, done -> {
                                 if (done.failed()) {
@@ -44,7 +43,7 @@ public abstract class EditorAction extends DiagramPublishAction implements Diagr
                             handler.handle(Future.failedFuture("unauthorized"));
                         }
                     } else {
-                        handler.handle(Future.failedFuture(isAuthorized.cause()));
+                        handler.handle(Future.failedFuture(isPermitted.cause()));
                     }
                 });
             } else handler.handle(Future.failedFuture(team.cause()));

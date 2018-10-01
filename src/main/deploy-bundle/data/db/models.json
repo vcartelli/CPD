@@ -1,52 +1,15 @@
 [{
-	"_id": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-	"notation": "Model.Notation.FPMN",
-	"version": 1.0,
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2018-01-01T12:00:00.000Z"
-	},
-	"language": "italian",
-	"name": "Ammissione al servizio di nido d’infanzia",
-	"documentation": "Procedura per l'ammissione al servizio di nido d’infanzia.",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"25204"
-		],
-		"observer": [
-			"citizen 1",
-			"citizen 2"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
-},
-{
-	"_id": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-	"designId": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-	"language": "italian",
-	"category": "Model.FPMN.Procedure.Category.Childhood",
-	"name": "Ammissione al servizio di nido d’infanzia",
-	"documentation": "Il servizio di asilo nido si propone di offrire il servizio di asilo nido per bambini da 0 a tre anni di età. Il servizio giornaliero viene erogato presso un centro dove verranno creati programmi di istruzione e di assistenza attorno alle esigenze di sviluppo, gli interessi e l'esperienza di ogni bambino. Questa procedura gestisce il processo di richiesta di ammissione.\nPossono presentare domanda di ammissione ai nidi d’infanzia comunali i genitori, tutori o affidatari di bambini e bambine residenti nel Comune di Trento. Il bambino deve risultare residente con almeno un genitore.\nLa domanda di ammissione può essere presentata dal momento in cui il bambino/la bambina risulta iscritto/a all’anagrafe del Comune o qualora sia già stata presentata dichiarazione di cambio residenza. Solo per i bambini nati nel mese di aprile la domanda può essere presentata dalla data di nascita, purché la madre risulti residente nel Comune di Trento.\nLa domanda di ammissione di un bambino o una bambina in affidamento familiare, anche non residente nel Comune di Trento, può essere accolta solo qualora risulti residente la famiglia affidataria.",
-	"mission": "Rispondere alla richiesta di nido da parte delle famiglie attraverso la gestione della domanda, l’assegnazione dei posti e la gestione della frequenza sulla base dei criteri individuati.",
-	"＄domain": "Model.FPMN.Procedure"
-},
-{
-	"_id": "a46c29cc-5814-47d0-86a9-22f6d678335a",
-	"designId": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-	"parentId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
-	"nextPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
-	"language": "italian",
-	"name": "Richiesta di ammissione",
-	"documentation": "Il cittadino (di solito un genitore) compila il modulo di iscrizione al servizio di richiesta di asilo nido prima di una scadenza specifica. I termini di presentazione delle domande di ammissione ai nidi d’infanzia comunali sono fissati dal 1 settembre al 30 aprile precedenti il periodo di erogazione del servizio (indicativamente da inizio settembre a fine luglio). Il termine finale che cada in giorno festivo o comunque di chiusura degli uffici, è prorogato al primo giorno lavorativo successivo.",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "02735cb1-68db-448f-ac4c-d48895dd21ca",
+	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
+	"parentId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.EForm",
+	"eServiceId": "BS607A",
+	"language": "spanish",
+	"name": "Lorem ipsum dolor sit amet",
+	"documentation": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "05c18b01-cd5e-4b0a-b003-242f968f68df",
@@ -60,6 +23,105 @@
 	"＄domain": "Model.FPMN.Phase"
 },
 {
+	"_id": "0d3e56f4-c530-4c39-afc6-2107bfe8736d",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
+	"sourceNodeId": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec",
+	"targetNodeId": "47b75014-f3d5-4df3-b8b3-ec9757ff7d26",
+	"documentation": "Resolucións ....."
+},
+{
+	"_id": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"notation": "Model.Notation.FPMN",
+	"version": 1.0,
+	"created": {
+		"$date": "2016-01-01T00:00:00.000Z"
+	},
+	"lastModified": {
+		"$date": "2018-01-01T12:00:00.000Z"
+	},
+	"language": "spanish",
+	"name": "Ayudas individuales para personas con discapacidad",
+	"documentation": "Procedimiento de ayudas individuales para personas con discapacidad.",
+	"team": {
+		"owner": [
+			"civil servant 1"
+		],
+		"reviewer": [
+			"civil servant 1"
+		],
+		"editor": [
+			"25111",
+			"civil servant 1"
+		],
+		"observers": [
+			"citizen 1",
+			"citizen 2"
+		],
+		"observer": [
+			"25204"
+		]
+	},
+	"＄domain": "Model.FPMN.Diagram"
+},
+{
+	"_id": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
+	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
+	"parentId": "32585f79-cce0-4aca-86bf-f8df7a641091",
+	"nextPhaseId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
+	"language": "italian",
+	"name": "Richiesta del permesso",
+	"documentation": "Il richiedente compila la richiesta permesso di deroga acustica per attività temporanee.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "23e8a285-9702-4df7-b841-4a9ce94f5b91",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Reclamación",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"37468185-2858-4351-9dfb-860b33b788fc"
+	],
+	"outgoingIds": [],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.EMail",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
+	"documentation": "1. Contra a resolución do recoñecemento do grao de discapacidade a persoa interesada poderá interpoñer, dentro dos trinta días seguintes ao da súa notificación, reclamación previa á vía xurisdicional social, de conformidade co establecido no artigo 71 da Lei 36/2011, do 10 de outubro, de xurisdición social, ante a mesma xefatura territorial provincial que ditou o acto, a cal deberá resolver no prazo de 45 días.\n2. Presentada a reclamación previa contra a resolución ditada, cando nela se discrepe da resolución en aspectos que afecten o ditame técnico facultativo do órgano de valoración e asesoramento da discapacidade, e con independencia das actuacións procedentes para comprobar as alegacións da persoa reclamante, o escrito de reclamación pasarase a coñecemento e informe do dito órgano."
+},
+{
+	"_id": "24745f3a-3c78-4f5e-afab-07d1577c6bec",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"638afbe7-b066-44a5-b182-fdfb96eea99e"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
+},
+{
+	"_id": "2db10e64-d935-4c93-80e9-b5df43956d8a",
+	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
+	"parentId": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.EForm",
+	"eServiceId": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5",
+	"language": "english",
+	"name": "Compile Request Form",
+	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
 	"designId": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
 	"parentId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
@@ -68,6 +130,288 @@
 	"name": "Accettazione",
 	"documentation": "Il cittadino (di solito un genitore) entro 10 giorni dalla pubblicazione delle graduatorie deve compilare il modulo di accettazione. La mancata accettazione del posto o il mancato perfezionamento dell’accettazione, sarà considerata tacita rinuncia con la conseguente cancellazione del bambino o della bambina dalla graduatoria per quel nido, salvo per le assegnazioni effettuate a partire dal mese di aprile, e fino all’approvazione della graduatoria annuale successiva.",
 	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
+	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
+	"language": "italian",
+	"category": "Model.FPMN.Procedure.Category.Construction",
+	"name": "Rilascio autorizzazione per attività temporanea (rumore)",
+	"documentation": "Il servizio gestisce la deroga acustica per attività temporanee. Il servizio ha diverse specializzazioni, tra cui:\n* Deroga temporanea acustica per l'edilizia;\n* Deroga acustica temporanea per intrattenimento musicale presso locali pubblici o eventi quali concerti o spettacoli.",
+	"mission": "Regolamentare l’attività rumorosa di un evento affinché sia tutelata la\nquiete pubblica.",
+	"＄domain": "Model.FPMN.Procedure"
+},
+{
+	"_id": "339fbda5-f019-423e-b412-40c9ae0b0d60",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Ditame",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"9b0b57d8-d869-40ee-aae6-a66b237916bf"
+	],
+	"outgoingIds": [
+		"b0df7c8b-6d12-4147-9055-0565a812be5e"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"channel": "Model.FPMN.Interaction.Channel.EMail",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"documentation": "Contido do ditame:\nO ditame técnico facultativo será formulado polo órgano de valoración e asesoramento de acordo cos criterios e baremos previstos na normativa de aplicación e conforme os modelos normalizados, e deberá conter a seguinte información:\n\n1. Datos identificativos da persoa interesada.\n\n2. Deficiencias, diagnósticos e etioloxías.\n\n3. Porcentaxe parcial correspondente a cada tipo de discapacidade. Cando coexistan dúas ou máis deficiencias nunha mesma persoa, aplicarase a táboa de valores combinados prevista ao final do anexo 1A do Real decreto 1971/1999.\n\n4. Resultado da combinación das porcentaxes obtidas por deficiencias de distintos aparellos ou sistemas.\n\n5. Porcentaxe dos factores sociais complementarios.\n\n6. Porcentaxe total de discapacidade.\n\n7. Resultado dos baremos de dificultades de mobilidade para utilizar transportes públicos colectivos, cumprimento dos requisitos para o acceso á tarxeta de accesibilidade e de necesidade de axuda de terceira persoa.\n\n8. Recomendacións do órgano de valoración e asesoramento da discapacidade sobre utilización de apoios e orientación.\n\n9. Prazo de validez do ditame."
+},
+{
+	"_id": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
+	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
+	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+	"prevPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+	"nextPhaseId": "af138569-36ba-4fd5-8558-c4649bd8cee1",
+	"language": "spanish",
+	"name": "Resolución e notificación",
+	"documentation": "1. A resolución correspóndelle á persoa titular da Dirección Xeral de Maiores e Persoas con Discapacidade, por delegación da persoa titular da Consellería de Política Social.\n\n2. O prazo máximo para resolver e notificar as resolucións é de tres meses, contado desde o día seguinte ao da publicación desta orde no Diario Oficial de Galicia. Transcorrido o dito prazo sen que desde a Dirección Xeral de Maiores e Persoas con Discapacidade se notificase resolución expresa, as persoas solicitantes poderán entender desestimadas as súas peticións por silencio administrativo, de conformidade co establecido no artigo 25.1 da Lei 39/2015, do 1 de outubro, do procedemento administrativo común das administracións públicas.\n\n3. As notificacións de resolucións e actos administrativos practicaranse preferentemente por medios electrónicos e, en todo caso, cando as persoas interesadas resulten obrigadas a recibilas por esta vía. As persoas interesadas que non estean obrigadas a recibir notificacións electrónicas poderán decidir e comunicar en calquera momento que as  notificacións sucesivas se practiquen ou deixen de practicar por medios  electrónicos.\n\n4. As notificacións electrónicas realizaranse mediante o Sistema de notificación electrónica de Galicia Notifica.gal dispoñible a través da sede electrónica da Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá ás persoas interesadas avisos da posta á disposición das notificacións ao dispositivo electrónico e/ou ao enderezo de correo  electrónico que consten na solicitude. Estes avisos non terán, en ningún  caso, efectos de notificación practicada e a súa falta non impedirá que a notificación sexa considerada plenamente válida.\n\n5. A persoa interesada deberá manifestar expresamente a modalidade escollida para a notificación (electrónica ou en papel). No caso de persoas interesadas obrigadas a recibir notificacións só por medios electrónicos deberán optar en todo caso pola notificación por medios electrónicos, sen que sexa válida, nin produza efectos no procedemento, unha opción diferente.\n\n6. As notificacións por medios electrónicos entenderanse practicadas no momento en que se produza o acceso ao seu contido. Cando a notificación por medios electrónicos sexa de carácter obrigatorio, ou fose expresamente elixida pola persoa interesada, entenderase rexeitada cando transcorresen dez días naturais desde a posta á disposición da notificación sen que se acceda ao seu contido.\n\n7. Se o envío da notificación electrónica non for posible por problemas técnicos, a Administración xeral e as entidades do sector público autonómico practicarán a notificación polos medios previstos na normativa reguladora do procedemento administrativo común.\n\n8. Nas resolucións de concesión indicarase o balneario e a quenda en que se lle outorga a praza, o custo e o importe que debe pagar en concepto de reserva de praza, os trámites necesarios para formalizar a adxudicación definitiva, así como a documentación e o material ou accesorios que precisa levar para incorporarse ao programa.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
+	"language": "english",
+	"name": "Parenting Skills Workshop",
+	"category": "Model.FPMN.Procedure.Category.SocialService",
+	"documentation": "In Sheffield, parents and carers can access a range of groups that offer practical advice and support with parenting. We deliver programmes that are evidence based, and tried and tested. This means that the content is written by professional psychologists who have years of research into what works to manage behaviours and difficulties that we can all face as parents.  These programmes are delivered across the world and have over 30 years of research behind them.  \n\nWe can work with your family when there are difficulties in managing your child's behaviour and to help build closer relationships. You can learn new skills to help you:\n\n• build parenting confidence\n• find ways to encourage better behaviour in children\n• deal with anger management or family conflict\n• cope with stress",
+	"mission": "Managing child's behaviour.\nHelp in build closer relationships.",
+	"＄domain": "Model.FPMN.Procedure"
+},
+{
+	"_id": "34d1d74d-8408-4907-89ce-4b195ae2a8aa",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"b0df7c8b-6d12-4147-9055-0565a812be5e"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
+},
+{
+	"_id": "37468185-2858-4351-9dfb-860b33b788fc",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
+	"sourceNodeId": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec",
+	"targetNodeId": "23e8a285-9702-4df7-b841-4a9ce94f5b91",
+	"documentation": "Resolución denegatoria"
+},
+{
+	"_id": "37f147df-4661-4a0e-b050-5765991ca03f",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"sourceNodeId": "5a1d40a7-bfa5-47c4-a207-2fd252d304b1",
+	"targetNodeId": "cfbe378f-9855-47b6-8254-8caa4b116565"
+},
+{
+	"_id": "3835aaa4-ec4e-4774-9e6f-76fabed8ce0e",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"da6a8b5e-bf77-4788-9f04-8567fa7f179f"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f"
+},
+{
+	"_id": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
+	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+	"nextPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+	"language": "spanish",
+	"name": "Presentación de solicitudes",
+	"documentation": "As solicitudes formularanse no modelo oficial que se indica no anexo I desta orde.\n\nAs persoas solicitantes deberán achegar xunto co anexo I os anexos II e III e a seguinte documentación:\n\na) Copia compulsada do pasaporte, se procede, relativa á persoa solicitante e, se fose o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Copia do libro de familia da persoa solicitante no caso de que queira acudir ao programa acompañada dun fillo ou filla con discapacidade.\n\nc) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado non fose expedido pola Xunta de Galicia ou non estivese no poder desta.\n\nd) Certificado das pensións non outorgadas polo INSS nin pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nEn cada solicitude só se poderá relacionar un máximo de tres destinos por orde de prioridade.\n\nNon será necesario achegar os documentos que xa fosen presentados anteriormente. Para estes efectos, a persoa interesada deberá indicar en que momento e ante que órgano administrativo presentou os citados documentos. Presumirase que esta consulta é autorizada polas persoas interesadas, salvo que conste no procedemento a súa oposición expresa.\n\nNos supostos de imposibilidade material de obter o documento, o órgano competente poderá requirirlle á persoa interesada a súa presentación, con anterioridade á formulación da proposta de resolución.\n\nA documentación complementaria presentarase preferiblemente por vía electrónica. As persoas interesadas responsabilizaranse da veracidade dos documentos que presenten. Excepcionalmente, cando a relevancia do documento no procedemento o exixa ou existan dúbidas derivadas da calidade da copia, a Administración poderá requirir de maneira motivada a exhibición do documento orixinal para o cotexo da copia electrónica presentada.\n\nOpcionalmente, as persoas interesadas poderán presentar a documentación complementaria presencialmente en calquera dos lugares e rexistros establecidos na normativa reguladora do procedemento administrativo común.\n\nSempre que se realice a presentación de documentos separadamente da solicitude deberase indicar o código e o órgano responsable do procedemento, o número de rexistro de entrada da solicitude e o número de expediente se se dispón del.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "40aa36fd-dba9-432d-856c-92a38244ef2f",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"parentId": "852edac5-e0a7-46ad-b326-330904c18567",
+	"language": "spanish",
+	"name": "Presentación de solicitudes",
+	"＄domain": "Model.FPMN.Phase",
+	"documentation": "Á solicitude (Anexo I) deberá xuntar a seguinte documentación:\n\na) Copia cotexada do DNI ou NIE da persoa solicitante\n\nb) Certificado de empadroamento emitido polo concello correspondente que acredite a residencia do/a interesado/a nun municipio da Comunidade Autónoma no momento de presentar a solicitude\n\nc) No caso de persoas interesadas estranxeiras deberase achegar copia compulsada do permiso legal de residencia\n\nd) Acreditación da representación que se ten da persoa solicitante, se e o caso, segundo o modelo do anexo II, e copia compulsada do DNI/NIE da persoa representante\n\ne) Informes médicos ou psicolóxicos, emitidos por un profesional do Servizo Galego de Saúde, doutras administracións públicas que traten habitualmente a persoa solicitante ou de entidades concertadas ou conveniadas coa Seguridade Social ou réximes especiais, conforme o modelo do anexo IV, que avalen as deficiencias alegadas.\n\nf) No caso de solicitar valoración dos factores sociais complementarios, informe social emitido polo/pola traballador/a social dos servizos sociais comunitarios do domicilio da persoa solicitante e, se e o caso, do/da traballador/a social do sistema de saúde ou do/da traballador/a social dos servizos sociais especializados\n\ng) Solicita valoración dos factores sociais complementarios: Si Non. En caso afirmativo, deberán presentar: - Certificado de convivencia da unidade familiar.\n- No caso de solicitantes desempregados, tarxeta de demandante de emprego, no caso de que non se autorice o acceso aos datos sobre demanda de emprego que figuran en poder da Administración autonómica.\n- Xustificante de ingresos da persoa interesada e convivinte. A solicitude considerará a autorización da persoa solicitante e, de ser o caso, a das persoas que convivan con ela, para que a xefatura territorial da consellería competente en materia de servizos sociais realice as consultas aos arquivos públicos que consten en poder das distintas administracións públicas para os efectos de verificar os datos declarados sobre a situación económica, caso en que non deberán presentar documentación xustificativa neste sentido.\n- Xustificantes de gastos de vivenda (alugueiro, amortización primeira vivenda, desafiuzamento, eliminación de barreiras arquitectónicas), e de gastos extraordinarios de carácter prolongado (educativos, sanitarios e outros).",
+	"nextPhaseId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
+},
+{
+	"_id": "446ab019-5828-4e50-a37c-f4fde686f69c",
+	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"parentId": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.EForm",
+	"eServiceId": "BS613B",
+	"language": "spanish",
+	"name": "Egestas diam in arcu cursus euismod quis viverra nibh cras",
+	"documentation": "Auctor urna nunc id cursus metus aliquam eleifend mi in. Arcu bibendum at varius vel. Nulla facilisi nullam vehicula ipsum a arcu. Nisl suscipit adipiscing bibendum est ultricies integer quis. Tristique senectus et netus et malesuada fames ac turpis. Est ultricies integer quis auctor elit. Nibh tellus molestie nunc non blandit massa enim. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Arcu non odio euismod lacinia at quis. In iaculis nunc sed augue lacus viverra vitae congue eu. Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Adipiscing bibendum est ultricies integer quis auctor elit sed. Sed arcu non odio euismod lacinia at quis risus sed. Et netus et malesuada fames ac turpis. Laoreet suspendisse interdum consectetur libero id.",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "47b75014-f3d5-4df3-b8b3-ec9757ff7d26",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"0d3e56f4-c530-4c39-afc6-2107bfe8736d"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0"
+},
+{
+	"_id": "53aac759-ff7b-467b-b4bc-516e351dd61c",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Formulario electrónico",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"da6a8b5e-bf77-4788-9f04-8567fa7f179f"
+	],
+	"outgoingIds": [
+		"b004e46d-25ac-4ebc-a2a7-a109421b3e35"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.EForm",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
+	"eServiceId": "BS611A",
+	"documentation": "As solicitudes deberán presentarse preferiblemente por vía electrónica a través do formulario electrónico normalizado dispoñible na sede electrónica da Xunta de Galicia, https://sede.xunta.es , de acordo co establecido nos artigos 27 da Lei 11/2007, do 22 de xuño, de acceso electrónico dos cidadáns aos servizos públicos, e 24 do Decreto 198/2010, do 2 de decembro, polo que se regula o desenvolvemento da Administración electrónica na Xunta de Galicia e nas entidades dela dependentes. Para a presentación das solicitudes será necesario o documento nacional de identidade electrónico ou calquera dos certificados electrónicos recoñecidos pola sede electrónica da Xunta de Galicia"
+},
+{
+	"_id": "5a1d40a7-bfa5-47c4-a207-2fd252d304b1",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Citación",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"638afbe7-b066-44a5-b182-fdfb96eea99e"
+	],
+	"outgoingIds": [
+		"37f147df-4661-4a0e-b050-5765991ca03f"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"channel": "Model.FPMN.Interaction.Channel.EMail",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"documentation": "1. O órgano de valoración e asesoramento da discapacidade da xefatura territorial da consellería con competencias en materia de servizos sociais, unha vez completada a documentación, comunicará á persoa interesada o día, a franxa horaria e o lugar en que se realizará o recoñecemento.\n\n2. Cando a persoa interesada amose a súa conformidade na solicitude e as circunstancias técnicas o fagan posible, poderá ser citado por medios telemáticos ou electrónicos.\n\n3. Cando se produza a paralización do procedemento, por causa imputable á persoa interesada que impida realizar o recoñecemento a que se refire o punto primeiro, advertiráselle que transcorridos tres meses se producirá a caducidade deste e o arquivamento das actuacións practicadas, de acordo co establecido no artigo 92 da Lei 30/1992, do 26 de novembro, salvo causa de forza maior debidamente acreditada."
+},
+{
+	"_id": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
+	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
+	"parentId": "32585f79-cce0-4aca-86bf-f8df7a641091",
+	"prevPhaseId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
+	"language": "italian",
+	"name": "Rilascio del permesso",
+	"documentation": "Il Consiglio valuta la richiesta e sulla base delle regole interne rilascia il permesso di deroga acustica.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "638afbe7-b066-44a5-b182-fdfb96eea99e",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"sourceNodeId": "24745f3a-3c78-4f5e-afab-07d1577c6bec",
+	"targetNodeId": "5a1d40a7-bfa5-47c4-a207-2fd252d304b1"
+},
+{
+	"_id": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Citación, recoñecemento e ditame",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "852edac5-e0a7-46ad-b326-330904c18567",
+	"prevPhaseId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
+	"nextPhaseId": "aea504bc-1016-4abe-bb7f-138f9e2542d0"
+},
+{
+	"_id": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
+	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
+	"nextPhaseId": "a63a968b-71b8-4137-aa7e-69a855e29868",
+	"language": "spanish",
+	"name": "Presentación de solicitudes",
+	"documentation": "As solicitudes deberán presentarse preferiblemente por vía electrónica a través do formulario normalizado dispoñible na sede electrónica da Xunta de Galicia, https://sede.xunta.gal. Para a presentación das solicitudes poderá empregarse calquera dos mecanismos de identificación e sinatura admitidos pola sede electrónica da Xunta de Galicia, incluído o sistema de usuario/a e clave Chave365, que pode solicitar accedendo á web https://sede.xunta.gal/chave365",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "6d578903-2dad-4f44-8c08-dcf163dab7fb",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
+	"sourceNodeId": "789be839-284e-4018-8136-75bfb5699790",
+	"targetNodeId": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec"
+},
+{
+	"_id": "789be839-284e-4018-8136-75bfb5699790",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"6d578903-2dad-4f44-8c08-dcf163dab7fb"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0"
+},
+{
+	"_id": "852edac5-e0a7-46ad-b326-330904c18567",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Recoñecemento do grao de discapacidade",
+	"＄domain": "Model.FPMN.Procedure",
+	"category": "Model.FPMN.Procedure.Category.SocialService",
+	"documentation": "Serán funcións do persoal técnico de valoración da discapacidade:\na) Realizar o recoñecemento das persoas solicitantes da valoración da discapacidade.\nb) Examinar os factores sociais complementarios relativos, entre outros, ao contorno familiar e situación laboral, educativa, cultural e de accesibilidade á comunicación e á información, que dificulten a súa integración social, de acordo co informe social unificado e o resto de documentación que se acompañe no expediente, e, se for o caso, a súa elaboración.\nc) Solicitar informes e/ou probas complementarias necesarias para cubrir a súa valoración.\nd) Informar, orientar e asesorar as persoas con discapacidade e familiares que o soliciten.\ne) Elaborar os informes técnicos, referentes ao diagnóstico, valoración e orientación de situacións de discapacidade, que lles sexan requiridos pola xefatura territorial correspondente.\nf) Aquelas funcións referentes ao diagnóstico, valoración e orientación, de situacións de discapacidade atribuídas ou que poidan atribuírse, pola lexislación, tanto estatal como autonómica, así como a través das oportunas instrucións do órgano superior con competencia en materia de valoración da discapacidade",
+	"mission": "Esta orde ten como obxecto regular o procedemento para o recoñecemento, declaración e cualificación do grao de discapacidade e a organización e funcionamento dos órganos técnicos competentes na Comunidade Autónoma de Galicia.\nOrde de prelación na tramitación dos procedementos.\n1. Os procedementos iniciaranse por orde de entrada. Cando o órgano da xefatura territorial da consellería con competencias en materia de servizos sociais entenda que existen razóns de interese público, obxectivamente motivadas, poderá alterar esta orde.\n2. Non obstante o disposto no punto anterior daráselles prioridade ás solicitudes urxentes polos seguintes motivos debidamente xustificados:\n- Acceso ao emprego e a ensinanzas regradas onde exista reserva de prazas para persoas con discapacidade.\n- Solicitudes de axudas/subvencións sometidas a prazos.\n- Menores de 18 anos.\n- Maiores de 90 anos.\n- Pensión non contributiva ou prestación por fillo a cargo.\n- Caducidade da valoración do grao de discapacidade.\n- Existencia dun procedemento aberto, xudicial ou administrativo, relativo a violencia de xénero, que se poida ver afectado polo recoñecemento e cualificación do grao de discapacidade.",
+	"regulatoryRefs": "Orde do 25 de novembro de 2015 pola que se regula o procedemento para o recoñecemento, declaración e cualificación do grao de discapacidade, e a organización e funcionamento dos órganos técnicos competentes (DOG nº 236 do 11 de decembro de 2015)."
+},
+{
+	"_id": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7",
+	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
+	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"prevPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
+	"language": "english",
+	"name": "Booked workshop notification",
+	"documentation": "• The administrator will add the booking information to an email – The email includes the workshop information day/time, workshop location.\n• The administrator sends the email to the user’s email address which was entered onto the form.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
+	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"language": "spanish",
+	"category": "Model.FPMN.Procedure.Category.SocialService",
+	"name": "Ayudas individuales para personas con discapacidad",
+	"documentation": "As solicitudes virán acompañadas da seguinte documentación:\n        a) Anexo IV debidamente cuberto, no caso de que a persoa solicitante desexe actuar por medio de representante.\n        b) Proxecto de intervención detallado segundo o modelo do anexo VIII, que conteña os seguintes datos mínimos:\n            1º. Entidade prestadora do servizo. Para poder optar á subvención ao abeiro desta orde, a entidade/profesional autónomo prestador do servizo de promoción da autonomía persoal deberá de figurar no Rexistro de Entidades Prestadoras de Servizos Sociais (RUEPSS), segundo se dispoña na normativa reguladora da autorización e acreditación destes servizos, cuxo responsable é a Consellería de Política Social. Para estes efectos será suficiente con que a inscrición no RUEPSS se leve a cabo con anterioridade ao prazo sinalado no artigo 17.2 desta orde.\n            2º. Orzamento detallado do gasto que se vai realizar, segundo o custo unitario establecido no artigo 5 desta orde.\n            3º. Período de duración das intervencións e calendario programado.\n            4º. Servizos e prestacións que se axustarán ás necesidades de atención da persoa solicitante.\n            5º. Entidade/profesional prestador do servizo.\n        c) Declaración do conxunto de todas as axudas solicitadas ou concedidas para a mesma actuación ou gasto procedentes de calquera Administración pública ou ente público ou privado, no espazo destinado a esta finalidade que figura no propio modelo de solicitude (anexo III).\n        d) Autorización, segundo o anexo IX, do cónxuxe da persoa solicitante ou parella de feito, no caso de réxime matrimonial de gananciais, así como das persoas a cargo da persoa solicitante, para a consulta pola Dirección Xeral de Maiores e Persoas con Discapacidade dos seus datos sobre identidade, residencia, renda (IRPF) e de toda clase de pensións e prestacións sociais percibidas. Caso contrario, deberán presentar a documentación relacionada con esta información, que, neste caso, será copia do DNI, certificado de residencia, copia da declaración do IRPF, certificado de pensións emitido polo Instituto Nacional da Seguridade Social, declaración de toda clase de pensións e prestacións sociais percibidas.\n        e) Se é o caso, a xustificación da necesidade do transporte adaptado ou asistido para o goce doutro servizo/prestación social, ou como medio de asistencia ao traballo ou a unha actividade formativa non obrigatoria do Sistema público educativo cando non se enmarque dentro do ámbito das competencias propias do Sistema educativo, de conformidade co previsto no artigo 4.1, segundo o tipo de actuación para a cal se solicita a axuda.\n        f) A información relativa aos indicadores comúns de execución sobre participantes aos cales se refire o anexo I do Regulamento (UE) nº 1304/2013, do Parlamento Europeo e do Consello, do 17 de setembro de 2013, relativo ao Fondo Social Europeo, segundo o modelo do anexo VI.",
+	"mission": "Esta orden tiene por objeto establecer las bases reguladoras de la convocatoria pública para la concesión de ayudas individuales destinadas a la adquisición de servicios de promoción de la autonomía personal, así como la adquisición de servicios complementarios de asistencia personal, para personas con discapacidad empadronadas en un municipio de la Comunidad Autónoma de Galicia, en régimen de concurrencia competitiva y de carácter no periódico. The purpose of this aid is to cooperate in certain expenditure, with effect from 1 January 2017, intended to:\n\nA) To facilitate the acquisition of services to promote personal autonomy.\n\nB) Facilitate the acquisition of complementary services of personal assistance.\n\nOnly actions carried out between 1 January and 30 November 2017 may be financed for this call. ",
+	"regulatoryRefs": "Orden de 30 de marzo de 2017 por la que se establecen las bases reguladoras que regirán la concesión de ayudas individuales destinadas a la adquisición de servicios de promoción de la autonomía personal, así como a la adquisición de servicios complementarios de asistencia personal, a personas con discapacidad, cofinanciadas por el Fondo Social Europeo en el marco del programa operativo FSE Galicia 2014-2020, y se procede a su convocatoria para el año 2017 (DOG nº 71 del 11 de abril de 2017).",
+	"＄domain": "Model.FPMN.Procedure"
 },
 {
 	"_id": "96951ff6-dbe1-493e-962f-47cfd8f0aab5",
@@ -81,6 +425,62 @@
 	"name": "Compilazione della Richiesta di Ammissione",
 	"documentation": "La domanda di ammissione ai nidi d’infanzia comunali può essere presentata dal 1° settembre al 30 aprile precedenti il periodo di erogazione del servizio (da inizio settembre a fine luglio).\n\nÈ possibile presentare domanda sia per il servizio di nido a tempo pieno sia per il servizio a tempo parziale, indicando in entrambi i casi al massimo due preferenze.\n\nLa prima scelta, nel caso della domanda a tempo pieno, è vincolata alla residenza del bambino ed effettuata fra i nidi collocati nella propria area di utenza (vedi allegato) mentre la scelta dei nidi d'infanzia a tempo parziale è libera rispetto alle strutture disponibili.\n\nNella domanda il richiedente indica:\n• le sue complete generalità;\n• la situazione complessiva del bambino e del nucleo familiare di riferimento;\n• la situazione economica del nucleo familiare attraverso l'attestazione ICEF rilasciata da un CAF abilitato (se si intende avvalere di questo punteggio);\n• il/i nido/i prescelto/i;\n• ogni altro elemento utile ad acquisire d'ufficio le informazioni dichiarate nella domanda",
 	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "9afaceba-3a10-48a3-9a57-f22e7a74ff03",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"b004e46d-25ac-4ebc-a2a7-a109421b3e35"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f"
+},
+{
+	"_id": "9b0b57d8-d869-40ee-aae6-a66b237916bf",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"sourceNodeId": "cfbe378f-9855-47b6-8254-8caa4b116565",
+	"targetNodeId": "339fbda5-f019-423e-b412-40c9ae0b0d60"
+},
+{
+	"_id": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
+	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
+	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+	"prevPhaseId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+	"nextPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
+	"language": "spanish",
+	"name": "Comprobación de datos",
+	"documentation": "Para a tramitación deste procedemento consultaranse automaticamente os datos incluídos nos seguintes documentos elaborados polas administracións públicas:\n\na) Documento nacional de identidade (DNI), ou número de identificación de estranxeiro (NIE), segundo proceda, relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Certificado de empadroamento relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nc) Declaración do imposto da renda das persoas físicas correspondente ao último período en que se presente a solicitude ou certificado das pensións outorgadas polo INSS ou pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nd) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado foi expedido pola Xunta de Galicia.\n\nNo caso de que as persoas interesadas ou acompañantes se opoñan a esta consulta deberán indicalo no cadro habilitado no modelo de solicitude ou nos anexos II ou III, segundo de que se trate, e achegar os documentos correspondentes.\n\nExcepcionalmente, no caso de que algunha circunstancia imposibilitase a obtención dos citados datos poderase solicitar ás persoas interesadas a presentación dos documentos correspondentes.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "a46c29cc-5814-47d0-86a9-22f6d678335a",
+	"designId": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
+	"parentId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
+	"nextPhaseId": "05c18b01-cd5e-4b0a-b003-242f968f68df",
+	"language": "italian",
+	"name": "Richiesta di ammissione",
+	"documentation": "Il cittadino (di solito un genitore) compila il modulo di iscrizione al servizio di richiesta di asilo nido prima di una scadenza specifica. I termini di presentazione delle domande di ammissione ai nidi d’infanzia comunali sono fissati dal 1 settembre al 30 aprile precedenti il periodo di erogazione del servizio (indicativamente da inizio settembre a fine luglio). Il termine finale che cada in giorno festivo o comunque di chiusura degli uffici, è prorogato al primo giorno lavorativo successivo.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "a63a968b-71b8-4137-aa7e-69a855e29868",
+	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
+	"prevPhaseId": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
+	"nextPhaseId": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
+	"language": "spanish",
+	"name": "Resolución",
+	"documentation": "El órgano instructor de los expedientes será la Subdirección General de Dependencia y Valoración de la Discapacidad de la Dirección General de Mayores y Personas con Discapacidad.\n\nLas unidades administrativas receptoras remitirán las solicitudes recibidas a la unidad administrativa encargada de la instrucción del expediente para que compruebe si la solicitud o documentación presentada reúne los requisitos exigidos en esta orden y, en el supuesto de que se observe algún defecto o sea incompleta la documentación, de conformidad con lo dispuesto en el artículo 68 de la Ley 39/2015, de 1 de octubre, requerirán a la persona interesada la para que en un plazo de 10 días hábiles subsane la falta o presente los documentos preceptivos, con la advertencia de que, si así no lo hiciese, se considerará desistido de su petición, después de la resolución, que deberá ser dictada en los términos previstos en el artículo 21 de dicha ley.\n\nEl órgano instructor formulará propuesta de resolución, previo informe de la Comisión de Valoración según lo dispuesto en los artículos siguientes, y la elevará al órgano competente para resolver.\n\nUna vez emitido el informe de la comisión, la Subdirección General de la Dependencia y Valoración de la Discapacidad elevará la propuesta de resolución a la persona titular del órgano de dirección con competencias en materia de dependencia de la Consellería de Política Social, en quien se delega la competencia para resolver la concesión o denegación de la ayuda solicitada al amparo de esta orden.",
+	"＄domain": "Model.FPMN.Phase"
 },
 {
 	"_id": "a66534ca-8713-4081-986b-14a1b48c9414",
@@ -113,47 +513,181 @@
 	"＄domain": "Model.FPMN.Diagram"
 },
 {
-	"_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
-	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
+	"_id": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Resolución, notificación e terminación",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "852edac5-e0a7-46ad-b326-330904c18567",
+	"prevPhaseId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
+},
+{
+	"_id": "af138569-36ba-4fd5-8558-c4649bd8cee1",
+	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
+	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
+	"prevPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
+	"language": "spanish",
+	"name": "Confirmación das prazas e adxudicación definitiva",
+	"documentation": "Unha vez notificada a concesión da praza, para poder facer uso dela, as persoas beneficiarias teñen a obriga de confirmar por escrito, e no prazo que se lles indique na resolución de concesión, a súa aceptación xunto co xustificante de ter remitido á dirección do balneario, por xiro postal ou outros medios, a cantidade de 30 euros en concepto de reserva de praza.\n\nNo suposto de que non se cumpran as condicións establecidas no parágrafo anterior, non se formalizará a adxudicación definitiva da praza e entenderase que se renuncia a ela, e poderase outorgar esa praza vacante a outra persoa da lista de espera.\n\nNingunha persoa solicitante que se beneficiase dalgunha quenda deste programa poderá participar en ningunha outra, nin en calidade de acompañante, agás que se trate dunha praza para a que non haxa ningunha outra persoa adxudicataria.",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "b004e46d-25ac-4ebc-a2a7-a109421b3e35",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
+	"sourceNodeId": "53aac759-ff7b-467b-b4bc-516e351dd61c",
+	"targetNodeId": "9afaceba-3a10-48a3-9a57-f22e7a74ff03"
+},
+{
+	"_id": "b0df7c8b-6d12-4147-9055-0565a812be5e",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
+	"sourceNodeId": "339fbda5-f019-423e-b412-40c9ae0b0d60",
+	"targetNodeId": "34d1d74d-8408-4907-89ce-4b195ae2a8aa"
+},
+{
+	"_id": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
+	"notation": "Model.Notation.FPMN",
+	"version": 1.0,
+	"created": {
+		"$date": "2016-01-01T00:00:00.000Z"
+	},
+	"lastModified": {
+		"$date": "2018-01-01T12:00:00.000Z"
+	},
 	"language": "italian",
-	"category": "Model.FPMN.Procedure.Category.Construction",
-	"name": "Rilascio autorizzazione per attività temporanea (rumore)",
-	"documentation": "Il servizio gestisce la deroga acustica per attività temporanee. Il servizio ha diverse specializzazioni, tra cui:\n* Deroga temporanea acustica per l'edilizia;\n* Deroga acustica temporanea per intrattenimento musicale presso locali pubblici o eventi quali concerti o spettacoli.",
-	"mission": "Regolamentare l’attività rumorosa di un evento affinché sia tutelata la\nquiete pubblica.",
+	"name": "Ammissione al servizio di nido d’infanzia",
+	"documentation": "Procedura per l'ammissione al servizio di nido d’infanzia.",
+	"team": {
+		"owner": [
+			"civil servant 1"
+		],
+		"reviewer": [
+			"civil servant 1"
+		],
+		"editor": [
+			"25204"
+		],
+		"observer": [
+			"citizen 1",
+			"citizen 2"
+		]
+	},
+	"＄domain": "Model.FPMN.Diagram"
+},
+{
+	"_id": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
+	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
+	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
+	"prevPhaseId": "a63a968b-71b8-4137-aa7e-69a855e29868",
+	"language": "spanish",
+	"name": "Notificación de resoluciones",
+	"documentation": "El plazo máximo para dictar y notificar a los interesados la resolución expresa será de tres meses, contados desde el día siguiente a la finalización del plazo de presentación de solicitudes.\n\nLas notificaciones de resoluciones y actos administrativos se practicarán preferentemente por medios electrónicos y, en todo caso, cuando las personas interesadas resulten obligadas a recibirlas por esta vía. Las personas interesadas que no estén obligadas a recibir notificaciónes electrónicas podrán decidir y comunicar en cualquier momento que las notificaciones sucesivas se practiquen o dejen de practicar por medios electrónicos.\n\nLas notificaciones electrónicas se realizarán mediante el Sistema de notificación electrónica de Galicia-Notifica disponible a través de la sede electrónica de la Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá a las personas interesadas avisos de la puesta a disposición de las notificaciones, mediante un correo electrónico dirigido a la cuenta de correo que conste en la solicitud a efectos de notificación. Estos avisos no tendrán, en ningún caso, efectos de notificación practicada y su falta no impedirá que la notificación sea considerada plenamente válida.\n\nLas notificaciones por medios electrónicos se entenderán practicadas en el momento en que se produzca el acceso a su contenido. Cuando la notificación por medios electrónicos sea de carácter obligatorio, o fuese expresamente elegida por el interesado, se entenderá rechazada cuando hayan transcurrido diez días naturales desde la puesta a disposición de la notificación sin que se acceda a su contenido.\n\nSe el envío de la notificación electrónica no es posible por problemas técnicos, la Administración general y del sector público autonómico de Galicia practicará la notificación por los medios previstos en la normativa reguladora del procedimiento administrativo común",
+	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Decision",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"incomingIds": [
+		"6d578903-2dad-4f44-8c08-dcf163dab7fb"
+	],
+	"outgoingIds": [
+		"0d3e56f4-c530-4c39-afc6-2107bfe8736d",
+		"37468185-2858-4351-9dfb-860b33b788fc"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
+	"documentation": "Ditame .... ??????"
+},
+{
+	"_id": "c9561247-d5a7-4578-98b9-58021ee68ae0",
+	"designId": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
+	"language": "italian",
+	"category": "Model.FPMN.Procedure.Category.Childhood",
+	"name": "Ammissione al servizio di nido d’infanzia",
+	"documentation": "Il servizio di asilo nido si propone di offrire il servizio di asilo nido per bambini da 0 a tre anni di età. Il servizio giornaliero viene erogato presso un centro dove verranno creati programmi di istruzione e di assistenza attorno alle esigenze di sviluppo, gli interessi e l'esperienza di ogni bambino. Questa procedura gestisce il processo di richiesta di ammissione.\nPossono presentare domanda di ammissione ai nidi d’infanzia comunali i genitori, tutori o affidatari di bambini e bambine residenti nel Comune di Trento. Il bambino deve risultare residente con almeno un genitore.\nLa domanda di ammissione può essere presentata dal momento in cui il bambino/la bambina risulta iscritto/a all’anagrafe del Comune o qualora sia già stata presentata dichiarazione di cambio residenza. Solo per i bambini nati nel mese di aprile la domanda può essere presentata dalla data di nascita, purché la madre risulti residente nel Comune di Trento.\nLa domanda di ammissione di un bambino o una bambina in affidamento familiare, anche non residente nel Comune di Trento, può essere accolta solo qualora risulti residente la famiglia affidataria.",
+	"mission": "Rispondere alla richiesta di nido da parte delle famiglie attraverso la gestione della domanda, l’assegnazione dei posti e la gestione della frequenza sulla base dei criteri individuati.",
 	"＄domain": "Model.FPMN.Procedure"
 },
 {
-	"_id": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
-	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
-	"parentId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-	"nextPhaseId": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
-	"language": "italian",
-	"name": "Richiesta del permesso",
-	"documentation": "Il richiedente compila la richiesta permesso di deroga acustica per attività temporanee.",
+	"_id": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
+	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
+	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
+	"nextPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
+	"language": "english",
+	"name": "Workshop application",
+	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
 	"＄domain": "Model.FPMN.Phase"
 },
 {
-	"_id": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
-	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
-	"parentId": "32585f79-cce0-4aca-86bf-f8df7a641091",
-	"prevPhaseId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
-	"language": "italian",
-	"name": "Rilascio del permesso",
-	"documentation": "Il Consiglio valuta la richiesta e sulla base delle regole interne rilascia il permesso di deroga acustica.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "ebe8bfa0-1c31-4933-a07f-5349cbae0f27",
-	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
-	"parentId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
+	"_id": "cfbe378f-9855-47b6-8254-8caa4b116565",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Recoñecemento",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"37f147df-4661-4a0e-b050-5765991ca03f"
+	],
+	"outgoingIds": [
+		"9b0b57d8-d869-40ee-aae6-a66b237916bf"
+	],
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"channel": "Model.FPMN.Interaction.Channel.EForm",
-	"eServiceId": "3",
-	"language": "italian",
-	"name": "Compilazione della Richiesta di Permesso",
-	"documentation": "Documentazione necessaria alla presentazione dell'istanza.\nModulo:\n• Deroga acustica per attività edilizia temporanea\nAllegati:\n• Altri allegati all'istanza\n• Copia del documento d'identità\n• Pagamento dell'imposta di bollo\n• Ricevuta dei diritti di segreteria/istruttoria\n• Ulteriori particelle o subalterni oggetto del procedimento\n• Valutazione di impatto acustico per cantieri particolarmente complessi",
-	"＄domain": "Model.FPMN.Interaction.Task"
+	"channel": "Model.FPMN.Interaction.Channel.FaceToFace",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
+},
+{
+	"_id": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
+	"notation": "Model.Notation.FPMN",
+	"version": 1.0,
+	"created": {
+		"$date": "2016-01-01T00:00:00.000Z"
+	},
+	"lastModified": {
+		"$date": "2018-01-01T12:00:00.000Z"
+	},
+	"language": "english",
+	"name": "Parenting Skills Workshop",
+	"documentation": "Parenting skills workshop's procedure.",
+	"team": {
+		"owner": [
+			"civil servant 1"
+		],
+		"reviewer": [
+			"civil servant 1"
+		],
+		"editor": [
+			"civil servant 1"
+		],
+		"observers": [
+			"citizen 1",
+			"citizen 2"
+		]
+	},
+	"＄domain": "Model.FPMN.Diagram"
+},
+{
+	"_id": "da6a8b5e-bf77-4788-9f04-8567fa7f179f",
+	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"language": "spanish",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
+	"sourceNodeId": "3835aaa4-ec4e-4774-9e6f-76fabed8ce0e",
+	"targetNodeId": "53aac759-ff7b-467b-b4bc-516e351dd61c"
 },
 {
 	"_id": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
@@ -190,6 +724,31 @@
 	"＄domain": "Model.FPMN.Diagram"
 },
 {
+	"_id": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
+	"notation": "Model.Notation.FPMN",
+	"version": 1,
+	"created": {
+		"$date": "2018-09-23T22:22:40.220Z"
+	},
+	"lastModified": {
+		"$date": "2018-09-23T22:22:40.220Z"
+	},
+	"language": "spanish",
+	"name": "Recoñecemento do grao de discapacidade",
+	"team": {
+		"owner": [
+			"25111"
+		],
+		"reviewer": [
+			"25111"
+		],
+		"editor": [
+			"25111"
+		]
+	},
+	"＄domain": "Model.FPMN.Diagram"
+},
+{
 	"_id": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
 	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
 	"language": "spanish",
@@ -200,197 +759,17 @@
 	"＄domain": "Model.FPMN.Procedure"
 },
 {
-	"_id": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"nextPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
-	"language": "spanish",
-	"name": "Presentación de solicitudes",
-	"documentation": "As solicitudes formularanse no modelo oficial que se indica no anexo I desta orde.\n\nAs persoas solicitantes deberán achegar xunto co anexo I os anexos II e III e a seguinte documentación:\n\na) Copia compulsada do pasaporte, se procede, relativa á persoa solicitante e, se fose o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Copia do libro de familia da persoa solicitante no caso de que queira acudir ao programa acompañada dun fillo ou filla con discapacidade.\n\nc) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado non fose expedido pola Xunta de Galicia ou non estivese no poder desta.\n\nd) Certificado das pensións non outorgadas polo INSS nin pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nEn cada solicitude só se poderá relacionar un máximo de tres destinos por orde de prioridade.\n\nNon será necesario achegar os documentos que xa fosen presentados anteriormente. Para estes efectos, a persoa interesada deberá indicar en que momento e ante que órgano administrativo presentou os citados documentos. Presumirase que esta consulta é autorizada polas persoas interesadas, salvo que conste no procedemento a súa oposición expresa.\n\nNos supostos de imposibilidade material de obter o documento, o órgano competente poderá requirirlle á persoa interesada a súa presentación, con anterioridade á formulación da proposta de resolución.\n\nA documentación complementaria presentarase preferiblemente por vía electrónica. As persoas interesadas responsabilizaranse da veracidade dos documentos que presenten. Excepcionalmente, cando a relevancia do documento no procedemento o exixa ou existan dúbidas derivadas da calidade da copia, a Administración poderá requirir de maneira motivada a exhibición do documento orixinal para o cotexo da copia electrónica presentada.\n\nOpcionalmente, as persoas interesadas poderán presentar a documentación complementaria presencialmente en calquera dos lugares e rexistros establecidos na normativa reguladora do procedemento administrativo común.\n\nSempre que se realice a presentación de documentos separadamente da solicitude deberase indicar o código e o órgano responsable do procedemento, o número de rexistro de entrada da solicitude e o número de expediente se se dispón del.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"prevPhaseId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
-	"nextPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
-	"language": "spanish",
-	"name": "Comprobación de datos",
-	"documentation": "Para a tramitación deste procedemento consultaranse automaticamente os datos incluídos nos seguintes documentos elaborados polas administracións públicas:\n\na) Documento nacional de identidade (DNI), ou número de identificación de estranxeiro (NIE), segundo proceda, relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Certificado de empadroamento relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nc) Declaración do imposto da renda das persoas físicas correspondente ao último período en que se presente a solicitude ou certificado das pensións outorgadas polo INSS ou pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nd) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado foi expedido pola Xunta de Galicia.\n\nNo caso de que as persoas interesadas ou acompañantes se opoñan a esta consulta deberán indicalo no cadro habilitado no modelo de solicitude ou nos anexos II ou III, segundo de que se trate, e achegar os documentos correspondentes.\n\nExcepcionalmente, no caso de que algunha circunstancia imposibilitase a obtención dos citados datos poderase solicitar ás persoas interesadas a presentación dos documentos correspondentes.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"prevPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
-	"nextPhaseId": "af138569-36ba-4fd5-8558-c4649bd8cee1",
-	"language": "spanish",
-	"name": "Resolución e notificación",
-	"documentation": "1. A resolución correspóndelle á persoa titular da Dirección Xeral de Maiores e Persoas con Discapacidade, por delegación da persoa titular da Consellería de Política Social.\n\n2. O prazo máximo para resolver e notificar as resolucións é de tres meses, contado desde o día seguinte ao da publicación desta orde no Diario Oficial de Galicia. Transcorrido o dito prazo sen que desde a Dirección Xeral de Maiores e Persoas con Discapacidade se notificase resolución expresa, as persoas solicitantes poderán entender desestimadas as súas peticións por silencio administrativo, de conformidade co establecido no artigo 25.1 da Lei 39/2015, do 1 de outubro, do procedemento administrativo común das administracións públicas.\n\n3. As notificacións de resolucións e actos administrativos practicaranse preferentemente por medios electrónicos e, en todo caso, cando as persoas interesadas resulten obrigadas a recibilas por esta vía. As persoas interesadas que non estean obrigadas a recibir notificacións electrónicas poderán decidir e comunicar en calquera momento que as  notificacións sucesivas se practiquen ou deixen de practicar por medios  electrónicos.\n\n4. As notificacións electrónicas realizaranse mediante o Sistema de notificación electrónica de Galicia Notifica.gal dispoñible a través da sede electrónica da Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá ás persoas interesadas avisos da posta á disposición das notificacións ao dispositivo electrónico e/ou ao enderezo de correo  electrónico que consten na solicitude. Estes avisos non terán, en ningún  caso, efectos de notificación practicada e a súa falta non impedirá que a notificación sexa considerada plenamente válida.\n\n5. A persoa interesada deberá manifestar expresamente a modalidade escollida para a notificación (electrónica ou en papel). No caso de persoas interesadas obrigadas a recibir notificacións só por medios electrónicos deberán optar en todo caso pola notificación por medios electrónicos, sen que sexa válida, nin produza efectos no procedemento, unha opción diferente.\n\n6. As notificacións por medios electrónicos entenderanse practicadas no momento en que se produza o acceso ao seu contido. Cando a notificación por medios electrónicos sexa de carácter obrigatorio, ou fose expresamente elixida pola persoa interesada, entenderase rexeitada cando transcorresen dez días naturais desde a posta á disposición da notificación sen que se acceda ao seu contido.\n\n7. Se o envío da notificación electrónica non for posible por problemas técnicos, a Administración xeral e as entidades do sector público autonómico practicarán a notificación polos medios previstos na normativa reguladora do procedemento administrativo común.\n\n8. Nas resolucións de concesión indicarase o balneario e a quenda en que se lle outorga a praza, o custo e o importe que debe pagar en concepto de reserva de praza, os trámites necesarios para formalizar a adxudicación definitiva, así como a documentación e o material ou accesorios que precisa levar para incorporarse ao programa.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "af138569-36ba-4fd5-8558-c4649bd8cee1",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"prevPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
-	"language": "spanish",
-	"name": "Confirmación das prazas e adxudicación definitiva",
-	"documentation": "Unha vez notificada a concesión da praza, para poder facer uso dela, as persoas beneficiarias teñen a obriga de confirmar por escrito, e no prazo que se lles indique na resolución de concesión, a súa aceptación xunto co xustificante de ter remitido á dirección do balneario, por xiro postal ou outros medios, a cantidade de 30 euros en concepto de reserva de praza.\n\nNo suposto de que non se cumpran as condicións establecidas no parágrafo anterior, non se formalizará a adxudicación definitiva da praza e entenderase que se renuncia a ela, e poderase outorgar esa praza vacante a outra persoa da lista de espera.\n\nNingunha persoa solicitante que se beneficiase dalgunha quenda deste programa poderá participar en ningunha outra, nin en calidade de acompañante, agás que se trate dunha praza para a que non haxa ningunha outra persoa adxudicataria.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "02735cb1-68db-448f-ac4c-d48895dd21ca",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
+	"_id": "ebe8bfa0-1c31-4933-a07f-5349cbae0f27",
+	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
+	"parentId": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"channel": "Model.FPMN.Interaction.Channel.EForm",
-	"eServiceId": "BS607A",
-	"language": "spanish",
-	"name": "Lorem ipsum dolor sit amet",
-	"documentation": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	"eServiceId": "3",
+	"language": "italian",
+	"name": "Compilazione della Richiesta di Permesso",
+	"documentation": "Documentazione necessaria alla presentazione dell'istanza.\nModulo:\n• Deroga acustica per attività edilizia temporanea\nAllegati:\n• Altri allegati all'istanza\n• Copia del documento d'identità\n• Pagamento dell'imposta di bollo\n• Ricevuta dei diritti di segreteria/istruttoria\n• Ulteriori particelle o subalterni oggetto del procedimento\n• Valutazione di impatto acustico per cantieri particolarmente complessi",
 	"＄domain": "Model.FPMN.Interaction.Task"
-},
-{
-	"_id": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"notation": "Model.Notation.FPMN",
-	"version": 1.0,
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2018-01-01T12:00:00.000Z"
-	},
-	"language": "spanish",
-	"name": "Ayudas individuales para personas con discapacidad",
-	"documentation": "Procedimiento de ayudas individuales para personas con discapacidad.",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"civil servant 1"
-		],
-		"observers": [
-			"citizen 1",
-			"citizen 2"
-		],
-		"observer": [
-			"25204"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
-},
-{
-	"_id": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"language": "spanish",
-	"category": "Model.FPMN.Procedure.Category.SocialService",
-	"name": "Ayudas individuales para personas con discapacidad",
-	"documentation": "As solicitudes virán acompañadas da seguinte documentación:\n        a) Anexo IV debidamente cuberto, no caso de que a persoa solicitante desexe actuar por medio de representante.\n        b) Proxecto de intervención detallado segundo o modelo do anexo VIII, que conteña os seguintes datos mínimos:\n            1º. Entidade prestadora do servizo. Para poder optar á subvención ao abeiro desta orde, a entidade/profesional autónomo prestador do servizo de promoción da autonomía persoal deberá de figurar no Rexistro de Entidades Prestadoras de Servizos Sociais (RUEPSS), segundo se dispoña na normativa reguladora da autorización e acreditación destes servizos, cuxo responsable é a Consellería de Política Social. Para estes efectos será suficiente con que a inscrición no RUEPSS se leve a cabo con anterioridade ao prazo sinalado no artigo 17.2 desta orde.\n            2º. Orzamento detallado do gasto que se vai realizar, segundo o custo unitario establecido no artigo 5 desta orde.\n            3º. Período de duración das intervencións e calendario programado.\n            4º. Servizos e prestacións que se axustarán ás necesidades de atención da persoa solicitante.\n            5º. Entidade/profesional prestador do servizo.\n        c) Declaración do conxunto de todas as axudas solicitadas ou concedidas para a mesma actuación ou gasto procedentes de calquera Administración pública ou ente público ou privado, no espazo destinado a esta finalidade que figura no propio modelo de solicitude (anexo III).\n        d) Autorización, segundo o anexo IX, do cónxuxe da persoa solicitante ou parella de feito, no caso de réxime matrimonial de gananciais, así como das persoas a cargo da persoa solicitante, para a consulta pola Dirección Xeral de Maiores e Persoas con Discapacidade dos seus datos sobre identidade, residencia, renda (IRPF) e de toda clase de pensións e prestacións sociais percibidas. Caso contrario, deberán presentar a documentación relacionada con esta información, que, neste caso, será copia do DNI, certificado de residencia, copia da declaración do IRPF, certificado de pensións emitido polo Instituto Nacional da Seguridade Social, declaración de toda clase de pensións e prestacións sociais percibidas.\n        e) Se é o caso, a xustificación da necesidade do transporte adaptado ou asistido para o goce doutro servizo/prestación social, ou como medio de asistencia ao traballo ou a unha actividade formativa non obrigatoria do Sistema público educativo cando non se enmarque dentro do ámbito das competencias propias do Sistema educativo, de conformidade co previsto no artigo 4.1, segundo o tipo de actuación para a cal se solicita a axuda.\n        f) A información relativa aos indicadores comúns de execución sobre participantes aos cales se refire o anexo I do Regulamento (UE) nº 1304/2013, do Parlamento Europeo e do Consello, do 17 de setembro de 2013, relativo ao Fondo Social Europeo, segundo o modelo do anexo VI.",
-	"mission": "Esta orden tiene por objeto establecer las bases reguladoras de la convocatoria pública para la concesión de ayudas individuales destinadas a la adquisición de servicios de promoción de la autonomía personal, así como la adquisición de servicios complementarios de asistencia personal, para personas con discapacidad empadronadas en un municipio de la Comunidad Autónoma de Galicia, en régimen de concurrencia competitiva y de carácter no periódico. The purpose of this aid is to cooperate in certain expenditure, with effect from 1 January 2017, intended to:\n\nA) To facilitate the acquisition of services to promote personal autonomy.\n\nB) Facilitate the acquisition of complementary services of personal assistance.\n\nOnly actions carried out between 1 January and 30 November 2017 may be financed for this call. ",
-	"regulatoryRefs": "Orden de 30 de marzo de 2017 por la que se establecen las bases reguladoras que regirán la concesión de ayudas individuales destinadas a la adquisición de servicios de promoción de la autonomía personal, así como a la adquisición de servicios complementarios de asistencia personal, a personas con discapacidad, cofinanciadas por el Fondo Social Europeo en el marco del programa operativo FSE Galicia 2014-2020, y se procede a su convocatoria para el año 2017 (DOG nº 71 del 11 de abril de 2017).",
-	"＄domain": "Model.FPMN.Procedure"
-},
-{
-	"_id": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"nextPhaseId": "a63a968b-71b8-4137-aa7e-69a855e29868",
-	"language": "spanish",
-	"name": "Presentación de solicitudes",
-	"documentation": "As solicitudes deberán presentarse preferiblemente por vía electrónica a través do formulario normalizado dispoñible na sede electrónica da Xunta de Galicia, https://sede.xunta.gal. Para a presentación das solicitudes poderá empregarse calquera dos mecanismos de identificación e sinatura admitidos pola sede electrónica da Xunta de Galicia, incluído o sistema de usuario/a e clave Chave365, que pode solicitar accedendo á web https://sede.xunta.gal/chave365",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "a63a968b-71b8-4137-aa7e-69a855e29868",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"prevPhaseId": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
-	"nextPhaseId": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
-	"language": "spanish",
-	"name": "Resolución",
-	"documentation": "El órgano instructor de los expedientes será la Subdirección General de Dependencia y Valoración de la Discapacidad de la Dirección General de Mayores y Personas con Discapacidad.\n\nLas unidades administrativas receptoras remitirán las solicitudes recibidas a la unidad administrativa encargada de la instrucción del expediente para que compruebe si la solicitud o documentación presentada reúne los requisitos exigidos en esta orden y, en el supuesto de que se observe algún defecto o sea incompleta la documentación, de conformidad con lo dispuesto en el artículo 68 de la Ley 39/2015, de 1 de octubre, requerirán a la persona interesada la para que en un plazo de 10 días hábiles subsane la falta o presente los documentos preceptivos, con la advertencia de que, si así no lo hiciese, se considerará desistido de su petición, después de la resolución, que deberá ser dictada en los términos previstos en el artículo 21 de dicha ley.\n\nEl órgano instructor formulará propuesta de resolución, previo informe de la Comisión de Valoración según lo dispuesto en los artículos siguientes, y la elevará al órgano competente para resolver.\n\nUna vez emitido el informe de la comisión, la Subdirección General de la Dependencia y Valoración de la Discapacidad elevará la propuesta de resolución a la persona titular del órgano de dirección con competencias en materia de dependencia de la Consellería de Política Social, en quien se delega la competencia para resolver la concesión o denegación de la ayuda solicitada al amparo de esta orden.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"prevPhaseId": "a63a968b-71b8-4137-aa7e-69a855e29868",
-	"language": "spanish",
-	"name": "Notificación de resoluciones",
-	"documentation": "El plazo máximo para dictar y notificar a los interesados la resolución expresa será de tres meses, contados desde el día siguiente a la finalización del plazo de presentación de solicitudes.\n\nLas notificaciones de resoluciones y actos administrativos se practicarán preferentemente por medios electrónicos y, en todo caso, cuando las personas interesadas resulten obligadas a recibirlas por esta vía. Las personas interesadas que no estén obligadas a recibir notificaciónes electrónicas podrán decidir y comunicar en cualquier momento que las notificaciones sucesivas se practiquen o dejen de practicar por medios electrónicos.\n\nLas notificaciones electrónicas se realizarán mediante el Sistema de notificación electrónica de Galicia-Notifica disponible a través de la sede electrónica de la Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá a las personas interesadas avisos de la puesta a disposición de las notificaciones, mediante un correo electrónico dirigido a la cuenta de correo que conste en la solicitud a efectos de notificación. Estos avisos no tendrán, en ningún caso, efectos de notificación practicada y su falta no impedirá que la notificación sea considerada plenamente válida.\n\nLas notificaciones por medios electrónicos se entenderán practicadas en el momento en que se produzca el acceso a su contenido. Cuando la notificación por medios electrónicos sea de carácter obligatorio, o fuese expresamente elegida por el interesado, se entenderá rechazada cuando hayan transcurrido diez días naturales desde la puesta a disposición de la notificación sin que se acceda a su contenido.\n\nSe el envío de la notificación electrónica no es posible por problemas técnicos, la Administración general y del sector público autonómico de Galicia practicará la notificación por los medios previstos en la normativa reguladora del procedimiento administrativo común",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "446ab019-5828-4e50-a37c-f4fde686f69c",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"channel": "Model.FPMN.Interaction.Channel.EForm",
-	"eServiceId": "BS613B",
-	"language": "spanish",
-	"name": "Egestas diam in arcu cursus euismod quis viverra nibh cras",
-	"documentation": "Auctor urna nunc id cursus metus aliquam eleifend mi in. Arcu bibendum at varius vel. Nulla facilisi nullam vehicula ipsum a arcu. Nisl suscipit adipiscing bibendum est ultricies integer quis. Tristique senectus et netus et malesuada fames ac turpis. Est ultricies integer quis auctor elit. Nibh tellus molestie nunc non blandit massa enim. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Arcu non odio euismod lacinia at quis. In iaculis nunc sed augue lacus viverra vitae congue eu. Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Adipiscing bibendum est ultricies integer quis auctor elit sed. Sed arcu non odio euismod lacinia at quis risus sed. Et netus et malesuada fames ac turpis. Laoreet suspendisse interdum consectetur libero id.",
-	"＄domain": "Model.FPMN.Interaction.Task"
-},
-{
-	"_id": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"notation": "Model.Notation.FPMN",
-	"version": 1.0,
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2018-01-01T12:00:00.000Z"
-	},
-	"language": "english",
-	"name": "Parenting Skills Workshop",
-	"documentation": "Parenting skills workshop's procedure.",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"civil servant 1"
-		],
-		"observers": [
-			"citizen 1",
-			"citizen 2"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
-},
-{
-	"_id": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"language": "english",
-	"name": "Parenting Skills Workshop",
-	"category": "Model.FPMN.Procedure.Category.SocialService",
-	"documentation": "In Sheffield, parents and carers can access a range of groups that offer practical advice and support with parenting. We deliver programmes that are evidence based, and tried and tested. This means that the content is written by professional psychologists who have years of research into what works to manage behaviours and difficulties that we can all face as parents.  These programmes are delivered across the world and have over 30 years of research behind them.  \n\nWe can work with your family when there are difficulties in managing your child's behaviour and to help build closer relationships. You can learn new skills to help you:\n\n• build parenting confidence\n• find ways to encourage better behaviour in children\n• deal with anger management or family conflict\n• cope with stress",
-	"mission": "Managing child's behaviour.\nHelp in build closer relationships.",
-	"＄domain": "Model.FPMN.Procedure"
-},
-{
-	"_id": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"nextPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
-	"language": "english",
-	"name": "Workshop application",
-	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
-	"＄domain": "Model.FPMN.Phase"
 },
 {
 	"_id": "f330df6e-b2ab-493c-af69-a5f44f38071e",
@@ -404,61 +783,1264 @@
 	"＄domain": "Model.FPMN.Phase"
 },
 {
-	"_id": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"prevPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
-	"language": "english",
-	"name": "Booked workshop notification",
-	"documentation": "• The administrator will add the booking information to an email – The email includes the workshop information day/time, workshop location.\n• The administrator sends the email to the user’s email address which was entered onto the form.",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"notation": "Model.Notation.FPMN",
+	"version": 1,
+	"created": {
+		"$date": "2018-10-01T13:44:23.077Z"
+	},
+	"lastModified": {
+		"$date": "2018-10-01T13:44:23.077Z"
+	},
+	"language": "italian",
+	"name": "Organizzazione Eventi",
+	"team": {
+		"owner": [
+			"25204"
+		],
+		"reviewer": [
+			"25204"
+		],
+		"editor": [
+			"25111",
+			"25204"
+		]
+	},
+	"＄domain": "Model.FPMN.Diagram",
+	"documentation": "Procedura per organizzare un evento o una manifestazione in città"
 },
 {
-	"_id": "2db10e64-d935-4c93-80e9-b5df43956d8a",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
+	"_id": "b8cfbfa7-fda2-42ca-950c-bf7f4fada768",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "english",
+	"name": "Organizzazione Eventi",
+	"＄domain": "Model.FPMN.Procedure",
+	"category": "Model.FPMN.Procedure.Category.SocialService",
+	"documentation": "Questa procedura descrive gli adempimenti necessari per organizzare gli eventi e le manifestazioni che ogni giorno animano i parchi, le piazze e le strade della nostra città, con ricadute importanti e positive, culturali, sociali ed anche economiche........."
+},
+{
+	"_id": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"parentId": "b8cfbfa7-fda2-42ca-950c-bf7f4fada768",
+	"language": "english",
+	"name": "Richiesta degli spazi",
+	"＄domain": "Model.FPMN.Phase",
+	"nextPhaseId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"documentation": "Se intendi organizzare un evento in spazi aperti pubblici del Comune di\nTrento (strade, piazze, parchi e giardini cittadini) per la scelta del luogo\ncontatta preventivamente l’Ufficio segreteria comando del Corpo di\npolizia locale, o, per eventi all’interno di parchi e giardini, l’Ufficio parchi e\ngiardini, per verificare la disponibilità degli spazi nel periodo richiesto e\nper ottenere un supporto nella scelta del luogo più adatto alla tipologia\ndi evento che vuoi organizzare."
+},
+{
+	"_id": "8ba5cea4-ec7f-4bd2-91fd-9b7565c9b8e8",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"88531108-8267-4a4d-b982-a08db002ac7b"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997"
+},
+{
+	"_id": "67cc12ec-5da8-424f-a357-8f73b8d3e302",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Selezione dello spazio disponibile",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"88531108-8267-4a4d-b982-a08db002ac7b"
+	],
+	"outgoingIds": [
+		"231920ea-d64a-4bae-b98b-f3f6a724803d"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.FaceToFace",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"documentation": false
+},
+{
+	"_id": "9787a978-18d9-4f50-8dc3-b73963348b09",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Lo spazio è stato individuato?",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"incomingIds": [
+		"231920ea-d64a-4bae-b98b-f3f6a724803d"
+	],
+	"outgoingIds": [
+		"ddbc2507-80a0-4042-96a1-a81e6184a29d",
+		"5d21f995-a93d-40d4-b1f7-5d7fd81b23ca"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997"
+},
+{
+	"_id": "ee51af8b-a467-4bdf-8368-5bc72644b4fe",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"ddbc2507-80a0-4042-96a1-a81e6184a29d"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997"
+},
+{
+	"_id": "723e129a-8d10-40a6-b392-d68e99ce232e",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"5d21f995-a93d-40d4-b1f7-5d7fd81b23ca"
+	],
+	"phaseFailure": true,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997"
+},
+{
+	"_id": "88531108-8267-4a4d-b982-a08db002ac7b",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"sourceNodeId": "8ba5cea4-ec7f-4bd2-91fd-9b7565c9b8e8",
+	"targetNodeId": "67cc12ec-5da8-424f-a357-8f73b8d3e302"
+},
+{
+	"_id": "231920ea-d64a-4bae-b98b-f3f6a724803d",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"sourceNodeId": "67cc12ec-5da8-424f-a357-8f73b8d3e302",
+	"targetNodeId": "9787a978-18d9-4f50-8dc3-b73963348b09"
+},
+{
+	"_id": "ddbc2507-80a0-4042-96a1-a81e6184a29d",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"sourceNodeId": "9787a978-18d9-4f50-8dc3-b73963348b09",
+	"targetNodeId": "ee51af8b-a467-4bdf-8368-5bc72644b4fe"
+},
+{
+	"_id": "5d21f995-a93d-40d4-b1f7-5d7fd81b23ca",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"sourceNodeId": "9787a978-18d9-4f50-8dc3-b73963348b09",
+	"targetNodeId": "723e129a-8d10-40a6-b392-d68e99ce232e"
+},
+{
+	"_id": "6490bd91-8f58-418c-b78a-7960c48037f8",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "SI",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ddbc2507-80a0-4042-96a1-a81e6184a29d"
+},
+{
+	"_id": "fc55f396-1422-4454-9020-4998da07d470",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "NO",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 24,
+	"height": 24,
+	"parentId": "5d21f995-a93d-40d4-b1f7-5d7fd81b23ca"
+},
+{
+	"_id": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Presentazione dell'istanza",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "b8cfbfa7-fda2-42ca-950c-bf7f4fada768",
+	"prevPhaseId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
+	"nextPhaseId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
+	"documentation": "Una volta individuato il luogo, dovrai richiedere formalmente l’occupazione di suolo pubblico per l’organizzazione di eventi e manifestazioni temporanee. Tale richiesta si compone di una serie di adempimenti ...... tra cui si elencano:\n\n- presentazione  del modulo unico per l’organizzazione di eventi\n(Mod. 608/SC4), con apposta la marca da bollo (se dovuta), sottoscritto\ne comprensivo degli allegati richiesti\n\n- (Eventuale) Comunicazione di somministrazione alimenti da far pervenire all'APSS\n\n- Preavviso di pubblica manifestazione da far pervenire alla Questura\n\n- Comunicazione di svolgimento evento e/o manifestazione da far pervenire all'APSS\n\n- (Eventuale) Richiesta di autorizzazione da far pervenire alla Polizia Amministrativa provinciale\n\n- (Eventuale) Richiesta di allacciamento alla rete elettrica e/o idrica da far pervenire al fornitore\n\n- (Eventuale) pagamento dei diritti d'autore da effettuare presso la SIAE"
+},
+{
+	"_id": "c1daedc2-a669-494d-aa25-be0266ba8110",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"3905eee1-bee3-4f8d-876a-2b86d180f232"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "9aaa0dbb-6b80-4fa9-8d95-14d63415cf08",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "È prevista la somministrazione e/o vendita di alimenti e/o bevande? ",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"incomingIds": [
+		"3905eee1-bee3-4f8d-876a-2b86d180f232"
+	],
+	"outgoingIds": [
+		"4cb2fdc2-e8c3-496e-ab72-912a87d7f0fc",
+		"e5a3c8a5-04eb-48e5-a69a-c93ea609e901"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "159ed458-ce6b-44b2-a659-539306e5f235",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Comunicazione di somministrazione alimenti",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"e5a3c8a5-04eb-48e5-a69a-c93ea609e901"
+	],
+	"outgoingIds": [
+		"08447a63-3e87-4528-8d5d-62c49a5161ee"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.OrdinaryMail",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "b2410272-90e6-43ed-b659-bf8674134552",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Presentazione del Modulo Unico Eventi",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"4cb2fdc2-e8c3-496e-ab72-912a87d7f0fc",
+		"08447a63-3e87-4528-8d5d-62c49a5161ee"
+	],
+	"outgoingIds": [
+		"e39703d7-1b6a-444c-8846-4b3ac47d76fa"
+	],
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"channel": "Model.FPMN.Interaction.Channel.EForm",
-	"eServiceId": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5",
-	"language": "english",
-	"name": "Compile Request Form",
-	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
-	"＄domain": "Model.FPMN.Interaction.Task"
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 140,
+	"height": 100,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"eServiceId": "4",
+	"documentation": "Una volta individuato il luogo, dovrai richiedere l'occupazione di suolo pubblico per l'organizzazione di eventi e manifestazioni temporanee.\nContestualmente, se necessario ai fini dell'evento, utilizzando lo stesso modulo unico per l'organizzazione di eventi (modulo 608/SC4), potrai:\n• richiedere l'autorizzazione per l'esecuzione di intrattenimenti musicali\n• richiedere eventuali provvedimenti sul traffico (es. divieto di transito, divieto di sosta e fermata, ecc.)\n• richiedere l'accesso alla Zona a traffico limitato o alle aree verdi con veicoli\n• segnalare la somministrazione temporanea di alimenti e bevande\n• segnalare la vendita al dettaglio temporanea\n• richiedere i contenitori per l'asporto rifiuti a Dolomiti Ambiente Srl\n• richiedere l'utilizzo delle torrette elettriche comunali per la manifestazione, solo per iniziative di natura non commerciale\n• richiedere lo spegnimento di impianti di illuminazione pubblica per la manifestazione"
 },
 {
-	"_id": "example",
-	"notation": "Model.Notation.Example",
-	"version": "1.0",
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
+	"_id": "3905eee1-bee3-4f8d-876a-2b86d180f232",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
-	"name": "Example Diagram",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"civil servant 1"
-		],
-		"observer": [
-			"citizen 2"
-		]
-	},
-	"＄domain": "Model.Example.Diagram"
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "c1daedc2-a669-494d-aa25-be0266ba8110",
+	"targetNodeId": "9aaa0dbb-6b80-4fa9-8d95-14d63415cf08"
 },
 {
-	"_id": "example_root",
+	"_id": "4cb2fdc2-e8c3-496e-ab72-912a87d7f0fc",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
-	"name": "Example Root",
-	"＄domain": "Model.Example.Root",
-	"designId": "example"
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "9aaa0dbb-6b80-4fa9-8d95-14d63415cf08",
+	"targetNodeId": "b2410272-90e6-43ed-b659-bf8674134552"
+},
+{
+	"_id": "08447a63-3e87-4528-8d5d-62c49a5161ee",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "159ed458-ce6b-44b2-a659-539306e5f235",
+	"targetNodeId": "b2410272-90e6-43ed-b659-bf8674134552"
+},
+{
+	"_id": "a3b1120c-04f3-49b8-86e1-dd4cec4c9324",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"e39703d7-1b6a-444c-8846-4b3ac47d76fa"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "e39703d7-1b6a-444c-8846-4b3ac47d76fa",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "b2410272-90e6-43ed-b659-bf8674134552",
+	"targetNodeId": "a3b1120c-04f3-49b8-86e1-dd4cec4c9324"
+},
+{
+	"_id": "e5a3c8a5-04eb-48e5-a69a-c93ea609e901",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "9aaa0dbb-6b80-4fa9-8d95-14d63415cf08",
+	"targetNodeId": "159ed458-ce6b-44b2-a659-539306e5f235"
+},
+{
+	"_id": "ef503364-855e-4b08-8b69-2d45c8f81afc",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "NO",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 24,
+	"height": 24,
+	"parentId": "4cb2fdc2-e8c3-496e-ab72-912a87d7f0fc"
+},
+{
+	"_id": "c5960018-5fe7-494b-8466-7f64eed50e24",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "SI",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 24,
+	"height": 24,
+	"parentId": "e5a3c8a5-04eb-48e5-a69a-c93ea609e901"
+},
+{
+	"_id": "7b6dcadc-6f24-4e12-97c2-3f8916e89173",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"f4c182bd-369a-4bbe-a4cd-ec6dd86eb529"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "5b5a4f0b-6b61-43ce-badd-742cf94fbb8a",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Preavviso di pubblica manifestazione",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"f4c182bd-369a-4bbe-a4cd-ec6dd86eb529"
+	],
+	"outgoingIds": [],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.FaceToFace",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 140,
+	"height": 100,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "a69ad39b-2737-48b7-94b2-5b71a430d973",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "3 giorni prima dell’evento",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "5b5a4f0b-6b61-43ce-badd-742cf94fbb8a",
+	"outgoingIds": [
+		"fd4b5398-6440-4a51-b9e4-b9a703dfa107",
+		"53b700f7-37f7-422a-8a97-c707bc0397e8"
+	],
+	"beyondId": "53b700f7-37f7-422a-8a97-c707bc0397e8"
+},
+{
+	"_id": "f9d6508c-4f7e-402b-b104-d86e2c6e01ed",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"fd4b5398-6440-4a51-b9e4-b9a703dfa107"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "6a837b41-0f3c-4535-a3ef-7a4766bdd5a2",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"53b700f7-37f7-422a-8a97-c707bc0397e8"
+	],
+	"phaseFailure": true,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "f4c182bd-369a-4bbe-a4cd-ec6dd86eb529",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "7b6dcadc-6f24-4e12-97c2-3f8916e89173",
+	"targetNodeId": "5b5a4f0b-6b61-43ce-badd-742cf94fbb8a"
+},
+{
+	"_id": "fd4b5398-6440-4a51-b9e4-b9a703dfa107",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "a69ad39b-2737-48b7-94b2-5b71a430d973",
+	"targetNodeId": "f9d6508c-4f7e-402b-b104-d86e2c6e01ed"
+},
+{
+	"_id": "53b700f7-37f7-422a-8a97-c707bc0397e8",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "a69ad39b-2737-48b7-94b2-5b71a430d973",
+	"targetNodeId": "6a837b41-0f3c-4535-a3ef-7a4766bdd5a2"
+},
+{
+	"_id": "ee6f4899-e6e8-4317-8561-4b467fc960ff",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Comunicazione di svolgimento evento e/o manifestazione",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"86bcbc36-49c7-4ea7-a10b-4650d20b1db6"
+	],
+	"outgoingIds": [],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.OrdinaryMail",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "aab4f2a4-d82c-405f-a02a-8736eeead84d",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"86bcbc36-49c7-4ea7-a10b-4650d20b1db6"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "c7b27cc2-ce6f-4803-80d3-8a869798b274",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "da 15 a 45 giorni prima dell’evento",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ee6f4899-e6e8-4317-8561-4b467fc960ff",
+	"outgoingIds": [
+		"843e731c-ce5b-4c38-8564-4029be32c790",
+		"d0b28853-9164-4b92-a6fa-e455695415d4"
+	],
+	"phaseFailure": true,
+	"beyondId": "d0b28853-9164-4b92-a6fa-e455695415d4"
+},
+{
+	"_id": "86bcbc36-49c7-4ea7-a10b-4650d20b1db6",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "aab4f2a4-d82c-405f-a02a-8736eeead84d",
+	"targetNodeId": "ee6f4899-e6e8-4317-8561-4b467fc960ff"
+},
+{
+	"_id": "96a85dd2-41e4-46d7-8b92-bbe0cf57b066",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"843e731c-ce5b-4c38-8564-4029be32c790"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "30a6b44b-d7be-455d-8c45-39fc6433f90f",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"d0b28853-9164-4b92-a6fa-e455695415d4"
+	],
+	"phaseFailure": true,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "843e731c-ce5b-4c38-8564-4029be32c790",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "c7b27cc2-ce6f-4803-80d3-8a869798b274",
+	"targetNodeId": "96a85dd2-41e4-46d7-8b92-bbe0cf57b066"
+},
+{
+	"_id": "d0b28853-9164-4b92-a6fa-e455695415d4",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "c7b27cc2-ce6f-4803-80d3-8a869798b274",
+	"targetNodeId": "30a6b44b-d7be-455d-8c45-39fc6433f90f"
+},
+{
+	"_id": "5204f6f9-bfaa-4782-b3b3-d946ddd64f92",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Richiesta di autorizzazione",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"87e8ab79-930b-4a75-a75c-06744f176e07"
+	],
+	"outgoingIds": [],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"channel": "Model.FPMN.Interaction.Channel.FaceToFace",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "eae2c943-7036-4d2e-8cd5-1e2916ad6426",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "da 15 a 45 giorni prima dell’evento",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "5204f6f9-bfaa-4782-b3b3-d946ddd64f92",
+	"outgoingIds": [
+		"09cca33c-561f-4925-86ec-63c558a20cf1",
+		"1e43684a-b4ed-4901-a578-176371831df3"
+	],
+	"beyondId": "1e43684a-b4ed-4901-a578-176371831df3"
+},
+{
+	"_id": "dead2d9f-fc69-4c06-a16c-68fe5c33553f",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"09cca33c-561f-4925-86ec-63c558a20cf1"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "7e94d0c1-b91e-433f-9ab1-82692164a66c",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"1e43684a-b4ed-4901-a578-176371831df3"
+	],
+	"phaseFailure": true,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "09cca33c-561f-4925-86ec-63c558a20cf1",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "eae2c943-7036-4d2e-8cd5-1e2916ad6426",
+	"targetNodeId": "dead2d9f-fc69-4c06-a16c-68fe5c33553f"
+},
+{
+	"_id": "1e43684a-b4ed-4901-a578-176371831df3",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "eae2c943-7036-4d2e-8cd5-1e2916ad6426",
+	"targetNodeId": "7e94d0c1-b91e-433f-9ab1-82692164a66c"
+},
+{
+	"_id": "0e5945ca-c15e-4572-96b4-3b2cf577550d",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Serve la Licenza di Pubblica Sicurezza?",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"incomingIds": [
+		"e04999a2-9f02-4ba1-801c-a2798a2e3429"
+	],
+	"outgoingIds": [
+		"87e8ab79-930b-4a75-a75c-06744f176e07",
+		"0de16584-2cf6-46bf-9059-91854b832f34"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "87e8ab79-930b-4a75-a75c-06744f176e07",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "0e5945ca-c15e-4572-96b4-3b2cf577550d",
+	"targetNodeId": "5204f6f9-bfaa-4782-b3b3-d946ddd64f92"
+},
+{
+	"_id": "6bc8fec6-eeef-447e-b3ef-d92fce0666c2",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "SI",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "87e8ab79-930b-4a75-a75c-06744f176e07"
+},
+{
+	"_id": "d2349e1e-cd3b-47a8-918e-72309b2c4a1c",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"0de16584-2cf6-46bf-9059-91854b832f34"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "0de16584-2cf6-46bf-9059-91854b832f34",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "0e5945ca-c15e-4572-96b4-3b2cf577550d",
+	"targetNodeId": "d2349e1e-cd3b-47a8-918e-72309b2c4a1c"
+},
+{
+	"_id": "2974e783-6fbc-40fd-a44c-fc2519a85e84",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "NO",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 24,
+	"height": 24,
+	"parentId": "0de16584-2cf6-46bf-9059-91854b832f34"
+},
+{
+	"_id": "375a8509-af70-4d9b-aba4-6b3fb15646a9",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"e04999a2-9f02-4ba1-801c-a2798a2e3429"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "e04999a2-9f02-4ba1-801c-a2798a2e3429",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "375a8509-af70-4d9b-aba4-6b3fb15646a9",
+	"targetNodeId": "0e5945ca-c15e-4572-96b4-3b2cf577550d"
+},
+{
+	"_id": "e64f4fd8-60e3-429b-ae59-9e545079ade8",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Richiesta di fornitura",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"3e87ace9-6194-4092-8bd1-df6d67b0578f"
+	],
+	"outgoingIds": [],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.FaceToFace",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "29791e42-61d1-491d-ab89-4ee1c133ef28",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Effettuare 20 giorni lavorativi prima dell’evento",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "e64f4fd8-60e3-429b-ae59-9e545079ade8",
+	"outgoingIds": [
+		"db433f60-4ed4-42cb-a907-90a8951b4c85",
+		"47dba12c-fb0f-4a81-ba71-0284813d0b2c"
+	],
+	"beyondId": "47dba12c-fb0f-4a81-ba71-0284813d0b2c"
+},
+{
+	"_id": "5053c96f-5ed5-4088-a0ce-3a716e0dc3b0",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"db433f60-4ed4-42cb-a907-90a8951b4c85"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "d092f048-05b2-44de-a50b-5450b60d2125",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"47dba12c-fb0f-4a81-ba71-0284813d0b2c"
+	],
+	"phaseFailure": true,
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 20,
+	"height": 20,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "db433f60-4ed4-42cb-a907-90a8951b4c85",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "29791e42-61d1-491d-ab89-4ee1c133ef28",
+	"targetNodeId": "5053c96f-5ed5-4088-a0ce-3a716e0dc3b0"
+},
+{
+	"_id": "47dba12c-fb0f-4a81-ba71-0284813d0b2c",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "29791e42-61d1-491d-ab89-4ee1c133ef28",
+	"targetNodeId": "d092f048-05b2-44de-a50b-5450b60d2125"
+},
+{
+	"_id": "5424cf6d-bc1d-4eeb-b4fa-a1037a36cbdf",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"3a26b591-6060-453b-94a7-c6d93c88feaf"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "c29f5b1d-b572-4789-9f74-89fa4dc7199e",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Serve l’allacciamento temporaneo all’energia elettrica e all’acqua?",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"incomingIds": [
+		"3a26b591-6060-453b-94a7-c6d93c88feaf"
+	],
+	"outgoingIds": [
+		"3e87ace9-6194-4092-8bd1-df6d67b0578f",
+		"61722a64-854b-4da7-bf6e-ef0efd357558"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "3e87ace9-6194-4092-8bd1-df6d67b0578f",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "c29f5b1d-b572-4789-9f74-89fa4dc7199e",
+	"targetNodeId": "e64f4fd8-60e3-429b-ae59-9e545079ade8"
+},
+{
+	"_id": "3a26b591-6060-453b-94a7-c6d93c88feaf",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "5424cf6d-bc1d-4eeb-b4fa-a1037a36cbdf",
+	"targetNodeId": "c29f5b1d-b572-4789-9f74-89fa4dc7199e"
+},
+{
+	"_id": "7f7961e0-aade-4fd8-9fa0-f008d5debd42",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"61722a64-854b-4da7-bf6e-ef0efd357558"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "61722a64-854b-4da7-bf6e-ef0efd357558",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "c29f5b1d-b572-4789-9f74-89fa4dc7199e",
+	"targetNodeId": "7f7961e0-aade-4fd8-9fa0-f008d5debd42"
+},
+{
+	"_id": "644d5189-403a-4494-b9a7-b70cdf2d24aa",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "SI",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "3e87ace9-6194-4092-8bd1-df6d67b0578f"
+},
+{
+	"_id": "cbae94ca-c74d-4044-9e2d-e3c798b80b2f",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "NO",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 24,
+	"height": 24,
+	"parentId": "61722a64-854b-4da7-bf6e-ef0efd357558"
+},
+{
+	"_id": "9d0b87b7-96df-4315-80b2-1c426fb7c404",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Pagamento dei diritti d’autore",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"157688c8-f55f-4cfc-995c-44bf7e791c1a"
+	],
+	"outgoingIds": [
+		"b3eb1881-d386-4c38-94f2-6067c6bd3f5e"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"interlocutor": "Model.FPMN.Interaction.Subject.PrivateBody",
+	"channel": "Model.FPMN.Interaction.Channel.Payment",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "e295b14f-5201-48d6-8e68-5ce767027544",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"b3eb1881-d386-4c38-94f2-6067c6bd3f5e"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "b3eb1881-d386-4c38-94f2-6067c6bd3f5e",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "9d0b87b7-96df-4315-80b2-1c426fb7c404",
+	"targetNodeId": "e295b14f-5201-48d6-8e68-5ce767027544"
+},
+{
+	"_id": "e9c59249-a0f3-4196-9893-09fcbe8b037b",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Sono previsti permessi per il diritto d’autore?",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"incomingIds": [
+		"ab57ab89-4aec-4e55-b1e6-1884045018f9"
+	],
+	"outgoingIds": [
+		"157688c8-f55f-4cfc-995c-44bf7e791c1a",
+		"a83d2730-337c-4e3c-947f-e4d913fb72a6"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "157688c8-f55f-4cfc-995c-44bf7e791c1a",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "e9c59249-a0f3-4196-9893-09fcbe8b037b",
+	"targetNodeId": "9d0b87b7-96df-4315-80b2-1c426fb7c404"
+},
+{
+	"_id": "395d9bd5-d839-4186-a1b6-03e0b56d9038",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "SI",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "157688c8-f55f-4cfc-995c-44bf7e791c1a"
+},
+{
+	"_id": "c0620a5a-294b-4505-82a7-69d3c7aef02d",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Effettuare 20 giorni lavorativi prima dell’evento",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"a83d2730-337c-4e3c-947f-e4d913fb72a6"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "a83d2730-337c-4e3c-947f-e4d913fb72a6",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "e9c59249-a0f3-4196-9893-09fcbe8b037b",
+	"targetNodeId": "c0620a5a-294b-4505-82a7-69d3c7aef02d"
+},
+{
+	"_id": "9afe8d49-5068-4397-8ec0-e41e84dd52b3",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "NO",
+	"＄domain": "Model.FPMN.Label",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 24,
+	"height": 24,
+	"parentId": "a83d2730-337c-4e3c-947f-e4d913fb72a6"
+},
+{
+	"_id": "f3ce861a-748a-4280-98fb-64e4b2e56165",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"ab57ab89-4aec-4e55-b1e6-1884045018f9"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
+},
+{
+	"_id": "ab57ab89-4aec-4e55-b1e6-1884045018f9",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"sourceNodeId": "f3ce861a-748a-4280-98fb-64e4b2e56165",
+	"targetNodeId": "e9c59249-a0f3-4196-9893-09fcbe8b037b"
+},
+{
+	"_id": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Rilascio della concessione",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "b8cfbfa7-fda2-42ca-950c-bf7f4fada768",
+	"prevPhaseId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
+	"documentation": "La fase di rilascio della concessione prevede rispettivamente, una comunicazione da parte del Comune dell'importo da pagare, il pagamento di tale importo da parte del cittadino o azienda richiedente l'autorizzazione e infine il\nrilascio, da parte del Comune, della concessione"
+},
+{
+	"_id": "c8b9cc76-2db8-47e1-87e6-7501fb705675",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Start",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"outgoingIds": [
+		"44fcf116-7f20-484f-a9a1-5ba4ee66d1ee"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1"
+},
+{
+	"_id": "50b985fb-df3b-4a1e-89c4-a75255ebd2f2",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Comunicazione dell'importo da pagare",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"44fcf116-7f20-484f-a9a1-5ba4ee66d1ee"
+	],
+	"outgoingIds": [
+		"28262c5c-2a20-4279-b413-0ece4012f9ce"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"channel": "Model.FPMN.Interaction.Channel.OrdinaryMail",
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1"
+},
+{
+	"_id": "a539009a-9db8-4617-b3aa-8ed23d5d1bb6",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Pagamento",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"28262c5c-2a20-4279-b413-0ece4012f9ce"
+	],
+	"outgoingIds": [
+		"66ad7e61-ee22-45ca-bece-bb78226d503f"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"channel": "Model.FPMN.Interaction.Channel.Payment",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 140,
+	"height": 100,
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1"
+},
+{
+	"_id": "6dd81c59-fe6c-44bf-b646-3eea0b43fd6e",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Rilascio della concessione",
+	"＄domain": "Model.FPMN.Interaction.Task",
+	"incomingIds": [
+		"66ad7e61-ee22-45ca-bece-bb78226d503f"
+	],
+	"outgoingIds": [
+		"c7c1c020-d1ed-4bea-9326-36f5e1ca8215"
+	],
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"channel": "Model.FPMN.Interaction.Channel.OrdinaryMail",
+	"hidden": false,
+	"collapsed": false,
+	"x": 0,
+	"y": 0,
+	"width": 140,
+	"height": 100,
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1"
+},
+{
+	"_id": "f74b85f5-d986-40fa-994d-c2cecba83f94",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction End",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"incomingIds": [
+		"c7c1c020-d1ed-4bea-9326-36f5e1ca8215"
+	],
+	"phaseFailure": false,
+	"hidden": false,
+	"collapsed": false,
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1"
+},
+{
+	"_id": "44fcf116-7f20-484f-a9a1-5ba4ee66d1ee",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
+	"sourceNodeId": "c8b9cc76-2db8-47e1-87e6-7501fb705675",
+	"targetNodeId": "50b985fb-df3b-4a1e-89c4-a75255ebd2f2"
+},
+{
+	"_id": "28262c5c-2a20-4279-b413-0ece4012f9ce",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
+	"sourceNodeId": "50b985fb-df3b-4a1e-89c4-a75255ebd2f2",
+	"targetNodeId": "a539009a-9db8-4617-b3aa-8ed23d5d1bb6"
+},
+{
+	"_id": "66ad7e61-ee22-45ca-bece-bb78226d503f",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
+	"sourceNodeId": "a539009a-9db8-4617-b3aa-8ed23d5d1bb6",
+	"targetNodeId": "6dd81c59-fe6c-44bf-b646-3eea0b43fd6e"
+},
+{
+	"_id": "c7c1c020-d1ed-4bea-9326-36f5e1ca8215",
+	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
+	"sourceNodeId": "6dd81c59-fe6c-44bf-b646-3eea0b43fd6e",
+	"targetNodeId": "f74b85f5-d986-40fa-994d-c2cecba83f94"
 }]
 

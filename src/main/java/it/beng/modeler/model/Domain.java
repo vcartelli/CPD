@@ -57,10 +57,12 @@ public class Domain {
             "Model.FPMN.Procedure"
         )));
         DEFINITIONS.put(Definition.CHILD, new Domain(Definition.CHILD, Collection.MODELS, Arrays.asList(
+            "Model.FPMN.Label",
             "Model.FPMN.Phase",
             "Model.FPMN.Interaction.Start",
             "Model.FPMN.Interaction.End",
             "Model.FPMN.Interaction.Task",
+            "Model.FPMN.Interaction.Task.Deadline",
             "Model.FPMN.Interaction.Decision",
             "Model.FPMN.Interaction.Sequence"
         )));

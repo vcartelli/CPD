@@ -1,4 +1,37 @@
 [{
+	"_id": "118205980783581793280",
+	"provider": "Google",
+	"firstName": "Vincenzo",
+	"lastName": "Cartelli",
+	"displayName": "Vincenzo Cartelli",
+	"roles": {
+		"system": "user",
+		"interaction": "citizen"
+	}
+},
+{
+	"_id": "25111",
+	"provider": "AAC",
+	"firstName": "Giuseppe",
+	"lastName": "Di Modica",
+	"displayName": "Giuseppe Di Modica",
+	"roles": {
+		"system": "admin",
+		"interaction": "civil-servant"
+	}
+},
+{
+	"_id": "25204",
+	"provider": "AAC",
+	"firstName": "Vincenzo",
+	"lastName": "Cartelli",
+	"displayName": "Vincenzo Cartelli",
+	"roles": {
+		"system": "admin",
+		"interaction": "civil-servant"
+	}
+},
+{
 	"_id": "admin",
 	"provider": "local",
 	"password": "8fe7cf473d561fb98aac8f5ce9cd2d30",
@@ -55,39 +88,6 @@
 	"displayName": "Simpatico Civil Servant #2",
 	"roles": {
 		"system": "user",
-		"interaction": "civil-servant"
-	}
-},
-{
-	"_id": "118205980783581793280",
-	"provider": "Google",
-	"firstName": "Vincenzo",
-	"lastName": "Cartelli",
-	"displayName": "Vincenzo Cartelli",
-	"roles": {
-		"system": "user",
-		"interaction": "citizen"
-	}
-},
-{
-	"_id": "25204",
-	"provider": "AAC",
-	"firstName": "Vincenzo",
-	"lastName": "Cartelli",
-	"displayName": "Vincenzo Cartelli",
-	"roles": {
-		"system": "admin",
-		"interaction": "civil-servant"
-	}
-},
-{
-	"_id": "25111",
-	"provider": "AAC",
-	"firstName": "Giuseppe",
-	"lastName": "Di Modica",
-	"displayName": "Giuseppe Di Modica",
-	"roles": {
-		"system": "admin",
 		"interaction": "civil-servant"
 	}
 }]

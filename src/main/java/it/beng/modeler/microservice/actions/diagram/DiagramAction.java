@@ -8,7 +8,8 @@ import io.vertx.core.json.JsonObject;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.utils.AuthUtils;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 
 public interface DiagramAction {
     String ADDRESS = config.server.eventBus.diagramAddress;
@@ -25,18 +26,7 @@ public interface DiagramAction {
         AuthUtils.isAuthorized(authority, account.getJsonObject("roles"), handler);
     }
 
-    static void isEngaged(JsonObject account, JsonObject collaboration, Handler<AsyncResult<Boolean>> handler) {
-        final String userId = account.getString("id");
-        for (Object userIds : collaboration.getJsonObject("team").getMap().values()) {
-            if (((JsonArray) userIds).contains(userId)) {
-                handler.handle(Future.succeededFuture(true));
-                return;
-            }
-        }
-        handler.handle(Future.succeededFuture(false));
-    }
-
-    static void isPermitted(JsonObject account, JsonObject collaboration, List<String> roles, Handler<AsyncResult<Boolean>> handler) {
+    static void isPermitted(JsonObject account, JsonObject collaboration, Collection<String> roles, Handler<AsyncResult<Boolean>> handler) {
         if (account == null) {
             handler.handle(Future.succeededFuture(false));
             return;
@@ -46,6 +36,21 @@ public interface DiagramAction {
         for (String role : roles) {
             JsonArray userIds = team.getJsonArray(role);
             if (userIds != null && userIds.contains(userId)) {
+                handler.handle(Future.succeededFuture(true));
+                return;
+            }
+        }
+        handler.handle(Future.succeededFuture(false));
+    }
+
+    static void isPermitted(JsonObject account, JsonObject collaboration, String role, Handler<AsyncResult<Boolean>> handler) {
+        isPermitted(account, collaboration, Collections.singleton(role), handler);
+    }
+
+    static void isEngaged(JsonObject account, JsonObject collaboration, Handler<AsyncResult<Boolean>> handler) {
+        final String userId = account.getString("id");
+        for (Object userIds : collaboration.getJsonObject("team").getMap().values()) {
+            if (((JsonArray) userIds).contains(userId)) {
                 handler.handle(Future.succeededFuture(true));
                 return;
             }
