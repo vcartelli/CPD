@@ -196,13 +196,14 @@ public class ModelerServerVerticle extends AbstractVerticle {
         // ModelTools modelTools = new ModelTools(vertx, config.mongoDB(), schemaTools, config.develop);
         // vertx.getOrCreateContext().put("modelTools", modelTools);
 
-        new AssetsSubRoute(vertx, router);
+        // NOTE: subroute instantiation order IS IMPORTANT!!!
+        new AssetsSubRoute(vertx, router);          // assets accessible to the world
+        new SchemaSubRoute(vertx, router);          // schemas accessible to the world
+        new AppSubRoute(vertx, router);             // app accessible to the world
+        new AuthSubRoute(vertx, router);            // UserSessionHandler in order to retrieve the user associated to the session
         new ApiSubRoute(vertx, router);
-        new SchemaSubRoute(vertx, router);
-        new AuthSubRoute(vertx, router);
         new CollaborationsSubRoute(vertx, router);
         new DataSubRoute(vertx, router);
-        new AppSubRoute(vertx, router);
 
         // if we arrived here it means no resource has been found, 
         // lets use the failure handler instead of default "Resource not found" page

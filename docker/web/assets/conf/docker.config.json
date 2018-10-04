@@ -1,7 +1,7 @@
 {
   "server": {
     "baseHref": "${cpd.server.baseHref}",
-    "useLocalAuth": true,
+    "useLocalAuth": false,
     "schema": {
       "path": "schema/"
     },

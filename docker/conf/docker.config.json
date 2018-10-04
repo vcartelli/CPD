@@ -47,7 +47,7 @@
     }
   },
   "app": {
-    "useLocalAuth": true,
+    "useLocalAuth": false,
     "locales": ["en","es","it","gl"],
     "designerPath": "procedures/"
   },
