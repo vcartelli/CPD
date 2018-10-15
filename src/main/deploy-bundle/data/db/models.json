@@ -796,7 +796,7 @@
 	"name": "Organizzazione Eventi",
 	"team": {
 		"owner": [
-			"25204"
+			"25111"
 		],
 		"reviewer": [
 			"25204"
@@ -812,7 +812,7 @@
 {
 	"_id": "b8cfbfa7-fda2-42ca-950c-bf7f4fada768",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
-	"language": "english",
+	"language": "italian",
 	"name": "Organizzazione Eventi",
 	"＄domain": "Model.FPMN.Procedure",
 	"category": "Model.FPMN.Procedure.Category.SocialService",
@@ -822,7 +822,7 @@
 	"_id": "09b387cf-5610-435a-adb8-09c3b1e7e997",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"parentId": "b8cfbfa7-fda2-42ca-950c-bf7f4fada768",
-	"language": "english",
+	"language": "italian",
 	"name": "Richiesta degli spazi",
 	"＄domain": "Model.FPMN.Phase",
 	"nextPhaseId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
@@ -855,7 +855,7 @@
 	],
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"channel": "Model.FPMN.Interaction.Channel.FaceToFace",
+	"channel": "Model.FPMN.Interaction.Channel.EForm",
 	"hidden": false,
 	"collapsed": false,
 	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
@@ -1597,7 +1597,7 @@
 	"_id": "29791e42-61d1-491d-ab89-4ee1c133ef28",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
-	"name": "Effettuare 20 giorni lavorativi prima dell’evento",
+	"name": "almeno 20 giorni lavorativi prima dell’evento",
 	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
 	"hidden": false,
 	"collapsed": false,

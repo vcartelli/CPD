@@ -107,7 +107,7 @@ if [ $foundsslenabled = false -a ${array[0]} = "cpd.ssl.enabled" ]; then
 	foundsslenabled=true	
 	sslenabled=${array[1]}
 
-elif [ $foundserverscheme = false -a ${array[0]} = "cpd.server.scheme" ]; then
+elif [ $foundserverscheme = false -a ${array[0]} = "cpd.server.pub.scheme" ]; then
 	foundserverscheme=true
 	if [ $sslenabled = true ]; then
 		array[1]="https"
@@ -117,11 +117,11 @@ elif [ $foundserverscheme = false -a ${array[0]} = "cpd.server.scheme" ]; then
 	fi
 	serverscheme=${array[1]}
 
-elif [ $foundserverhost = false -a ${array[0]} = "cpd.server.host" ]; then
+elif [ $foundserverhost = false -a ${array[0]} = "cpd.server.pub.host" ]; then
 	foundserverhost=true
 	serverhost=${array[1]}
 
-elif [ $foundserverport = false -a ${array[0]} = "cpd.server.port" ]; then
+elif [ $foundserverport = false -a ${array[0]} = "cpd.server.pub.port" ]; then
 	foundserverport=true
 	serverport=${array[1]}
 

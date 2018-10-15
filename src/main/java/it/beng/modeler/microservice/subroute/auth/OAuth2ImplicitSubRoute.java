@@ -18,8 +18,8 @@ import io.vertx.ext.web.codec.BodyCodec;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
-
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
-    private static Logger logger = Logger.getLogger(OAuth2ImplicitSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(OAuth2ImplicitSubRoute.class);
 
     public static final String FLOW_TYPE = "IMPLICIT";
 
@@ -81,7 +81,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
     private void loginWithHash(final RoutingContext context) {
         final JsonObject hash = context.getBodyAsJson();
-        logger.finest("receiverd hash: " + hash.encodePrettily());
+        logger.debug("receiverd hash: " + hash.encodePrettily());
         AuthSubRoute.checkEncodedStateStateCookie(context, hash.getString("state"));
         hash.remove("state");
         final WebClient client = WebClient.create(vertx,
@@ -96,7 +96,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                   if (cr.succeeded()) {
                       HttpResponse<JsonObject> response = cr.result();
                       if (response.statusCode() == HttpResponseStatus.OK.code()) {
-                          logger.finest("body: " + response.body().encodePrettily());
+                          logger.debug("body: " + response.body().encodePrettily());
 
                           final JsonObject state = new JsonObject(base64
                               .decode(context.session().remove("encodedState")));
@@ -116,7 +116,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
                                       // session should be upgraded as recommended by owasp
                                       session.regenerateId();
                                   }
-                                  logger.finest("implicit flow user principal: " + user.principal().encodePrettily());
+                                  logger.debug("implicit flow user principal: " + user.principal().encodePrettily());
                                   new JsonResponse(context).end(user.principal());
                               } else {
                                   context.fail(getOrCreateAccount.cause());

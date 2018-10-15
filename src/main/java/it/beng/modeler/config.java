@@ -1,19 +1,25 @@
 package it.beng.modeler;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.common.Countdown;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.microservice.subroute.CollaborationsSubRoute;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.flowable.engine.ProcessEngine;
+import org.flowable.engine.ProcessEngineConfiguration;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 
+import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +28,9 @@ import java.util.stream.Collectors;
  * @author vince
  */
 public final class config {
+    private static final Log logger = LogFactory.getLog(config.class);
+
+    public static final String PROCESS_DEFINITION_KEY = "procedure-modeling-process";
 
     public static final String DATA_PATH = "data/";
     public static final String ASSETS_PATH = "assets/";
@@ -29,6 +38,10 @@ public final class config {
     private static JsonObject _config;
     private static MongoDB _mongoDB;
     private static SchemaTools _schemaTools;
+    private static ProcessEngine _processEngine;
+/*
+    private static IdmEngine _idm;
+*/
 
     public static String host(String scheme, String hostname, int port) {
         StringBuilder s = new StringBuilder(hostname);
@@ -226,14 +239,65 @@ public final class config {
         return path;
     }
 
-    public static void set(final Vertx vertx, final JsonObject config, final Handler<AsyncResult<Void>> handler) {
+    public static void set(final Vertx vertx, final JsonObject config, Handler<Future<Void>> handler) {
+        vertx.<JsonObject>executeBlocking(
+            future -> future.complete(buildConfig(config)),
+            done -> {
+                if (done.succeeded())
+                    _config = done.result();
+            }
+        );
 
+        vertx.<MongoDB>executeBlocking(
+            future -> future.complete(buildMongoDB(vertx)),
+            done -> {
+                if (done.succeeded())
+                    _mongoDB = done.result();
+            }
+        );
+
+        final Countdown countdown = new Countdown(2).onZero(zero -> {
+            if (zero.succeeded())
+                handler.handle(Future.succeededFuture());
+            else
+                handler.handle(Future.failedFuture(zero.cause()));
+        });
+
+        vertx.<SchemaTools>executeBlocking(
+            blocking -> blocking.complete(new SchemaTools(
+                vertx,
+                _config.getJsonObject("mongodb"),
+                "schemas",
+                server.schema.uriBase(),
+                server.scheme,
+                new HashMap<String, String>() {{
+                    put("$date", "\uFF04date");
+                    put("$domain", "\uFF04domain");
+                    put("$hidden", "\uFF04hidden");
+                }},
+                complete -> {
+                    if (complete.succeeded())
+                        countdown.next();
+                    else
+                        countdown.fail(complete.cause());
+                })),
+            result -> {
+                if (result.succeeded())
+                    _schemaTools = result.result();
+            }
+        );
+        vertx.<ProcessEngine>executeBlocking(blocking -> blocking.complete(buildProcessEngine()), done -> {
+            if (done.succeeded()) {
+                _processEngine = done.result();
+                countdown.next();
+            } else countdown.fail(done.cause());
+        });
+    }
+
+    private static JsonObject buildConfig(JsonObject config) {
         JsonObject node;
 
         develop = config.getBoolean("develop", false);
-        if (develop) {
-            LogManager.getLogManager().getLogger("it.beng").setLevel(Level.FINEST);
-        }
         version = config.getString("version");
 
         /* ssl */
@@ -320,41 +384,80 @@ public final class config {
         _config = config;
 
         /* mongodb */
+
+/*
+            "host": "localhost",
+            "port": 27017,
+            "username": "",
+            "password": "",
+            "db_name": "cpd",
+*/
+
         node = config.getJsonObject("mongodb");
         if ("".equals(node.getString("username")))
             node.put("username", (String) null);
         if ("".equals(node.getString("password")))
             node.put("password", (String) null);
-        _mongoDB = MongoDB.createShared(vertx, node, DATA_PATH + "db/commands/", new HashMap<String, String>() {
-            private static final long serialVersionUID = 1L;
 
-            {
-                put("id", "_id");
-                put("$domain", "\uFF04domain");
-            }
-        });
+        return config;
+    }
 
-        _schemaTools = new SchemaTools(vertx,
-            node,
-            "schemas",
-            server.schema.uriBase(),
-            server.scheme,
+    private static MongoDB buildMongoDB(Vertx vertx) {
+        final JsonObject mongoDbConfig = _config.getJsonObject("mongodb");
+
+        return MongoDB.createShared(
+            vertx,
+            mongoDbConfig,
+            DATA_PATH + "db/commands/",
             new HashMap<String, String>() {
-                private static final long serialVersionUID = 1L;
-
                 {
-                    put("$date", "\uFF04date");
+                    put("id", "_id");
                     put("$domain", "\uFF04domain");
-                    put("$hidden", "\uFF04hidden");
                 }
-            },
-            complete -> {
-                if (complete.succeeded())
-                    handler.handle(Future.succeededFuture());
-                else
-                    handler.handle(Future.failedFuture(complete.cause()));
             });
+    }
 
+    private static ProcessEngine buildProcessEngine() {
+        if (develop) try {
+            org.h2.tools.Server.createWebServer("-web", "-webAllowOthers", "-webPort", "9081")
+                               .start();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        ProcessEngine pe = new StandaloneProcessEngineConfiguration()
+            .setJdbcUrl("jdbc:h2:file:./process-engine/database")
+            .setJdbcUsername("sa")
+            .setJdbcPassword("")
+            .setJdbcDriver("org.h2.Driver")
+            .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
+            .buildProcessEngine();
+
+        RepositoryService repositoryService = pe.getRepositoryService();
+
+        if (repositoryService.createDeploymentQuery()
+                             .processDefinitionKey(PROCESS_DEFINITION_KEY)
+                             .singleResult() != null) {
+            logger.info("'" + PROCESS_DEFINITION_KEY + "' found!");
+        } else {
+            logger.info("No '" + PROCESS_DEFINITION_KEY + "' found => deploying process definition...");
+            repositoryService.createDeployment()
+                             .key("procedure-modeling")
+                             .name("Procedure Modeling")
+                             .addClasspathResource("it/beng/modeler/processengine/Procedure_Modeling.bpmn20.xml")
+                             .deploy();
+        }
+
+/*
+        _idm = ((IdmEngineConfiguration) new StandaloneIdmEngineConfiguration()
+            .setJdbcUrl("jdbc:h2:file:./process-engine/process-engine")
+            .setJdbcUsername("sa")
+            .setJdbcPassword("")
+            .setJdbcDriver("org.h2.Driver")
+            .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE))
+            .buildIdmEngine();
+*/
+        return pe;
     }
 
     public static JsonObject get() {
@@ -368,6 +471,16 @@ public final class config {
     public static SchemaTools schemaTools() {
         return _schemaTools;
     }
+
+    public static ProcessEngine processEngine() {
+        return _processEngine;
+    }
+
+/*
+    public static IdmEngine idmEngine() {
+        return _idm;
+    }
+*/
 
     private static final Map<String, String> LANG_ALTERNATIVES = new HashMap<String, String>() {{
         put("ca", "es");
@@ -435,6 +548,19 @@ public final class config {
                 return "traditional chinese";
             default:
                 return "english";
+        }
+    }
+
+    private static Field getField(Class clazz, String fieldName) throws NoSuchFieldException {
+        try {
+            return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            Class superClass = clazz.getSuperclass();
+            if (superClass == null) {
+                throw e;
+            } else {
+                return getField(superClass, fieldName);
+            }
         }
     }
 

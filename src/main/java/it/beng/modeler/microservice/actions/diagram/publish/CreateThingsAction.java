@@ -11,7 +11,7 @@ import it.beng.modeler.model.Domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CreateThingsAction extends EditorAction {
+public class CreateThingsAction extends AuthorizedAction {
     public static final String TYPE = "[Diagram Action Publish] Create Things";
 
     public CreateThingsAction(JsonObject action) {

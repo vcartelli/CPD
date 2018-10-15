@@ -19,7 +19,6 @@ import it.beng.modeler.model.Domain;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -27,8 +26,6 @@ import java.util.logging.Logger;
  * @author vince
  */
 public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
-
-    private static Logger logger = Logger.getLogger(OAuth2SubRoute.class.getName());
 
     protected final static String ID = "id";
     protected final static String PROVIDER = "provider";

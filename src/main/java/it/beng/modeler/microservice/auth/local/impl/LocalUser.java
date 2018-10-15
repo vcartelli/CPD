@@ -1,7 +1,5 @@
 package it.beng.modeler.microservice.auth.local.impl;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -18,8 +16,6 @@ import it.beng.modeler.microservice.utils.AuthUtils;
  */
 public class LocalUser extends AbstractUser implements User {
 
-    private static Logger logger = Logger.getLogger(LocalUser.class.getName());
-
     private JsonObject principal;
     private LocalAuthProvider authProvider;
 
@@ -28,11 +24,11 @@ public class LocalUser extends AbstractUser implements User {
         this.authProvider = authProvider;
     }
 
-    JsonObject getAccount() {
+    public JsonObject getAccount() {
         return this.principal.getJsonObject("account");
     }
 
-    JsonObject getRoles() {
+    public JsonObject getRoles() {
         return this.getAccount().getJsonObject("roles");
     }
 

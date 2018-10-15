@@ -6,7 +6,7 @@
     <parent>
         <groupId>it.beng</groupId>
         <artifactId>microservice-stack</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
     <artifactId>cpd-server</artifactId>
     <packaging>jar</packaging>
@@ -66,24 +66,50 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <target name="copy and rename file">
-		                        <copy file="src/main/deploy-bundle/web/ROOT/en/index.html" tofile="target/deploy-bundle/web/ROOT/en/docker.index.html" verbose="true" failonerror="false"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/es/index.html" tofile="target/deploy-bundle/web/ROOT/es/docker.index.html" verbose="true" failonerror="false"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/it/index.html" tofile="target/deploy-bundle/web/ROOT/it/docker.index.html" verbose="true" failonerror="false"/>
-					<copy file="src/main/deploy-bundle/web/ROOT/gl/index.html" tofile="target/deploy-bundle/web/ROOT/gl/docker.index.html" verbose="true" failonerror="false"/>
-					<copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh" verbose="true" overwrite="true" />
-					<copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh" verbose="true" overwrite="true" />
-					<copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh" verbose="true" overwrite="true" />
-					<copy file="docker/docker.properties" tofile="target/deploy-bundle/docker.properties" verbose="true" overwrite="true" failonerror="false" />
-					<copy file="docker/docker.oauth2providers.json" tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true" overwrite="true" />
-					<copy file="docker/conf/docker.cluster.xml" tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true" overwrite="true" />
-					<copy file="docker/conf/docker.config.json" tofile="target/deploy-bundle/conf/docker.config.json" verbose="true" overwrite="true" />
-					<copy file="docker/web/assets/conf/docker.config.json" tofile="target/deploy-bundle/web/assets/conf/docker.config.json" verbose="true" overwrite="true" />
-					<copy file="docker/web/assets/swagger/docker.private-API.json" tofile="target/deploy-bundle/web/assets/swagger/docker.private-API.json" verbose="true" overwrite="true" />
-					<copy file="docker/web/swagger-ui/docker.swagger.json" tofile="target/deploy-bundle/web/swagger-ui/docker.swagger.json" verbose="true" overwrite="true" />
-					<copy todir="target/deploy-bundle/dump" failonerror="false">
-  					   <fileset dir="dump"/>
-					</copy>					
-					<copy file="db-restore.sh" tofile="target/deploy-bundle/db-restore.sh" verbose="true" />
+                                        <copy file="src/main/deploy-bundle/web/ROOT/en/index.html"
+                                              tofile="target/deploy-bundle/web/ROOT/en/docker.index.html" verbose="true"
+                                              failonerror="false"/>
+                                        <copy file="src/main/deploy-bundle/web/ROOT/es/index.html"
+                                              tofile="target/deploy-bundle/web/ROOT/es/docker.index.html" verbose="true"
+                                              failonerror="false"/>
+                                        <copy file="src/main/deploy-bundle/web/ROOT/it/index.html"
+                                              tofile="target/deploy-bundle/web/ROOT/it/docker.index.html" verbose="true"
+                                              failonerror="false"/>
+                                        <copy file="src/main/deploy-bundle/web/ROOT/gl/index.html"
+                                              tofile="target/deploy-bundle/web/ROOT/gl/docker.index.html" verbose="true"
+                                              failonerror="false"/>
+                                        <copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh"
+                                              verbose="true" overwrite="true"/>
+                                        <copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh"
+                                              verbose="true" overwrite="true"/>
+                                        <copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh"
+                                              verbose="true" overwrite="true"/>
+                                        <copy file="docker/docker.properties"
+                                              tofile="target/deploy-bundle/docker.properties" verbose="true"
+                                              overwrite="true" failonerror="false"/>
+                                        <copy file="docker/docker.oauth2providers.json"
+                                              tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true"
+                                              overwrite="true"/>
+                                        <copy file="docker/conf/docker.cluster.xml"
+                                              tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true"
+                                              overwrite="true"/>
+                                        <copy file="docker/conf/docker.config.json"
+                                              tofile="target/deploy-bundle/conf/docker.config.json" verbose="true"
+                                              overwrite="true"/>
+                                        <copy file="docker/web/assets/conf/docker.config.json"
+                                              tofile="target/deploy-bundle/web/assets/conf/docker.config.json"
+                                              verbose="true" overwrite="true"/>
+                                        <copy file="docker/web/assets/swagger/docker.private-API.json"
+                                              tofile="target/deploy-bundle/web/assets/swagger/docker.private-API.json"
+                                              verbose="true" overwrite="true"/>
+                                        <copy file="docker/web/swagger-ui/docker.swagger.json"
+                                              tofile="target/deploy-bundle/web/swagger-ui/docker.swagger.json"
+                                              verbose="true" overwrite="true"/>
+                                        <copy todir="target/deploy-bundle/dump" failonerror="false">
+                                            <fileset dir="dump"/>
+                                        </copy>
+                                        <copy file="db-restore.sh" tofile="target/deploy-bundle/db-restore.sh"
+                                              verbose="true"/>
                                     </target>
                                 </configuration>
                                 <goals>
@@ -95,7 +121,7 @@
                 </plugins>
             </build>
         </profile>
-	<profile>
+        <profile>
             <id>docker-verify</id>
             <properties>
                 <cpd.develop>false</cpd.develop>
@@ -168,6 +194,45 @@
             <artifactId>guava</artifactId>
             <version>21.0</version>
         </dependency>
+        <!-- BPMN Engine -->
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-engine</artifactId>
+            <version>6.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-idm-engine</artifactId>
+            <version>6.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.190</version>
+        </dependency>
+        <!-- SLF4J LOGGING -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <!-- for future log4j.appender.LOGFILE.RollingPolicy=org.apache.log4j.rolling.TimeBasedRollingPolicy
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>apache-log4j-extras</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        -->
     </dependencies>
     <build>
         <resources>

@@ -462,7 +462,30 @@
 			"propertyOrder": 8.0
 		},
 		"team": {
-			"propertyOrder": 9.0
+			"propertyOrder": 9.0,
+			"title": "Team",
+			"description": "team of this Collaboration",
+			"type": "object",
+			"properties": {
+				"owner": {
+					"＄ref": "type#array-of-string",
+					"readOnly": true
+				},
+				"reviewer": {
+					"＄ref": "type#array-of-string"
+				},
+				"editor": {
+					"＄ref": "type#array-of-string"
+				},
+				"observer": {
+					"＄ref": "type#array-of-string"
+				}
+			},
+			"required": [
+				"owner",
+				"reviewer",
+				"editor"
+			]
 		},
 		"＄domain": {
 			"propertyOrder": 10.0,
@@ -983,8 +1006,7 @@
 		"team": {
 			"title": "Team",
 			"description": "The team of this collaboration",
-			"＄ref": "Model.Organization.Team",
-			"＄hidden": true
+			"＄ref": "Model.Organization.Team"
 		}
 	},
 	"required": [
@@ -1126,6 +1148,13 @@
 		"domain": {
 			"_id": "#domain",
 			"type": "string"
+		},
+		"array-of-string": {
+			"_id": "#array-of-string",
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
 		},
 		"expression": {
 			"_id": "#expression",

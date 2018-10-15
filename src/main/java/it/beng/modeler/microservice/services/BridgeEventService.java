@@ -1,15 +1,18 @@
 package it.beng.modeler.microservice.services;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public abstract class BridgeEventService {
+
+    private static final Log logger = LogFactory.getLog(BridgeEventService.class);
 
     private static final Map<Class<? extends BridgeEventService>, BridgeEventService> SERVICES = new LinkedHashMap<>();
 
@@ -33,8 +36,8 @@ public abstract class BridgeEventService {
             try {
                 serviceClass.getDeclaredConstructor(Vertx.class).newInstance(vertx);
             } catch (Exception e) {
-                Logger.getLogger(serviceClass.getName())
-                    .severe("could not instantiate " + serviceClass.getName() + " because of " + e.getLocalizedMessage());
+                logger.error("could not instantiate " + serviceClass.getName()
+                    + " because of " + e.getLocalizedMessage());
             }
         }
     }

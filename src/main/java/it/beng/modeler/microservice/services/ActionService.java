@@ -15,12 +15,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public abstract class ActionService extends BridgeEventService {
-
-    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     private static final Map<String, Class<? extends IncomingAction>> INCOMING_ACTIONS = new HashMap<>();
 

@@ -4,8 +4,8 @@ import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import it.beng.microservice.common.MicroServiceVerticle;
 import it.beng.modeler.config;
-
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -14,28 +14,23 @@ import java.util.logging.Logger;
  */
 public class ModelerConfigVerticle extends MicroServiceVerticle {
 
-    private static Logger logger = Logger.getLogger(ModelerConfigVerticle.class.getName());
+    private static final Log logger = LogFactory.getLog(ModelerConfigVerticle.class);
 
     @Override
     public void start() {
         super.start();
-        vertx.executeBlocking(future -> config.set(vertx, config(), configSet -> {
-            if (configSet.succeeded()) {
+        config.set(vertx, config(), done -> {
+            if (done.succeeded()) {
                 vertx.deployVerticle(new ModelerServerVerticle(), new DeploymentOptions().setConfig(config()),
                     complete -> {
                         if (complete.succeeded()) {
                             logger.info("Succesfully deployed ModelerServerVerticle: " + complete.result());
-                            future.complete();
                         } else {
-                            logger.severe("Cannot deploy ModelerServerVerticle: " + complete.cause().getMessage());
-                            future.fail(complete.cause());
+                            logger.fatal("Cannot deploy ModelerServerVerticle: " + complete.cause().getMessage());
+                            throw new IllegalStateException(complete.cause());
                         }
                     });
             } else {
-                future.fail(configSet.cause());
-            }
-        }), false, done -> {
-            if (done.failed()) {
                 throw new IllegalStateException(done.cause());
             }
         });
@@ -76,7 +71,7 @@ public class ModelerConfigVerticle extends MicroServiceVerticle {
 
     @Override
     public void stop(Future<Void> future) throws Exception {
-        logger.info("Shutting down server...");
+        logger.info("Killing main thread...");
         super.stop(future);
     }
 }

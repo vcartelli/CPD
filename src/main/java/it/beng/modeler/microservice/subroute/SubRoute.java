@@ -14,12 +14,12 @@ import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.config;
+import it.beng.modeler.microservice.utils.AuthUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.nio.charset.StandardCharsets;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.Base64;
-import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -27,8 +27,7 @@ import java.util.logging.Logger;
  * @author vince
  */
 public abstract class SubRoute<T> {
-
-    protected Logger logger = Logger.getLogger(this.getClass().getName());
+    private static final Log logger = LogFactory.getLog(SubRoute.class);
 
     static {
         Json.mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
@@ -114,7 +113,7 @@ public abstract class SubRoute<T> {
 
     protected static boolean isAdmin(User user) {
         return user != null && "admin".equals(
-            user.principal().getJsonObject("account").getJsonObject("roles").getString("system")
+            AuthUtils.getAccount(user).getJsonObject("roles").getString("system")
         );
     }
 
@@ -124,36 +123,12 @@ public abstract class SubRoute<T> {
 
     protected static boolean isCivilServant(User user) {
         return user != null && "civil-servant".equals(
-            user.principal().getJsonObject("account").getJsonObject("roles").getString("interaction")
+            AuthUtils.getAccount(user).getJsonObject("roles").getString("interaction")
         );
     }
 
     protected static boolean isCivilServantFailOtherwise(RoutingContext context) {
         return passOrFail(context, isCivilServant(context.user()), HttpResponseStatus.UNAUTHORIZED);
-    }
-
-    protected static OffsetDateTime parseDateTime(String value) {
-        if (value == null)
-            return null;
-        OffsetDateTime dateTime = null;
-        try {
-            dateTime = OffsetDateTime.parse(value);
-        } catch (DateTimeParseException ignored) {}
-        if (dateTime == null) {
-            try {
-                dateTime = OffsetDateTime.parse(value + "+00:00");
-            } catch (DateTimeParseException ignored) {}
-        }
-        if (dateTime == null) {
-            try {
-                dateTime = OffsetDateTime.parse(value + "T00:00:00+00:00");
-            } catch (DateTimeParseException ignored) {}
-        }
-        return dateTime;
-    }
-
-    protected static JsonObject mongoDateTime(OffsetDateTime dateTime) {
-        return new JsonObject().put("$date", dateTime != null ? dateTime.toString() : null);
     }
 
     public static void redirect(RoutingContext context, final String location) {

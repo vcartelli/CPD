@@ -9,7 +9,6 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.utils.AuthUtils;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public interface DiagramAction {
     String ADDRESS = config.server.eventBus.diagramAddress;
@@ -41,10 +40,6 @@ public interface DiagramAction {
             }
         }
         handler.handle(Future.succeededFuture(false));
-    }
-
-    static void isPermitted(JsonObject account, JsonObject collaboration, String role, Handler<AsyncResult<Boolean>> handler) {
-        isPermitted(account, collaboration, Collections.singleton(role), handler);
     }
 
     static void isEngaged(JsonObject account, JsonObject collaboration, Handler<AsyncResult<Boolean>> handler) {

@@ -6,17 +6,16 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.ext.web.handler.impl.UserHolder;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
-
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public final class EventBusUtils {
-
-    private static final Logger logger = Logger.getLogger(EventBusUtils.class.getName());
+    private static final Log logger = LogFactory.getLog(EventBusUtils.class);
 
     public static void log(BridgeEvent event) {
         if (event.type() != BridgeEventType.SOCKET_PING) {
             JsonObject message = event.getRawMessage();
-            logger.finest("EVENT BUS: $1 $2"
+            logger.debug("EVENT BUS: $1 $2"
                 .replace("$1", event.type().name())
                 .replace("$2", message != null ? message.encodePrettily() : "-"));
         }
@@ -28,7 +27,7 @@ public final class EventBusUtils {
             ? userHolder.context.user()
             : null;
         return user != null
-            ? user.principal().getJsonObject("account")
+            ? AuthUtils.getAccount(user)
             : null;
     }
 

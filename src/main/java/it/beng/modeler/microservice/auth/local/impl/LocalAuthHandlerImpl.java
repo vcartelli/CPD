@@ -10,8 +10,6 @@ import it.beng.modeler.microservice.auth.local.LocalAuthHandler;
  */
 public class LocalAuthHandlerImpl /*extends AuthHandlerImpl*/ implements LocalAuthHandler {
 
-    // private Logger logger = Logger.getLogger(LocalAuthHandlerImpl.class.getName());
-
     public LocalAuthHandlerImpl(AuthProvider authProvider) {
         //        super(authProvider);
     }

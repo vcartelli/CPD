@@ -8,8 +8,11 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
 import it.beng.modeler.config;
+import it.beng.modeler.microservice.utils.AuthUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import java.util.logging.Logger;
+import javax.security.auth.login.AccountNotFoundException;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -17,8 +20,7 @@ import java.util.logging.Logger;
  * @author vince
  */
 public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
-
-    private static Logger logger = Logger.getLogger(OAuth2AuthCodeSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(OAuth2AuthCodeSubRoute.class);
 
     public static final String FLOW_TYPE = "AUTH_CODE";
 
@@ -56,7 +58,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
 
             user.userInfo(userInfo -> {
                 if (userInfo.succeeded()) {
-                    logger.finest("user info: " + userInfo.result().encodePrettily());
+                    logger.debug("user info: " + userInfo.result().encodePrettily());
 
                     final JsonObject state = new JsonObject(
                         base64.decode(context.session().remove("encodedState")));
@@ -67,8 +69,14 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
                         if (readOrCreateUser.succeeded()) {
                             user.principal().put("account", readOrCreateUser.result());
                             // redirect
-                            logger.finest(
+                            logger.debug(
                                 "auth_code flow user principal: " + context.user().principal().encodePrettily());
+                            try {
+                                AuthUtils.afterUserLogin(user);
+                            } catch (AccountNotFoundException e) {
+                                context.fail(e);
+                                return;
+                            }
                             redirect(context, config.server.appPath(context) + loginState
                                 .getString("redirect"));
                         } else {

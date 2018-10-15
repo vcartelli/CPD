@@ -16,11 +16,13 @@ import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2AuthCodeSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ClientSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ImplicitSubRoute;
+import it.beng.modeler.microservice.utils.AuthUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -29,7 +31,7 @@ import java.util.logging.Logger;
  */
 public final class AuthSubRoute extends VoidSubRoute {
 
-    private static Logger logger = Logger.getLogger(AuthSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(AuthSubRoute.class);
 
     static List<String> knownProviders = new LinkedList<>();
 
@@ -39,10 +41,10 @@ public final class AuthSubRoute extends VoidSubRoute {
 
     public static void checkEncodedStateStateCookie(RoutingContext context, String encodedState) {
         if (encodedState == null || !encodedState.equals(context.session().get("encodedState"))) {
-            logger.severe(HttpResponseStatus.NOT_FOUND.toString());
+            logger.error(HttpResponseStatus.NOT_FOUND.toString());
             throw new IllegalStateException("invalid login transaction");
         }
-        logger.fine("state check succesfull");
+        logger.debug("state check succesfull");
     }
 
     @Override
@@ -57,7 +59,7 @@ public final class AuthSubRoute extends VoidSubRoute {
         // oauth2provider/login
         for (config.OAuth2Config oAuth2Config : config.oauth2.configs) {
             knownProviders.add(oAuth2Config.provider);
-            for (String flowType : oAuth2Config.flows.keySet()) {
+            for (final String flowType : oAuth2Config.flows.keySet()) {
                 switch (flowType) {
                     case OAuth2AuthCodeSubRoute.FLOW_TYPE:
                         new OAuth2AuthCodeSubRoute(vertx, router, oAuth2Config);
@@ -65,23 +67,24 @@ public final class AuthSubRoute extends VoidSubRoute {
                     case OAuth2ClientSubRoute.FLOW_TYPE:
                         new OAuth2ClientSubRoute(vertx, router, oAuth2Config);
                         break;
-                    case "PASSWORD":
-                        break;
-                    case "AUTH_JWT":
-                        break;
                     case OAuth2ImplicitSubRoute.FLOW_TYPE:
                         new OAuth2ImplicitSubRoute(vertx, router, oAuth2Config);
                         break;
-                    default: {
-                        logger.warning("Provider '" + oAuth2Config.provider + "' will not be available.");
+                    case "PASSWORD":
+                        logger.warn("PASSWORD oauth2 flow type not yet implemented");
                         continue;
-                    }
+                    case "AUTH_JWT":
+                        logger.warn("AUTH_JWT oauth2 flow type not yet implemented");
+                        continue;
+                    default:
+                        logger.warn("Provider '" + oAuth2Config.provider + "' is unknown and will not be available.");
+                        continue;
                 }
                 logger.info("Provider '" + oAuth2Config.provider + "' will follow the '" + flowType + "' flow.");
             }
         }
 
-        logger.fine("known providers are " + knownProviders);
+        logger.debug("known providers are " + knownProviders);
 
         router.route(path + "login/:provider").handler(this::login);
 
@@ -122,7 +125,7 @@ public final class AuthSubRoute extends VoidSubRoute {
             }
         if (loginState.getValue("redirect") == null)
             loginState.put("redirect", "/");
-        logger.finest("login state: " + loginState.encodePrettily());
+        logger.debug("login state: " + loginState.encodePrettily());
 
         if ("local".equals(provider)) {
             context.put("loginState", loginState);
@@ -138,12 +141,12 @@ public final class AuthSubRoute extends VoidSubRoute {
             try {
                 ((AccessToken) context.user()).logout(logout -> {
                     if (logout.failed()) {
-                        logger.severe("user could not logout: " + context.user().principal().encodePrettily());
+                        logger.error("user could not logout: " + context.user().principal().encodePrettily());
                         context.next();
                     }
                 });
             } catch (Exception e) {
-                logger.fine("cannot logout user: " + context.user().principal().encodePrettily());
+                logger.debug("cannot logout user: " + context.user().principal().encodePrettily());
             }
         }
         context.clearUser();
@@ -170,7 +173,7 @@ public final class AuthSubRoute extends VoidSubRoute {
     private void getUser(RoutingContext context) {
         User user = context.user();
         if (user != null) {
-            if (user.principal().getJsonObject("account") == null) {
+            if (AuthUtils.getAccount(user) == null) {
                 context.clearUser();
                 user = null;
             } else {
@@ -180,24 +183,6 @@ public final class AuthSubRoute extends VoidSubRoute {
         if (user == null) {
             new JsonResponse(context).end(null);
         }
-        // {isAuthorized(context, config.role.cpd.access.admin, isAdmin -> {
-        //     if (isAdmin.succeeded()) {
-        //         if (isAdmin.result()) {
-        //             JSON_OBJECT_RESPONSE_END(context, user.put("isAdmin", true), HttpResponseStatus.OK);
-        //         } else
-        //             isAuthorized(context, config.role.cpd.access.civilServant, isCivilServant -> {
-        //                 if (isCivilServant.succeeded()) {
-        //                     if (isCivilServant.result()) {
-        //                         JSON_OBJECT_RESPONSE_END(context, user.put("isCivilServant", true), HttpResponseStatus.OK);
-        //                     } else {
-        //                         JSON_OBJECT_RESPONSE_END(context, user.put("isCitizen", true), HttpResponseStatus.OK);
-        //                     }
-        //                 } else
-        //                     throw new ResponseError(context, isCivilServant.cause());
-        //             });
-        //     } else
-        //         throw new ResponseError(context, isAdmin.cause());
-        // })};
     }
 
     private void getAccounts(RoutingContext context) {
@@ -224,7 +209,7 @@ public final class AuthSubRoute extends VoidSubRoute {
             mongodb.findOneAndReplace("users", query, account, update -> {
                 if (update.succeeded()) {
                     new JsonResponse(context).end(update.result());
-                    logger.finest("Account UPDATED: " + account.encodePrettily());
+                    logger.debug("Account UPDATED: " + account.encodePrettily());
                 } else {
                     context.fail(update.cause());
                 }

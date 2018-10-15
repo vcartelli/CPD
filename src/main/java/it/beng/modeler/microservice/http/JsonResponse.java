@@ -8,14 +8,15 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.utils.CommonUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 public final class JsonResponse {
 
-    private static final Logger logger = Logger.getLogger(JsonResponse.class.getName());
+    private static final Log logger = LogFactory.getLog(JsonResponse.class);
 
     private static Exception DEFAULT_EXCEPTION = new NullPointerException();
 
@@ -82,7 +83,7 @@ public final class JsonResponse {
             .put("message", message);
         if (failure.getCause() != null)
             error.put("stackTrace", new JsonArray(Arrays.asList(failure.getStackTrace())));
-        logger.severe("ERROR (" + status + "): " + error.encodePrettily());
+        logger.error("ERROR (" + status + "): " + error.encodePrettily());
         this.response.setStatusCode(status.code()).end(error.encode());
     }
 

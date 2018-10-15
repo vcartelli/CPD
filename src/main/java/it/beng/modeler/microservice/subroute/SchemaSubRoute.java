@@ -6,7 +6,7 @@ import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import it.beng.microservice.common.Counter;
+import it.beng.microservice.common.Countdown;
 import it.beng.microservice.schema.ValidationResult;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
@@ -95,7 +95,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
                             List<JsonObject> instances = find.result();
                             context.response().putHeader("content-type", "text/plain; charset=utf-8");
                             if (instances.size() > 0) {
-                                Counter counter = new Counter(instances.size());
+                                Countdown countdown = new Countdown(instances.size());
                                 StringBuffer result = new StringBuffer();
                                 for (JsonObject instance : instances) {
                                     schemaTools.validate($id, instance, validate -> {
@@ -112,7 +112,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
                                             result.append("could not be validated: ")
                                                   .append(validate.cause().getMessage());
                                         }
-                                        if (counter.next())
+                                        if (countdown.next())
                                             result.append("\n\n");
                                         else
                                             context.response().end(result.toString());

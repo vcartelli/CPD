@@ -10,7 +10,7 @@ import it.beng.modeler.model.Domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DeleteThingsAction extends EditorAction {
+public class DeleteThingsAction extends AuthorizedAction {
     public static final String TYPE = "[Diagram Action Publish] Delete Things";
 
     public DeleteThingsAction(JsonObject action) {

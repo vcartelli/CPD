@@ -2,9 +2,10 @@ package it.beng.modeler.model;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * @author vince
  */
 public class Domain {
-    private static Logger logger = Logger.getLogger(Domain.class.getName());
+    private static final Log logger = LogFactory.getLog(Domain.class);
 
     public static class Collection {
         public static final String DIS = "dis";
@@ -93,11 +94,11 @@ public class Domain {
             ));
         domains.forEach(domain -> {
             if (DOMAINS.containsKey(domain)) {
-                logger.severe("this call will overwrite the already registered domain \"" + domain + "\"");
+                logger.error("this call will overwrite the already registered domain \"" + domain + "\"");
             }
             DOMAINS.put(domain, this);
         });
-        logger.finest("added domains for collection \"" + collection + "\": "
+        logger.debug("added domains for collection \"" + collection + "\": "
             + new JsonArray(domains).encodePrettily());
     }
 

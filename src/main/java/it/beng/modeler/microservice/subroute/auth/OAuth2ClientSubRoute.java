@@ -1,13 +1,13 @@
 package it.beng.modeler.microservice.subroute.auth;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.web.Router;
 import it.beng.modeler.config;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -16,7 +16,7 @@ import it.beng.modeler.config;
  */
 public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
 
-    private static Logger logger = Logger.getLogger(OAuth2ClientSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(OAuth2ClientSubRoute.class);
 
     public static final String FLOW_TYPE = "CLIENT";
 
@@ -42,7 +42,7 @@ public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
                 setToken(accessToken);
                 logger.info("client access token correctly created: " + accessToken.principal().encodePrettily());
             } else {
-                logger.warning("COULD NOT GET CLIENT TOKEN");
+                logger.warn("COULD NOT GET CLIENT TOKEN");
                 ar.cause().printStackTrace();
             }
         });

@@ -12,8 +12,11 @@ import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.VoidSubRoute;
+import it.beng.modeler.microservice.utils.AuthUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import java.util.logging.Logger;
+import javax.security.auth.login.AccountNotFoundException;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -21,8 +24,7 @@ import java.util.logging.Logger;
  * @author vince
  */
 public final class LocalAuthSubRoute extends VoidSubRoute {
-
-    private static Logger logger = Logger.getLogger(LocalAuthSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(LocalAuthSubRoute.class);
 
     public static final String PROVIDER = "local";
 
@@ -57,8 +59,14 @@ public final class LocalAuthSubRoute extends VoidSubRoute {
                             // session should be upgraded as recommended by owasp
                             session.regenerateId();
                         }
-                        logger.finest("local user principal: " + context.user().principal().encodePrettily());
-                        new JsonResponse(context).end(context.user().principal());
+                        logger.debug("local user principal: " + context.user().principal().encodePrettily());
+                        try {
+                            AuthUtils.afterUserLogin(user);
+                        } catch (AccountNotFoundException e) {
+                            context.fail(e);
+                            return;
+                        }
+                        new JsonResponse(context).end(user.principal());
                     } else {
                         context.fail(result.cause());
                     }

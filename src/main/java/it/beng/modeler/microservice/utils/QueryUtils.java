@@ -9,6 +9,8 @@ import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
 import it.beng.modeler.model.Domain;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +31,33 @@ public final class QueryUtils {
     public static JsonObject ID(String id) {
         return new JsonObject().put("id", id);
     }
+
+    /* DATETIME */
+
+    public static OffsetDateTime parseDateTime(String value) {
+        if (value == null)
+            return null;
+        OffsetDateTime dateTime = null;
+        try {
+            dateTime = OffsetDateTime.parse(value);
+        } catch (DateTimeParseException ignored) {}
+        if (dateTime == null) {
+            try {
+                dateTime = OffsetDateTime.parse(value + "+00:00");
+            } catch (DateTimeParseException ignored) {}
+        }
+        if (dateTime == null) {
+            try {
+                dateTime = OffsetDateTime.parse(value + "T00:00:00+00:00");
+            } catch (DateTimeParseException ignored) {}
+        }
+        return dateTime;
+    }
+
+    public static JsonObject mongoDateTime(OffsetDateTime dateTime) {
+        return new JsonObject().put("$date", dateTime != null ? dateTime.toString() : null);
+    }
+
 
     /* FIELDS */
 
@@ -101,5 +130,4 @@ public final class QueryUtils {
                 } else handler.handle(Future.failedFuture(find.cause()));
             });
     }
-
 }

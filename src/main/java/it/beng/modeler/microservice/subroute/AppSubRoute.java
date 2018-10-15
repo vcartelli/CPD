@@ -13,8 +13,6 @@ import it.beng.modeler.config;
  */
 public final class AppSubRoute extends VoidSubRoute {
 
-    // private static Logger logger = Logger.getLogger(AppSubRoute.class.getName());
-
     public AppSubRoute(Vertx vertx, Router router) {
         super("" /* config.app.path */, vertx, router, false);
     }

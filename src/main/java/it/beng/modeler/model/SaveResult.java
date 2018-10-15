@@ -3,6 +3,7 @@ package it.beng.modeler.model;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import it.beng.microservice.schema.ValidationResult;
+
 import java.util.ArrayList;
 import java.util.Collection;
 

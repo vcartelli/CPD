@@ -1,18 +1,5 @@
 package it.beng.modeler.model;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
-import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-import it.beng.microservice.db.DeleteResult;
-import it.beng.microservice.db.MongoDB;
-import it.beng.microservice.schema.SchemaTools;
-
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
  *

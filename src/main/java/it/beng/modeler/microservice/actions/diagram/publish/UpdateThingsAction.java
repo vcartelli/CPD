@@ -5,12 +5,17 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import it.beng.modeler.microservice.utils.ProcessEngineUtils;
 import it.beng.modeler.model.Domain;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UpdateThingsAction extends EditorAction {
+public class UpdateThingsAction extends AuthorizedAction {
+    private static final Log logger = LogFactory.getLog(UpdateThingsAction.class);
+
     public static final String TYPE = "[Diagram Action Publish] Update Things";
 
     public UpdateThingsAction(JsonObject action) {
@@ -36,16 +41,17 @@ public class UpdateThingsAction extends EditorAction {
     }
 
     @Override
-    protected void forEach(JsonObject item, Handler<AsyncResult<Void>> handler) {
-        JsonObject original = item.getJsonObject("original");
-        JsonObject changes = item.getJsonObject("changes");
-        mongodb.findOneAndUpdate(
-            Domain.get(original.getString("$domain")).getCollection(),
-            new JsonObject().put("id", original.getString("id")),
-            new JsonObject().put("$set", changes), update -> {
-                if (update.failed()) {
-                    handler.handle(Future.failedFuture(update.cause()));
+    protected void forEach(JsonObject update, Handler<AsyncResult<Void>> handler) {
+        JsonObject changes = update.getJsonObject("changes");
+        JsonObject replace = update.getJsonObject("original").mergeIn(changes, true);
+        mongodb.findOneAndReplace(
+            Domain.get(replace.getString("$domain")).getCollection(),
+            new JsonObject().put("id", replace.getString("id")),
+            replace, findOneAndReplace -> {
+                if (findOneAndReplace.failed()) {
+                    handler.handle(Future.failedFuture(findOneAndReplace.cause()));
                 } else {
+                    ProcessEngineUtils.update(update);
                     handler.handle(Future.succeededFuture());
                 }
             });
@@ -54,4 +60,5 @@ public class UpdateThingsAction extends EditorAction {
     public JsonArray updates() {
         return json.getJsonArray("updates");
     }
+
 }

@@ -18,13 +18,15 @@ import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
+import it.beng.modeler.microservice.utils.AuthUtils;
 import it.beng.modeler.microservice.utils.JsonUtils;
 import it.beng.modeler.microservice.utils.QueryUtils;
 import it.beng.modeler.model.Domain;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.time.OffsetDateTime;
 import java.util.*;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -34,8 +36,7 @@ import java.util.stream.Collectors;
  * @author vince
  */
 public final class ApiSubRoute extends VoidSubRoute {
-
-    Logger logger = Logger.getLogger(ApiSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(ApiSubRoute.class);
 
     public ApiSubRoute(Vertx vertx, Router router) {
         super(config.server.api.path, vertx, router, false);
@@ -248,30 +249,27 @@ public final class ApiSubRoute extends VoidSubRoute {
 
     private static JsonObject mongoDateTimeRange(OffsetDateTime from, OffsetDateTime to) {
         JsonObject range = new JsonObject();
-        if (from != null) range.put("$gte", mongoDateTime(from));
-        if (to != null) range.put("$lt", mongoDateTime(to));
+        if (from != null) range.put("$gte", QueryUtils.mongoDateTime(from));
+        if (to != null) range.put("$lt", QueryUtils.mongoDateTime(to));
         return range;
     }
 
     private void getUserFeedback(RoutingContext context) {
-        OffsetDateTime fromDateTime = parseDateTime(context.pathParam("fromDateTime"));
+        OffsetDateTime fromDateTime = QueryUtils.parseDateTime(context.pathParam("fromDateTime"));
         if (fromDateTime == null) {
             context.fail(
                 new NoStackTraceThrowable("cannot parse '" + context.pathParam("fromDateTime") + "' as date-time")
             );
             return;
         }
-        OffsetDateTime toDateTime = parseDateTime(context.pathParam("toDateTime"));
+        OffsetDateTime toDateTime = QueryUtils.parseDateTime(context.pathParam("toDateTime"));
         JsonObject dateTimeRange = mongoDateTimeRange(fromDateTime, toDateTime);
-        MongoDB.Command command = mongodb.command("getUserFeedback", new HashMap<String, String>() {
-            private static final long serialVersionUID = 1L;
-
-            {
+        MongoDB.Command command = mongodb.command("getUserFeedback", new HashMap<String, String>() {{
                 put("dateTimeRange", dateTimeRange.encode());
                 put("appDiagramUrl", config.server.appHref(context) + config.app.designerPath);
                 put("appDiagramSvg", config.server.apiHref() + "model/diagram/");
-            }
-        });
+            }}
+        );
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 new JsonResponse(context).end(new JsonObject().put("dateTimeRange", dateTimeRange)
@@ -307,8 +305,8 @@ public final class ApiSubRoute extends VoidSubRoute {
                 return;
             }
             feedback.put("id", UUID.randomUUID().toString())
-                    .put("userId", user.principal().getJsonObject("account").getString("id"))
-                    .put("dateTime", mongoDateTime(OffsetDateTime.now()));
+                    .put("userId", AuthUtils.getAccount(user).getString("id"))
+                    .put("dateTime", QueryUtils.mongoDateTime(OffsetDateTime.now()));
             //        schemaTools.validate();
 
             mongodb.save("user.feedbacks", feedback, save -> {
@@ -344,10 +342,11 @@ public final class ApiSubRoute extends VoidSubRoute {
         });
     }
 
-    private void getModelDiagramList(RoutingContext context,
-                                     List<String> diagramIds, List<String> userIds, String searchText, Integer limit) {
+    private void getModelDiagramList(List<String> diagramIds, List<String> userIds,
+                                     String searchText, String searchLanguageCode,
+                                     Integer limit, Handler<Future<List<JsonObject>>> handler) {
         if (diagramIds != null && diagramIds.isEmpty()) {
-            JsonResponse.endWithEmptyArray(context);
+            handler.handle(Future.succeededFuture(Collections.emptyList()));
             return;
         }
         final JsonArray andArray = new JsonArray();
@@ -369,7 +368,7 @@ public final class ApiSubRoute extends VoidSubRoute {
             ));
         }
         if (searchText != null) {
-            andArray.add(QueryUtils.text(searchText, config.languageCode(context)));
+            andArray.add(QueryUtils.text(searchText, searchLanguageCode));
         }
         final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
         final String collection = diagramDomain.getCollection();
@@ -384,28 +383,47 @@ public final class ApiSubRoute extends VoidSubRoute {
         }
         mongodb.findWithOptions(collection, query, findOptions, find -> {
             if (find.succeeded()) {
-                new JsonResponse(context).end(find.result());
+                handler.handle(Future.succeededFuture(find.result()));
             } else {
-                context.fail(find.cause());
+                handler.handle(Future.failedFuture(find.cause()));
             }
         });
-
     }
 
     private void getDiagramMyList(RoutingContext context) {
         String userId;
         try {
-            userId = context.user().principal().getJsonObject("account").getString("id");
+            userId = AuthUtils.getAccount(context).getString("id");
         } catch (Exception e) {
             JsonResponse.endWithEmptyArray(context);
             return;
         }
-        getModelDiagramList(context, null, Collections.singletonList(userId), null, null);
+        getModelDiagramList(null, Collections.singletonList(userId), null, null, null, list -> {
+//            List<String> diagramIds = config.processEngine().getHistoryService()
+//                                            .createHistoricProcessInstanceQuery()
+//                                            .unfinished()
+//                                            .involvedUser(userId)
+//                                            .list().stream()
+//                                            .map(HistoricProcessInstance::getBusinessKey)
+//                                            .collect(Collectors.toList());
+//        getModelDiagramList(diagramIds, Collections.singletonList(userId), null, null, null, list -> {
+            if (list.succeeded()) {
+                new JsonResponse(context).end(list.result());
+            } else {
+                context.fail(list.cause());
+            }
+        });
     }
 
     private void getDiagramTextList(RoutingContext context) {
         String searchText = context.pathParam("text");
-        getModelDiagramList(context, null, null, searchText, null);
+        getModelDiagramList(null, null, searchText, config.languageCode(context), null, list -> {
+            if (list.succeeded()) {
+                new JsonResponse(context).end(list.result());
+            } else {
+                context.fail(list.cause());
+            }
+        });
     }
 
     private void getDiagramNewerList(RoutingContext context) {
@@ -421,7 +439,13 @@ public final class ApiSubRoute extends VoidSubRoute {
             JsonResponse.endWithEmptyArray(context);
             return;
         }
-        getModelDiagramList(context, null, null, null, limit);
+        getModelDiagramList(null, null, null, null, limit, list -> {
+            if (list.succeeded()) {
+                new JsonResponse(context).end(list.result());
+            } else {
+                context.fail(list.cause());
+            }
+        });
     }
 
     // private void getDiagramElement(RoutingContext context) {

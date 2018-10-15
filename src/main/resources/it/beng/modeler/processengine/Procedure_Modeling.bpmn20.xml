@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:flowable="http://flowable.org/bpmn" xmlns:modeler="http://flowable.org/modeler"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://flowable.org/test">
+    <collaboration id="Collaboration">
+        <participant id="sid-1ABFA51C-179B-44ED-BE7F-DE1E8C8B2480" name="Procedure Modeling"
+                     processRef="procedure-modeling-process"></participant>
+    </collaboration>
+    <process id="procedure-modeling-process" name="Procedure Modeling" isExecutable="true">
+        <laneSet id="laneSet_process">
+            <lane id="sid-AE37DFB3-6752-4DDB-8CEF-DF95B39C46EA" name="Procedure Owner">
+                <flowNodeRef>startEvent1</flowNodeRef>
+                <flowNodeRef>sid-B8F19EE2-6008-4BBC-BE78-6AC6E7D48CB7</flowNodeRef>
+                <flowNodeRef>sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4</flowNodeRef>
+                <flowNodeRef>sid-4EFA6C1F-F417-4B45-905A-5FFD98A88460</flowNodeRef>
+                <flowNodeRef>sid-B7A80F57-4548-412B-B193-CE910E54A935</flowNodeRef>
+                <flowNodeRef>sid-DDAAE205-4D45-4785-BC48-74BB769F215B</flowNodeRef>
+                <flowNodeRef>sid-65315C1D-35AC-4748-A394-1E74A0501B38</flowNodeRef>
+                <flowNodeRef>sid-1D77D262-D501-43CE-9D05-1AB1D84C39D2</flowNodeRef>
+            </lane>
+            <lane id="sid-C2026DBE-019E-494E-BBEF-15E45BC2DB3A" name="Procedure Analyst">
+                <flowNodeRef>sid-61B9090B-7F94-4CF3-AE73-B69C18EDB6C0</flowNodeRef>
+                <flowNodeRef>sid-CB3983BC-04E4-4854-9BF6-695A59795761</flowNodeRef>
+                <flowNodeRef>sid-D166F602-1FFC-43C5-ACAC-C224354AEF19</flowNodeRef>
+                <flowNodeRef>sid-72787CE3-20C6-4A87-8387-6897AAAD4F7F</flowNodeRef>
+                <flowNodeRef>sid-32616B8C-BF8B-49B3-A559-AF37828548C4</flowNodeRef>
+                <flowNodeRef>sid-BF9ED0BB-12B2-4392-8E9C-E896D12EE7A6</flowNodeRef>
+                <flowNodeRef>sid-1FE36B8E-ED52-4F97-B3FF-A164409755FC</flowNodeRef>
+            </lane>
+            <lane id="sid-22DC0D64-C0E8-43FD-B3E7-993FE76F9E9C" name="Procedure Editor">
+                <flowNodeRef>sid-82568DD3-6936-4EC1-82C1-84FB5AE23759</flowNodeRef>
+                <flowNodeRef>sid-720281E8-8BED-4136-B45C-2FD473813199</flowNodeRef>
+            </lane>
+        </laneSet>
+        <startEvent id="startEvent1" flowable:initiator="owner"></startEvent>
+        <userTask id="sid-B8F19EE2-6008-4BBC-BE78-6AC6E7D48CB7" name="Approvazione della Procedura"
+                  flowable:assignee="${owner}"
+                  flowable:formKey="{&quot;position&quot;:&quot;editor&quot;,&quot;outputs&quot;:[&quot;confirm&quot;,&quot;reject&quot;]}">
+            <documentation>
+                In qualità di «responsabile» (owner) della Procedura hai la facoltà di approvare in maniera definitiva
+                la Procedura, rendendola visibile ai cittadini, oppure di ritornare la Procedura al «revisore»/«editore»
+                (reviewer/editor) al fine di apportare le modifiche necessarie all'approvazione.
+            </documentation>
+            <extensionElements>
+                <modeler:initiator-can-complete>
+                    <![CDATA[false]]>
+                </modeler:initiator-can-complete>
+            </extensionElements>
+        </userTask>
+        <exclusiveGateway id="sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4"
+                          default="sid-B7A80F57-4548-412B-B193-CE910E54A935"></exclusiveGateway>
+        <endEvent id="sid-4EFA6C1F-F417-4B45-905A-5FFD98A88460"></endEvent>
+        <userTask id="sid-61B9090B-7F94-4CF3-AE73-B69C18EDB6C0" name="Definizione requisiti della Procedura"
+                  flowable:assignee="${reviewer}"
+                  flowable:formKey="{&quot;position&quot;:&quot;reviewer&quot;}">
+            <documentation>
+                In qualità di «revisore» (reviewer) della Procedura hai il compito di definire e fornire all'«editore»
+                (editor) i requisiti della Procedura, tra cui gli utenti che parteciperanno al design collaborativo
+                della Procedura.
+            </documentation>
+            <extensionElements>
+                <modeler:initiator-can-complete>
+                    <![CDATA[false]]>
+                </modeler:initiator-can-complete>
+            </extensionElements>
+        </userTask>
+        <userTask id="sid-CB3983BC-04E4-4854-9BF6-695A59795761" name="Validazione della Procedura"
+                  flowable:assignee="${reviewer}"
+                  flowable:formKey="{&quot;position&quot;:&quot;reviewer&quot;,&quot;outputs&quot;:[&quot;confirm&quot;,&quot;reject&quot;]}">
+            <documentation>
+                In qualità di «revisore» (reviewer) della Procedura hai la facoltà di validare la Procedura, passandola
+                così al «responsabile» (owner) per l'approvazione definitiva, oppure di ritornare la Procedura
+                all'«editore» (editor) al fine di apportare le modifiche necessarie alla validazione.
+            </documentation>
+            <extensionElements>
+                <modeler:initiator-can-complete>
+                    <![CDATA[false]]>
+                </modeler:initiator-can-complete>
+            </extensionElements>
+            <multiInstanceLoopCharacteristics isSequential="true">
+                <loopCardinality>${owner.equals(reviewer)?0:1}</loopCardinality>
+            </multiInstanceLoopCharacteristics>
+        </userTask>
+        <exclusiveGateway id="sid-D166F602-1FFC-43C5-ACAC-C224354AEF19"
+                          default="sid-32616B8C-BF8B-49B3-A559-AF37828548C4"></exclusiveGateway>
+        <userTask id="sid-82568DD3-6936-4EC1-82C1-84FB5AE23759" name="Modellazione della Procedura"
+                  flowable:assignee="${editor}"
+                  flowable:formKey="{&quot;position&quot;:&quot;editor&quot;}">
+            <documentation>
+                In qualità di «editore» (editor) della Procedura hai il compito di modellare la Procedura sotto forma di
+                diagramma. Una volta completato il progetto della Procedura, questa passerà al «revisore» (reviewer) per
+                la validazione.
+            </documentation>
+            <extensionElements>
+                <modeler:initiator-can-complete>
+                    <![CDATA[false]]>
+                </modeler:initiator-can-complete>
+            </extensionElements>
+        </userTask>
+        <sequenceFlow id="sid-B7A80F57-4548-412B-B193-CE910E54A935" sourceRef="sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4"
+                      targetRef="sid-4EFA6C1F-F417-4B45-905A-5FFD98A88460"></sequenceFlow>
+        <sequenceFlow id="sid-DDAAE205-4D45-4785-BC48-74BB769F215B" sourceRef="sid-B8F19EE2-6008-4BBC-BE78-6AC6E7D48CB7"
+                      targetRef="sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4"></sequenceFlow>
+        <sequenceFlow id="sid-72787CE3-20C6-4A87-8387-6897AAAD4F7F" sourceRef="sid-CB3983BC-04E4-4854-9BF6-695A59795761"
+                      targetRef="sid-D166F602-1FFC-43C5-ACAC-C224354AEF19"></sequenceFlow>
+        <sequenceFlow id="sid-32616B8C-BF8B-49B3-A559-AF37828548C4" sourceRef="sid-D166F602-1FFC-43C5-ACAC-C224354AEF19"
+                      targetRef="sid-B8F19EE2-6008-4BBC-BE78-6AC6E7D48CB7"></sequenceFlow>
+        <sequenceFlow id="sid-65315C1D-35AC-4748-A394-1E74A0501B38" sourceRef="startEvent1"
+                      targetRef="sid-61B9090B-7F94-4CF3-AE73-B69C18EDB6C0"></sequenceFlow>
+        <sequenceFlow id="sid-BF9ED0BB-12B2-4392-8E9C-E896D12EE7A6" sourceRef="sid-61B9090B-7F94-4CF3-AE73-B69C18EDB6C0"
+                      targetRef="sid-82568DD3-6936-4EC1-82C1-84FB5AE23759"></sequenceFlow>
+        <sequenceFlow id="sid-720281E8-8BED-4136-B45C-2FD473813199" sourceRef="sid-82568DD3-6936-4EC1-82C1-84FB5AE23759"
+                      targetRef="sid-CB3983BC-04E4-4854-9BF6-695A59795761"></sequenceFlow>
+        <sequenceFlow id="sid-1FE36B8E-ED52-4F97-B3FF-A164409755FC" sourceRef="sid-D166F602-1FFC-43C5-ACAC-C224354AEF19"
+                      targetRef="sid-82568DD3-6936-4EC1-82C1-84FB5AE23759">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[${"reject".equals(execution.getVariable("decision"))}]]></conditionExpression>
+        </sequenceFlow>
+        <sequenceFlow id="sid-1D77D262-D501-43CE-9D05-1AB1D84C39D2" sourceRef="sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4"
+                      targetRef="sid-CB3983BC-04E4-4854-9BF6-695A59795761">
+            <conditionExpression xsi:type="tFormalExpression">
+                <![CDATA[${"reject".equals(execution.getVariable("decision"))}]]></conditionExpression>
+        </sequenceFlow>
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_Collaboration">
+        <bpmndi:BPMNPlane bpmnElement="Collaboration" id="BPMNPlane_Collaboration">
+            <bpmndi:BPMNShape bpmnElement="sid-1ABFA51C-179B-44ED-BE7F-DE1E8C8B2480"
+                              id="BPMNShape_sid-1ABFA51C-179B-44ED-BE7F-DE1E8C8B2480">
+                <omgdc:Bounds height="388.4458376016694" width="544.1721675851769" x="30.0" y="30.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-AE37DFB3-6752-4DDB-8CEF-DF95B39C46EA"
+                              id="BPMNShape_sid-AE37DFB3-6752-4DDB-8CEF-DF95B39C46EA">
+                <omgdc:Bounds height="129.48194586722317" width="514.1721675851769" x="60.0" y="30.0"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+                <omgdc:Bounds height="30.0" width="30.0" x="135.0" y="79.74097293361157"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-B8F19EE2-6008-4BBC-BE78-6AC6E7D48CB7"
+                              id="BPMNShape_sid-B8F19EE2-6008-4BBC-BE78-6AC6E7D48CB7">
+                <omgdc:Bounds height="80.0" width="100.0" x="245.0" y="54.74097293361157"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4"
+                              id="BPMNShape_sid-6571FCF4-F2B4-4E1C-A991-04715C63E4C4">
+                <omgdc:Bounds height="40.0" width="40.0" x="420.0" y="74.74097293361157"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-4EFA6C1F-F417-4B45-905A-5FFD98A88460"
+                              id="BPMNShape_sid-4EFA6C1F-F417-4B45-905A-5FFD98A88460">
+                <omgdc:Bounds height="28.0" width="28.0" x="505.0" y="80.74097293361157"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-C2026DBE-019E-494E-BBEF-15E45BC2DB3A"
+                              id="BPMNShape_sid-C2026DBE-019E-494E-BBEF-15E45BC2DB3A">
+                <omgdc:Bounds height="129.48194586722312" width="514.1721675851769" x="60.0"
+                              y="159.48194586722317"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-61B9090B-7F94-4CF3-AE73-B69C18EDB6C0"
+                              id="BPMNShape_sid-61B9090B-7F94-4CF3-AE73-B69C18EDB6C0">
+                <omgdc:Bounds height="80.0" width="100.0" x="100.0" y="184.22291880083475"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-CB3983BC-04E4-4854-9BF6-695A59795761"
+                              id="BPMNShape_sid-CB3983BC-04E4-4854-9BF6-695A59795761">
+                <omgdc:Bounds height="80.0" width="100.0" x="390.0" y="184.22291880083466"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-D166F602-1FFC-43C5-ACAC-C224354AEF19"
+                              id="BPMNShape_sid-D166F602-1FFC-43C5-ACAC-C224354AEF19">
+                <omgdc:Bounds height="40.0" width="40.0" x="275.0" y="204.22291880083475"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-22DC0D64-C0E8-43FD-B3E7-993FE76F9E9C"
+                              id="BPMNShape_sid-22DC0D64-C0E8-43FD-B3E7-993FE76F9E9C">
+                <omgdc:Bounds height="129.4819458672231" width="514.1721675851769" x="60.0"
+                              y="288.9638917344463"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="sid-82568DD3-6936-4EC1-82C1-84FB5AE23759"
+                              id="BPMNShape_sid-82568DD3-6936-4EC1-82C1-84FB5AE23759">
+                <omgdc:Bounds height="80.0" width="100.0" x="245.0" y="313.70486466805784"></omgdc:Bounds>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge bpmnElement="sid-1D77D262-D501-43CE-9D05-1AB1D84C39D2"
+                             id="BPMNEdge_sid-1D77D262-D501-43CE-9D05-1AB1D84C39D2">
+                <omgdi:waypoint x="440.0" y="114.74097293361157"></omgdi:waypoint>
+                <omgdi:waypoint x="440.0" y="184.22291880083466"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-720281E8-8BED-4136-B45C-2FD473813199"
+                             id="BPMNEdge_sid-720281E8-8BED-4136-B45C-2FD473813199">
+                <omgdi:waypoint x="345.0" y="353.70486466805784"></omgdi:waypoint>
+                <omgdi:waypoint x="440.0" y="353.70486466805784"></omgdi:waypoint>
+                <omgdi:waypoint x="440.0" y="264.2229188008347"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-B7A80F57-4548-412B-B193-CE910E54A935"
+                             id="BPMNEdge_sid-B7A80F57-4548-412B-B193-CE910E54A935">
+                <omgdi:waypoint x="460.0" y="94.74097293361157"></omgdi:waypoint>
+                <omgdi:waypoint x="505.0" y="94.74097293361157"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-72787CE3-20C6-4A87-8387-6897AAAD4F7F"
+                             id="BPMNEdge_sid-72787CE3-20C6-4A87-8387-6897AAAD4F7F">
+                <omgdi:waypoint x="390.0" y="224.2229188008347"></omgdi:waypoint>
+                <omgdi:waypoint x="315.0" y="224.22291880083475"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-32616B8C-BF8B-49B3-A559-AF37828548C4"
+                             id="BPMNEdge_sid-32616B8C-BF8B-49B3-A559-AF37828548C4">
+                <omgdi:waypoint x="295.0" y="204.22291880083475"></omgdi:waypoint>
+                <omgdi:waypoint x="295.0" y="134.74097293361157"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-DDAAE205-4D45-4785-BC48-74BB769F215B"
+                             id="BPMNEdge_sid-DDAAE205-4D45-4785-BC48-74BB769F215B">
+                <omgdi:waypoint x="345.0" y="94.74097293361157"></omgdi:waypoint>
+                <omgdi:waypoint x="420.0" y="94.74097293361157"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-1FE36B8E-ED52-4F97-B3FF-A164409755FC"
+                             id="BPMNEdge_sid-1FE36B8E-ED52-4F97-B3FF-A164409755FC">
+                <omgdi:waypoint x="295.0" y="244.22291880083475"></omgdi:waypoint>
+                <omgdi:waypoint x="295.0" y="313.70486466805784"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-BF9ED0BB-12B2-4392-8E9C-E896D12EE7A6"
+                             id="BPMNEdge_sid-BF9ED0BB-12B2-4392-8E9C-E896D12EE7A6">
+                <omgdi:waypoint x="150.0" y="264.22291880083475"></omgdi:waypoint>
+                <omgdi:waypoint x="150.0" y="353.70486466805784"></omgdi:waypoint>
+                <omgdi:waypoint x="245.0" y="353.70486466805784"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="sid-65315C1D-35AC-4748-A394-1E74A0501B38"
+                             id="BPMNEdge_sid-65315C1D-35AC-4748-A394-1E74A0501B38">
+                <omgdi:waypoint x="150.0" y="109.74097293361157"></omgdi:waypoint>
+                <omgdi:waypoint x="150.0" y="184.22291880083475"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

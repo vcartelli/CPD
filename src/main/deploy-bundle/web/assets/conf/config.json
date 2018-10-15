@@ -54,5 +54,16 @@
       "newQuestion": "${cpd.qae.link.newQuestion}",
       "relatedQuestions": "${cpd.qae.link.relatedQuestions}"
     }
+  },
+  "gamification": {
+    "use": ${cpd.gamification.use},
+    "href": "${cpd.gamification.href}",
+    "executePath": "${cpd.gamification.executePath}",
+    "username": "${cpd.gamification.username}",
+    "password": "${cpd.gamification.password}",
+    "gameId": "${cpd.gamification.gameId}",
+    "actionId": {
+      "sendFeedback": "${cpd.gamification.actionId.sendFeedback}"
+    }
   }
 }

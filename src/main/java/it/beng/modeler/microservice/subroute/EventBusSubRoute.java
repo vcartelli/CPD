@@ -1,7 +1,5 @@
 package it.beng.modeler.microservice.subroute;
 
-import java.util.logging.Logger;
-
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.Router;
@@ -11,7 +9,11 @@ import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.services.BridgeEventService;
 import it.beng.modeler.microservice.services.DiagramActionService;
-import it.beng.modeler.microservice.utils.EventBusUtils;;
+import it.beng.modeler.microservice.utils.EventBusUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -19,8 +21,7 @@ import it.beng.modeler.microservice.utils.EventBusUtils;;
  * @author vince
  */
 public final class EventBusSubRoute extends VoidSubRoute {
-
-    static Logger logger = Logger.getLogger(EventBusSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(EventBusSubRoute.class);
 
     static {
         // register the bridge event services here.
@@ -47,19 +48,20 @@ public final class EventBusSubRoute extends VoidSubRoute {
         }
 
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx, new SockJSHandlerOptions().setInsertJSESSIONID(true))
-            .bridge(bridgeOptions, event -> {
-                EventBusUtils.log(event);
-                boolean handled = false;
-                for (BridgeEventService service : BridgeEventService.services()) {
-                    if (service.handle(event)) {
-                        handled = true;
-                        break;
-                    }
-                }
-                if (!handled) {
-                    event.complete(true);
-                }
-            });
+                                                   .bridge(bridgeOptions, event -> {
+                                                       EventBusUtils.log(event);
+                                                       boolean handled = false;
+                                                       for (BridgeEventService service : BridgeEventService
+                                                           .services()) {
+                                                           if (service.handle(event)) {
+                                                               handled = true;
+                                                               break;
+                                                           }
+                                                       }
+                                                       if (!handled) {
+                                                           event.complete(true);
+                                                       }
+                                                   });
 
         router.route(path + "*").handler(sockJSHandler);
 

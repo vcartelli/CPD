@@ -10,8 +10,8 @@ import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.model.Domain;
-
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class LocalAuthProviderImpl implements LocalAuthProvider {
 
-    private static Logger logger = Logger.getLogger(LocalAuthProviderImpl.class.getName());
+    private static final Log logger = LogFactory.getLog(LocalAuthProviderImpl.class);
 
     // private final Vertx vertx;
     private final MongoDB mongodb;
@@ -40,7 +40,7 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
             return;
         }
 
-        logger.finest("authenticating " + authInfo.encodePrettily());
+        logger.debug("authenticating " + authInfo.encodePrettily());
 
         String id = authInfo.getString("username");
         if (id == null || "".equals(id.trim())) {

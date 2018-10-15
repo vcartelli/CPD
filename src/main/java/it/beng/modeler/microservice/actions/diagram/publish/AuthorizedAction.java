@@ -4,16 +4,20 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
-import it.beng.microservice.common.Counter;
+import it.beng.microservice.common.Countdown;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramPublishAction;
 import it.beng.modeler.microservice.utils.QueryUtils;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-public abstract class EditorAction extends DiagramPublishAction implements DiagramAction {
+public abstract class AuthorizedAction extends DiagramPublishAction implements DiagramAction {
 
-    public EditorAction(JsonObject action) {
+    private static final Collection<String> roles = Arrays.asList("owner", "reviewer", "editor");
+
+    AuthorizedAction(JsonObject action) {
         super(action);
     }
 
@@ -26,18 +30,18 @@ public abstract class EditorAction extends DiagramPublishAction implements Diagr
     public void handle(JsonObject account, Handler<AsyncResult<JsonObject>> handler) {
         QueryUtils.team(diagramId(), team -> {
             if (team.succeeded()) {
-                DiagramAction.isPermitted(account, team.result(), "editor", isPermitted -> {
+                DiagramAction.isPermitted(account, team.result(), roles, isPermitted -> {
                     if (isPermitted.succeeded()) {
                         if (isPermitted.result()) {
-                            final Counter counter = new Counter(this.items());
+                            final Countdown countdown = new Countdown(this.items()).onZero(zero -> {
+                                handler.handle(Future.succeededFuture(json));
+                            });
                             this.items().forEach(item -> this.forEach(item, done -> {
                                 if (done.failed()) {
                                     handler.handle(Future.failedFuture(done.cause()));
                                     throw new RuntimeException(done.cause());
                                 }
-                                if (!counter.next()) {
-                                    handler.handle(Future.succeededFuture(json));
-                                }
+                                countdown.next();
                             }));
                         } else {
                             handler.handle(Future.failedFuture("unauthorized"));

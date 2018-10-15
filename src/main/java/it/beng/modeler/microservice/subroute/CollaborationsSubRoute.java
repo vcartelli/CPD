@@ -1,24 +1,33 @@
 package it.beng.modeler.microservice.subroute;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.User;
 import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import it.beng.microservice.common.Counter;
+import it.beng.microservice.common.Countdown;
 import it.beng.microservice.db.DeleteResult;
 import it.beng.modeler.config;
 import it.beng.modeler.microservice.http.JsonResponse;
+import it.beng.modeler.microservice.utils.AuthUtils;
+import it.beng.modeler.microservice.utils.CommonUtils;
+import it.beng.modeler.microservice.utils.ProcessEngineUtils;
 import it.beng.modeler.microservice.utils.QueryUtils;
 import it.beng.modeler.model.Domain;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -26,8 +35,7 @@ import java.util.logging.Logger;
  * @author vince
  */
 public final class CollaborationsSubRoute extends VoidSubRoute {
-
-    private static Logger logger = Logger.getLogger(CollaborationsSubRoute.class.getName());
+    private static final Log logger = LogFactory.getLog(CollaborationsSubRoute.class);
 
     public static final String PATH = "collaborations/";
 
@@ -47,18 +55,69 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
     @Override
     protected void init() {
         router.route(HttpMethod.GET, path).handler(this::get);
-        router.route(HttpMethod.GET, path + ":id").handler(this::get);
-        router.route(HttpMethod.PUT, path + ":id").handler(this::put);
+
         router.route(HttpMethod.POST, path + "new").handler(this::post);
+        router.route(HttpMethod.POST, path + "completeTask").handler(this::completeTask);
+
+        router.route(HttpMethod.PUT, path + ":id").handler(this::put);
+
         router.route(HttpMethod.DELETE, path + ":id").handler(this::delete);
     }
 
-    private void get(RoutingContext context) {
-        final String id = context.pathParam("id");
-        final JsonObject idQuery = new JsonObject();
-        if (id != null) {
-            idQuery.put("id", id);
+    private void completeTask(RoutingContext context) {
+        try {
+            JsonObject body = context.getBodyAsJson();
+            ProcessEngineUtils.completeTask(body.getJsonObject("task"), body.getString("decision"));
+            new JsonResponse(context).end();
+        } catch (Exception e) {
+            context.fail(e);
         }
+    }
+
+    private static void isAdminOrOwnerOfDesign(User user, String designId, Handler<Future<Boolean>> handler) {
+        if (isAdmin(user)) {
+            handler.handle(Future.succeededFuture(true));
+            return;
+        }
+        JsonObject query = new JsonObject()
+            .put("id", designId)
+            .put("team.owner", AuthUtils.getAccount(user).getString("id"));
+        config.mongoDB().findOne(
+            Domain.ofDefinition(Domain.Definition.DIAGRAM).getCollection(), query, new JsonObject(), findOne -> {
+                if (findOne.succeeded()) {
+                    JsonObject result = findOne.result();
+                    handler.handle(Future.succeededFuture(result != null && !result.isEmpty()));
+                } else {
+                    handler.handle(Future.failedFuture(findOne.cause()));
+                }
+            }
+        );
+    }
+
+    private void get(RoutingContext context) {
+        List<String> params;
+        final JsonObject idQuery = new JsonObject();
+
+        params = context.queryParam("id");
+        if (params != null && params.size() > 0) {
+            idQuery.put("id", params.get(0));
+        }
+
+        params = context.queryParam("myrole");
+        if (params != null && params.size() > 0) {
+            User user = context.user();
+            if (user == null) {
+                JsonResponse.endWithEmptyArray(context);
+                return;
+            }
+            String userId = AuthUtils.getAccount(user).getString("id");
+            idQuery.put("$or", new JsonArray(
+                Arrays.stream(params.get(0).split("\\s*,\\s*"))
+                      .map(role -> new JsonObject().put("team." + role, userId))
+                      .collect(Collectors.toList())
+            ));
+        }
+
         final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
         final String collection = diagramDomain.getCollection();
         final JsonObject query = QueryUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
@@ -72,103 +131,91 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
     }
 
     private void put(RoutingContext context) {
-        if (isAdminFailOtherwise(context)) {
-            final String id = context.pathParam("id");
-            if (id == null) {
-                context.fail(new NullPointerException("no id"));
-                return;
-            }
-            final JsonObject body = context.getBodyAsJson();
-            if (body == null || body.isEmpty()) {
-                context.fail(new NullPointerException("no body"));
-                return;
-            }
-            final JsonObject idQuery = new JsonObject()
-                .put("id", id);
-            final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
-            final String collection = diagramDomain.getCollection();
-            final JsonObject query = QueryUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
-            final JsonObject update = new JsonObject().put("$set", body);
-            mongodb.findOneAndUpdate(collection, query, update, find -> {
-                if (find.succeeded()) {
-                    new JsonResponse(context).end(find.result());
-                } else {
-                    context.fail(find.cause());
-                }
-            });
+        final String collaborationId = context.pathParam("id");
+        if (collaborationId == null) {
+            context.fail(new NullPointerException("no collaboration id"));
+            return;
         }
+        final JsonObject body = context.getBodyAsJson();
+        if (body == null || body.isEmpty()) {
+            context.fail(new NullPointerException("no body"));
+            return;
+        }
+        AuthUtils.isEngaged(context.user(), collaborationId, isEngaged -> {
+            if (isEngaged.succeeded()) {
+                final JsonObject idQuery = new JsonObject().put("id", collaborationId);
+                final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
+                final String collection = diagramDomain.getCollection();
+                final JsonObject query = QueryUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
+                final JsonObject update = new JsonObject().put("$set", body);
+                mongodb.findOneAndUpdate(collection, query, update, findOneAndUpdate -> {
+                    if (findOneAndUpdate.succeeded()) {
+                        final JsonObject result = findOneAndUpdate.result();
+                        final String $domain = result.getString("$domain");
+                        if ($domain != null && Domain.ofDefinition(Domain.Definition.DIAGRAM)
+                                                     .getDomains().contains($domain)) {
+                            JsonObject team = new JsonObject();
+                            body.forEach(entry -> {
+                                team.put(entry.getKey().substring("team.".length()), entry.getValue());
+                            });
+                            ProcessEngineUtils.update(new JsonObject()
+                                .put("original", findOneAndUpdate.result())
+                                .put("changes", new JsonObject().put("team", team))
+                            );
+                        }
+                        new JsonResponse(context).end(findOneAndUpdate.result());
+                    } else {
+                        context.fail(findOneAndUpdate.cause());
+                    }
+                });
+            } else {
+                context.fail(isEngaged.cause());
+            }
+        });
     }
 
     private void post(RoutingContext context) {
         if (isCivilServantFailOtherwise(context)) {
-            final JsonArray userIdArray = new JsonArray().add(
-                context.user().principal().getJsonObject("account").getString("id")
-            );
+            final String ownerId = AuthUtils.getAccount(context).getString("id");
+            final JsonObject body = context.getBodyAsJson();
+            final String notation = body.getString("notation");
+            final String $domain = body.getString("$domain");
+            final JsonObject team = body.getJsonObject("team");
+            if (notation == null || $domain == null || team == null) {
+                context.fail(new IllegalStateException("no collaboration team provided"));
+                return;
+            } else {
+                final String sentOwnerId = team.getJsonArray("owner").getString(0);
+                if (!ownerId.equals(sentOwnerId)) {
+                    context.fail(new IllegalStateException(
+                        "expected owner id was <" + ownerId + "> but " + "<" + sentOwnerId + "> was received")
+                    );
+                    return;
+                }
+            }
+            final JsonArray ownerIdArray = new JsonArray().add(ownerId);
+
             final String language = config.language(context);
-            final JsonObject now = mongoDateTime(OffsetDateTime.now());
+            final JsonObject now = QueryUtils.mongoDateTime(OffsetDateTime.now());
 
             final JsonObject newDiagram = new JsonObject();
-            final JsonObject newPlane = new JsonObject();
-            final JsonObject newRoot = new JsonObject();
-            final JsonObject newRootShape = new JsonObject();
-            final JsonObject newChild = new JsonObject();
-            final JsonObject newChildShape = new JsonObject();
-/*
-{
-    "_id" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "notation" : "Model.Notation.FPMN",
-    "version" : 1.0,
-    "created" : ISODate("2016-01-01T00:00:00.000+0000"),
-    "lastModified" : ISODate("2018-01-01T12:00:00.000+0000"),
-    "language" : "italian",
-    "name" : "Ammissione al servizio di nido d’infanzia",
-    "documentation" : "Procedura per l'ammissione al servizio di nido d’infanzia.",
-    "team" : {
-        "owner" : [
-            "civil servant 1"
-        ],
-        "reviewer" : [
-            "civil servant 1"
-        ],
-        "editor" : [
-            "25204"
-        ],
-        "observer" : [
-            "citizen 1",
-            "citizen 2"
-        ]
-    },
-    "＄domain" : "Model.FPMN.Diagram"
-}
-*/
             newDiagram
-                .put("id", UUID.randomUUID().toString())
-                .put("notation", "Model.Notation.FPMN")
-                .put("version", 1)
-                .put("created", now)
-                .put("lastModified", now)
-                .put("language", language)
-                .put("name", "New Diagram")
+                .put("id", CommonUtils.coalesce(body.getString("id"), UUID.randomUUID().toString()))
+                .put("notation", notation)
+                .put("version", CommonUtils.coalesce(body.getInteger("version"), 1))
+                .put("created", CommonUtils.coalesce(body.getJsonObject("created"), now))
+                .put("lastModified", CommonUtils.coalesce(body.getJsonObject("lastModified"), now))
+                .put("language", CommonUtils.coalesce(body.getString("language"), language))
+                .put("name", CommonUtils.coalesce(body.getString("name"), "New Diagram"))
+                .put("documentation", body.getString("documentation"))
                 .put("team", new JsonObject()
-                    .put("owner", userIdArray)
-                    .put("reviewer", userIdArray)
-                    .put("editor", userIdArray)
-                )
-                .put("$domain", "Model.FPMN.Diagram");
-/*
-{
-    "_id" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "modelId" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "unit" : "px",
-    "bounds" : {
-        "x" : 0.0,
-        "y" : 0.0,
-        "width" : 820.0,
-        "height" : 360.0
-    },
-    "＄domain" : "Di.Plane"
-}
-*/
+                    .put("owner", ownerIdArray)
+                    .put("reviewer", CommonUtils.coalesce(team.getJsonArray("reviewer"), ownerIdArray))
+                    .put("editor", CommonUtils.coalesce(team.getJsonArray("editor"), ownerIdArray))
+                    .put("observer", CommonUtils.coalesce(team.getJsonArray("observer"), new JsonArray())))
+                .put("$domain", $domain);
+
+            final JsonObject newPlane = new JsonObject();
             newPlane
                 .put("id", UUID.randomUUID().toString())
                 .put("modelId", newDiagram.getString("id"))
@@ -177,51 +224,18 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                     .put("x", 0.0)
                     .put("y", 0.0)
                     .put("width", 300.0)
-                    .put("height", 240.0)
-                )
+                    .put("height", 240.0))
                 .put("$domain", "Di.Plane");
 
-/*
-{
-    "_id" : "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "designId" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "parentId" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "category" : "Model.FPMN.Procedure.Category.Childhood",
-    "language" : "italian",
-    "name" : "Ammissione al servizio di nido d’infanzia",
-    "documentation" : "Il servizio di asilo nido si propone di offrire il servizio di asilo nido per bambini da 0 a tre anni di età. Il servizio giornaliero viene erogato presso un centro dove verranno creati programmi di istruzione e di assistenza attorno alle esigenze di sviluppo, gli interessi e l'esperienza di ogni bambino. Questa procedura gestisce il processo di richiesta di ammissione.\nPossono presentare domanda di ammissione ai nidi d’infanzia comunali i genitori, tutori o affidatari di bambini e bambine residenti nel Comune di Trento. Il bambino deve risultare residente con almeno un genitore.\nLa domanda di ammissione può essere presentata dal momento in cui il bambino/la bambina risulta iscritto/a all’anagrafe del Comune o qualora sia già stata presentata dichiarazione di cambio residenza. Solo per i bambini nati nel mese di aprile la domanda può essere presentata dalla data di nascita, purché la madre risulti residente nel Comune di Trento.\nLa domanda di ammissione di un bambino o una bambina in affidamento familiare, anche non residente nel Comune di Trento, può essere accolta solo qualora risulti residente la famiglia affidataria.",
-    "mission" : "Rispondere alla richiesta di nido da parte delle famiglie attraverso la gestione della domanda, l’assegnazione dei posti e la gestione della frequenza sulla base dei criteri individuati.",
-    "＄domain" : "Model.FPMN.Procedure"
-}
-*/
+            final JsonObject newRoot = new JsonObject();
             newRoot
                 .put("id", UUID.randomUUID().toString())
                 .put("designId", newDiagram.getString("id"))
                 .put("language", language)
                 .put("name", "New Procedure")
                 .put("$domain", "Model.FPMN.Procedure");
-/*
-{
-    "_id" : "a46c29cc-5814-47d0-86a9-22f6d678335a",
-    "modelId" : "a46c29cc-5814-47d0-86a9-22f6d678335a",
-    "planeId" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "label" : {
-        "bounds" : {
-            "x" : 40.0,
-            "y" : 80.0,
-            "width" : 220.0,
-            "height" : 120.0
-        }
-    },
-    "bounds" : {
-        "x" : 40.0,
-        "y" : 80.0,
-        "width" : 220.0,
-        "height" : 280.0
-    },
-    "＄domain" : "Di.Shape"
-}
-*/
+
+            final JsonObject newRootShape = new JsonObject();
             newRootShape
                 .put("id", UUID.randomUUID().toString())
                 .put("modelId", newRoot.getString("id"))
@@ -231,28 +245,15 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                         .put("x", 40.0)
                         .put("y", 40.0)
                         .put("width", 220.0)
-                        .put("height", 40.0)
-                    )
-                )
+                        .put("height", 40.0)))
                 .put("bounds", new JsonObject()
                     .put("x", 40.0)
                     .put("y", 40.0)
                     .put("width", 220.0)
-                    .put("height", 160.0)
-                )
+                    .put("height", 160.0))
                 .put("$domain", "Di.Shape");
-/*
-{
-    "_id" : "a46c29cc-5814-47d0-86a9-22f6d678335a",
-    "designId" : "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
-    "parentId" : "c9561247-d5a7-4578-98b9-58021ee68ae0",
-    "nextPhaseId" : "05c18b01-cd5e-4b0a-b003-242f968f68df",
-    "language" : "italian",
-    "name" : "Richiesta di ammissione",
-    "documentation" : "Il cittadino (di solito un genitore) compila il modulo di iscrizione al servizio di richiesta di asilo nido prima di una scadenza specifica. I termini di presentazione delle domande di ammissione ai nidi d’infanzia comunali sono fissati dal 1 settembre al 30 aprile precedenti il periodo di erogazione del servizio (indicativamente da inizio settembre a fine luglio). Il termine finale che cada in giorno festivo o comunque di chiusura degli uffici, è prorogato al primo giorno lavorativo successivo.",
-    "＄domain" : "Model.FPMN.Phase"
-}
-*/
+
+            final JsonObject newChild = new JsonObject();
             newChild
                 .put("id", UUID.randomUUID().toString())
                 .put("designId", newDiagram.getString("id"))
@@ -261,6 +262,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                 .put("name", "New Phase")
                 .put("$domain", "Model.FPMN.Phase");
 
+            final JsonObject newChildShape = new JsonObject();
             newChildShape
                 .put("id", UUID.randomUUID().toString())
                 .put("modelId", newChild.getString("id"))
@@ -270,15 +272,12 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                         .put("x", 40.0)
                         .put("y", 80.0)
                         .put("width", 220.0)
-                        .put("height", 120.0)
-                    )
-                )
+                        .put("height", 120.0)))
                 .put("bounds", new JsonObject()
                     .put("x", 40.0)
                     .put("y", 80.0)
                     .put("width", 220.0)
-                    .put("height", 120.0)
-                )
+                    .put("height", 120.0))
                 .put("$domain", "Di.Shape");
 
             mongodb.save(Domain.Collection.MODELS, newDiagram, diagramSaved -> {
@@ -294,23 +293,19 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                                                     mongodb
                                                         .save(Domain.Collection.DIS, newChildShape, childShapeSaved -> {
                                                             if (childShapeSaved.succeeded()) {
-                                                                new JsonResponse(context)
-                                                                    .end(newDiagram.getString("id"));
+                                                                final String diagramId = newDiagram.getString("id");
+                                                                ProcessEngineUtils.startCollaboration(diagramId, team);
+                                                                new JsonResponse(context).end(diagramId);
                                                             } else context.fail(childShapeSaved.cause());
                                                         });
-
                                                 } else context.fail(childSaved.cause());
                                             });
-
                                         } else context.fail(rootShapeSaved.cause());
                                     });
-
                                 } else context.fail(rootSaved.cause());
                             });
-
                         } else context.fail(planeSaved.cause());
                     });
-
                 } else context.fail(diagramSaved.cause());
             });
         }
@@ -333,30 +328,36 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                         context.fail(HttpResponseStatus.NOT_FOUND.code());
                         return;
                     }
-                    final JsonArray removed = new JsonArray()
-                        .add(new DeleteResult(diagramCollection, 1).toJson());
-                    final Counter counter = new Counter(2);
+                    final JsonArray removed = new JsonArray().add(new DeleteResult(diagramCollection, 1).toJson());
+                    final Countdown countdown = new Countdown(3).onZero(launch -> {
+                        if (launch.succeeded()) {
+                            // todo: remove process
+                            new JsonResponse(context).end(removed);
+                        }
+                    });
                     mongodb.removeDocuments(Domain.Collection.MODELS,
                         new JsonObject().put("designId", id), removeModels -> {
                             if (removeModels.succeeded()) {
                                 removed.add(removeModels.result().toJson());
-                            }
-                            if (!counter.next()) new JsonResponse(context).end(removed);
+                                countdown.next();
+                            } else context.fail(removeModels.cause());
                         });
-                    mongodb.findOneAndDelete(Domain.Collection.DIS, new JsonObject()
-                        .put("modelId", id), deletePlane -> {
-                        if (deletePlane.succeeded()) {
-                            removed.add(new DeleteResult(Domain.Collection.DIS, 1).toJson());
-                            JsonObject plane = deletePlane.result();
-                            mongodb.removeDocuments(Domain.Collection.DIS,
-                                new JsonObject().put("planeId", plane.getString("id")), removeDIs -> {
-                                    if (removeDIs.succeeded()) {
-                                        removed.add(removeDIs.result().toJson());
-                                    }
-                                    if (!counter.next()) new JsonResponse(context).end(removed);
-                                });
-                        } else if (!counter.next()) new JsonResponse(context).end(removed);
-                    });
+                    mongodb.findOneAndDelete(Domain.Collection.DIS,
+                        new JsonObject().put("modelId", id), deletePlane -> {
+                            if (deletePlane.succeeded()) {
+                                removed.add(new DeleteResult(Domain.Collection.DIS, 1).toJson());
+                                JsonObject plane = deletePlane.result();
+                                mongodb.removeDocuments(Domain.Collection.DIS,
+                                    new JsonObject().put("planeId", plane.getString("id")), removeDIs -> {
+                                        if (removeDIs.succeeded()) {
+                                            removed.add(removeDIs.result().toJson());
+                                            countdown.next();
+                                        } else context.fail(removeDIs.cause());
+                                    });
+                            } else context.fail(deletePlane.cause());
+                        });
+                    ProcessEngineUtils.deleteCollaboration(id);
+                    countdown.next();
                 } else context.fail(deleteDiagram.cause());
             });
         }
