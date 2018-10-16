@@ -460,6 +460,12 @@ public final class config {
         return pe;
     }
 
+    public static void tearDown() {
+        _schemaTools.close();
+        _processEngine.close();
+        _mongoDB.close();
+    }
+
     public static JsonObject get() {
         return _config;
     }

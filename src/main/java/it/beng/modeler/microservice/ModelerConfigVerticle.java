@@ -71,6 +71,8 @@ public class ModelerConfigVerticle extends MicroServiceVerticle {
 
     @Override
     public void stop(Future<Void> future) throws Exception {
+        logger.info("Disposing resources...");
+        config.tearDown();
         logger.info("Killing main thread...");
         super.stop(future);
     }
