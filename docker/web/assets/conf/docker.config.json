@@ -52,5 +52,16 @@
       "newQuestion": "${cpd.qae.link.newQuestion}",
       "relatedQuestions": "${cpd.qae.link.relatedQuestions}"
     }
+  },
+  "gamification": {
+    "use": false,
+    "href": "https://simpatico.smartcommunitylab.it/gamification/",
+    "executePath": "gengine/execute",
+    "username": "",
+    "password": "",
+    "gameId": "",
+    "actionId": {
+      "sendFeedback": ""
+    }
   }
 }
