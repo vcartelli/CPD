@@ -173,16 +173,12 @@ public final class ApiSubRoute extends VoidSubRoute {
         String eServiceId,
         String appHref,
         Handler<AsyncResult<JsonArray>> handler) {
-        MongoDB.Command command = mongodb.command("getProcedureSummary", new HashMap<String, String>() {
-            private static final long serialVersionUID = 1L;
-
-            {
-                put("procedureId", procedureId != null ? "\"_id\":\"" + procedureId + "\"," : "");
-                put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": \"" + eServiceId + "\"" : "");
-                put("appDiagramUrl", appHref + config.app.designerPath);
-                put("appDiagramSvg", config.server.apiHref() + "model/diagram/");
-            }
-        });
+        MongoDB.Command command = mongodb.command("getProcedureSummary", new HashMap<String, String>() {{
+            put("procedureId", procedureId != null ? "\"_id\":\"" + procedureId + "\"," : "");
+            put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": \"" + eServiceId + "\"" : "");
+            put("appDiagramUrl", appHref + config.app.designerPath);
+            put("appDiagramSvg", config.server.apiHref() + "diagram/");
+        }});
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
                 handler.handle(Future.succeededFuture(ar.result().getJsonArray("result")));
