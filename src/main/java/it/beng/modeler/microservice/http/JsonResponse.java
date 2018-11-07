@@ -6,17 +6,16 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.utils.CommonUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.Instant;
 import java.util.Arrays;
 
 public final class JsonResponse {
-
-    private static final Log logger = LogFactory.getLog(JsonResponse.class);
+    private static final Logger logger = LogManager.getLogger(JsonResponse.class);
 
     private static Exception DEFAULT_EXCEPTION = new NullPointerException();
 
@@ -41,7 +40,7 @@ public final class JsonResponse {
     }
 
     private String toJson(Object value) {
-        return config.develop ? Json.encodePrettily(value) : Json.encode(value);
+        return cpd.develop ? Json.encodePrettily(value) : Json.encode(value);
     }
 
     public JsonResponse chunked() {

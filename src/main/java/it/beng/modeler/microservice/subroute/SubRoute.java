@@ -13,10 +13,10 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.utils.AuthUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -27,7 +27,7 @@ import java.util.Base64;
  * @author vince
  */
 public abstract class SubRoute<T> {
-    private static final Log logger = LogFactory.getLog(SubRoute.class);
+    private static final Logger logger = LogManager.getLogger(SubRoute.class);
 
     static {
         Json.mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
@@ -48,13 +48,13 @@ public abstract class SubRoute<T> {
     protected final boolean isPrivate;
 
     public SubRoute(String path, Vertx vertx, Router router, boolean isPrivate, T userData) {
-        this.baseHref = config.server.baseHref;
+        this.baseHref = cpd.server.baseHref;
         this.path = baseHref + path;
         logger.info("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;
-        this.mongodb = config.mongoDB();
-        this.schemaTools = config.schemaTools();
+        this.mongodb = cpd.mongoDB();
+        this.schemaTools = cpd.schemaTools();
         // this.modelTools = modelTools;
         this.isPrivate = isPrivate;
         if (isPrivate) {
@@ -100,7 +100,7 @@ public abstract class SubRoute<T> {
         }
     }
 
-    private static boolean passOrFail(RoutingContext context, boolean passCondition, HttpResponseStatus status) {
+    protected static boolean passOrFail(RoutingContext context, boolean passCondition, HttpResponseStatus status) {
         if (!passCondition) {
             context.fail(status.code());
         }

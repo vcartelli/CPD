@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.model.Domain;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class CreateThingsAction extends AuthorizedAction {
     protected void forEach(JsonObject thing, Handler<AsyncResult<Void>> handler) {
         final String langCode = thing.getString("language");
         if (langCode != null) {
-            thing.put("language", config.language(langCode));
+            thing.put("language", cpd.language(langCode));
         }
         mongodb.save(
             Domain.get(thing.getString("$domain")).getCollection(), thing, create -> {

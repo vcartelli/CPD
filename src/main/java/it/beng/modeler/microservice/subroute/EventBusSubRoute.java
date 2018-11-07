@@ -6,14 +6,12 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.services.BridgeEventService;
 import it.beng.modeler.microservice.services.DiagramActionService;
 import it.beng.modeler.microservice.utils.EventBusUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -21,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * @author vince
  */
 public final class EventBusSubRoute extends VoidSubRoute {
-    private static final Log logger = LogFactory.getLog(EventBusSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(EventBusSubRoute.class);
 
     static {
         // register the bridge event services here.
@@ -30,7 +28,7 @@ public final class EventBusSubRoute extends VoidSubRoute {
     }
 
     public EventBusSubRoute(Vertx vertx, Router router) {
-        super(config.server.eventBus.path, vertx, router, false);
+        super(cpd.server.eventBus.path, vertx, router, false);
     }
 
     @Override

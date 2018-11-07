@@ -3,16 +3,15 @@ package it.beng.modeler.microservice.services;
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class BridgeEventService {
-
-    private static final Log logger = LogFactory.getLog(BridgeEventService.class);
+    private static final Logger logger = LogManager.getLogger(BridgeEventService.class);
 
     private static final Map<Class<? extends BridgeEventService>, BridgeEventService> SERVICES = new LinkedHashMap<>();
 

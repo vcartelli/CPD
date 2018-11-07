@@ -7,10 +7,10 @@ import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.utils.AuthUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.security.auth.login.AccountNotFoundException;
 
@@ -20,11 +20,11 @@ import javax.security.auth.login.AccountNotFoundException;
  * @author vince
  */
 public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
-    private static final Log logger = LogFactory.getLog(OAuth2AuthCodeSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(OAuth2AuthCodeSubRoute.class);
 
     public static final String FLOW_TYPE = "AUTH_CODE";
 
-    public OAuth2AuthCodeSubRoute(Vertx vertx, Router router, config.OAuth2Config oauth2Config) {
+    public OAuth2AuthCodeSubRoute(Vertx vertx, Router router, cpd.OAuth2Config oauth2Config) {
         super(vertx, router, oauth2Config, FLOW_TYPE);
     }
 
@@ -38,7 +38,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
         // NOTE: only Google auth code flow is supported at the moment
 
         // create OAuth2 handler
-        OAuth2AuthHandler oAuth2Handler = OAuth2AuthHandler.create(oauth2Provider, config.oauth2.origin);
+        OAuth2AuthHandler oAuth2Handler = OAuth2AuthHandler.create(oauth2Provider, cpd.oauth2.origin);
         for (String scope : oauth2Flow.scope) {
             oAuth2Handler.addAuthority(scope);
         }
@@ -77,7 +77,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
                                 context.fail(e);
                                 return;
                             }
-                            redirect(context, config.server.appPath(context) + loginState
+                            redirect(context, cpd.server.appPath(context) + loginState
                                 .getString("redirect"));
                         } else {
                             context.fail(readOrCreateUser.cause());

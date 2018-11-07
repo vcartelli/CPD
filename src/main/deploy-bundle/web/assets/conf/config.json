@@ -1,4 +1,5 @@
 {
+  "version": "${version}",
   "server": {
     "baseHref": "${cpd.server.baseHref}",
     "useLocalAuth": ${cpd.app.useLocalAuth},

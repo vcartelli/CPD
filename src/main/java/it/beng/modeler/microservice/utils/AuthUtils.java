@@ -7,16 +7,16 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.model.Domain;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.util.Arrays;
 
 public final class AuthUtils {
-    private static final Log logger = LogFactory.getLog(AuthUtils.class);
+    private static final Logger logger = LogManager.getLogger(AuthUtils.class);
 
     public static final JsonObject LOGGED_OUT_CITIZEN_ROLES = new JsonObject()
         .put("system", "guest")
@@ -48,7 +48,7 @@ public final class AuthUtils {
             handler.handle(Future.failedFuture(new NullPointerException()));
             return;
         }
-        final JsonObject query = QueryUtils.or(
+        final JsonObject query = DBUtils.or(
             Arrays.asList(
                 "team.owner",
                 "team.reviewer",
@@ -56,7 +56,7 @@ public final class AuthUtils {
                 "team.observer"),
             getAccount(user).getString("id")
         ).put("id", collaborationId);
-        config.mongoDB().findOne(
+        cpd.mongoDB().findOne(
             Domain.ofDefinition(Domain.Definition.DIAGRAM).getCollection(),
             query,
             new JsonObject(),
@@ -77,7 +77,9 @@ public final class AuthUtils {
     }
 
     public static JsonObject getAccount(RoutingContext context) {
-        return getAccount(context.user());
+        return context != null
+            ? getAccount(context.user())
+            : null;
     }
 
     public static void afterUserLogin(User user) throws AccountNotFoundException {

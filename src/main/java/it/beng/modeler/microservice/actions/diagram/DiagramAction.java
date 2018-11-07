@@ -5,13 +5,13 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.utils.AuthUtils;
 
 import java.util.Collection;
 
 public interface DiagramAction {
-    String ADDRESS = config.server.eventBus.diagramAddress;
+    String ADDRESS = cpd.server.eventBus.diagramAddress;
     String COMMAND_PATH = "actions/diagram/";
 
     static JsonObject diagramQuery(String id) {

@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
 import it.beng.microservice.db.MongoDB;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.actions.IncomingAction;
 import it.beng.modeler.microservice.actions.PublishAction;
 import it.beng.modeler.microservice.utils.EventBusUtils;
@@ -37,7 +37,7 @@ public abstract class ActionService extends BridgeEventService {
         }
         Class<? extends IncomingAction> actionClass = INCOMING_ACTIONS.get(type);
         if (actionClass == null) {
-            if (config.develop) {
+            if (cpd.develop) {
                 return new PublishAction(json) {
                     @Override
                     protected String innerType() {
@@ -63,7 +63,7 @@ public abstract class ActionService extends BridgeEventService {
         }
     }
 
-    protected static final MongoDB mongodb = config.mongoDB();
+    protected static final MongoDB mongodb = cpd.mongoDB();
 
     private final Pattern publishAddressPattern;
 
@@ -150,7 +150,7 @@ public abstract class ActionService extends BridgeEventService {
     private void process(BridgeEvent event) {
         IncomingAction incomingAction = createIncomingAction(event);
         if (incomingAction != null)
-            incomingAction.handle(EventBusUtils.account(event), action -> {
+            incomingAction.handle(EventBusUtils.context(event), action -> {
                 if (action.succeeded()) {
                     event.getRawMessage().put("body", action.result());
                     EventBusUtils.complete(event);

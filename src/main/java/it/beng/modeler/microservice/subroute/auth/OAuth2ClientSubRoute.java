@@ -5,9 +5,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.web.Router;
-import it.beng.modeler.config;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import it.beng.modeler.config.cpd;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -15,12 +15,11 @@ import org.apache.commons.logging.LogFactory;
  * @author vince
  */
 public final class OAuth2ClientSubRoute extends OAuth2SubRoute {
-
-    private static final Log logger = LogFactory.getLog(OAuth2ClientSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(OAuth2ClientSubRoute.class);
 
     public static final String FLOW_TYPE = "CLIENT";
 
-    public OAuth2ClientSubRoute(Vertx vertx, Router router, config.OAuth2Config oAuth2Config) {
+    public OAuth2ClientSubRoute(Vertx vertx, Router router, cpd.OAuth2Config oAuth2Config) {
         super(vertx, router, oAuth2Config, FLOW_TYPE);
     }
 

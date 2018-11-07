@@ -13,15 +13,15 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.common.Countdown;
 import it.beng.microservice.db.DeleteResult;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.utils.AuthUtils;
 import it.beng.modeler.microservice.utils.CommonUtils;
+import it.beng.modeler.microservice.utils.DBUtils;
 import it.beng.modeler.microservice.utils.ProcessEngineUtils;
-import it.beng.modeler.microservice.utils.QueryUtils;
 import it.beng.modeler.model.Domain;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * @author vince
  */
 public final class CollaborationsSubRoute extends VoidSubRoute {
-    private static final Log logger = LogFactory.getLog(CollaborationsSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(CollaborationsSubRoute.class);
 
     public static final String PATH = "collaborations/";
 
@@ -59,7 +59,8 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
         router.route(HttpMethod.POST, path + "new").handler(this::post);
         router.route(HttpMethod.POST, path + "completeTask").handler(this::completeTask);
 
-        router.route(HttpMethod.PUT, path + ":id").handler(this::put);
+        router.route(HttpMethod.PUT, path + ":id/team").handler(this::putTeam);
+        router.route(HttpMethod.PUT, path + ":id/new").handler(this::startNew);
 
         router.route(HttpMethod.DELETE, path + ":id").handler(this::delete);
     }
@@ -67,7 +68,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
     private void completeTask(RoutingContext context) {
         try {
             JsonObject body = context.getBodyAsJson();
-            ProcessEngineUtils.completeTask(body.getJsonObject("task"), body.getString("decision"));
+            ProcessEngineUtils.completeTask(body.getJsonObject("task"), body.getJsonObject("variable"));
             new JsonResponse(context).end();
         } catch (Exception e) {
             context.fail(e);
@@ -82,7 +83,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
         JsonObject query = new JsonObject()
             .put("id", designId)
             .put("team.owner", AuthUtils.getAccount(user).getString("id"));
-        config.mongoDB().findOne(
+        cpd.mongoDB().findOne(
             Domain.ofDefinition(Domain.Definition.DIAGRAM).getCollection(), query, new JsonObject(), findOne -> {
                 if (findOne.succeeded()) {
                     JsonObject result = findOne.result();
@@ -120,7 +121,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
 
         final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
         final String collection = diagramDomain.getCollection();
-        final JsonObject query = QueryUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
+        final JsonObject query = DBUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
         mongodb.findWithOptions(collection, query, COLLABORATION_FIELDS, find -> {
             if (find.succeeded()) {
                 new JsonResponse(context).end(find.result());
@@ -130,7 +131,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
         });
     }
 
-    private void put(RoutingContext context) {
+    private void putTeam(RoutingContext context) {
         final String collaborationId = context.pathParam("id");
         if (collaborationId == null) {
             context.fail(new NullPointerException("no collaboration id"));
@@ -146,7 +147,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                 final JsonObject idQuery = new JsonObject().put("id", collaborationId);
                 final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
                 final String collection = diagramDomain.getCollection();
-                final JsonObject query = QueryUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
+                final JsonObject query = DBUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
                 final JsonObject update = new JsonObject().put("$set", body);
                 mongodb.findOneAndUpdate(collection, query, update, findOneAndUpdate -> {
                     if (findOneAndUpdate.succeeded()) {
@@ -159,11 +160,16 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                                 team.put(entry.getKey().substring("team.".length()), entry.getValue());
                             });
                             ProcessEngineUtils.update(new JsonObject()
-                                .put("original", findOneAndUpdate.result())
-                                .put("changes", new JsonObject().put("team", team))
+                                    .put("original", result)
+                                    .put("changes", new JsonObject().put("team", team)),
+                                updated -> {
+                                    if (updated.succeeded())
+                                        new JsonResponse(context).end(result);
+                                    else
+                                        context.fail(updated.cause());
+                                }
                             );
-                        }
-                        new JsonResponse(context).end(findOneAndUpdate.result());
+                        } else new JsonResponse(context).end(result);
                     } else {
                         context.fail(findOneAndUpdate.cause());
                     }
@@ -171,6 +177,31 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
             } else {
                 context.fail(isEngaged.cause());
             }
+        });
+    }
+
+    private void startNew(RoutingContext context) {
+        final String collaborationId = context.pathParam("id");
+        if (collaborationId == null) {
+            context.fail(new NullPointerException("no collaboration id"));
+            return;
+        }
+        isAdminOrOwnerOfDesign(context.user(), collaborationId, isAdminOrOwner -> {
+            if (isAdminOrOwner.succeeded()) {
+                if (isAdminOrOwner.result()) {
+                    mongodb.findOne(Domain.ofDefinition(Domain.Definition.DIAGRAM).getCollection(),
+                        new JsonObject().put("id", collaborationId),
+                        new JsonObject(),
+                        findOne -> {
+                            if (findOne.succeeded()) {
+                                JsonObject collaboration = findOne.result();
+                                ProcessEngineUtils
+                                    .startCollaboration(collaborationId, collaboration.getJsonObject("team"));
+                                new JsonResponse(context).end(collaboration);
+                            } else context.fail(findOne.cause());
+                        });
+                } else context.fail(HttpResponseStatus.UNAUTHORIZED.code());
+            } else context.fail(isAdminOrOwner.cause());
         });
     }
 
@@ -195,8 +226,8 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
             }
             final JsonArray ownerIdArray = new JsonArray().add(ownerId);
 
-            final String language = config.language(context);
-            final JsonObject now = QueryUtils.mongoDateTime(OffsetDateTime.now());
+            final String language = cpd.language(context);
+            final JsonObject now = DBUtils.mongoDateTime(OffsetDateTime.now());
 
             final JsonObject newDiagram = new JsonObject();
             newDiagram
@@ -321,7 +352,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
             final JsonObject idQuery = new JsonObject().put("id", id);
             final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
             final String diagramCollection = diagramDomain.getCollection();
-            final JsonObject diagramQuery = QueryUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
+            final JsonObject diagramQuery = DBUtils.and(Arrays.asList(diagramDomain.getQuery(), idQuery));
             mongodb.findOneAndDelete(diagramCollection, diagramQuery, deleteDiagram -> {
                 if (deleteDiagram.succeeded()) {
                     if (deleteDiagram.result() == null) {
@@ -329,7 +360,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                         return;
                     }
                     final JsonArray removed = new JsonArray().add(new DeleteResult(diagramCollection, 1).toJson());
-                    final Countdown countdown = new Countdown(3).onZero(launch -> {
+                    final Countdown countdown = new Countdown(3).setCompleteHandler(launch -> {
                         if (launch.succeeded()) {
                             // todo: remove process
                             new JsonResponse(context).end(removed);

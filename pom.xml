@@ -6,13 +6,15 @@
     <parent>
         <groupId>it.beng</groupId>
         <artifactId>microservice-stack</artifactId>
-        <version>1.6-SNAPSHOT</version>
+        <version>1.7-SNAPSHOT</version>
     </parent>
     <artifactId>cpd-server</artifactId>
     <packaging>jar</packaging>
     <name>beng Modeler Server</name>
     <properties>
         <main.verticle>it.beng.modeler.microservice.ModelerConfigVerticle</main.verticle>
+        <flowable.version>6.4.0</flowable.version>
+        <h2.version>1.4.190</h2.version>
     </properties>
     <profiles>
         <profile>
@@ -188,51 +190,39 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-codegen</artifactId>
         </dependency>
-        <!-- Guava -->
+        <!-- RxRedux -->
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>21.0</version>
+            <groupId>com.freeletics.rxredux</groupId>
+            <artifactId>rxredux</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <!-- BPMN Engine -->
         <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-engine</artifactId>
-            <version>6.4.0</version>
+            <version>${flowable.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-idm-engine</artifactId>
-            <version>6.4.0</version>
-        </dependency>
+        <!--
+                <dependency>
+                    <groupId>org.flowable</groupId>
+                    <artifactId>flowable-idm-engine</artifactId>
+                    <version>6.4.0</version>
+                </dependency>
+        -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.190</version>
+            <version>${h2.version}</version>
         </dependency>
-        <!-- SLF4J LOGGING -->
+        <!-- Log4j2 logging -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.13</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>1.7.13</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
         </dependency>
-        <!-- for future log4j.appender.LOGFILE.RollingPolicy=org.apache.log4j.rolling.TimeBasedRollingPolicy
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>apache-log4j-extras</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-        -->
     </dependencies>
     <build>
         <resources>

@@ -11,7 +11,7 @@ import io.vertx.ext.auth.oauth2.OAuth2ClientOptions;
 import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.UserSessionHandler;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.subroute.SubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
 import it.beng.modeler.microservice.utils.CommonUtils;
@@ -55,24 +55,24 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
     public final static String CLIENT_CREDENTIALS_GRANT = "CLIENT_CREDENTIALS_GRANT";
     public final static String IMPLICIT_GRANT = "IMPLICIT_GRANT";
 
-    protected config.OAuth2Config oauth2Config;
-    protected config.OAuth2Config.Flow oauth2Flow;
+    protected cpd.OAuth2Config oauth2Config;
+    protected cpd.OAuth2Config.Flow oauth2Flow;
     protected OAuth2ClientOptions oauth2ClientOptions;
     protected OAuth2Auth oauth2Provider;
 
     static class Config {
 
-        config.OAuth2Config oauth2Config;
+        cpd.OAuth2Config oauth2Config;
         String oauth2FlowType;
 
-        Config(config.OAuth2Config oauth2Config, String oauth2FlowType) {
+        Config(cpd.OAuth2Config oauth2Config, String oauth2FlowType) {
             this.oauth2Config = oauth2Config;
             this.oauth2FlowType = oauth2FlowType;
         }
     }
 
-    public OAuth2SubRoute(Vertx vertx, Router router, config.OAuth2Config oauth2Config, String flowType) {
-        super(config.server.auth.path + oauth2Config.provider + "/",
+    public OAuth2SubRoute(Vertx vertx, Router router, cpd.OAuth2Config oauth2Config, String flowType) {
+        super(cpd.server.auth.path + oauth2Config.provider + "/",
             vertx,
             router,
             false,
@@ -142,7 +142,7 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
             if (find.succeeded()) {
                 final JsonObject account = CommonUtils.coalesce(find.result(), new JsonObject());
                 if (id.equals(account.getString("id"))) {
-                    config.server.checkAndSetIfMainAdmin(account);
+                    cpd.server.checkAndSetIfMainAdmin(account);
                     handler.handle(Future.succeededFuture(account));
                 } else {
                     final String firstName = userInfo.getString(accountProvider.get(FIRST_NAME), "Guest").trim();
@@ -158,7 +158,7 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
                         .put(ROLES, AuthUtils.LOGGED_IN_CITIZEN_ROLES);
                     mongodb.save(Domain.Collection.USERS, account, save -> {
                         if (save.succeeded()) {
-                            config.server.checkAndSetIfMainAdmin(account);
+                            cpd.server.checkAndSetIfMainAdmin(account);
                             handler.handle(Future.succeededFuture(account));
                         } else {
                             handler.handle(Future.failedFuture(save.cause()));

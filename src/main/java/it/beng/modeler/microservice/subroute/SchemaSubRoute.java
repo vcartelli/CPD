@@ -8,7 +8,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.common.Countdown;
 import it.beng.microservice.schema.ValidationResult;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public final class SchemaSubRoute extends VoidSubRoute {
 
     public SchemaSubRoute(Vertx vertx, Router router) {
-        super(config.server.schema.path, vertx, router, false);
+        super(cpd.server.schema.path, vertx, router, false);
     }
 
     @Override
@@ -53,7 +53,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
     }
 
     private void getSchema(RoutingContext context) {
-        final String $id = config.server.schema.fixUriScheme(context.request().absoluteURI());
+        final String $id = cpd.server.schema.fixUriScheme(context.request().absoluteURI());
         schemaTools.getSchema($id, getExtendedSchema -> {
             if (getExtendedSchema.succeeded())
                 new JsonResponse(context).end(getExtendedSchema.result());
@@ -70,7 +70,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
         }
         String $id;
         {
-            String abs = config.server.schema.fixUriScheme(context.request().absoluteURI());
+            String abs = cpd.server.schema.fixUriScheme(context.request().absoluteURI());
             $id = abs.substring(0, abs.length() - ("/validate/").length() - collection.length());
         }
         schemaTools.getSource($id, getSchema -> {
@@ -112,7 +112,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
                                             result.append("could not be validated: ")
                                                   .append(validate.cause().getMessage());
                                         }
-                                        if (countdown.next())
+                                        if (countdown.next().hasNext())
                                             result.append("\n\n");
                                         else
                                             context.response().end(result.toString());
@@ -135,7 +135,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
     private void getSchemaSource(RoutingContext context) {
         String $id;
         {
-            String abs = config.server.schema.fixUriScheme(context.request().absoluteURI());
+            String abs = cpd.server.schema.fixUriScheme(context.request().absoluteURI());
             $id = abs.substring(0, abs.length() - "/source".length());
         }
         schemaTools.getSource($id, getSchemaSource -> {
@@ -147,7 +147,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
     }
 
     private void validate(RoutingContext context) {
-        final String $id = config.server.schema.fixUriScheme(context.request().absoluteURI());
+        final String $id = cpd.server.schema.fixUriScheme(context.request().absoluteURI());
         final JsonObject document = context.getBodyAsJson();
         boolean ok = document != null;
         if (ok) {
@@ -168,7 +168,7 @@ public final class SchemaSubRoute extends VoidSubRoute {
     private void save(RoutingContext context) {
         //        isAuthorized(context, "schema", "editor", isAuthorized -> {
         //            if (isAuthorized.succeeded()) {
-        final String $id = config.server.schema.fixUriScheme(context.request().absoluteURI());
+        final String $id = cpd.server.schema.fixUriScheme(context.request().absoluteURI());
         final JsonObject body = context.getBodyAsJson();
         boolean ok = body != null;
         if (ok) {

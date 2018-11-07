@@ -7,11 +7,11 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import it.beng.microservice.db.MongoDB;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.model.Domain;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -19,15 +19,14 @@ import org.apache.commons.logging.LogFactory;
  * @author vince
  */
 public class LocalAuthProviderImpl implements LocalAuthProvider {
-
-    private static final Log logger = LogFactory.getLog(LocalAuthProviderImpl.class);
+    private static final Logger logger = LogManager.getLogger(LocalAuthProviderImpl.class);
 
     // private final Vertx vertx;
     private final MongoDB mongodb;
 
     public LocalAuthProviderImpl(Vertx vertx) {
         // this.vertx = vertx;
-        this.mongodb = config.mongoDB();
+        this.mongodb = cpd.mongoDB();
         if (mongodb == null)
             throw new IllegalStateException("could not find mongodb in current context");
     }
@@ -61,7 +60,7 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
                 if (account != null) {
                     User user = new LocalUser(new JsonObject(), this);
                     user.principal().put("account", account);
-                    config.server.checkAndSetIfMainAdmin(account);
+                    cpd.server.checkAndSetIfMainAdmin(account);
                     resultHandler.handle(Future.succeededFuture(user));
                 } else {
                     resultHandler.handle(Future.failedFuture("Invalid username/password"));

@@ -14,11 +14,11 @@ import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,19 +28,12 @@ import java.util.concurrent.TimeUnit;
  * @author vince
  */
 public final class ModelerServerVerticle extends AbstractVerticle {
-
-    private static final Log logger = LogFactory.getLog(ModelerServerVerticle.class);
-
-    static {
-        //        Typed.init();
-        //        Diagram.init();
-        //        SemanticElement.init();
-    }
+    private static final Logger logger = LogManager.getLogger(ModelerServerVerticle.class);
 
     @Override
     public void start(Future<Void> startFuture) {
 
-        final String baseHref = config.server.baseHref;
+        final String baseHref = cpd.server.baseHref;
 
         // Create a router object
         Router router = Router.router(vertx);
@@ -68,8 +61,8 @@ public final class ModelerServerVerticle extends AbstractVerticle {
         });
 
         // configure CORS origins and allowed methods
-        CorsHandler corsHandler = CorsHandler.create(config.server.allowedOriginPattern);
-        logger.info("CORS pattern is: " + config.server.allowedOriginPattern);
+        CorsHandler corsHandler = CorsHandler.create(cpd.server.allowedOriginPattern);
+        logger.info("CORS pattern is: " + cpd.server.allowedOriginPattern);
         corsHandler.allowedMethod(HttpMethod.GET) // select # /<collection>/:id
                    .allowedMethod(HttpMethod.POST)       // insert # /<collection>
                    .allowedMethod(HttpMethod.PUT)        // update # /<collection>/:id
@@ -162,7 +155,7 @@ public final class ModelerServerVerticle extends AbstractVerticle {
                         IE8+ do not allow opening of attachments in the context of this resource
                    */
                    .putHeader("X-Download-Options", "noopen");
-            logger.debug("[" + context.request().method() + "] " + context.request().uri());
+            logger.debug(context.request().remoteAddress() + " [" + context.request().method() + "] " + context.request().uri());
             context.next();
         });
 
@@ -170,12 +163,12 @@ public final class ModelerServerVerticle extends AbstractVerticle {
         router.route().handler(CookieHandler.create());
         SessionStore sessionStore = /* ClusteredSessionStore */LocalSessionStore.create(vertx);
         SessionHandler sessionHandler = SessionHandler.create(sessionStore);
-        sessionHandler.setSessionCookieName("cpd.web.session." + config.server.scheme)
+        sessionHandler.setSessionCookieName("cpd.web.session." + cpd.server.scheme)
                       .setCookieHttpOnlyFlag(true)
-                      .setCookieSecureFlag(config.ssl.enabled)
-                      .setNagHttps(config.ssl.enabled)
+                      .setCookieSecureFlag(cpd.ssl.enabled)
+                      .setNagHttps(cpd.ssl.enabled)
                       .setSessionTimeout(TimeUnit.HOURS.toMillis(12));
-        logger.info("Session cookie name is " + "cpd.web.session." + config.server.scheme);
+        logger.info("Session cookie name is " + "cpd.web.session." + cpd.server.scheme);
         router.route().handler(sessionHandler);
 
         // this must be declared here, before the body handler
@@ -190,7 +183,7 @@ public final class ModelerServerVerticle extends AbstractVerticle {
 
         // redirect base-href to app
         router.routeWithRegex(HttpMethod.GET, "^" + baseHref.replace("/", "\\/") + "?$").handler(context -> {
-            SubRoute.redirect(context, config.server.appPath(context));
+            SubRoute.redirect(context, cpd.server.appPath(context));
         });
 
         // vertx.getOrCreateContext().put("schemaTools", schemaTools);
@@ -216,26 +209,26 @@ public final class ModelerServerVerticle extends AbstractVerticle {
             switch (context.statusCode()) {
                 case 404: // NOT_FOUND
                     String path = context.request().path();
-                    if (path.startsWith(config.server.baseHref))
-                        path = path.substring(config.server.baseHref.length());
+                    if (path.startsWith(cpd.server.baseHref))
+                        path = path.substring(cpd.server.baseHref.length());
                     else if (path.startsWith("/"))
                         path = path.substring(1);
-                    if (config.server.isSubRoute(path))
+                    if (cpd.server.isSubRoute(path))
                         new JsonResponse(context).fail(null, null);
                     else
-                        SubRoute.redirect(context, config.server.appPath(context) + path);
+                        SubRoute.redirect(context, cpd.server.appPath(context) + path);
                     break;
                 default:
                     new JsonResponse(context).fail(null, null);
             }
         });
 
-        HttpServerOptions serverOptions = new HttpServerOptions().setSsl(config.ssl.enabled);
+        HttpServerOptions serverOptions = new HttpServerOptions().setSsl(cpd.ssl.enabled);
         if (serverOptions.isSsl()) {
             serverOptions.setKeyStoreOptions(
                 new JksOptions()
-                    .setPath(config.ssl.keyStoreFilename)
-                    .setPassword(config.ssl.keyStorePassword))
+                    .setPath(cpd.ssl.keyStoreFilename)
+                    .setPassword(cpd.ssl.keyStorePassword))
             // .setTrustStoreOptions(
             //     new JksOptions()
             //         .setPath(config.ssl.keyStoreFilename)
@@ -245,13 +238,13 @@ public final class ModelerServerVerticle extends AbstractVerticle {
             ;
         }
         vertx.createHttpServer(serverOptions)
-             .requestHandler(router::accept).listen(config.server.port, ar -> {
+             .requestHandler(router::accept).listen(cpd.server.port, ar -> {
             if (ar.succeeded()) {
-                logger.info("HTTP Server started: " + config.server.origin());
+                logger.info("HTTP Server started: " + cpd.server.origin());
                 startFuture.complete();
             } else {
                 logger.fatal(
-                    "Cannot start HTTP Server: " + config.server.origin() + ". Cause: " + ar.cause().getMessage());
+                    "Cannot start HTTP Server: " + cpd.server.origin() + ". Cause: " + ar.cause().getMessage());
                 startFuture.fail(ar.cause());
             }
         });
@@ -259,7 +252,7 @@ public final class ModelerServerVerticle extends AbstractVerticle {
 
     @Override
     public void stop(Future<Void> future) throws Exception {
-        logger.info("Shutting down server: " + config.server.origin() + "...");
+        logger.info("Shutting down server: " + cpd.server.origin() + "...");
         super.stop(future);
     }
 }

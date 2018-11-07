@@ -4,6 +4,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 
 public abstract class PublishAction extends IncomingAction {
     public PublishAction(JsonObject action) {
@@ -11,7 +12,7 @@ public abstract class PublishAction extends IncomingAction {
     }
 
     @Override
-    public void handle(JsonObject account, Handler<AsyncResult<JsonObject>> handler) {
+    public void handle(RoutingContext context, Handler<AsyncResult<JsonObject>> handler) {
         handler.handle(Future.succeededFuture(json));
     }
 }

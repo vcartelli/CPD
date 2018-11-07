@@ -10,15 +10,15 @@ import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.auth.LocalAuthSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2AuthCodeSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ClientSubRoute;
 import it.beng.modeler.microservice.subroute.auth.OAuth2ImplicitSubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,13 +30,12 @@ import java.util.UUID;
  * @author vince
  */
 public final class AuthSubRoute extends VoidSubRoute {
-
-    private static final Log logger = LogFactory.getLog(AuthSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(AuthSubRoute.class);
 
     static List<String> knownProviders = new LinkedList<>();
 
     public AuthSubRoute(Vertx vertx, Router router) {
-        super(config.server.auth.path, vertx, router, false);
+        super(cpd.server.auth.path, vertx, router, false);
     }
 
     public static void checkEncodedStateStateCookie(RoutingContext context, String encodedState) {
@@ -51,13 +50,13 @@ public final class AuthSubRoute extends VoidSubRoute {
     protected void init() {
 
         // local/login
-        if (config.app.useLocalAuth) {
+        if (cpd.app.useLocalAuth) {
             knownProviders.add(LocalAuthSubRoute.PROVIDER);
             new LocalAuthSubRoute(vertx, router);
         }
 
         // oauth2provider/login
-        for (config.OAuth2Config oAuth2Config : config.oauth2.configs) {
+        for (cpd.OAuth2Config oAuth2Config : cpd.oauth2.configs) {
             knownProviders.add(oAuth2Config.provider);
             for (final String flowType : oAuth2Config.flows.keySet()) {
                 switch (flowType) {
@@ -159,7 +158,7 @@ public final class AuthSubRoute extends VoidSubRoute {
 
     private void getOAuth2Providers(RoutingContext context) {
         JsonArray providers = new JsonArray();
-        for (config.OAuth2Config providerConfig : config.oauth2.configs) {
+        for (cpd.OAuth2Config providerConfig : cpd.oauth2.configs) {
             providers
                 .add(new JsonObject().put("provider", providerConfig.provider).put("logoUrl", providerConfig.logoUrl));
         }

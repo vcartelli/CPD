@@ -8,13 +8,13 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.UserSessionHandler;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.VoidSubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.security.auth.login.AccountNotFoundException;
 
@@ -24,12 +24,12 @@ import javax.security.auth.login.AccountNotFoundException;
  * @author vince
  */
 public final class LocalAuthSubRoute extends VoidSubRoute {
-    private static final Log logger = LogFactory.getLog(LocalAuthSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(LocalAuthSubRoute.class);
 
     public static final String PROVIDER = "local";
 
     public LocalAuthSubRoute(Vertx vertx, Router router) {
-        super(config.server.auth.path + PROVIDER + "/", vertx, router, false);
+        super(cpd.server.auth.path + PROVIDER + "/", vertx, router, false);
     }
 
     @Override

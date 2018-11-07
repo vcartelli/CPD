@@ -15,11 +15,11 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.codec.BodyCodec;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.AuthSubRoute;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -27,12 +27,11 @@ import org.apache.commons.logging.LogFactory;
  * @author vince
  */
 public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
-
-    private static final Log logger = LogFactory.getLog(OAuth2ImplicitSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(OAuth2ImplicitSubRoute.class);
 
     public static final String FLOW_TYPE = "IMPLICIT";
 
-    public OAuth2ImplicitSubRoute(Vertx vertx, Router router, config.OAuth2Config oAuth2Config) {
+    public OAuth2ImplicitSubRoute(Vertx vertx, Router router, cpd.OAuth2Config oAuth2Config) {
         super(vertx, router, oAuth2Config, FLOW_TYPE);
     }
 
@@ -49,9 +48,9 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
         router.route(HttpMethod.GET, path + "login/handler").handler(this::loginHandler);
         router.route(HttpMethod.GET, baseHref + "oauth2/client/callback").handler(context -> {
             // TODO: check why reroute keeps the hash segment in safari
-            context.reroute(config.server.appPath(context) + "oauth2/client/callback");
+            context.reroute(cpd.server.appPath(context) + "oauth2/client/callback");
             /* this doesn't work in safari as it cleans the hash fragment on redirects... */
-            // redirect(context, config.server.appPath(context) + "oauth2/client/callback");
+            // redirect(context, cpd.server.appPath(context) + "oauth2/client/callback");
         });
         router.route(HttpMethod.POST, path + "hash").handler(this::loginWithHash);
     }
@@ -65,7 +64,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
             .append("grant_type=implicit")
             .append("&")
             .append("redirect_uri=")
-            .append(config.server.origin())
+            .append(cpd.server.origin())
             .append(baseHref).append("oauth2/client/callback")
             .append("&")
             .append("client_id=")

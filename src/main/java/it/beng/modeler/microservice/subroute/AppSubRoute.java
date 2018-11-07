@@ -4,7 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -19,7 +19,7 @@ public final class AppSubRoute extends VoidSubRoute {
 
     @Override
     protected void init() {
-        for (String locale : config.app.locales) {
+        for (String locale : cpd.app.locales) {
             /* STATIC RESOURCES (CPD app) */
             router.route(HttpMethod.GET, path + locale + "/*")
                   .handler(StaticHandler.create("web/ROOT/" + locale)

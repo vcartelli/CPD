@@ -2,15 +2,15 @@ package it.beng.modeler.microservice.utils;
 
 import io.vertx.core.eventbus.ReplyFailure;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.User;
 import io.vertx.ext.bridge.BridgeEventType;
+import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.impl.UserHolder;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class EventBusUtils {
-    private static final Log logger = LogFactory.getLog(EventBusUtils.class);
+    private static final Logger logger = LogManager.getLogger(EventBusUtils.class);
 
     public static void log(BridgeEvent event) {
         if (event.type() != BridgeEventType.SOCKET_PING) {
@@ -21,13 +21,10 @@ public final class EventBusUtils {
         }
     }
 
-    public static JsonObject account(BridgeEvent event) {
+    public static RoutingContext context(BridgeEvent event) {
         UserHolder userHolder = event.socket().webSession().get("__vertx.userHolder");
-        User user = userHolder != null
-            ? userHolder.context.user()
-            : null;
-        return user != null
-            ? AuthUtils.getAccount(user)
+        return userHolder != null
+            ? userHolder.context
             : null;
     }
 

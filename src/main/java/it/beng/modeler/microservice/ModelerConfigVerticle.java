@@ -1,11 +1,12 @@
 package it.beng.modeler.microservice;
 
+import io.netty.util.internal.logging.Log4J2LoggerFactory;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import it.beng.microservice.common.MicroServiceVerticle;
-import it.beng.modeler.config;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import it.beng.modeler.config.cpd;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
@@ -13,15 +14,21 @@ import org.apache.commons.logging.LogFactory;
  * @author vince
  */
 public class ModelerConfigVerticle extends MicroServiceVerticle {
+    private static final Logger logger = LogManager.getLogger(ModelerConfigVerticle.class);
 
-    private static final Log logger = LogFactory.getLog(ModelerConfigVerticle.class);
+    static {
+        io.netty.util.internal.logging.InternalLoggerFactory.setDefaultFactory(Log4J2LoggerFactory.INSTANCE);
+    }
 
     @Override
     public void start() {
         super.start();
-        config.set(vertx, config(), done -> {
+
+        cpd.setup(vertx, config(), done -> {
             if (done.succeeded()) {
-                vertx.deployVerticle(new ModelerServerVerticle(), new DeploymentOptions().setConfig(config()),
+                vertx.deployVerticle(
+                    new ModelerServerVerticle(),
+                    new DeploymentOptions().setConfig(config()),
                     complete -> {
                         if (complete.succeeded()) {
                             logger.info("Succesfully deployed ModelerServerVerticle: " + complete.result());
@@ -71,9 +78,8 @@ public class ModelerConfigVerticle extends MicroServiceVerticle {
 
     @Override
     public void stop(Future<Void> future) throws Exception {
-        logger.info("Disposing resources...");
-        config.tearDown();
         logger.info("Killing main thread...");
         super.stop(future);
+        cpd.tearDown();
     }
 }

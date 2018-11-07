@@ -4,10 +4,12 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RoutingContext;
 import it.beng.microservice.common.Countdown;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramPublishAction;
-import it.beng.modeler.microservice.utils.QueryUtils;
+import it.beng.modeler.microservice.utils.AuthUtils;
+import it.beng.modeler.microservice.utils.DBUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,13 +29,13 @@ public abstract class AuthorizedAction extends DiagramPublishAction implements D
     }
 
     @Override
-    public void handle(JsonObject account, Handler<AsyncResult<JsonObject>> handler) {
-        QueryUtils.team(diagramId(), team -> {
+    public void handle(RoutingContext context, Handler<AsyncResult<JsonObject>> handler) {
+        DBUtils.team(diagramId(), team -> {
             if (team.succeeded()) {
-                DiagramAction.isPermitted(account, team.result(), roles, isPermitted -> {
+                DiagramAction.isPermitted(AuthUtils.getAccount(context), team.result(), roles, isPermitted -> {
                     if (isPermitted.succeeded()) {
                         if (isPermitted.result()) {
-                            final Countdown countdown = new Countdown(this.items()).onZero(zero -> {
+                            final Countdown countdown = new Countdown(this.items()).setCompleteHandler(zero -> {
                                 handler.handle(Future.succeededFuture(json));
                             });
                             this.items().forEach(item -> this.forEach(item, done -> {

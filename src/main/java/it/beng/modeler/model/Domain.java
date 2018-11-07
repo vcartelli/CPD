@@ -2,8 +2,8 @@ package it.beng.modeler.model;
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
  * @author vince
  */
 public class Domain {
-    private static final Log logger = LogFactory.getLog(Domain.class);
+    private static final Logger logger = LogManager.getLogger(Domain.class);
 
-    public static class Collection {
+    public static final class Collection {
         public static final String DIS = "dis";
         public static final String MODELS = "models";
         public static final String NOTATIONS = "notations";

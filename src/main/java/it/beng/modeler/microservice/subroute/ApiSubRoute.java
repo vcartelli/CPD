@@ -6,6 +6,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonArray;
@@ -16,14 +17,14 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.StaticHandler;
 import it.beng.microservice.db.MongoDB;
-import it.beng.modeler.config;
+import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.utils.AuthUtils;
+import it.beng.modeler.microservice.utils.DBUtils;
 import it.beng.modeler.microservice.utils.JsonUtils;
-import it.beng.modeler.microservice.utils.QueryUtils;
 import it.beng.modeler.model.Domain;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -36,10 +37,10 @@ import java.util.stream.Collectors;
  * @author vince
  */
 public final class ApiSubRoute extends VoidSubRoute {
-    private static final Log logger = LogFactory.getLog(ApiSubRoute.class);
+    private static final Logger logger = LogManager.getLogger(ApiSubRoute.class);
 
     public ApiSubRoute(Vertx vertx, Router router) {
-        super(config.server.api.path, vertx, router, false);
+        super(cpd.server.api.path, vertx, router, false);
     }
 
     @Override
@@ -94,6 +95,8 @@ public final class ApiSubRoute extends VoidSubRoute {
         router.route(HttpMethod.GET, path + "diagram/my").handler(this::getDiagramMyList);
         router.route(HttpMethod.GET, path + "diagram/search/:text").handler(this::getDiagramTextList);
         router.route(HttpMethod.GET, path + "diagram/newer/:limit").handler(this::getDiagramNewerList);
+
+        router.route(HttpMethod.PUT, path + "diagram/:id.svg").handler(this::putModelDiagramSVG);
 
         // // diagram
         // router.route(HttpMethod.GET, path + "diagram/:id").handler(this::getDiagramElement);
@@ -176,8 +179,8 @@ public final class ApiSubRoute extends VoidSubRoute {
         MongoDB.Command command = mongodb.command("getProcedureSummary", new HashMap<String, String>() {{
             put("procedureId", procedureId != null ? "\"_id\":\"" + procedureId + "\"," : "");
             put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": \"" + eServiceId + "\"" : "");
-            put("appDiagramUrl", appHref + config.app.designerPath);
-            put("appDiagramSvg", config.server.apiHref() + "diagram/");
+            put("appDiagramUrl", appHref + cpd.app.designerPath);
+            put("appDiagramSvg", cpd.server.apiHref() + "diagram/");
         }});
         mongodb.runCommand("aggregate", command, ar -> {
             if (ar.succeeded()) {
@@ -189,7 +192,7 @@ public final class ApiSubRoute extends VoidSubRoute {
     }
 
     private void getProcedureSummaryList(RoutingContext context) {
-        getProcedureSummaryCommand(null, null, config.server.appHref(context), command -> {
+        getProcedureSummaryCommand(null, null, cpd.server.appHref(context), command -> {
             if (command.succeeded()) {
                 new JsonResponse(context).end(command.result());
             } else {
@@ -204,7 +207,7 @@ public final class ApiSubRoute extends VoidSubRoute {
             context.fail(new NullPointerException());
             return;
         }
-        getProcedureSummaryCommand(procedureId, null, config.server.appHref(context), command -> {
+        getProcedureSummaryCommand(procedureId, null, cpd.server.appHref(context), command -> {
             if (command.succeeded()) {
                 new JsonResponse(context).end(JsonUtils.firstOrNull(command.result()));
             } else {
@@ -219,7 +222,7 @@ public final class ApiSubRoute extends VoidSubRoute {
             context.fail(new NullPointerException());
             return;
         }
-        getProcedureSummaryCommand(null, eServiceId, config.server.appHref(context), command -> {
+        getProcedureSummaryCommand(null, eServiceId, cpd.server.appHref(context), command -> {
             if (command.succeeded()) {
                 new JsonResponse(context).end(JsonUtils.firstOrNull(command.result()));
             } else {
@@ -245,25 +248,25 @@ public final class ApiSubRoute extends VoidSubRoute {
 
     private static JsonObject mongoDateTimeRange(OffsetDateTime from, OffsetDateTime to) {
         JsonObject range = new JsonObject();
-        if (from != null) range.put("$gte", QueryUtils.mongoDateTime(from));
-        if (to != null) range.put("$lt", QueryUtils.mongoDateTime(to));
+        if (from != null) range.put("$gte", DBUtils.mongoDateTime(from));
+        if (to != null) range.put("$lt", DBUtils.mongoDateTime(to));
         return range;
     }
 
     private void getUserFeedback(RoutingContext context) {
-        OffsetDateTime fromDateTime = QueryUtils.parseDateTime(context.pathParam("fromDateTime"));
+        OffsetDateTime fromDateTime = DBUtils.parseDateTime(context.pathParam("fromDateTime"));
         if (fromDateTime == null) {
             context.fail(
                 new NoStackTraceThrowable("cannot parse '" + context.pathParam("fromDateTime") + "' as date-time")
             );
             return;
         }
-        OffsetDateTime toDateTime = QueryUtils.parseDateTime(context.pathParam("toDateTime"));
+        OffsetDateTime toDateTime = DBUtils.parseDateTime(context.pathParam("toDateTime"));
         JsonObject dateTimeRange = mongoDateTimeRange(fromDateTime, toDateTime);
         MongoDB.Command command = mongodb.command("getUserFeedback", new HashMap<String, String>() {{
                 put("dateTimeRange", dateTimeRange.encode());
-                put("appDiagramUrl", config.server.appHref(context) + config.app.designerPath);
-                put("appDiagramSvg", config.server.apiHref() + "model/diagram/");
+                put("appDiagramUrl", cpd.server.appHref(context) + cpd.app.designerPath);
+                put("appDiagramSvg", cpd.server.apiHref() + "model/diagram/");
             }}
         );
         mongodb.runCommand("aggregate", command, ar -> {
@@ -302,7 +305,7 @@ public final class ApiSubRoute extends VoidSubRoute {
             }
             feedback.put("id", UUID.randomUUID().toString())
                     .put("userId", AuthUtils.getAccount(user).getString("id"))
-                    .put("dateTime", QueryUtils.mongoDateTime(OffsetDateTime.now()));
+                    .put("dateTime", DBUtils.mongoDateTime(OffsetDateTime.now()));
             //        schemaTools.validate();
 
             mongodb.save("user.feedbacks", feedback, save -> {
@@ -321,8 +324,6 @@ public final class ApiSubRoute extends VoidSubRoute {
 
     private void getModelDiagramSVG(RoutingContext context) {
         String id = context.pathParam("id");
-        // TODO: generate or retrieve previously generated svg image
-        // this is just a teporary code
         vertx.fileSystem().readFile("web/assets/svg/" + id + ".svg", file -> {
             if (file.succeeded()) {
                 context.response().putHeader("Content-Type", "image/svg+xml").end(file.result());
@@ -338,6 +339,23 @@ public final class ApiSubRoute extends VoidSubRoute {
         });
     }
 
+    private void putModelDiagramSVG(RoutingContext context) {
+        String id = context.pathParam("id");
+        AuthUtils.isEngaged(context.user(), id, isEngaged -> {
+            if (passOrFail(context, isEngaged.succeeded() && isEngaged.result(), HttpResponseStatus.UNAUTHORIZED)) {
+
+            }
+        });
+        String svg = context.getBodyAsString();
+        vertx.fileSystem().writeFile("web/assets/svg/" + id + ".svg", Buffer.buffer(svg), file -> {
+            if (file.succeeded()) {
+                context.response().end();
+            } else {
+                context.fail(file.cause());
+            }
+        });
+    }
+
     private void getModelDiagramList(List<String> diagramIds, List<String> userIds,
                                      String searchText, String searchLanguageCode,
                                      Integer limit, Handler<Future<List<JsonObject>>> handler) {
@@ -347,12 +365,12 @@ public final class ApiSubRoute extends VoidSubRoute {
         }
         final JsonArray andArray = new JsonArray();
         if (diagramIds != null) {
-            andArray.add(QueryUtils.or("id", diagramIds));
+            andArray.add(DBUtils.or("id", diagramIds));
         }
         if (userIds != null) {
-            andArray.add(QueryUtils.or(
+            andArray.add(DBUtils.or(
                 userIds.stream()
-                       .map(userId -> QueryUtils.or(
+                       .map(userId -> DBUtils.or(
                            Arrays.asList(
                                "team.owner",
                                "team.reviewer",
@@ -364,11 +382,11 @@ public final class ApiSubRoute extends VoidSubRoute {
             ));
         }
         if (searchText != null) {
-            andArray.add(QueryUtils.text(searchText, searchLanguageCode));
+            andArray.add(DBUtils.text(searchText, searchLanguageCode));
         }
         final Domain diagramDomain = Domain.ofDefinition(Domain.Definition.DIAGRAM);
         final String collection = diagramDomain.getCollection();
-        final JsonObject query = QueryUtils.and(Arrays.asList(
+        final JsonObject query = DBUtils.and(Arrays.asList(
             diagramDomain.getQuery(),
             andArray.isEmpty() ? null : new JsonObject().put("$and", andArray)
         ));
@@ -413,7 +431,7 @@ public final class ApiSubRoute extends VoidSubRoute {
 
     private void getDiagramTextList(RoutingContext context) {
         String searchText = context.pathParam("text");
-        getModelDiagramList(null, null, searchText, config.languageCode(context), null, list -> {
+        getModelDiagramList(null, null, searchText, cpd.languageCode(context), null, list -> {
             if (list.succeeded()) {
                 new JsonResponse(context).end(list.result());
             } else {
