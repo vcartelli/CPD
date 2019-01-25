@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.config.cpd;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,7 +67,7 @@ public final class ProcessEngineUtils {
            );
     }
 
-    public static void update(JsonObject update, final Handler<AsyncResult<Void>> complete) {
+    public static void update(JsonObject update, final AsyncHandler<Void> complete) {
         final JsonObject changes = update.getJsonObject("changes");
         if (changes.isEmpty()) {
             complete.handle(Future.succeededFuture());

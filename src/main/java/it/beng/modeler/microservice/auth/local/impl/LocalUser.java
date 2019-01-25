@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AbstractUser;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.microservice.auth.local.LocalAuthProvider;
 import it.beng.modeler.microservice.utils.AuthUtils;
 
@@ -32,13 +33,13 @@ public class LocalUser extends AbstractUser implements User {
         return this.getAccount().getJsonObject("roles");
     }
 
-    public void isAuthorized(JsonObject authority, Handler<AsyncResult<Boolean>> resultHandler) {
+    public void isAuthorized(JsonObject authority, AsyncHandler<Boolean> resultHandler) {
         AuthUtils.isAuthorized(authority, this.getRoles(), resultHandler);
     }
 
     @Override
     protected void doIsPermitted(String authority, Handler<AsyncResult<Boolean>> resultHandler) {
-        isAuthorized(new JsonObject(authority), resultHandler);
+        isAuthorized(new JsonObject(authority), (AsyncHandler<Boolean>) resultHandler);
     }
 
     @Override

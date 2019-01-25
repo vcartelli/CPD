@@ -83,7 +83,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
         JsonObject query = new JsonObject()
             .put("id", designId)
             .put("team.owner", AuthUtils.getAccount(user).getString("id"));
-        cpd.mongoDB().findOne(
+        cpd.dataDB().findOne(
             Domain.ofDefinition(Domain.Definition.DIAGRAM).getCollection(), query, new JsonObject(), findOne -> {
                 if (findOne.succeeded()) {
                     JsonObject result = findOne.result();
@@ -360,7 +360,7 @@ public final class CollaborationsSubRoute extends VoidSubRoute {
                         return;
                     }
                     final JsonArray removed = new JsonArray().add(new DeleteResult(diagramCollection, 1).toJson());
-                    final Countdown countdown = new Countdown(3).setCompleteHandler(launch -> {
+                    final Countdown countdown = new Countdown(3).onComplete(launch -> {
                         if (launch.succeeded()) {
                             // todo: remove process
                             new JsonResponse(context).end(removed);

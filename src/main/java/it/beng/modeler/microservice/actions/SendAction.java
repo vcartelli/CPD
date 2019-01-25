@@ -4,13 +4,14 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
+import it.beng.microservice.common.AsyncHandler;
 
 public abstract class SendAction extends IncomingAction {
     public SendAction(JsonObject action) {
         super(action);
     }
 
-    protected void reply(ReplyAction action, Handler<AsyncResult<JsonObject>> handler) {
+    protected void reply(ReplyAction action, AsyncHandler<JsonObject> handler) {
         if (action.isValid())
             handler.handle(Future.succeededFuture(action.json));
         else

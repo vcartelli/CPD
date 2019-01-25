@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.model.Domain;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class DeleteThingsAction extends AuthorizedAction {
     }
 
     @Override
-    protected void forEach(JsonObject item, Handler<AsyncResult<Void>> handler) {
+    protected void forEach(JsonObject item, AsyncHandler<Void> handler) {
         mongodb.removeDocument(
             Domain.get(item.getString("$domain")).getCollection(),
             new JsonObject().put("id", item.getString("id")), delete -> {

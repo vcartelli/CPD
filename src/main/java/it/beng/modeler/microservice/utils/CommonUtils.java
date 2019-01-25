@@ -2,6 +2,8 @@ package it.beng.modeler.microservice.utils;
 
 import io.vertx.core.json.JsonObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -17,5 +19,16 @@ public final class CommonUtils {
 
     public static <T> T coalesce(T... objects) {
         return Stream.of(objects).filter(Objects::nonNull).findFirst().orElse(null);
+    }
+
+    public static String implicitUrlOriginPort(String url) {
+        try {
+            URL u = new URL(url);
+            if (u.getPort() == u.getDefaultPort())
+                return new URL(u.getProtocol(), u.getHost(), u.getFile()).toExternalForm();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 }

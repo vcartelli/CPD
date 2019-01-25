@@ -6,6 +6,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.actions.SendAction;
@@ -46,7 +47,7 @@ public class LoadDefinitionAction extends SendAction implements DiagramAction {
     }
 
     @Override
-    public void handle(RoutingContext context, Handler<AsyncResult<JsonObject>> handler) {
+    public void handle(RoutingContext context, AsyncHandler<JsonObject> handler) {
         MongoDB.Command command = mongodb.command(COMMAND_PATH + "getDiagramDefinition",
             new HashMap<String, String>() {{
                 put("diagramId", diagramId());

@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.model.Domain;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,7 @@ public final class AuthUtils {
         .put("interaction", "citizen")
         .put("things", new JsonObject());
 
-    public static void isAuthorized(JsonObject authority, JsonObject userRoles, Handler<AsyncResult<Boolean>> handler) {
+    public static void isAuthorized(JsonObject authority, JsonObject userRoles, AsyncHandler<Boolean> handler) {
         logger.debug("checking authority " + authority.encodePrettily() + " vs. " + userRoles.encodePrettily());
         final JsonArray authoritySystem = authority.getJsonArray("system");
         final JsonArray authorityInteraction = authority.getJsonArray("interaction");
@@ -56,7 +57,7 @@ public final class AuthUtils {
                 "team.observer"),
             getAccount(user).getString("id")
         ).put("id", collaborationId);
-        cpd.mongoDB().findOne(
+        cpd.dataDB().findOne(
             Domain.ofDefinition(Domain.Definition.DIAGRAM).getCollection(),
             query,
             new JsonObject(),

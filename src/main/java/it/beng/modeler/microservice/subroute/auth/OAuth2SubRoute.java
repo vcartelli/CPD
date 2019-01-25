@@ -11,6 +11,7 @@ import io.vertx.ext.auth.oauth2.OAuth2ClientOptions;
 import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.UserSessionHandler;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.subroute.SubRoute;
 import it.beng.modeler.microservice.utils.AuthUtils;
@@ -122,7 +123,7 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
     }
 
-    protected void getOrCreateAccount(final JsonObject userInfo, final String provider, Handler<AsyncResult<JsonObject>> handler) {
+    protected void getOrCreateAccount(final JsonObject userInfo, final String provider, AsyncHandler<JsonObject> handler) {
         if (userInfo == null || provider == null) {
             handler.handle(Future.failedFuture("cannot determine user info"));
         }

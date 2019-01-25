@@ -1,19 +1,16 @@
 package it.beng.modeler.microservice.utils;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.model.Domain;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -23,16 +20,62 @@ import java.util.stream.Collectors;
  */
 public final class DBUtils {
 
-    private static final MongoDB mongoDB = cpd.mongoDB();
+    private static final MongoDB mongoDB = cpd.dataDB();
     private static final Domain COLLABORATION = Domain.ofDefinition(Domain.Definition.DIAGRAM);
 
     /* COLLECTION */
-    public static void loadCollection(String collection, JsonObject query, Handler<AsyncResult<List<JsonObject>>> handler) {
+    public static void loadCollection(String collection, JsonObject query, AsyncHandler<List<JsonObject>> handler) {
         mongoDB.find(collection, query, handler);
     }
 
-    public static void loadCollection(String collection, Handler<AsyncResult<List<JsonObject>>> handler) {
+    public static void loadCollection(String collection, AsyncHandler<List<JsonObject>> handler) {
         loadCollection(collection, new JsonObject(), handler);
+    }
+
+    public static class Properties {
+        private static Map<String, Object> P = new HashMap<>();
+
+        protected static JsonObject value(Object value) {
+            return new JsonObject().put("value", value);
+        }
+
+        public static void get(String property, AsyncHandler<Object> handler) {
+            if (P.containsKey(property)) {
+                handler.handle(Future.succeededFuture(P.get(property)));
+                return;
+            }
+
+            loadCollection(Domain.Collection.PROPERTIES, new JsonObject(), properties -> {
+                if (properties.succeeded()) {
+                    Object value = properties.result().stream()
+                                             .filter(item -> property.equals(item.getString("id")))
+                                             .map(item -> item.getValue("value"))
+                                             .findFirst().orElse(null);
+                    P.put(property, value);
+                    handler.handle(Future.succeededFuture(value));
+                } else handler.handle(Future.failedFuture(properties.cause()));
+            });
+        }
+
+        public static void set(String property, Object value, AsyncHandler<Boolean> handler) {
+            Object oldValue = P.get(property);
+            if (value == oldValue || value != null && value.equals(oldValue)) {
+                handler.handle(Future.succeededFuture(false));
+                return;
+            }
+
+            mongoDB.findOneAndUpdate(
+                Domain.Collection.PROPERTIES,
+                ID(property),
+                new JsonObject().put("$set", value(value)),
+                update -> {
+                    if (update.succeeded()) {
+                        P.put(property, value);
+                        handler.handle(Future.succeededFuture(true));
+                    } else handler.handle(Future.failedFuture(update.cause()));
+                });
+        }
+
     }
 
     /* EXTENSIONS */
@@ -134,7 +177,7 @@ public final class DBUtils {
 
     /* TEAM */
 
-    public static void team(String collaborationId, Handler<AsyncResult<JsonObject>> handler) {
+    public static void team(String collaborationId, AsyncHandler<JsonObject> handler) {
         mongoDB.findOne(
             COLLABORATION.getCollection(),
             and(Arrays.asList(COLLABORATION.getQuery(), ID(collaborationId))),

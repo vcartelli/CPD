@@ -1,17 +1,19 @@
 package it.beng.modeler.config;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.microservice.common.Countdown;
 import it.beng.microservice.db.MongoDB;
 import it.beng.microservice.schema.SchemaTools;
 import it.beng.modeler.microservice.subroute.CollaborationsSubRoute;
+import it.beng.modeler.microservice.utils.CommonUtils;
 import it.beng.modeler.microservice.utils.DBUtils;
+import it.beng.modeler.model.Domain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.flowable.engine.ProcessEngine;
@@ -35,7 +37,16 @@ public final class cpd {
     private static final Logger logger = LogManager.getLogger(cpd.class);
 
     public static final Pattern VERSION_PATTERN = Pattern.compile("(^\\d+)(?:\\.(\\d+))?");
-    private static boolean VERSION_UPGRADE = false;
+    private static boolean VERSION_CHANGED = false;
+    private static final Map<String, String> DATA_MAPPINGS = new HashMap<String, String>() {{
+        put("id", "_id");
+        put("$domain", "\uFF04domain");
+    }};
+    private static final Map<String, String> SCHEMA_MAPPINGS_EXTENSION = new HashMap<String, String>() {{
+        put("$date", "\uFF04date");
+        put("$domain", "\uFF04domain");
+        put("$hidden", "\uFF04hidden");
+    }};
 
     public static class Process {
         public static final String CATEGORY = "Collaborative Procedure Designer";
@@ -44,16 +55,19 @@ public final class cpd {
     }
 
     public static final String DATA_PATH = "data/";
+    public static final String DB_PATH = DATA_PATH + "db/";
     public static final String ASSETS_PATH = "assets/";
 
-    public static boolean develop;
-
     private static JsonObject _config;
-    private static MongoDB _mongoDB;
+    private static String _version;
+    private static boolean _develop;
+    private static MongoClient _mongoClient;
+    private static MongoDB _rawDB;
+    private static MongoDB _dataDB;
+    private static MongoDB _schemaDB;
     private static ProcessEngine _processEngine;
     //    private static IdmEngine _idm;
     private static SchemaTools _schemaTools;
-    private static Map<String, Object> _properties;
 
     public static String host(String scheme, String hostname, int port) {
         StringBuilder s = new StringBuilder(hostname);
@@ -115,6 +129,11 @@ public final class cpd {
                 if (roles == null) return;
                 roles.put("system", "admin");
             }
+        }
+
+        public static class secret {
+            public static String csrf;
+            public static String jwt;
         }
 
         public static class pub {
@@ -248,79 +267,78 @@ public final class cpd {
         return path;
     }
 
-    String xxx = "undefined";
-
-    public static void setup(final Vertx vertx, final JsonObject config, Handler<AsyncResult<Void>> complete) {
-        final Countdown setupStep = new Countdown(8).setCompleteHandler(zero -> {
-            if (zero.succeeded())
-                complete.handle(Future.succeededFuture());
-            else
-                complete.handle(Future.failedFuture(zero.cause()));
-        });
-
-        final Handler<AsyncResult<Void>> onBlockingCodeCompleted = c -> {
-            if (c.succeeded()) setupStep.next();
-            else setupStep.fail(c.cause());
-        };
-
-        // (1) configuration => setupStep x2
-        vertx.executeBlocking(
-            future -> future.complete(buildConfig(vertx, config, onBlockingCodeCompleted)),
-            result -> {
-                if (result.succeeded()) setupStep.next();
-                else complete.handle(Future.failedFuture(result.cause()));
-            }
-        );
-
-        // (2) database => setupStep x2
-        vertx.executeBlocking(
-            future -> buildDatabase(vertx, databaseUpgraded -> {
-                if (databaseUpgraded.succeeded()) {
-                    VERSION_UPGRADE = databaseUpgraded.result();
-                    future.complete();
-                    onBlockingCodeCompleted.handle(Future.succeededFuture());
-                } else onBlockingCodeCompleted.handle(Future.failedFuture(databaseUpgraded.cause()));
-            }),
-            result -> {
-                if (result.succeeded()) setupStep.next();
-                else complete.handle(Future.failedFuture(result.cause()));
-            }
-        );
-
-        // (3) process engine => setupStep x2
-        vertx.executeBlocking(
-            future -> future.complete(buildProcessEngine(onBlockingCodeCompleted)),
-            result -> {
-                if (result.succeeded()) setupStep.next();
-                else complete.handle(Future.failedFuture(result.cause()));
-            }
-        );
-
-        // (4) schema tools => setupStep x2
-        vertx.<SchemaTools>executeBlocking(
-            blocking -> blocking.complete(new SchemaTools(
-                vertx,
-                _config.getJsonObject("mongodb"),
-                "schemas",
-                server.schema.uriBase(),
-                server.scheme,
-                new HashMap<String, String>() {{
-                    put("$date", "\uFF04date");
-                    put("$domain", "\uFF04domain");
-                    put("$hidden", "\uFF04hidden");
-                }}, onBlockingCodeCompleted)),
-            result -> {
-                if (result.succeeded()) {
-                    _schemaTools = result.result();
-                    setupStep.next();
-                } else setupStep.fail(result.cause());
-            }
-        );
+    public static String sessionCookieName() {
+        return "cpd." + server.pub.scheme + ".session";
     }
 
-    public static Void buildConfig(Vertx vertx, JsonObject config, Handler<AsyncResult<Void>> complete) {
+    public static void setup(final Vertx vertx, final JsonObject config, AsyncHandler<Void> complete) {
+        _version = config.getString("version");
+        _develop = config.getBoolean("develop", false);
+
+        final Countdown setupStage = new Countdown(9);
+
+        final AsyncHandler<Void> setupStageHandler = c -> {
+            if (c.succeeded()) setupStage.next();
+            else setupStage.fail(c.cause());
+        };
+
+        setupStage.onStep(setupStep -> {
+            if (setupStep.succeeded()) {
+                switch (setupStep.result()) {
+                    case 1:
+                        // (1) configuration => setupStep: 1, 2
+                        vertx.executeBlocking(
+                            future -> future.complete(buildConfig(vertx, config, setupStageHandler)),
+                            setupStageHandler
+                        );
+                        break;
+                    case 3:
+                        // (2) database => setupSteps: 3, 4
+                        vertx.executeBlocking(
+                            future -> future.complete(buildDatabase(vertx, setupStageHandler)),
+                            setupStageHandler
+                        );
+                        break;
+                    case 5:
+                        // (3) process engine => setupSteps: 5, 6
+                        vertx.executeBlocking(
+                            future -> future.complete(buildProcessEngine(setupStageHandler)),
+                            setupStageHandler
+                        );
+                        break;
+                    case 7:
+                        // (4) schema tools => setupSteps: 7, 8
+                        vertx.<SchemaTools>executeBlocking(
+                            blocking -> blocking.complete(new SchemaTools(
+                                vertx,
+                                _mongoClient,
+                                Domain.Collection.SCHEMAS,
+                                server.schema.uriBase(),
+                                server.scheme,
+                                SCHEMA_MAPPINGS_EXTENSION,
+                                setupStageHandler)),
+                            result -> {
+                                if (result.succeeded()) {
+                                    _schemaTools = result.result();
+                                    setupStage.next();
+                                } else setupStage.fail(result.cause());
+                            }
+                        );
+                        break;
+                }
+            }
+        }).onComplete(setupComplete -> {
+            if (setupComplete.succeeded())
+                complete.handle(Future.succeededFuture());
+            else
+                complete.handle(Future.failedFuture(setupComplete.cause()));
+        });
+
+        setupStage.next();
+    }
+
+    public static Void buildConfig(Vertx vertx, JsonObject config, AsyncHandler<Void> complete) {
         _config = config;
-        develop = config.getBoolean("develop", false);
 
         JsonObject node;
         /* ssl */
@@ -339,6 +357,11 @@ public final class cpd {
         cpd.server.baseHref = checkBaseHref(node.getString("baseHref", "/"));
         cpd.server.allowedOriginPattern = node.getString("allowedOriginPattern");
         cpd.server.simLagTime = node.getLong("simLagTime", -1L);
+
+        /* server.secret */
+        node = config.getJsonObject("server").getJsonObject("secret");
+        server.secret.csrf = node.getString("csrf", UUID.randomUUID().toString());
+        server.secret.jwt = node.getString("jwt", UUID.randomUUID().toString());
 
         /* server.pub */
         node = config.getJsonObject("server").getJsonObject("pub");
@@ -385,7 +408,7 @@ public final class cpd {
 
         /* oauth2 */
         node = config.getJsonObject("oauth2");
-        cpd.oauth2.origin = node.getString("origin");
+        cpd.oauth2.origin = CommonUtils.implicitUrlOriginPort(node.getString("origin"));
         cpd.oauth2.configs = new LinkedList<>();
         for (Object provider : node.getJsonArray("providers")) {
             JsonObject p = JsonObject.class.cast(provider);
@@ -411,83 +434,136 @@ public final class cpd {
             cpd.oauth2.configs.add(oAuth2Config);
         }
 
-//        set mongodb username and password to null if empty
+        // set mongodb username and password to null if empty
         node = config.getJsonObject("mongodb");
         if ("".equals(node.getString("username")))
             node.put("username", (String) null);
         if ("".equals(node.getString("password")))
             node.put("password", (String) null);
 
+        _mongoClient = MongoClient.createShared(vertx, node);
+
+        _rawDB = MongoDB.create(
+            vertx,
+            _mongoClient,
+            DB_PATH + "commands/",
+            Collections.emptyMap());
+
+        _schemaDB = MongoDB.create(
+            vertx,
+            _mongoClient,
+            DB_PATH + "commands/",
+            new HashMap<String, String>(SchemaTools.DEFAULT_MAPPINGS) {{
+                putAll(SCHEMA_MAPPINGS_EXTENSION);
+            }});
+
+        _dataDB = MongoDB.create(
+            vertx,
+            _mongoClient,
+            DB_PATH + "commands/",
+            DATA_MAPPINGS);
+
         complete.handle(Future.succeededFuture());
         return null;
     }
 
-    private static Void buildDatabase(Vertx vertx, Handler<AsyncResult<Boolean>> complete) {
-        _mongoDB = MongoDB.createShared(
-            vertx,
-            _config.getJsonObject("mongodb"),
-            DATA_PATH + "db/commands/",
-            new HashMap<String, String>() {
-                {
-                    put("id", "_id");
-                    put("$domain", "\uFF04domain");
-                }
-            });
-
-        final String version = _config.getString("version");
-        DBUtils.loadCollection("properties", loadProperties -> {
-            if (loadProperties.succeeded()) {
-                _properties = loadProperties.result().stream().collect(Collectors.toMap(
-                    o -> o.getString("id"),
-                    o -> o.getValue("value")));
-                final String dbVersion = (String) _properties.get("version");
-                if (dbVersion != null && compareVersions(version, dbVersion) > 0) {
-                    // version > DB version
-                    vertx.fileSystem().readFile(DATA_PATH + "db/upgrade.json", readFile -> {
+    private static Void buildDatabase(Vertx vertx, AsyncHandler<Void> complete) {
+        // get last persisted version from DB
+        DBUtils.Properties.get("version", getProperty -> {
+            if (getProperty.succeeded()) {
+                final String dbVersion = (String) getProperty.result();
+                if (_version.equals(dbVersion)) { // 1) version = dbVersion
+                    complete.handle(Future.succeededFuture()); // NO upgrade to perform
+                } else if (dbVersion != null && compareVersions(_version, dbVersion) > 0) { // 2) version > DB version
+                    vertx.fileSystem().readFile(DB_PATH + "upgrade.json", readFile -> {
                         if (readFile.succeeded()) {
                             JsonObject upgrade = readFile.result().toJsonObject();
-                            if (!version.equals(upgrade.getString("version"))) {
+                            if (!_version.equals(upgrade.getString("version"))) {
                                 complete.handle(Future.failedFuture(
-                                    "upgrade version mismatch: expected version is '" + version
-                                        + "' but upgrade version is '" + upgrade.getString("version") + "'"));
+                                    "upgrade version mismatch: expected version is [" + _version
+                                        + "] but upgrade version is [" + upgrade.getString("version") + "]"));
                                 return;
                             }
                             if (!upgrade.containsKey(dbVersion)) {
-                                logger.warn("no database upgrade found for '" + dbVersion + "' => '" + version + "'");
                                 // NO DB upgrade, but it is an upgrade (version > DB version)
-                                complete.handle(Future.succeededFuture(true)); // upgrade
+                                complete.handle(Future.failedFuture(
+                                    "no database upgrade found for [" + dbVersion + "] => [" + _version + "]"
+                                ));
                             } else {
-                                logger.warn("upgrading database from version '" + dbVersion
-                                    + "' to version '" + version + "'");
-                                JsonObject changes = upgrade.getJsonObject(dbVersion);
-                                logger.debug("database changes: " + changes.encodePrettily());
-                                // TODO: upgrade the database based on changes model
-                                // ... and finally update version:
-                                _mongoDB.findOneAndUpdate(
-                                    "properties",
-                                    DBUtils.ID("version"),
-                                    new JsonObject()
-                                        .put("$set", new JsonObject()
-                                            .put("value", version)),
-                                    findOneAndUpdate -> {
-                                        if (findOneAndUpdate.succeeded()) {
-                                            _properties.put("version", version);
-                                            complete.handle(Future.succeededFuture(true)); // upgrade
-                                        } else complete.handle(Future.failedFuture(findOneAndUpdate.cause()));
+                                logger.warn("upgrading database from version [" + dbVersion
+                                    + "] to version [" + _version + "]");
+                                JsonObject aggregates = upgrade.getJsonObject(dbVersion);
+                                logger.debug("database changes: " + aggregates.encodePrettily());
+
+                                // DONE: update the database based on upgrade.json
+                                final Countdown aggregatesCount = new Countdown(aggregates.size()).onComplete(
+                                    allAggregatesProcessed -> {
+                                        if (allAggregatesProcessed.succeeded()) {
+                                            VERSION_CHANGED = true;
+                                            // ... update db version as last task:
+                                            DBUtils.Properties.set("version", _version, propertySet -> {
+                                                if (propertySet.succeeded()) {
+                                                    complete.handle(Future.succeededFuture());
+                                                } else
+                                                    complete.handle(Future.failedFuture(propertySet.cause()));
+                                            });
+                                        } else complete.handle(Future.failedFuture(allAggregatesProcessed.cause()));
                                     });
+                                aggregates.forEach(entry -> {
+                                    final String collection = entry.getKey();
+                                    final JsonArray pipelines = (JsonArray) entry.getValue();
+                                    final Countdown pipelinesCounter = new Countdown(pipelines.size())
+                                        .onComplete(done -> {
+                                            if (done.succeeded())
+                                                aggregatesCount.next();
+                                            else
+                                                aggregatesCount.fail(done.cause());
+                                        });
+                                    pipelines.forEach(pipeline -> {
+                                        rawDB().runCommand("aggregate",
+                                            rawDB().command("aggregate", new HashMap<String, String>() {{
+                                                put("aggregate", collection);
+                                                put("pipeline", ((JsonArray) pipeline).encode());
+                                            }}), command -> {
+                                                if (command.succeeded()) {
+                                                    JsonArray result = command.result().getJsonArray("result");
+                                                    Countdown resultCount = new Countdown(result.size())
+                                                        .onComplete(done -> {
+                                                            if (done.succeeded())
+                                                                pipelinesCounter.next();
+                                                            else
+                                                                pipelinesCounter.fail(done.cause());
+                                                        });
+                                                    result.stream()
+                                                          .filter(document -> document instanceof JsonObject)
+                                                          .map(document -> (JsonObject) document)
+                                                          .forEach(document -> {
+                                                              rawDB().findOneAndReplace(
+                                                                  collection,
+                                                                  new JsonObject().put("_id", document.getString("_id")),
+                                                                  document,
+                                                                  done -> {
+                                                                      if (done.succeeded())
+                                                                          resultCount.next();
+                                                                      else
+                                                                          resultCount.fail(done.cause());
+                                                                  });
+                                                          });
+                                                } else pipelinesCounter.fail(command.cause());
+                                            });
+                                    });
+                                });
                             }
                         } else complete.handle(Future.failedFuture(readFile.cause()));
                     });
-                } else if (version.equals(dbVersion)) {
-                    // DB version = version => NO upgrade
-                    complete.handle(Future.succeededFuture(false)); // NO upgrade
-                } else {
+                } else { // 3) dbVersion == null (or version < dbVersion)
                     // DB version = null => there is no database, so it needs to be created from scripts
                     // TODO: create new DB from some script files and insert latestDbVersion in "versions" collection
-                    complete.handle(Future.succeededFuture(true)); // upgrade
+                    VERSION_CHANGED = true;
+                    complete.handle(Future.succeededFuture()); // upgrade
                 }
 
-            } else complete.handle(Future.failedFuture(loadProperties.cause()));
+            } else complete.handle(Future.failedFuture(getProperty.cause()));
         });
         return null;
     }
@@ -501,8 +577,8 @@ public final class cpd {
         } else return 0;
     }
 
-    private static Void buildProcessEngine(Handler<AsyncResult<Void>> complete) {
-        if (develop) try {
+    private static Void buildProcessEngine(AsyncHandler<Void> complete) {
+        if (_develop) try {
             org.h2.tools.Server.createWebServer("-web", "-webAllowOthers", "-webPort", "9081")
                                .start();
         } catch (SQLException e) {
@@ -519,13 +595,13 @@ public final class cpd {
 
         RepositoryService repositoryService = _processEngine.getRepositoryService();
 
-        if (VERSION_UPGRADE || repositoryService.createDeploymentQuery()
+        if (VERSION_CHANGED || repositoryService.createDeploymentQuery()
                                                 .deploymentCategory(Process.CATEGORY)
                                                 .list()
                                                 .size() == 0) {
             // deploy the new processes in case of a version upgrade or no deploy present
             logger.info("deploying process definitions because of " +
-                (VERSION_UPGRADE ? "VERSION UPGRADE (" + _properties.get("version") + ")" : "NO DEPLOYMENTS FOUND"));
+                (VERSION_CHANGED ? "VERSION CHANGED (" + _version + ")" : "NO DEPLOYMENTS FOUND"));
             repositoryService.createDeployment()
                              .category(Process.CATEGORY)
                              .key(Process.PROCEDURE_MODELING_KEY)
@@ -555,23 +631,43 @@ public final class cpd {
         logger.info("Disposing ProcessEngine...");
         _processEngine.close();
         logger.info("Disposing MongoDB...");
-        _mongoDB.close();
+        _mongoClient.close();
     }
 
-    public static JsonObject get() {
+    public static JsonObject config() {
         return _config;
     }
 
-    public static MongoDB mongoDB() {
-        return _mongoDB;
+    public static String version() {
+        return _version;
     }
 
-    public static SchemaTools schemaTools() {
-        return _schemaTools;
+    public static boolean develop() {
+        return _develop;
+    }
+
+    public static MongoClient mongoClient() {
+        return _mongoClient;
+    }
+
+    private static MongoDB rawDB() {
+        return _rawDB;
+    }
+
+    public static MongoDB schemaDB() {
+        return _schemaDB;
+    }
+
+    public static MongoDB dataDB() {
+        return _dataDB;
     }
 
     public static ProcessEngine processEngine() {
         return _processEngine;
+    }
+
+    public static SchemaTools schemaTools() {
+        return _schemaTools;
     }
 
 /*
@@ -586,7 +682,7 @@ public final class cpd {
     }};
 
     public static String languageCode(RoutingContext context) {
-        if (cpd.develop)
+        if (_develop)
             return "en";
         String code = context.preferredLanguage().tag();
         if (code == null || !cpd.app.locales.contains(code))

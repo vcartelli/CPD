@@ -15,6 +15,10 @@
     "baseHref": "${cpd.server.baseHref}",
     "allowedOriginPattern": "${cpd.server.allowedOriginPattern}",
     "simLagTime": ${cpd.server.simLagTime},
+    "secret": {
+      "csrf": "${cpd.server.secret.csrf}",
+      "jwt": "${cpd.server.secret.jwt}"
+    },
     "pub": {
       "scheme": "${cpd.server.pub.scheme}",
       "hostname": "${cpd.server.pub.host}",

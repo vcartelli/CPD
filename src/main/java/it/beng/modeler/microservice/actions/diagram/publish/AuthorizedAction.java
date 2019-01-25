@@ -1,10 +1,9 @@
 package it.beng.modeler.microservice.actions.diagram.publish;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.microservice.common.Countdown;
 import it.beng.modeler.microservice.actions.diagram.DiagramAction;
 import it.beng.modeler.microservice.actions.diagram.DiagramPublishAction;
@@ -29,13 +28,13 @@ public abstract class AuthorizedAction extends DiagramPublishAction implements D
     }
 
     @Override
-    public void handle(RoutingContext context, Handler<AsyncResult<JsonObject>> handler) {
+    public void handle(RoutingContext context, AsyncHandler<JsonObject> handler) {
         DBUtils.team(diagramId(), team -> {
             if (team.succeeded()) {
                 DiagramAction.isPermitted(AuthUtils.getAccount(context), team.result(), roles, isPermitted -> {
                     if (isPermitted.succeeded()) {
                         if (isPermitted.result()) {
-                            final Countdown countdown = new Countdown(this.items()).setCompleteHandler(zero -> {
+                            final Countdown countdown = new Countdown(this.items()).onComplete(zero -> {
                                 handler.handle(Future.succeededFuture(json));
                             });
                             this.items().forEach(item -> this.forEach(item, done -> {
@@ -58,5 +57,5 @@ public abstract class AuthorizedAction extends DiagramPublishAction implements D
 
     protected abstract List<JsonObject> items();
 
-    protected abstract void forEach(JsonObject item, Handler<AsyncResult<Void>> handler);
+    protected abstract void forEach(JsonObject item, AsyncHandler<Void> handler);
 }

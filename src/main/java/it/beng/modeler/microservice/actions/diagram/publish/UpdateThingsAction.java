@@ -1,16 +1,17 @@
 package it.beng.modeler.microservice.actions.diagram.publish;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.microservice.utils.ProcessEngineUtils;
 import it.beng.modeler.model.Domain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UpdateThingsAction extends AuthorizedAction {
@@ -41,9 +42,12 @@ public class UpdateThingsAction extends AuthorizedAction {
     }
 
     @Override
-    protected void forEach(JsonObject update, Handler<AsyncResult<Void>> handler) {
+    protected void forEach(JsonObject update, AsyncHandler<Void> handler) {
         JsonObject changes = update.getJsonObject("changes");
-        JsonObject replace = update.getJsonObject("original").mergeIn(changes, true);
+        JsonObject replace = new JsonObject(update.getJsonObject("original").mergeIn(changes, true).stream()
+                                                  .filter(entry -> Objects.nonNull(entry.getValue()))
+                                                  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+        );
         Domain domain = Domain.get(replace.getString("$domain"));
         mongodb.findOneAndReplace(
             domain.getCollection(),

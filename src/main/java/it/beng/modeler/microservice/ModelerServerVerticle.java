@@ -6,19 +6,17 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.JksOptions;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.ext.web.handler.CookieHandler;
-import io.vertx.ext.web.handler.CorsHandler;
-import io.vertx.ext.web.handler.SessionHandler;
+import io.vertx.ext.web.handler.*;
 import io.vertx.ext.web.sstore.LocalSessionStore;
-import io.vertx.ext.web.sstore.SessionStore;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
 import it.beng.modeler.microservice.subroute.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.util.locale.LanguageTag;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,8 +30,6 @@ public final class ModelerServerVerticle extends AbstractVerticle {
 
     @Override
     public void start(Future<Void> startFuture) {
-
-        final String baseHref = cpd.server.baseHref;
 
         // Create a router object
         Router router = Router.router(vertx);
@@ -105,7 +101,8 @@ public final class ModelerServerVerticle extends AbstractVerticle {
 
                        Secure configuration: Server returns the 'X-Frame-Options' HTTP header set to 'DENY' or 'SAMEORIGIN'.
                    */
-                   .putHeader("X-FRAME-OPTIONS", "DENY")
+//                   .putHeader("X-FRAME-OPTIONS", "DENY")
+                   .putHeader("X-FRAME-OPTIONS", "SAMEORIGIN")
                    /*
                        **Cache-Control**
 
@@ -155,21 +152,32 @@ public final class ModelerServerVerticle extends AbstractVerticle {
                         IE8+ do not allow opening of attachments in the context of this resource
                    */
                    .putHeader("X-Download-Options", "noopen");
-            logger.debug(context.request().remoteAddress() + " [" + context.request().method() + "] " + context.request().uri());
+            logger
+                .debug(context.request().remoteAddress() + " [" + context.request().method() + "] " + context.request()
+                                                                                                             .uri());
             context.next();
         });
 
         // create cookie and session handler
         router.route().handler(CookieHandler.create());
-        SessionStore sessionStore = /* ClusteredSessionStore */LocalSessionStore.create(vertx);
-        SessionHandler sessionHandler = SessionHandler.create(sessionStore);
-        sessionHandler.setSessionCookieName("cpd.web.session." + cpd.server.scheme)
-                      .setCookieHttpOnlyFlag(true)
-                      .setCookieSecureFlag(cpd.ssl.enabled)
-                      .setNagHttps(cpd.ssl.enabled)
-                      .setSessionTimeout(TimeUnit.HOURS.toMillis(12));
-        logger.info("Session cookie name is " + "cpd.web.session." + cpd.server.scheme);
-        router.route().handler(sessionHandler);
+        router.route().handler(SessionHandler
+            .create(/* ClusteredSessionStore */LocalSessionStore.create(vertx))
+            .setSessionCookieName(cpd.sessionCookieName())
+            .setCookieHttpOnlyFlag(true)
+            .setCookieSecureFlag(!cpd.develop())
+            .setNagHttps(!cpd.develop())
+            .setSessionTimeout(TimeUnit.HOURS.toMillis(12)));
+        logger.info("Session cookie created: " + new JsonObject()
+            .put("name", cpd.sessionCookieName())
+            .put("HTTPOnly", true)
+            .put("SECURE", !cpd.develop())
+            .put("TimeoutMS", TimeUnit.HOURS.toMillis(12))
+            .encodePrettily()
+        );
+
+        router.route().handler(CSRFHandler.create(cpd.server.secret.csrf));
+
+        // qae jwt: {"typ":"JWT","alg":"HS256"}
 
         // this must be declared here, before the body handler
         new EventBusSubRoute(vertx, router);
@@ -182,7 +190,7 @@ public final class ModelerServerVerticle extends AbstractVerticle {
         router.route().method(HttpMethod.DELETE).handler(bodyHandler);
 
         // redirect base-href to app
-        router.routeWithRegex(HttpMethod.GET, "^" + baseHref.replace("/", "\\/") + "?$").handler(context -> {
+        router.routeWithRegex(HttpMethod.GET, "^" + cpd.server.baseHref.replace("/", "\\/") + "?$").handler(context -> {
             SubRoute.redirect(context, cpd.server.appPath(context));
         });
 
@@ -209,10 +217,16 @@ public final class ModelerServerVerticle extends AbstractVerticle {
             switch (context.statusCode()) {
                 case 404: // NOT_FOUND
                     String path = context.request().path();
-                    if (path.startsWith(cpd.server.baseHref))
+                    if (path.startsWith(cpd.server.baseHref)) {
                         path = path.substring(cpd.server.baseHref.length());
-                    else if (path.startsWith("/"))
+                        final String lang = path.substring(path.indexOf('/'));
+                        if (LanguageTag.isLanguage(lang))
+                            path = path.substring(lang.length());
+                    }
+                    while (path.startsWith("/")) {
+                        // remove any beginning slash
                         path = path.substring(1);
+                    }
                     if (cpd.server.isSubRoute(path))
                         new JsonResponse(context).fail(null, null);
                     else

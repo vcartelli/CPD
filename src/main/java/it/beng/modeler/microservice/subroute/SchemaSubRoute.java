@@ -78,18 +78,18 @@ public final class SchemaSubRoute extends VoidSubRoute {
                 final JsonObject schema = getSchema.result();
                 if (schema != null) {
                     JsonObject query = new JsonObject();
-                    String clazz = null;
+                    String domain = null;
                     {
                         JsonObject properties = schema.getJsonObject("properties");
                         if (properties != null) {
-                            JsonObject c = properties.getJsonObject("class");
-                            if (c != null) {
-                                clazz = c.getString("const");
+                            JsonObject $domain = properties.getJsonObject("$domain");
+                            if ($domain != null) {
+                                domain = $domain.getString("const");
                             }
                         }
                     }
-                    if (clazz != null)
-                        query.put("class", clazz);
+                    if (domain != null)
+                        query.put("$domain", domain);
                     mongodb.find(collection, query, find -> {
                         if (find.succeeded()) {
                             List<JsonObject> instances = find.result();

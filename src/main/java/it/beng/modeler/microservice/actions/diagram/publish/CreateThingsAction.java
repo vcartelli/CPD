@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.model.Domain;
 
@@ -37,7 +38,7 @@ public class CreateThingsAction extends AuthorizedAction {
     }
 
     @Override
-    protected void forEach(JsonObject thing, Handler<AsyncResult<Void>> handler) {
+    protected void forEach(JsonObject thing, AsyncHandler<Void> handler) {
         final String langCode = thing.getString("language");
         if (langCode != null) {
             thing.put("language", cpd.language(langCode));

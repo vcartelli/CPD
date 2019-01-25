@@ -40,7 +40,7 @@ public final class JsonResponse {
     }
 
     private String toJson(Object value) {
-        return cpd.develop ? Json.encodePrettily(value) : Json.encode(value);
+        return cpd.develop() ? Json.encodePrettily(value) : Json.encode(value);
     }
 
     public JsonResponse chunked() {

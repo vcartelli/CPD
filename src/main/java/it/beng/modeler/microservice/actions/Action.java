@@ -5,7 +5,7 @@ import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config.cpd;
 
 public abstract class Action {
-    protected static final MongoDB mongodb = cpd.mongoDB();
+    protected static final MongoDB mongodb = cpd.dataDB();
 
     public final JsonObject json;
 

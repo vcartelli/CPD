@@ -37,7 +37,7 @@ public abstract class ActionService extends BridgeEventService {
         }
         Class<? extends IncomingAction> actionClass = INCOMING_ACTIONS.get(type);
         if (actionClass == null) {
-            if (cpd.develop) {
+            if (cpd.develop()) {
                 return new PublishAction(json) {
                     @Override
                     protected String innerType() {
@@ -63,7 +63,7 @@ public abstract class ActionService extends BridgeEventService {
         }
     }
 
-    protected static final MongoDB mongodb = cpd.mongoDB();
+    protected static final MongoDB mongodb = cpd.dataDB();
 
     private final Pattern publishAddressPattern;
 

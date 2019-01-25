@@ -17,6 +17,7 @@ public class Domain {
     private static final Logger logger = LogManager.getLogger(Domain.class);
 
     public static final class Collection {
+        public static final String PROPERTIES = "properties";
         public static final String DIS = "dis";
         public static final String MODELS = "models";
         public static final String NOTATIONS = "notations";

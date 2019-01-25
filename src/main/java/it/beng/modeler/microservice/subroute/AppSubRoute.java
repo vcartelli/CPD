@@ -21,16 +21,23 @@ public final class AppSubRoute extends VoidSubRoute {
     protected void init() {
         for (String locale : cpd.app.locales) {
             /* STATIC RESOURCES (CPD app) */
-            router.route(HttpMethod.GET, path + locale + "/*")
+            final String appPath = path + locale;
+            router.route(HttpMethod.GET, appPath + "/*")
                   .handler(StaticHandler.create("web/ROOT/" + locale)
                                         .setDirectoryListing(false)
                                         .setAllowRootFileSystemAccess(false)
                                         .setAlwaysAsyncFS(true)
                                         .setCachingEnabled(true)
                                         .setFilesReadOnly(true));
-            // let the application handle also it's own dynamic routes
-            router.route(HttpMethod.GET, path + locale + "/*").handler(context -> {
-                context.reroute(path + locale);
+            router.route(HttpMethod.GET, appPath + "/*").handler(context -> {
+                if (context.normalisedPath().startsWith(appPath + "/" + cpd.ASSETS_PATH)) {
+                    String resource = context.normalisedPath()
+                                             .substring((appPath + "/" + cpd.ASSETS_PATH).length());
+                    context.reroute(path + cpd.ASSETS_PATH + "locale/" + locale + "/" + resource);
+                } else if (!context.request().path().equals(appPath)) {
+                    context.reroute(appPath); // let the application handle it's own dynamic route first
+                } else
+                    context.next(); // if appPath has been already processed, pass it to next handler (error handler)
             });
         }
     }

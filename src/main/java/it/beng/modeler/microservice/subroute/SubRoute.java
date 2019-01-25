@@ -53,7 +53,7 @@ public abstract class SubRoute<T> {
         logger.info("sub-route registered: " + this.path);
         this.vertx = vertx;
         this.router = router;
-        this.mongodb = cpd.mongoDB();
+        this.mongodb = cpd.dataDB();
         this.schemaTools = cpd.schemaTools();
         // this.modelTools = modelTools;
         this.isPrivate = isPrivate;

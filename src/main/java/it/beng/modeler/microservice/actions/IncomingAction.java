@@ -4,6 +4,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import it.beng.microservice.common.AsyncHandler;
 
 public abstract class IncomingAction extends Action {
     public IncomingAction(JsonObject action) {
@@ -17,5 +18,5 @@ public abstract class IncomingAction extends Action {
         return super.isValid() && type().equals(innerType());
     }
 
-    public abstract void handle(RoutingContext context, Handler<AsyncResult<JsonObject>> handler);
+    public abstract void handle(RoutingContext context, AsyncHandler<JsonObject> handler);
 }

@@ -26,7 +26,7 @@ public class LocalAuthProviderImpl implements LocalAuthProvider {
 
     public LocalAuthProviderImpl(Vertx vertx) {
         // this.vertx = vertx;
-        this.mongodb = cpd.mongoDB();
+        this.mongodb = cpd.dataDB();
         if (mongodb == null)
             throw new IllegalStateException("could not find mongodb in current context");
     }

@@ -2,7 +2,6 @@ package it.beng.modeler.microservice.subroute;
 
 import com.hazelcast.com.eclipsesource.json.ParseException;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -16,6 +15,7 @@ import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.StaticHandler;
+import it.beng.microservice.common.AsyncHandler;
 import it.beng.microservice.db.MongoDB;
 import it.beng.modeler.config.cpd;
 import it.beng.modeler.microservice.http.JsonResponse;
@@ -171,11 +171,7 @@ public final class ApiSubRoute extends VoidSubRoute {
         });
     }
 
-    private void getProcedureSummaryCommand(
-        String procedureId,
-        String eServiceId,
-        String appHref,
-        Handler<AsyncResult<JsonArray>> handler) {
+    private void getProcedureSummaryCommand(String procedureId, String eServiceId, String appHref, AsyncHandler<JsonArray> handler) {
         MongoDB.Command command = mongodb.command("getProcedureSummary", new HashMap<String, String>() {{
             put("procedureId", procedureId != null ? "\"_id\":\"" + procedureId + "\"," : "");
             put("eServiceId", eServiceId != null ? "\"phases.eServiceIds\": \"" + eServiceId + "\"" : "");
