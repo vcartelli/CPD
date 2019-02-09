@@ -112,9 +112,7 @@ public abstract class SubRoute<T> {
     }
 
     protected static boolean isAdmin(User user) {
-        return user != null && "admin".equals(
-            AuthUtils.getAccount(user).getJsonObject("roles").getString("system")
-        );
+        return AuthUtils.isAdmin(user);
     }
 
     protected static boolean isAdminFailOtherwise(RoutingContext context) {

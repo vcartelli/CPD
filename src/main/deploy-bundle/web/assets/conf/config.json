@@ -66,5 +66,11 @@
     "actionId": {
       "sendFeedback": "${cpd.gamification.actionId.sendFeedback}"
     }
+  },
+  "tae": {
+    "href": "${cpd.tae.href}",
+    "api": {
+      "simplify": "${cpd.tae.api.simplify}"
+    }
   }
 }

@@ -41,6 +41,7 @@ public final class cpd {
     private static final Map<String, String> DATA_MAPPINGS = new HashMap<String, String>() {{
         put("id", "_id");
         put("$domain", "\uFF04domain");
+        put("$ignore", "\uFF04ignore");
     }};
     private static final Map<String, String> SCHEMA_MAPPINGS_EXTENSION = new HashMap<String, String>() {{
         put("$date", "\uFF04date");

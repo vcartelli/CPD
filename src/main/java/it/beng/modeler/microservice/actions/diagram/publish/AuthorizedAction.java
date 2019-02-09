@@ -31,19 +31,12 @@ public abstract class AuthorizedAction extends DiagramPublishAction implements D
     public void handle(RoutingContext context, AsyncHandler<JsonObject> handler) {
         DBUtils.team(diagramId(), team -> {
             if (team.succeeded()) {
-                DiagramAction.isPermitted(AuthUtils.getAccount(context), team.result(), roles, isPermitted -> {
+                if (AuthUtils.isAdmin(context.user())) {
+                    afterAuthorizationIsGranted(handler);
+                } else DiagramAction.isPermitted(AuthUtils.getAccount(context), team.result(), roles, isPermitted -> {
                     if (isPermitted.succeeded()) {
                         if (isPermitted.result()) {
-                            final Countdown countdown = new Countdown(this.items()).onComplete(zero -> {
-                                handler.handle(Future.succeededFuture(json));
-                            });
-                            this.items().forEach(item -> this.forEach(item, done -> {
-                                if (done.failed()) {
-                                    handler.handle(Future.failedFuture(done.cause()));
-                                    throw new RuntimeException(done.cause());
-                                }
-                                countdown.next();
-                            }));
+                            afterAuthorizationIsGranted(handler);
                         } else {
                             handler.handle(Future.failedFuture("unauthorized"));
                         }
@@ -53,6 +46,19 @@ public abstract class AuthorizedAction extends DiagramPublishAction implements D
                 });
             } else handler.handle(Future.failedFuture(team.cause()));
         });
+    }
+
+    private void afterAuthorizationIsGranted(AsyncHandler<JsonObject> handler) {
+        final Countdown countdown = new Countdown(this.items()).onComplete(zero -> {
+            handler.handle(Future.succeededFuture(json));
+        });
+        this.items().forEach(item -> this.forEach(item, done -> {
+            if (done.failed()) {
+                handler.handle(Future.failedFuture(done.cause()));
+                throw new RuntimeException(done.cause());
+            }
+            countdown.next();
+        }));
     }
 
     protected abstract List<JsonObject> items();

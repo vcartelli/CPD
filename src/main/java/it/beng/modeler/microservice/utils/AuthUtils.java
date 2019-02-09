@@ -1,6 +1,5 @@
 package it.beng.modeler.microservice.utils;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
@@ -28,6 +27,12 @@ public final class AuthUtils {
         .put("system", "user")
         .put("interaction", "citizen")
         .put("things", new JsonObject());
+
+    public static boolean isAdmin(User user) {
+        return user != null && "admin".equals(
+            getAccount(user).getJsonObject("roles").getString("system")
+        );
+    }
 
     public static void isAuthorized(JsonObject authority, JsonObject userRoles, AsyncHandler<Boolean> handler) {
         logger.debug("checking authority " + authority.encodePrettily() + " vs. " + userRoles.encodePrettily());
