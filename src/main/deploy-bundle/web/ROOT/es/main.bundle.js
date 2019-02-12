@@ -6346,10 +6346,8 @@ var TaeTextareaSchemaUiComponent = /*@__PURE__*/ (function (_super) {
         this.emit(changes);
     };
     TaeTextareaSchemaUiComponent.prototype.afterValueSet = function (oldValue, newValue) {
-        if (newValue != null && newValue !== oldValue) {
-            this.simplification = null;
-            this.isSimplified = false;
-        }
+        this.simplification = null;
+        this.isSimplified = false;
     };
     TaeTextareaSchemaUiComponent.prototype.tae = function (text) {
         var _this = this;
