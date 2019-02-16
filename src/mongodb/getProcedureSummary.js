@@ -74,7 +74,7 @@ db.getCollection("models").aggregate(
 			      "as": "eServices",
 			      "restrictSearchWithMatch": {
 			        "＄domain": "Model.FPMN.Interaction.Task",
-			            "channel": "Model.FPMN.Interaction.Channel.EForm",
+                    "channels": "Model.FPMN.Interaction.Channel.EForm",
 			        "eServiceId": {
 			          "$exists": true
 			        }

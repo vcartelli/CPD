@@ -823,21 +823,6 @@
 			"description": "Name of the Institution interacting with the citizen",
 			"type": "string"
 		},
-		"channel": {
-			"propertyOrder": 9.0,
-			"title": "Channel",
-			"description": "Interaction channel (e.g. \"e-mail\")",
-			"type": "string",
-			"enum": [
-				"Model.FPMN.Interaction.Channel.EForm",
-				"Model.FPMN.Interaction.Channel.EMail",
-				"Model.FPMN.Interaction.Channel.FaceToFace",
-				"Model.FPMN.Interaction.Channel.OrdinaryMail",
-				"Model.FPMN.Interaction.Channel.RegisteredMail",
-				"Model.FPMN.Interaction.Channel.Phone",
-				"Model.FPMN.Interaction.Channel.Payment"
-			]
-		},
 		"eServiceId": {
 			"propertyOrder": 10.0,
 			"title": "E-Service ID",
@@ -856,12 +841,107 @@
 		"＄domain": {
 			"propertyOrder": 14.0,
 			"const": "Model.FPMN.Interaction.Task"
+		},
+		"channels": {
+			"propertyOrder": 9.0,
+			"title": "Channel",
+			"description": "Interaction channel (e.g. \"e-mail\")",
+			"type": "array",
+			"enum": [
+				"Model.FPMN.Interaction.Channel.EForm",
+				"Model.FPMN.Interaction.Channel.EMail",
+				"Model.FPMN.Interaction.Channel.FaceToFace",
+				"Model.FPMN.Interaction.Channel.OrdinaryMail",
+				"Model.FPMN.Interaction.Channel.RegisteredMail",
+				"Model.FPMN.Interaction.Channel.Phone",
+				"Model.FPMN.Interaction.Channel.Payment"
+			]
 		}
 	},
 	"required": [
 		"initiator",
 		"interlocutor",
 		"channel"
+	]
+},
+{
+	"_id": "Model.FPMN.Interaction.Task.Deadline",
+	"title": "FPMN Interaction Task Deadline",
+	"description": "A FPMN Interaction Task Deadline",
+	"type": "object",
+	"additionalProperties": false,
+	"＄extends": [
+		"Model.FPMN.Interaction.Node"
+	],
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0
+		},
+		"designId": {
+			"propertyOrder": 2.0
+		},
+		"parentId": {
+			"propertyOrder": 3.0
+		},
+		"beyondId": {
+			"propertyOrder": 4.0,
+			"title": "Beyond deadline sequence ID",
+			"description": "ID of the Interaction Sequence to follow when beyond the deadline",
+			"＄ref": "type#uuid"
+		},
+		"language": {
+			"propertyOrder": 5.0
+		},
+		"name": {
+			"propertyOrder": 6.0
+		},
+		"documentation": {
+			"propertyOrder": 7.0
+		},
+		"＄domain": {
+			"propertyOrder": 8.0,
+			"const": "Model.FPMN.Interaction.Task.Deadline"
+		}
+	},
+	"required": [
+		"targetId"
+	]
+},
+{
+	"_id": "Model.FPMN.Label",
+	"title": "FPMN Label",
+	"description": "A FPMN Label",
+	"type": "object",
+	"additionalProperties": false,
+	"＄extends": [
+		"Model.FPMN.Child"
+	],
+	"properties": {
+		"id": {
+			"propertyOrder": 1.0
+		},
+		"designId": {
+			"propertyOrder": 2.0
+		},
+		"parentId": {
+			"propertyOrder": 3.0
+		},
+		"language": {
+			"propertyOrder": 4.0
+		},
+		"name": {
+			"propertyOrder": 5.0
+		},
+		"documentation": {
+			"propertyOrder": 6.0
+		},
+		"＄domain": {
+			"propertyOrder": 7.0,
+			"const": "Model.FPMN.Label"
+		}
+	},
+	"required": [
+		"targetId"
 	]
 },
 {
@@ -1277,85 +1357,5 @@
 			]
 		}
 	}
-},
-{
-	"_id": "Model.FPMN.Label",
-	"title": "FPMN Label",
-	"description": "A FPMN Label",
-	"type": "object",
-	"additionalProperties": false,
-	"＄extends": [
-		"Model.FPMN.Child"
-	],
-	"properties": {
-		"id": {
-			"propertyOrder": 1.0
-		},
-		"designId": {
-			"propertyOrder": 2.0
-		},
-		"parentId": {
-			"propertyOrder": 3.0
-		},
-		"language": {
-			"propertyOrder": 4.0
-		},
-		"name": {
-			"propertyOrder": 5.0
-		},
-		"documentation": {
-			"propertyOrder": 6.0
-		},
-		"＄domain": {
-			"propertyOrder": 7.0,
-			"const": "Model.FPMN.Label"
-		}
-	},
-	"required": [
-		"targetId"
-	]
-},
-{
-	"_id": "Model.FPMN.Interaction.Task.Deadline",
-	"title": "FPMN Interaction Task Deadline",
-	"description": "A FPMN Interaction Task Deadline",
-	"type": "object",
-	"additionalProperties": false,
-	"＄extends": [
-		"Model.FPMN.Interaction.Node"
-	],
-	"properties": {
-		"id": {
-			"propertyOrder": 1.0
-		},
-		"designId": {
-			"propertyOrder": 2.0
-		},
-		"parentId": {
-			"propertyOrder": 3.0
-		},
-		"beyondId": {
-			"propertyOrder": 4.0,
-			"title": "Beyond deadline sequence ID",
-			"description": "ID of the Interaction Sequence to follow when beyond the deadline",
-			"＄ref": "type#uuid"
-		},
-		"language": {
-			"propertyOrder": 5.0
-		},
-		"name": {
-			"propertyOrder": 6.0
-		},
-		"documentation": {
-			"propertyOrder": 7.0
-		},
-		"＄domain": {
-			"propertyOrder": 8.0,
-			"const": "Model.FPMN.Interaction.Task.Deadline"
-		}
-	},
-	"required": [
-		"targetId"
-	]
 }]
 

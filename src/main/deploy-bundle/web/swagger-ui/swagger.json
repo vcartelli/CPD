@@ -574,10 +574,13 @@
           "description": "Subject of this Interaction",
           "$ref": "#/definitions/Model.FPMN.Interaction.Subject"
         },
-        "channel": {
+        "channels": {
           "title": "Channel",
           "description": "Interaction channel (e.g. \"e-mail\")",
-          "$ref": "#/definitions/Model.FPMN.Interaction.Channel"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Model.FPMN.Interaction.Channel"
+          }
         },
         "eServiceId": {
           "title": "E-Service ID",
@@ -608,7 +611,7 @@
         }
       },
       "required": [
-        "channel",
+        "channels",
         "subject",
         "language",
         "name"
