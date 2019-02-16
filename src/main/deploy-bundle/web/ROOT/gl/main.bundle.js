@@ -11819,7 +11819,7 @@ var FPMNRenderer = /*@__PURE__*/ (function (_super) {
     FPMNRenderer.prototype.renderExternalLabel = function (parentGfx, element) {
         var model = element.businessObject.model;
         var box = {
-            width: 90,
+            width: 120,
             height: 40,
         };
         var padding = {
