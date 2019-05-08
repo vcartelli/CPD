@@ -14,7 +14,9 @@ import it.beng.modeler.microservice.utils.JsonUtils;
 import java.util.Map;
 
 /**
- * <p>This class is a member of <strong>modeler-microservice</strong> project.</p>
+ * <p>
+ * This class is a member of <strong>modeler-microservice</strong> project.
+ * </p>
  *
  * @author vince
  * @author vince
@@ -53,7 +55,8 @@ public final class DataSubRoute extends VoidSubRoute {
 
     }
 
-    // TODO: queryParams values are all strings, check if it is necessary to cast each string to proper type as given by schema/collection
+    // TODO: queryParams values are all strings, check if it is necessary to cast each string to proper type as given by
+    // schema/collection
     private static JsonObject query(RoutingContext context) {
         JsonObject query = new JsonObject();
         for (Map.Entry<String, String> entry : context.queryParams()) {
@@ -76,17 +79,10 @@ public final class DataSubRoute extends VoidSubRoute {
     private void find(RoutingContext context) {
         String collection = context.pathParam("collection");
         JsonResponse response = new JsonResponse(context).chunked();
-        mongodb.findBatch(collection, query(context), find -> {
-            if (find.succeeded()) {
-                if (find.result() == null) {
-                    response.end();
-                } else {
-                    response.write(find.result());
-                }
-            } else {
-                context.fail(find.cause());
-            }
-        });
+        mongodb.findBatch(collection, query(context))
+            .exceptionHandler(h -> context.fail(h))
+            .endHandler(h -> response.end())
+            .handler(h -> response.write(h));
     }
 
     private void findOne(RoutingContext context) {
@@ -113,7 +109,7 @@ public final class DataSubRoute extends VoidSubRoute {
                 new JsonResponse(context).end(null);
         });
     }
-
+    
     private void postCollection(RoutingContext context) {
         if (isLoggedInOrFail(context)) {
             String collection = context.pathParam("collection");

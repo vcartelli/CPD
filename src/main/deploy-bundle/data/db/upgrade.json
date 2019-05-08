@@ -1,5 +1,6 @@
 {
-  "version": "1.8-SNAPSHOT",
+  "version": "1.9-SNAPSHOT",
+  "1.8-SNAPSHOT": {},
   "1.7-SNAPSHOT": {
     "models": [
       [
@@ -10,9 +11,7 @@
         },
         {
           "$addFields": {
-            "channels": [
-              "$channel"
-            ]
+            "channels": ["$channel"]
           }
         },
         {

@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-PILOT=$1
-if ! [[ "$PILOT" =~ ^(trento|galicia|sheffield|all)$ ]]
+NAME=$1
+if [ -z "$NAME" ]
 then
-  echo "please provide a pilot ID (trento|galicia|sheffield)"
+  NAMES=$(ls -1 dump | tr '\n' '|')
+  echo "please provide the name of the dump (${NAMES%?})"
   exit 1
 fi
-mongorestore --dir "dump/$PILOT" --nsInclude 'cpd.*' --drop --gzip
+if [ "$2" != "nodrop" ]
+then
+  DROP='--drop '
+fi
+mongorestore --dir "dump/$NAME" --nsInclude 'cpd.*' $DROP--gzip

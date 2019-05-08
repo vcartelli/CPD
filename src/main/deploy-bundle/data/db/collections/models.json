@@ -1,30 +1,24 @@
 [{
+	"_id": "0001bfeb-878f-4684-bdd4-ac1b204adffa",
+	"hidden": false,
+	"collapsed": false,
+	"documentation": "Una o più delle imprese comunicate con la comunicazione di inizio lavori vengono sostituite oppure ne vengono aggiunte di nuove.",
+	"name": "SI",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "29d01e69-8c92-4a8d-a800-114e7a06cf51"
+},
+{
 	"_id": "016404b0-6041-4d4c-bbb3-6cd3e8a6acaa",
 	"outgoingIds": [
 		"0a486cd6-ed74-4f15-9ee4-e57e620e9a39"
 	],
 	"name": "Interaction Start",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
-},
-{
-	"_id": "02735cb1-68db-448f-ac4c-d48895dd21ca",
-	"eServiceId": "BS607A",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EForm",
-		"Model.FPMN.Interaction.Channel.EMail",
-		"Model.FPMN.Interaction.Channel.FaceToFace"
-	],
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"documentation": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"name": "Lorem ipsum dolor sit amet",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"language": "spanish",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"parentId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1"
 },
 {
 	"_id": "04d18182-f90c-4b35-9a61-5f2483931ce3",
@@ -63,9 +57,19 @@
 	"collapsed": false,
 	"name": "Genitore",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "34297dad-8f1b-4733-af58-9baef3bd957d"
+},
+{
+	"_id": "06e0e490-444c-41bc-8c40-e43ff2cc0cb0",
+	"hidden": false,
+	"collapsed": false,
+	"name": "SI",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "a55d7f2b-30e2-47d0-a293-08f0d19af63a"
 },
 {
 	"_id": "08447a63-3e87-4528-8d5d-62c49a5161ee",
@@ -112,7 +116,7 @@
 	"sourceNodeId": "016404b0-6041-4d4c-bbb3-6cd3e8a6acaa",
 	"name": "Interaction Sequence",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Sequence",
 	"targetNodeId": "59a5659d-baad-4355-88de-d252adb08554",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
@@ -139,29 +143,28 @@
 	"＄ignore": true
 },
 {
-	"_id": "0c846acc-e494-4acd-95e9-e9efc3a5187f",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "SI",
-	"＄domain": "Model.FPMN.Label",
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "0d3e56f4-c530-4c39-afc6-2107bfe8736d"
-},
-{
-	"_id": "0d3e56f4-c530-4c39-afc6-2107bfe8736d",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
+	"_id": "0b81a318-ebc4-446c-b161-22ba04c91b4f",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
 	"name": "Interaction Sequence",
 	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"sourceNodeId": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec",
-	"targetNodeId": "47b75014-f3d5-4df3-b8b3-ec9757ff7d26",
-	"documentation": "Resolucións ....."
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "52b055c1-980d-4737-b7be-c48704ce0f26",
+	"targetNodeId": "6dfe4e87-a6b0-473e-bac9-cc76d4da1cac"
+},
+{
+	"_id": "0cd3c330-4e4f-4516-94b9-0ce60172b6bc",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"sourceNodeId": "7210d97e-266e-42d3-a183-bfa78d3c3211",
+	"targetNodeId": "1cf0a35e-73b8-4912-b393-08cf39d98593"
 },
 {
 	"_id": "0d6235cc-e922-48e2-a01b-6a42c1c94be8",
-	"language": "it",
+	"language": "italian",
 	"parentId": "c12c96d2-9c41-412e-9c7c-ec72282c9a56",
 	"outgoingIds": [
 		"2ff88164-4d30-41aa-b064-f4b8a5920cb0"
@@ -189,7 +192,7 @@
 	],
 	"name": "Interaction Start",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "a6e63c35-97d5-46f5-b1ff-5772060113a5"
 },
@@ -202,7 +205,7 @@
 	],
 	"name": "Interaction Start",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc"
 },
@@ -234,9 +237,45 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "a6e63c35-97d5-46f5-b1ff-5772060113a5"
+},
+{
+	"_id": "133901c3-aaff-4c58-b008-9b17f368a5a9",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Documentazione completa",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "86ff4ec0-de7d-4feb-8bd4-02767643ba1c"
+},
+{
+	"_id": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"notation": "Model.Notation.FPMN",
+	"created": {
+		"$date": "2019-02-14T10:58:40.675Z"
+	},
+	"name": "Richiesta di rilascio elenchi titoli edilizi",
+	"language": "italian",
+	"lastModified": {
+		"$date": "2019-02-14T10:58:40.675Z"
+	},
+	"team": {
+		"owner": [
+			"25272"
+		],
+		"reviewer": [
+			"25298"
+		],
+		"editor": [
+			"27169"
+		],
+		"observer": []
+	},
+	"＄domain": "Model.FPMN.Diagram",
+	"version": 1
 },
 {
 	"_id": "157688c8-f55f-4cfc-995c-44bf7e791c1a",
@@ -272,6 +311,20 @@
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
+	"_id": "15d9afd9-ad0e-40c0-b60a-2dcfbfba93c5",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"c6670da4-9487-4686-a87d-c6b0f0a3a02f"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217"
+},
+{
 	"_id": "16741c5e-f994-4471-bfcd-0babde1956b1",
 	"incomingIds": [
 		"3e4bc058-3e59-4ba1-9143-530f00c02547",
@@ -285,7 +338,7 @@
 	],
 	"name": "Nuova associazione?",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Decision",
 	"parentId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00"
 },
@@ -300,6 +353,38 @@
 	"targetNodeId": "6bd03d82-e476-463c-8e82-468c692746c1"
 },
 {
+	"_id": "17726cc2-3b00-4f7d-a07c-99a018415b6c",
+	"name": "Domanda per il rilascio delle autorizzazioni e pareri di tutela del paesaggio di competenza della CPC",
+	"waitingTime": "60 giorni",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"category": "Model.FPMN.Procedure.Category.Construction",
+	"＄domain": "Model.FPMN.Procedure"
+},
+{
+	"_id": "181cdb6b-77ac-4ee5-9351-aa0f981aafb7",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"documentation": "Entro 30 giorni dalla presentazione della richiesta,  la documentazione verrà inviata sulla mail/PEC indicata al momento della richiesta.",
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "6a8be30e-8555-47d9-84df-e27af5e8b0ad",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail"
+	],
+	"incomingIds": [
+		"ae8d6aed-3e55-4478-8ae0-09ea9b3b60ae"
+	],
+	"outgoingIds": [
+		"739176e0-ef85-4c5a-ae50-eddd341cb560"
+	],
+	"name": "Trasmissione documentazione richiesta",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "1821d03a-396d-41e2-b7c8-c231d50de2ea",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -309,40 +394,6 @@
 	"sourceNodeId": "data-data-data-data-data-59a5659d-baad-4355-88de-d252adb08554",
 	"targetNodeId": "data-data-19e527a1-3de0-4341-84b8-8b70d16aed65",
 	"＄ignore": true
-},
-{
-	"_id": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"notation": "Model.Notation.FPMN",
-	"version": 1.0,
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2018-01-01T12:00:00.000Z"
-	},
-	"language": "spanish",
-	"name": "Ayudas individuales para personas con discapacidad",
-	"documentation": "Procedimiento de ayudas individuales para personas con discapacidad.",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"25111",
-			"civil servant 1"
-		],
-		"observers": [
-			"citizen 1",
-			"citizen 2"
-		],
-		"observer": [
-			"25204"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
 },
 {
 	"_id": "1b3664a8-3e83-42c9-a1eb-98ea34877cd7",
@@ -359,9 +410,23 @@
 	"prevPhaseId": "44a74d61-c644-449c-956b-40cd73bbf88e",
 	"name": "Consegna documentazione",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Phase",
 	"parentId": "98c30c00-45a3-4bb9-b4c9-b64c6d3b7458"
+},
+{
+	"_id": "1cf0a35e-73b8-4912-b393-08cf39d98593",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"0cd3c330-4e4f-4516-94b9-0ce60172b6bc"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917"
 },
 {
 	"_id": "1ddbd6f5-9302-48ef-87c6-9e1f8ff1b672",
@@ -385,6 +450,36 @@
 	"targetNodeId": "7e94d0c1-b91e-433f-9ab1-82692164a66c"
 },
 {
+	"_id": "2103f72a-4f49-40b2-9da6-5c56e0626fd1",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.RegisteredMail"
+	],
+	"incomingIds": [
+		"86ff4ec0-de7d-4feb-8bd4-02767643ba1c",
+		"9dda3a20-d94d-4239-a578-64fd3bc6791f",
+		"6ef0cbe7-b936-4f9d-87e2-8366a053ad11",
+		"4d654ba4-86ce-4181-9cdd-07993624f2fe",
+		"9dda3a20-d94d-4239-a578-64fd3bc6791f",
+		"a55d7f2b-30e2-47d0-a293-08f0d19af63a"
+	],
+	"name": "Rilascio autorizzazione o parere CPC",
+	"outgoingIds": [
+		"1b28c4d4-c7ed-474e-888e-d88c8f0deb42",
+		"c996b266-51e0-495f-bf9f-29ac4a5459ef",
+		"dca98af0-e029-4e21-8e07-846c8d7edd21"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "231920ea-d64a-4bae-b98b-f3f6a724803d",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -395,25 +490,14 @@
 	"targetNodeId": "9787a978-18d9-4f50-8dc3-b73963348b09"
 },
 {
-	"_id": "23e8a285-9702-4df7-b841-4a9ce94f5b91",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Reclamación",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"incomingIds": [
-		"37468185-2858-4351-9dfb-860b33b788fc"
-	],
-	"outgoingIds": [],
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"documentation": "La persona interesada podrá interponer reclamación previa en el plazo de 30 días, recibiendo respuesta en un plazo de 45 días.",
-	"institution": "Xunta",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EMail"
-	]
+	"_id": "23b14dbe-9a95-4215-8989-8a06aeabc4a6",
+	"nextPhaseId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"prevPhaseId": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"name": "Comunicazione avvio del procedimento",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "17726cc2-3b00-4f7d-a07c-99a018415b6c"
 },
 {
 	"_id": "2463e8ad-4479-4cbe-ab36-9a3eb19e10b6",
@@ -421,22 +505,9 @@
 	"collapsed": false,
 	"name": "SI",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "78cefbc4-0216-4326-8bc1-d1f1d41976e6"
-},
-{
-	"_id": "24745f3a-3c78-4f5e-afab-07d1577c6bec",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Start",
-	"＄domain": "Model.FPMN.Interaction.Start",
-	"outgoingIds": [
-		"638afbe7-b066-44a5-b182-fdfb96eea99e"
-	],
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
 },
 {
 	"_id": "260beb4f-8a57-4813-bb8f-2cee7ac264f3",
@@ -450,7 +521,7 @@
 		"b139d71d-08c3-4240-b4d5-b8097eca879a"
 	],
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Decision",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
 },
@@ -504,6 +575,26 @@
 	"documentation": "Ricorda di effettuare le richieste di allacciamento almeno 20 giorni lavorativi prima dell’evento, altrimenti gli allacci potrebbero non essere disponibili per le la data di inizio dell'evento"
 },
 {
+	"_id": "29c2e5c7-80b3-4d7e-bcd4-6155bdd0008d",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "7e3b8b39-efba-4810-968a-a1172929aa12",
+	"targetNodeId": "52b055c1-980d-4737-b7be-c48704ce0f26"
+},
+{
+	"_id": "29d01e69-8c92-4a8d-a800-114e7a06cf51",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813",
+	"sourceNodeId": "a366893d-50b1-40f8-be7f-bc763ad3e892",
+	"targetNodeId": "6237adc3-3f3c-4e6b-98a7-acf323d76a17"
+},
+{
 	"_id": "2b8ec09d-865d-4224-96dd-13a42981edc6",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -520,7 +611,7 @@
 	"collapsed": false,
 	"documentation": "L'assegnazione al nido avviene seguendo l'ordine di posizione in graduatoria tenendo conto dei posti disponibili in ogni struttura, distinti per fasce d’età, e applicando una flessibilità massima di tre mesi per favorire la composizione di gruppi omogenei.\n\nTutti i posti ancora disponibili dopo la prima assegnazione a seguito di non accettazione o in corso di anno sono assegnati scorrendo la graduatoria e dando comunicazione agli interessati. Il genitore deve accettare formalmente il posto entro due giorni lavorativi dalla comunicazione (comma 3 e 4 dell’articolo 16 del Regolamento comunale).\n\nIn caso di disponibilità di posti in corso d'anno il dirigente competente può elaborare graduatorie mensili delle domande presentate ai fini della graduatoria per l’anno educativo successivo con i medesimi criteri delle graduatorie annuali eventualmente esaurite ed in riferimento ai posti disponibili in ogni nido d'infanzia e distinti per fasce d'età.",
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "76a011f2-f19a-4062-8a4b-00aa38db0cae",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -538,21 +629,6 @@
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
-	"_id": "2db10e64-d935-4c93-80e9-b5df43956d8a",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"eServiceId": "08677aef-2b6d-4fff-bf10-91b2fe82bdc5",
-	"language": "english",
-	"name": "Compile Request Form",
-	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EForm"
-	]
-},
-{
 	"_id": "2dcbb9e5-53dd-41d4-8e87-fd5cec84922d",
 	"designId": "b2892ad2-997d-4ab7-a49a-0ae6dab1adf3",
 	"parentId": "c9561247-d5a7-4578-98b9-58021ee68ae0",
@@ -561,6 +637,19 @@
 	"name": "Accettazione",
 	"documentation": "Il cittadino (di solito un genitore) entro 10 giorni dalla pubblicazione delle graduatorie deve compilare il modulo di accettazione. La mancata accettazione del posto o il mancato perfezionamento dell’accettazione, sarà considerata tacita rinuncia con la conseguente cancellazione del bambino o della bambina dalla graduatoria per quel nido, salvo per le assegnazioni effettuate a partire dal mese di aprile, e fino all’approvazione della graduatoria annuale successiva.",
 	"＄domain": "Model.FPMN.Phase"
+},
+{
+	"_id": "2e7c9fa9-cd0a-400e-8a31-0360e740bf89",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"55475a62-a494-496f-866d-854f633a90c7"
+	],
+	"name": "Interaction Start",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917"
 },
 {
 	"_id": "2f2b4fab-6ea5-4d44-9e20-28a7e4e13e0b",
@@ -602,6 +691,16 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "30ac26a7-d0ad-4cf7-a73b-6734b6ceb979",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "943d4c6d-9df8-4da6-96e4-29c77d08a09e",
+	"targetNodeId": "77e3bca0-1b96-445e-96e0-661c64ab0cb6"
+},
+{
 	"_id": "32585f79-cce0-4aca-86bf-f8df7a641091",
 	"designId": "a66534ca-8713-4081-986b-14a1b48c9414",
 	"language": "italian",
@@ -612,48 +711,24 @@
 	"＄domain": "Model.FPMN.Procedure"
 },
 {
-	"_id": "339fbda5-f019-423e-b412-40c9ae0b0d60",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Dictamen",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"incomingIds": [
-		"9b0b57d8-d869-40ee-aae6-a66b237916bf"
-	],
-	"outgoingIds": [
-		"b0df7c8b-6d12-4147-9055-0565a812be5e"
-	],
-	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"documentation": "Formulación del dictamen técnico facultativo incluyendo:\n1. Datos identificativos de la persona interesada.\n2. Deficiencias, diagnósticos y etiologías.\n3. Porcentaje parcial correspondiente a cada tipo de discapacidad.\n4. Resultado de la combinación de porcentajes obtenidas por deficiencias de distintos aparatos o sistemas.\n5. Porcentaje de los factores sociales complementarios.\n6. Porcentaje total de discapacidad.\n7. Resultado de los baremos de dificultades de movilidad para utilizar transportes públicos colectivos.\n8. Recomendaciones del órgano de valoración y asesoramiento de la discapacidad sobre la utilización de apoyos y orientación.\n9. Plazo de validez del dictamen.\n",
-	"institution": "Xunta",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EMail"
-	]
+	"_id": "333193b3-cf42-4e88-bd94-6588d86b6e63",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"sourceNodeId": "456a0263-3bcb-4992-8c4b-01c99958f587",
+	"targetNodeId": "61d4daa8-fa1e-4d36-84a8-fb1bb06e4cdb"
 },
 {
-	"_id": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"prevPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
-	"nextPhaseId": "af138569-36ba-4fd5-8558-c4649bd8cee1",
-	"language": "spanish",
-	"name": "Resolución e notificación",
-	"documentation": "1. A resolución correspóndelle á persoa titular da Dirección Xeral de Maiores e Persoas con Discapacidade, por delegación da persoa titular da Consellería de Política Social.\n\n2. O prazo máximo para resolver e notificar as resolucións é de tres meses, contado desde o día seguinte ao da publicación desta orde no Diario Oficial de Galicia. Transcorrido o dito prazo sen que desde a Dirección Xeral de Maiores e Persoas con Discapacidade se notificase resolución expresa, as persoas solicitantes poderán entender desestimadas as súas peticións por silencio administrativo, de conformidade co establecido no artigo 25.1 da Lei 39/2015, do 1 de outubro, do procedemento administrativo común das administracións públicas.\n\n3. As notificacións de resolucións e actos administrativos practicaranse preferentemente por medios electrónicos e, en todo caso, cando as persoas interesadas resulten obrigadas a recibilas por esta vía. As persoas interesadas que non estean obrigadas a recibir notificacións electrónicas poderán decidir e comunicar en calquera momento que as  notificacións sucesivas se practiquen ou deixen de practicar por medios  electrónicos.\n\n4. As notificacións electrónicas realizaranse mediante o Sistema de notificación electrónica de Galicia Notifica.gal dispoñible a través da sede electrónica da Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá ás persoas interesadas avisos da posta á disposición das notificacións ao dispositivo electrónico e/ou ao enderezo de correo  electrónico que consten na solicitude. Estes avisos non terán, en ningún  caso, efectos de notificación practicada e a súa falta non impedirá que a notificación sexa considerada plenamente válida.\n\n5. A persoa interesada deberá manifestar expresamente a modalidade escollida para a notificación (electrónica ou en papel). No caso de persoas interesadas obrigadas a recibir notificacións só por medios electrónicos deberán optar en todo caso pola notificación por medios electrónicos, sen que sexa válida, nin produza efectos no procedemento, unha opción diferente.\n\n6. As notificacións por medios electrónicos entenderanse practicadas no momento en que se produza o acceso ao seu contido. Cando a notificación por medios electrónicos sexa de carácter obrigatorio, ou fose expresamente elixida pola persoa interesada, entenderase rexeitada cando transcorresen dez días naturais desde a posta á disposición da notificación sen que se acceda ao seu contido.\n\n7. Se o envío da notificación electrónica non for posible por problemas técnicos, a Administración xeral e as entidades do sector público autonómico practicarán a notificación polos medios previstos na normativa reguladora do procedemento administrativo común.\n\n8. Nas resolucións de concesión indicarase o balneario e a quenda en que se lle outorga a praza, o custo e o importe que debe pagar en concepto de reserva de praza, os trámites necesarios para formalizar a adxudicación definitiva, así como a documentación e o material ou accesorios que precisa levar para incorporarse ao programa.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"language": "english",
-	"name": "Parenting Skills Workshop",
-	"category": "Model.FPMN.Procedure.Category.SocialService",
-	"documentation": "In Sheffield, parents and carers can access a range of groups that offer practical advice and support with parenting. We deliver programmes that are evidence based, and tried and tested. This means that the content is written by professional psychologists who have years of research into what works to manage behaviours and difficulties that we can all face as parents.  These programmes are delivered across the world and have over 30 years of research behind them.  \n\nWe can work with your family when there are difficulties in managing your child's behaviour and to help build closer relationships. You can learn new skills to help you:\n\n• build parenting confidence\n• find ways to encourage better behaviour in children\n• deal with anger management or family conflict\n• cope with stress",
-	"mission": "Managing child's behaviour.\nHelp in build closer relationships.",
-	"＄domain": "Model.FPMN.Procedure"
+	"_id": "336162e5-48f0-4ea1-9f21-ee8d057760d4",
+	"sourceNodeId": "6237adc3-3f3c-4e6b-98a7-acf323d76a17",
+	"name": "Interaction Sequence",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"targetNodeId": "c55cecfc-5ff5-4ecd-bf29-18a2c1fbdbd1",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813"
 },
 {
 	"_id": "34297dad-8f1b-4733-af58-9baef3bd957d",
@@ -666,18 +741,14 @@
 	"targetNodeId": "cb71624d-445a-4a79-b9af-e380920b485f"
 },
 {
-	"_id": "34d1d74d-8408-4907-89ce-4b195ae2a8aa",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction End",
-	"＄domain": "Model.FPMN.Interaction.End",
-	"incomingIds": [
-		"b0df7c8b-6d12-4147-9055-0565a812be5e"
-	],
-	"phaseFailure": false,
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
+	"_id": "349fc05c-7047-44f7-92d9-06ff2e2d29de",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "95ed24b7-e125-4289-b600-e1e9709962eb",
+	"targetNodeId": "943d4c6d-9df8-4da6-96e4-29c77d08a09e"
 },
 {
 	"_id": "3545667a-1b21-437d-be23-f6f0bba8a627",
@@ -688,17 +759,6 @@
 	"parentId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00",
 	"sourceNodeId": "8d1e8e11-d25a-4f50-8c6a-4cbee7415414",
 	"targetNodeId": "73ecbd78-9a70-4052-8090-80fc9651ff68"
-},
-{
-	"_id": "37468185-2858-4351-9dfb-860b33b788fc",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"sourceNodeId": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec",
-	"targetNodeId": "23e8a285-9702-4df7-b841-4a9ce94f5b91",
-	"documentation": "Resolución denegatoria"
 },
 {
 	"_id": "375a8509-af70-4d9b-aba4-6b3fb15646a9",
@@ -716,29 +776,6 @@
 	"width": 20,
 	"height": 20,
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
-},
-{
-	"_id": "37f147df-4661-4a0e-b050-5765991ca03f",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"sourceNodeId": "5a1d40a7-bfa5-47c4-a207-2fd252d304b1",
-	"targetNodeId": "cfbe378f-9855-47b6-8254-8caa4b116565"
-},
-{
-	"_id": "3835aaa4-ec4e-4774-9e6f-76fabed8ce0e",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Start",
-	"＄domain": "Model.FPMN.Interaction.Start",
-	"outgoingIds": [
-		"da6a8b5e-bf77-4788-9f04-8567fa7f179f"
-	],
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f"
 },
 {
 	"_id": "3905eee1-bee3-4f8d-876a-2b86d180f232",
@@ -782,6 +819,16 @@
 	"targetNodeId": "c29f5b1d-b572-4789-9f74-89fa4dc7199e"
 },
 {
+	"_id": "3a3fece0-ea29-4ebc-913f-45db7adc9dda",
+	"hidden": false,
+	"collapsed": false,
+	"name": "NO",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "947dabca-570d-403a-bcd0-45772982726c"
+},
+{
 	"_id": "3a6d2145-754a-40b1-be56-468b2e903445",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
 	"language": "italian",
@@ -823,32 +870,13 @@
 	"targetNodeId": "e64f4fd8-60e3-429b-ae59-9e545079ade8"
 },
 {
-	"_id": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"nextPhaseId": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
-	"language": "spanish",
-	"name": "Presentación de solicitudes",
-	"documentation": "As solicitudes formularanse no modelo oficial que se indica no anexo I desta orde.\n\nAs persoas solicitantes deberán achegar xunto co anexo I os anexos II e III e a seguinte documentación:\n\na) Copia compulsada do pasaporte, se procede, relativa á persoa solicitante e, se fose o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Copia do libro de familia da persoa solicitante no caso de que queira acudir ao programa acompañada dun fillo ou filla con discapacidade.\n\nc) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado non fose expedido pola Xunta de Galicia ou non estivese no poder desta.\n\nd) Certificado das pensións non outorgadas polo INSS nin pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nEn cada solicitude só se poderá relacionar un máximo de tres destinos por orde de prioridade.\n\nNon será necesario achegar os documentos que xa fosen presentados anteriormente. Para estes efectos, a persoa interesada deberá indicar en que momento e ante que órgano administrativo presentou os citados documentos. Presumirase que esta consulta é autorizada polas persoas interesadas, salvo que conste no procedemento a súa oposición expresa.\n\nNos supostos de imposibilidade material de obter o documento, o órgano competente poderá requirirlle á persoa interesada a súa presentación, con anterioridade á formulación da proposta de resolución.\n\nA documentación complementaria presentarase preferiblemente por vía electrónica. As persoas interesadas responsabilizaranse da veracidade dos documentos que presenten. Excepcionalmente, cando a relevancia do documento no procedemento o exixa ou existan dúbidas derivadas da calidade da copia, a Administración poderá requirir de maneira motivada a exhibición do documento orixinal para o cotexo da copia electrónica presentada.\n\nOpcionalmente, as persoas interesadas poderán presentar a documentación complementaria presencialmente en calquera dos lugares e rexistros establecidos na normativa reguladora do procedemento administrativo común.\n\nSempre que se realice a presentación de documentos separadamente da solicitude deberase indicar o código e o órgano responsable do procedemento, o número de rexistro de entrada da solicitude e o número de expediente se se dispón del.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
-	"_id": "40aa36fd-dba9-432d-856c-92a38244ef2f",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"parentId": "852edac5-e0a7-46ad-b326-330904c18567",
-	"language": "spanish",
-	"name": "Presentación de solicitudes",
-	"＄domain": "Model.FPMN.Phase",
-	"documentation": "La solicitud deberá incorporar \na) DNI o NIE de la persona solicitante\nb) Certificado de empadronamiento \nc) En el caso de personas extranjeras, copia compulsada del permiso legal de residencia\nd) Si procede, acreditación de representación de la persona solicitante\ne) Informes médicos o psicológicos emitidos (conforme al anexo IV) que avalen las deficiencias alegadas.\nf) En caso de solicitar valoración de los factores sociales complementarios: informe social emitido por un trabajador social de los servicios sociales, certificado de convivencia, tarjeta de demandante de empleo (si desempleado) y justificantes de gastos de vivienda y gastos extraordinarios de carácter prolongado.",
-	"nextPhaseId": "64e90f07-379b-4942-bdc0-56b8f49e3216"
-},
-{
 	"_id": "40c94f5f-2690-455d-b579-ee9294f39458",
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
+	"documentation": "Quando viene attestato il pagamento, il Segretario di Circoscrizione o un suo addetto, conferma in Spazi Comuni la prenotazione e contemporaneamente il sistema invia al richiedente una mail con l'avvenuta conferma della sala",
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -857,10 +885,10 @@
 	"incomingIds": [
 		"04d18182-f90c-4b35-9a61-5f2483931ce3"
 	],
+	"name": "Conferma prenotazione",
 	"outgoingIds": [
 		"fcb16c26-bd0f-45a3-b301-bac2f2ff3823"
 	],
-	"name": "Conferma prenotazione",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -873,7 +901,7 @@
 	],
 	"name": "Interaction Start",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "6f71e2f0-8a34-46f0-ac70-cbad3337b113"
 },
@@ -889,27 +917,12 @@
 	"＄ignore": true
 },
 {
-	"_id": "446ab019-5828-4e50-a37c-f4fde686f69c",
-	"eServiceId": "BS613B",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EForm"
-	],
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"documentation": "Auctor urna nunc id cursus metus aliquam eleifend mi in. Arcu bibendum at varius vel. Nulla facilisi nullam vehicula ipsum a arcu. Nisl suscipit adipiscing bibendum est ultricies integer quis. Tristique senectus et netus et malesuada fames ac turpis. Est ultricies integer quis auctor elit. Nibh tellus molestie nunc non blandit massa enim. Nulla aliquet porttitor lacus luctus accumsan tortor posuere ac. Arcu non odio euismod lacinia at quis. In iaculis nunc sed augue lacus viverra vitae congue eu. Metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Adipiscing bibendum est ultricies integer quis auctor elit sed. Sed arcu non odio euismod lacinia at quis risus sed. Et netus et malesuada fames ac turpis. Laoreet suspendisse interdum consectetur libero id.",
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"name": "Egestas diam in arcu cursus euismod quis viverra nibh cras",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"language": "spanish",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"parentId": "6a72f3a9-18c8-424e-9b27-121ee004f45d"
-},
-{
 	"_id": "44a74d61-c644-449c-956b-40cd73bbf88e",
 	"nextPhaseId": "1b4b9a81-ef78-4daa-8633-da7744629f1d",
 	"prevPhaseId": "a6e63c35-97d5-46f5-b1ff-5772060113a5",
 	"name": "Accoglimento domanda e pagamento",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Phase",
 	"parentId": "98c30c00-45a3-4bb9-b4c9-b64c6d3b7458"
 },
@@ -943,23 +956,35 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "44a74d61-c644-449c-956b-40cd73bbf88e"
 },
 {
-	"_id": "47b75014-f3d5-4df3-b8b3-ec9757ff7d26",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction End",
-	"＄domain": "Model.FPMN.Interaction.End",
-	"incomingIds": [
-		"0d3e56f4-c530-4c39-afc6-2107bfe8736d"
-	],
-	"phaseFailure": false,
+	"_id": "456a0263-3bcb-4992-8c4b-01c99958f587",
 	"hidden": false,
 	"collapsed": false,
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0"
+	"name": "Interaction Start",
+	"outgoingIds": [
+		"333193b3-cf42-4e88-bd94-6588d86b6e63"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217"
+},
+{
+	"_id": "45917795-068b-41fe-b95f-4e76ec07592b",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"ae8d6aed-3e55-4478-8ae0-09ea9b3b60ae"
+	],
+	"name": "Interaction Start",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "6a8be30e-8555-47d9-84df-e27af5e8b0ad"
 },
 {
 	"_id": "47dba12c-fb0f-4a81-ba71-0284813d0b2c",
@@ -970,6 +995,55 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
 	"sourceNodeId": "29791e42-61d1-491d-ab89-4ee1c133ef28",
 	"targetNodeId": "d092f048-05b2-44de-a50b-5450b60d2125"
+},
+{
+	"_id": "4a0924c9-c1db-44af-992c-cade7dd03813",
+	"name": "Trasmissione comunicazione di inizio lavori",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "4dc7030b-9098-4428-99c5-54dcc4d5b6e0"
+},
+{
+	"_id": "4b0966a7-d53c-41dd-a495-e5f1c2d48498",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.RegisteredMail"
+	],
+	"incomingIds": [
+		"f84e2b4c-6a48-42c8-89cc-8856f161f223",
+		"d00a15c3-619f-47b4-8d61-822530b6557e",
+		"381ee626-50ec-4629-a5a2-fae11df09daf",
+		"e6e02f0b-8ab4-468a-9a2d-0ddd8e07f731",
+		"f84e2b4c-6a48-42c8-89cc-8856f161f223",
+		"53d0fa48-3798-4d28-8567-a24699758f19"
+	],
+	"name": "Comunicazione motivi ostativi",
+	"outgoingIds": [
+		"e607e8fe-b568-4d6a-b4c8-31c3bb5d8aa8",
+		"507c505a-af44-42f7-b368-dd70f97a8431",
+		"e0a4b920-669a-47bb-9849-8c4a43cbc43e",
+		"63a2f5c3-e313-4242-a4fa-08c6bcd133ef"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "4bad4432-ed02-482c-9aef-c5dbe197978a",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"sourceNodeId": "7fa1585e-c0f6-4614-9a38-12483a245d14",
+	"targetNodeId": "7210d97e-266e-42d3-a183-bfa78d3c3211"
 },
 {
 	"_id": "4cb2fdc2-e8c3-496e-ab72-912a87d7f0fc",
@@ -986,8 +1060,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
+	"documentation": "Ricevuti i dati di fatturazione viene generata la fattura ed inviata per posta elettronica, all'indirizzo inserito dal richiedente in fase di registrazione.",
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -996,18 +1071,36 @@
 	"incomingIds": [
 		"70ba3551-0758-406b-81ff-41374ea7a782"
 	],
+	"name": "Invio della fattura",
 	"outgoingIds": [
 		"2b8ec09d-865d-4224-96dd-13a42981edc6"
 	],
-	"name": "Invio della fattura",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
+	"_id": "4dc7030b-9098-4428-99c5-54dcc4d5b6e0",
+	"name": "Comunicazione di inizio lavori",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Procedure",
+	"category": "Model.FPMN.Procedure.Category.Construction"
+},
+{
+	"_id": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"nextPhaseId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6",
+	"name": "Richiesta autorizzazione e pagamento",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "17726cc2-3b00-4f7d-a07c-99a018415b6c"
+},
+{
 	"_id": "4fbb7791-142d-4fdf-8b1e-cd3fa629d989",
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"documentation": "L'associazione deve comunicare tramite modulo (reperibile al http://www.comune.trento.it/Comune/Documenti/Moduli/Modulo-4099-Comunicazione-dati-associazioni) i propri dati in modo che gli stessi vengano pubblicati sul sito del Comune di Trento e messi quindi a disposizione anche per Spazi Comuni. \nMaggiori informazioni alla pagina dedicata http://www.comune.trento.it/Citta/Vivi-la-citta/Associazioni dove è possibile trovare anche l'elenco delle associazioni già inserite nel sistema",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -1017,14 +1110,14 @@
 	"incomingIds": [
 		"0afc8978-2858-470f-bab6-1eb86c26995a"
 	],
-	"name": "Registrazione nuova associazione",
+	"width": 140,
+	"x": 0,
 	"outgoingIds": [
 		"da4716e9-36f4-45e9-bc7d-12430f6d3c27"
 	],
-	"x": 0,
-	"width": 140,
-	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
+	"name": "Registrazione nuova associazione",
 	"y": 0,
+	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task",
 	"height": 100
 },
@@ -1066,6 +1159,16 @@
 	]
 },
 {
+	"_id": "5172a954-7cfd-4183-a19e-98bc29607799",
+	"hidden": false,
+	"collapsed": false,
+	"name": "NO",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "92ca868c-d36a-4831-bfec-e6b151a60afd"
+},
+{
 	"_id": "5204f6f9-bfaa-4782-b3b3-d946ddd64f92",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -1087,28 +1190,29 @@
 	]
 },
 {
-	"_id": "53aac759-ff7b-467b-b4bc-516e351dd61c",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Formulario electrónico",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"incomingIds": [
-		"da6a8b5e-bf77-4788-9f04-8567fa7f179f"
-	],
-	"outgoingIds": [
-		"b004e46d-25ac-4ebc-a2a7-a109421b3e35"
-	],
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"_id": "52b055c1-980d-4737-b7be-c48704ce0f26",
 	"hidden": false,
+	"incomingIds": [
+		"29c2e5c7-80b3-4d7e-bcd4-6155bdd0008d"
+	],
 	"collapsed": false,
-	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
-	"eServiceId": "BS611A",
-	"documentation": "BS611A en https://sede.xunta.es",
-	"institution": "Xunta",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EForm"
-	]
+	"responsible": "Model.FPMN.Interaction.Subject.PublicBody",
+	"name": "La Commissione CPC ritiene superati i contrasti i normativi?",
+	"outgoingIds": [
+		"0b81a318-ebc4-446c-b161-22ba04c91b4f",
+		"004a3a5b-7c55-4f71-92b3-b6503b717b36",
+		"8c9a55a6-fb23-4cf8-8b9e-a440db48fb12",
+		"e098c38c-928c-46bb-8729-b5c6b6f5bc6a",
+		"a166275d-7b89-4e08-be4a-2bed719a10e7",
+		"0b81a318-ebc4-446c-b161-22ba04c91b4f",
+		"27487df4-d610-4848-a189-1bbf496805cc",
+		"4d654ba4-86ce-4181-9cdd-07993624f2fe",
+		"a55d7f2b-30e2-47d0-a293-08f0d19af63a"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
 },
 {
 	"_id": "53b700f7-37f7-422a-8a97-c707bc0397e8",
@@ -1121,12 +1225,22 @@
 	"targetNodeId": "6a837b41-0f3c-4535-a3ef-7a4766bdd5a2"
 },
 {
+	"_id": "53d0fa48-3798-4d28-8567-a24699758f19",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "76fc58b9-b0bb-41cc-a9e3-3efab94f28f2",
+	"targetNodeId": "4b0966a7-d53c-41dd-a495-e5f1c2d48498"
+},
+{
 	"_id": "53f00062-017f-4a7f-857d-4231324f8cde",
 	"hidden": false,
 	"collapsed": false,
 	"name": "NO",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "687e6ed9-d6cb-4d63-9ee3-19af8649d8bd"
 },
@@ -1154,6 +1268,32 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "548c601b-5341-4ac3-8fa1-0325f8a90407",
+	"phaseFailure": true,
+	"hidden": false,
+	"incomingIds": [
+		"4b095397-5c2a-43fe-a921-bb655afa592a",
+		"a166275d-7b89-4e08-be4a-2bed719a10e7",
+		"95a95277-e17f-46f1-bfa1-87150bf8efe1"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
+},
+{
+	"_id": "55475a62-a494-496f-866d-854f633a90c7",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"sourceNodeId": "2e7c9fa9-cd0a-400e-8a31-0360e740bf89",
+	"targetNodeId": "7fa1585e-c0f6-4614-9a38-12483a245d14"
+},
+{
 	"_id": "5569dab7-d701-4ac1-a20c-070c39ba02d0",
 	"hidden": false,
 	"collapsed": false,
@@ -1163,16 +1303,12 @@
 	],
 	"name": "Entro il 15 maggio",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
 	"parentId": "2cd8bf27-0327-43b1-8ff4-bc7fc0e09d0a"
 },
 {
 	"_id": "59a5659d-baad-4355-88de-d252adb08554",
-	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
-	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
-	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"institution": "Comune di Trento",
 	"channels": [
 		"Model.FPMN.Interaction.Channel.EMail"
@@ -1181,35 +1317,17 @@
 		"0a486cd6-ed74-4f15-9ee4-e57e620e9a39",
 		"93da4ac9-6690-4d05-961c-3953144af07d"
 	],
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"documentation": "Nel caso in cui la richiesta sia stata approvata, il Segretario di Circoscrizione o un suo delegato, deve entrare nell'applicativo e confermare la prenotazione.\nA questo punto al richiedente arriva un messaggio di posta elettronica che richiede di inserire in Spazi Comuni i dati per la fatturazione. Senza questi dati non è possibile generare la fattura.",
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"name": "Conferma sala e richiesta dati fatturazione",
 	"outgoingIds": [
 		"f5c40f81-45c8-41fe-bd36-0eaf3358fa51"
 	],
-	"name": "Conferma sala e richiesta dati fatturazione",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"＄domain": "Model.FPMN.Interaction.Task"
-},
-{
-	"_id": "5a1d40a7-bfa5-47c4-a207-2fd252d304b1",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Citación, reconocimiento y dictamen",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Task",
-	"incomingIds": [
-		"638afbe7-b066-44a5-b182-fdfb96eea99e"
-	],
-	"outgoingIds": [
-		"37f147df-4661-4a0e-b050-5765991ca03f"
-	],
-	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"documentation": "El órgano de valoración y asesoramiento territorial comunica a la persona interesada: día, franja horaria y lugar en que se realizará el reconocimiento. Podría ser también citado por medios telemáticos.",
-	"institution": "Xunta",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.EMail"
-	]
+	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
 },
 {
 	"_id": "5b5a4f0b-6b61-43ce-badd-742cf94fbb8a",
@@ -1237,6 +1355,16 @@
 	]
 },
 {
+	"_id": "5bed2e83-6f28-4d58-bfe5-8a273e0e0789",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "77e3bca0-1b96-445e-96e0-661c64ab0cb6",
+	"targetNodeId": "91047456-ac71-490e-a535-709cfb534a04"
+},
+{
 	"_id": "5d21f995-a93d-40d4-b1f7-5d7fd81b23ca",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -1245,6 +1373,20 @@
 	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997",
 	"sourceNodeId": "9787a978-18d9-4f50-8dc3-b73963348b09",
 	"targetNodeId": "723e129a-8d10-40a6-b392-d68e99ce232e"
+},
+{
+	"_id": "5de0cf7a-78e4-4a5f-9100-20674f8f3d3e",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"739176e0-ef85-4c5a-ae50-eddd341cb560"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "6a8be30e-8555-47d9-84df-e27af5e8b0ad"
 },
 {
 	"_id": "5f9166af-8cd5-4bd5-a114-3c9c87ebddf9",
@@ -1275,7 +1417,7 @@
 	],
 	"name": "Interaction End",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00"
 },
@@ -1295,12 +1437,36 @@
 	"collapsed": false,
 	"name": "NO",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "b139d71d-08c3-4240-b4d5-b8097eca879a"
 },
 {
+	"_id": "61d4daa8-fa1e-4d36-84a8-fb1bb06e4cdb",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"institution": "Comune di Trento",
+	"eServiceId": "1",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm"
+	],
+	"incomingIds": [
+		"333193b3-cf42-4e88-bd94-6588d86b6e63"
+	],
+	"name": "Richiesta autorizzazione o parere CPC",
+	"outgoingIds": [
+		"88ecdf20-7bb2-402f-9c67-aed1b869d643"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
+	"documentation": "Gli addetti del Comune eseguo il controllo della sala per verificare eventuali danni o ",
 	"prevPhaseId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"name": "Conferma prenotazione e utilizzo della sala",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
@@ -1317,6 +1483,30 @@
 	"＄domain": "Model.FPMN.Procedure"
 },
 {
+	"_id": "6237adc3-3f3c-4e6b-98a7-acf323d76a17",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"documentation": "Qualora dopo il deposito della comunicazione di inizio dei lavori subentrino in cantiere nuove imprese/lavoratori autonomi dovrà esserne data tempestiva comunicazione al Comune presentando il Mod. 47014, anche ai fini di eventuali detrazioni fiscali.",
+	"language": "italian",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"29d01e69-8c92-4a8d-a800-114e7a06cf51"
+	],
+	"name": "Comunicazione di subentro",
+	"outgoingIds": [
+		"336162e5-48f0-4ea1-9f21-ee8d057760d4"
+	],
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "635dae74-4215-4092-9613-b8f34c05ce68",
 	"name": "Prenotazione Sale Pubbliche",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
@@ -1324,14 +1514,14 @@
 	"＄domain": "Model.FPMN.Procedure"
 },
 {
-	"_id": "638afbe7-b066-44a5-b182-fdfb96eea99e",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
+	"_id": "63a2f5c3-e313-4242-a4fa-08c6bcd133ef",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
 	"name": "Interaction Sequence",
 	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"sourceNodeId": "24745f3a-3c78-4f5e-afab-07d1577c6bec",
-	"targetNodeId": "5a1d40a7-bfa5-47c4-a207-2fd252d304b1"
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "4b0966a7-d53c-41dd-a495-e5f1c2d48498",
+	"targetNodeId": "7e3b8b39-efba-4810-968a-a1172929aa12"
 },
 {
 	"_id": "63d1759e-461e-4a0f-ae27-97af0bff5608",
@@ -1343,7 +1533,7 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc"
 },
@@ -1368,33 +1558,23 @@
 	"parentId": "ddbc2507-80a0-4042-96a1-a81e6184a29d"
 },
 {
-	"_id": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Citación, reconocimiento y dictamen",
-	"＄domain": "Model.FPMN.Phase",
-	"parentId": "852edac5-e0a7-46ad-b326-330904c18567",
-	"prevPhaseId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
-	"nextPhaseId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"documentation": "El órgano de valoración y asesoramiento territorial cita a la persona interesada para realizar el reconocimiento, tras el cual se formulará el dictamen técnico facultativo."
-},
-{
 	"_id": "658e6362-cb77-405d-a91c-7163c1f8151b",
 	"institution": "Comune di Trento",
 	"channels": [
 		"Model.FPMN.Interaction.Channel.EForm"
 	],
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"incomingIds": [
 		"2ff88164-4d30-41aa-b064-f4b8a5920cb0"
 	],
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"documentation": "Selezionando la sala di proprio interesse, è possibile visualizzare immediatamente il calendario della sala per vedere se la stessa è prenotata oppure no. \nA questo punto se la sala risulta disponibile, è necessario indicare l'orario di proprio interesse e compilare alcune informazioni fra cui: scopo del'utilizzo della sala, tipologia di utilizzatore (privato, associazione con scopo di lucro, onlus.....), eventuale associazioni che si rappresenta, destinatari.\nE' inoltre possibile dire se l'evento è ricorrente aggiungendo date aggiuntive",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"name": "Scelta e prenotazione sala su calendario",
 	"outgoingIds": [
 		"cc902eab-ce4b-485e-8887-690e8511df0b"
 	],
+	"name": "Scelta e prenotazione sala su calendario",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Task",
 	"parentId": "c12c96d2-9c41-412e-9c7c-ec72282c9a56"
 },
@@ -1407,6 +1587,57 @@
 	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
 	"sourceNodeId": "a539009a-9db8-4617-b3aa-8ed23d5d1bb6",
 	"targetNodeId": "6dd81c59-fe6c-44bf-b646-3eea0b43fd6e"
+},
+{
+	"_id": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"notation": "Model.Notation.FPMN",
+	"version": 1,
+	"created": {
+		"$date": "2019-02-14T10:23:32.047Z"
+	},
+	"lastModified": {
+		"$date": "2019-02-14T10:23:32.047Z"
+	},
+	"language": "italian",
+	"name": "Comunicazione di inizio lavori",
+	"documentation": null,
+	"team": {
+		"owner": [
+			"25272"
+		],
+		"reviewer": [
+			"25298"
+		],
+		"editor": [
+			"27169"
+		],
+		"observer": []
+	},
+	"＄domain": "Model.FPMN.Diagram"
+},
+{
+	"_id": "6796d3bb-bcb6-4466-bc53-ee2f314c00ee",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.RegisteredMail"
+	],
+	"incomingIds": [
+		"92ca868c-d36a-4831-bfec-e6b151a60afd"
+	],
+	"name": "Archiviazione istanza",
+	"outgoingIds": [
+		"2eadb3e4-8bf0-4e23-9068-d006eecd5225",
+		"b50b4fcd-aac4-4574-a6b6-50abb7e9540f"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "67cc12ec-5da8-424f-a357-8f73b8d3e302",
@@ -1443,16 +1674,6 @@
 	"targetNodeId": "60d48ae7-3a38-4fc1-83e4-e08d03f00a29"
 },
 {
-	"_id": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"nextPhaseId": "a63a968b-71b8-4137-aa7e-69a855e29868",
-	"language": "spanish",
-	"name": "Presentación de solicitudes",
-	"documentation": "As solicitudes deberán presentarse preferiblemente por vía electrónica a través do formulario normalizado dispoñible na sede electrónica da Xunta de Galicia, https://sede.xunta.gal. Para a presentación das solicitudes poderá empregarse calquera dos mecanismos de identificación e sinatura admitidos pola sede electrónica da Xunta de Galicia, incluído o sistema de usuario/a e clave Chave365, que pode solicitar accedendo á web https://sede.xunta.gal/chave365",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
 	"_id": "6a837b41-0f3c-4535-a3ef-7a4766bdd5a2",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -1471,6 +1692,15 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "6a8be30e-8555-47d9-84df-e27af5e8b0ad",
+	"prevPhaseId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"name": "Trasmissione documentazione richiesta",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "e93128cc-ef96-4c1c-bbdc-afc761ebc0b2"
+},
+{
 	"_id": "6b00756c-ebca-4708-9b5f-b2195460553b",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -1479,6 +1709,16 @@
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"sourceNodeId": "f72665e3-2ad2-4478-9fe1-111b0ac0ebee",
 	"targetNodeId": "9a9c1cfd-57dd-4ae5-807b-4130b90a115b"
+},
+{
+	"_id": "6b555129-0a72-4299-967a-508f53bba287",
+	"hidden": false,
+	"collapsed": false,
+	"name": "SI",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "9dda3a20-d94d-4239-a578-64fd3bc6791f"
 },
 {
 	"_id": "6bc8fec6-eeef-447e-b3ef-d92fce0666c2",
@@ -1496,7 +1736,7 @@
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "a6e63c35-97d5-46f5-b1ff-5772060113a5",
 	"institution": "Comune",
 	"channels": [
@@ -1516,33 +1756,27 @@
 {
 	"_id": "6c3f4c67-ea69-4f2d-9741-ad238653b62d",
 	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"documentation": "Dal 1° settembre al 30 aprile precedenti l'anno educativo che decorre dal 1° settembre al 31 luglio è possibile presentare la domanda di iscrizione al nido utilizzando la modulistica digitale pubblicata sullo Sportello Online del Comune di Trento, oppure recandosi presso il Servizio Istruzione del Comune di Trento e compilando il modulo in formato cartaceo.",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "6f71e2f0-8a34-46f0-ac70-cbad3337b113",
+	"institution": "Comune di Trento",
+	"eServiceId": "7",
 	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm",
 		"Model.FPMN.Interaction.Channel.FaceToFace"
 	],
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"incomingIds": [
 		"b56282ee-6b96-47c0-89f6-bb3adce02c3c"
 	],
-	"collapsed": false,
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
 	"outgoingIds": [
 		"d3b0ddbe-ade3-4ee9-8ec8-ea671d5cb650"
 	],
-	"name": "Interaction Task",
+	"name": "Accettazione del posto al nido",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"parentId": "6f71e2f0-8a34-46f0-ac70-cbad3337b113"
-},
-{
-	"_id": "6d578903-2dad-4f44-8c08-dcf163dab7fb",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"sourceNodeId": "789be839-284e-4018-8136-75bfb5699790",
-	"targetNodeId": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec"
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "6dd81c59-fe6c-44bf-b646-3eea0b43fd6e",
@@ -1572,11 +1806,36 @@
 	]
 },
 {
+	"_id": "6dfe4e87-a6b0-473e-bac9-cc76d4da1cac",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.RegisteredMail"
+	],
+	"incomingIds": [
+		"004a3a5b-7c55-4f71-92b3-b6503b717b36",
+		"0b81a318-ebc4-446c-b161-22ba04c91b4f"
+	],
+	"name": "Diniego definitivo dell'istanza",
+	"outgoingIds": [
+		"4b095397-5c2a-43fe-a921-bb655afa592a",
+		"95a95277-e17f-46f1-bfa1-87150bf8efe1"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "6f71e2f0-8a34-46f0-ac70-cbad3337b113",
 	"prevPhaseId": "76a011f2-f19a-4062-8a4b-00aa38db0cae",
 	"name": "Accettazione",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Phase",
 	"parentId": "621a800c-a9ab-4100-8d88-7745337aecf4"
 },
@@ -1596,7 +1855,7 @@
 	"collapsed": false,
 	"name": "SI",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "93da4ac9-6690-4d05-961c-3953144af07d"
 },
@@ -1604,21 +1863,48 @@
 	"_id": "711d6c24-0b87-4b80-b715-84b7a4ad7a56",
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"documentation": "L'addetto verifica la condizione della sala",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"incomingIds": [
 		"fccea112-a017-4d01-a89e-7a1efedcce7e"
 	],
-	"collapsed": false,
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
 	"responsible": "Model.FPMN.Interaction.Subject.PublicBody",
+	"name": "Verifica condizione sala come da consegna",
 	"outgoingIds": [
 		"78cefbc4-0216-4326-8bc1-d1f1d41976e6",
 		"c8ec8db3-4ae8-4d8d-97a3-988895156b87"
 	],
-	"name": "Verifica condizione sala come da consegna",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
-	"＄domain": "Model.FPMN.Interaction.Decision",
-	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f"
+	"＄domain": "Model.FPMN.Interaction.Decision"
+},
+{
+	"_id": "7210d97e-266e-42d3-a183-bfa78d3c3211",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"documentation": "Il pagamento può essere effettuato tramite POS al momento del deposito della richiesta cartacea, oppure tramite bonifico bancario sulle coordinate bancarie del Comune di Trento (http://www.comune.trento.it/Comunicazione/In-evidenza/Modalita-di-pagamento). In questo caso, copia del bonifico deve essere inviata via mail o allegata al modulo digitale prima della trasmissione della richiesta.\nIl Consulente tecnico d'ufficio nominato dal Tribunale è esente dal pagamento dei diritti di segreteria.",
+	"language": "italian",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"institution": "Comune di Trento",
+	"eServiceId": "8",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace",
+		"Model.FPMN.Interaction.Channel.Payment"
+	],
+	"incomingIds": [
+		"4bad4432-ed02-482c-9aef-c5dbe197978a"
+	],
+	"outgoingIds": [
+		"0cd3c330-4e4f-4516-94b9-0ce60172b6bc"
+	],
+	"name": "Pagamento e trasmissione ricevuta",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "723e129a-8d10-40a6-b392-d68e99ce232e",
@@ -1639,6 +1925,15 @@
 	"parentId": "09b387cf-5610-435a-adb8-09c3b1e7e997"
 },
 {
+	"_id": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"prevPhaseId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6",
+	"name": " Rilascio autorizzazione/parere Commissione CPC",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "17726cc2-3b00-4f7d-a07c-99a018415b6c"
+},
+{
 	"_id": "7351944e-8903-4d45-a3f6-d5262a18701e",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -1650,13 +1945,24 @@
 	"＄ignore": true
 },
 {
+	"_id": "739176e0-ef85-4c5a-ae50-eddd341cb560",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "6a8be30e-8555-47d9-84df-e27af5e8b0ad",
+	"sourceNodeId": "181cdb6b-77ac-4ee5-9351-aa0f981aafb7",
+	"targetNodeId": "5de0cf7a-78e4-4a5f-9100-20674f8f3d3e"
+},
+{
 	"_id": "73ecbd78-9a70-4052-8090-80fc9651ff68",
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"documentation": "Link al sito per la registrazione\nhttp://www.comune.trento.it/prenota#login ",
+	"documentation": "Per la prenotazione è necessario essere registrati.\nLink al sito per la registrazione\nhttp://www.comune.trento.it/prenota",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00",
 	"institution": "Comune di Trento",
+	"eServiceId": "18",
 	"channels": [
 		"Model.FPMN.Interaction.Channel.EForm"
 	],
@@ -1673,27 +1979,91 @@
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
+	"_id": "75ed55bd-2b42-43ed-a378-4c3dd489113a",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Da integrare",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "30ac26a7-d0ad-4cf7-a73b-6734b6ceb979"
+},
+{
 	"_id": "76a011f2-f19a-4062-8a4b-00aa38db0cae",
 	"nextPhaseId": "6f71e2f0-8a34-46f0-ac70-cbad3337b113",
 	"prevPhaseId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc",
 	"name": "Graduatoria e assegnazione",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Phase",
 	"parentId": "621a800c-a9ab-4100-8d88-7745337aecf4"
 },
 {
-	"_id": "789be839-284e-4018-8136-75bfb5699790",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Start",
-	"＄domain": "Model.FPMN.Interaction.Start",
-	"outgoingIds": [
-		"6d578903-2dad-4f44-8c08-dcf163dab7fb"
+	"_id": "76fc58b9-b0bb-41cc-a9e3-3efab94f28f2",
+	"hidden": false,
+	"incomingIds": [
+		"de8a7491-cda1-4349-ab75-a83ad35b6def"
 	],
+	"collapsed": false,
+	"responsible": "Model.FPMN.Interaction.Subject.PublicBody",
+	"name": "La Commissione CPC valuta la documentazione completa o rileva contrasti normativi?",
+	"outgoingIds": [
+		"53d0fa48-3798-4d28-8567-a24699758f19",
+		"33ade8bc-aef9-4d43-a96e-54814495aadd",
+		"e6e02f0b-8ab4-468a-9a2d-0ddd8e07f731",
+		"33ade8bc-aef9-4d43-a96e-54814495aadd",
+		"265b2247-5ce4-4282-8073-93575c47cdc4",
+		"53d0fa48-3798-4d28-8567-a24699758f19",
+		"900cd78e-0f84-4b77-a2c6-ba33e338a9f6",
+		"fa6e8d56-b3cf-4fd5-b549-b377f4026c2d",
+		"6ef0cbe7-b936-4f9d-87e2-8366a053ad11",
+		"9dda3a20-d94d-4239-a578-64fd3bc6791f",
+		"92ca868c-d36a-4831-bfec-e6b151a60afd"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
+},
+{
+	"_id": "77e3bca0-1b96-445e-96e0-661c64ab0cb6",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.OrdinaryMail"
+	],
+	"incomingIds": [
+		"30ac26a7-d0ad-4cf7-a73b-6734b6ceb979",
+		"30ac26a7-d0ad-4cf7-a73b-6734b6ceb979",
+		"507c505a-af44-42f7-b368-dd70f97a8431"
+	],
+	"outgoingIds": [
+		"e602795f-766c-4650-b198-99bd484140be",
+		"ccc686d1-c6bd-4fa4-a77f-df59ad4b1873",
+		"5bed2e83-6f28-4d58-bfe5-8a273e0e0789"
+	],
+	"name": "Richiesta documentazione integrativa",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "77f5211d-0d65-4b23-9b93-8d958573383f",
 	"hidden": false,
 	"collapsed": false,
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0"
+	"outgoingIds": [
+		"818ed5ab-1349-495d-8cac-1094556f2567"
+	],
+	"name": "Interaction Start",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813"
 },
 {
 	"_id": "78cefbc4-0216-4326-8bc1-d1f1d41976e6",
@@ -1715,7 +2085,7 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "6f71e2f0-8a34-46f0-ac70-cbad3337b113"
 },
@@ -1725,7 +2095,7 @@
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "1b4b9a81-ef78-4daa-8633-da7744629f1d",
 	"institution": "Comune",
 	"channels": [
@@ -1760,6 +2130,31 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "7e3b8b39-efba-4810-968a-a1172929aa12",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"eServiceId": "6",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm"
+	],
+	"incomingIds": [
+		"e607e8fe-b568-4d6a-b4c8-31c3bb5d8aa8",
+		"265b2247-5ce4-4282-8073-93575c47cdc4",
+		"63a2f5c3-e313-4242-a4fa-08c6bcd133ef"
+	],
+	"outgoingIds": [
+		"29c2e5c7-80b3-4d7e-bcd4-6155bdd0008d"
+	],
+	"name": "Trasmissione documentazione",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "7e94d0c1-b91e-433f-9ab1-82692164a66c",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -1778,6 +2173,20 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "7ea5fc31-cdd6-49c3-b0df-ef57cc5cda3f",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"dca98af0-e029-4e21-8e07-846c8d7edd21"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
+},
+{
 	"_id": "7f7961e0-aade-4fd8-9fa0-f008d5debd42",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -1792,12 +2201,39 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "7fa1585e-c0f6-4614-9a38-12483a245d14",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"documentation": "L'istanza può essere presentata dal proprietario dell'immobile, dal notaio incaricato, dall'agente immobiliare, dal progettista/consulente tecnico del Tribunale, allegando l'apposita nomina. ",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"institution": "Comune di Trento",
+	"eServiceId": "8",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm",
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"55475a62-a494-496f-866d-854f633a90c7"
+	],
+	"outgoingIds": [
+		"4bad4432-ed02-482c-9aef-c5dbe197978a"
+	],
+	"name": "Richiesta rilascio elenchi titoli edilizi",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
 	"_id": "7fbdd93f-6227-40e6-bce2-1a17c01dfd7d",
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
+	"documentation": "Comunicazione di disponibilità della documentazione richiesta completa di richiesta pagamento ",
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "44a74d61-c644-449c-956b-40cd73bbf88e",
 	"institution": "Comune",
 	"channels": [
@@ -1807,12 +2243,22 @@
 	"incomingIds": [
 		"98ae9140-4c2c-4e49-86cb-3a20f6320dc9"
 	],
+	"name": "Disponibilità documentazione e richiesta pagamento",
 	"outgoingIds": [
 		"d2bd2497-c2e3-4c09-8082-fb649e0f468a"
 	],
-	"name": "Richiesta pagamento",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
 	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "818ed5ab-1349-495d-8cac-1094556f2567",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813",
+	"sourceNodeId": "77f5211d-0d65-4b23-9b93-8d958573383f",
+	"targetNodeId": "d985dfb8-a552-4d3f-9c2a-238bd32efcce"
 },
 {
 	"_id": "83758471-10b9-457b-a9df-766ac188abe4",
@@ -1824,7 +2270,7 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "a6e63c35-97d5-46f5-b1ff-5772060113a5"
 },
@@ -1834,7 +2280,7 @@
 	"collapsed": false,
 	"name": "NO",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "05f59706-5a74-4201-a72a-d24dc00a1f6b"
 },
@@ -1849,39 +2295,13 @@
 	"targetNodeId": "96a85dd2-41e4-46d7-8b92-bbe0cf57b066"
 },
 {
-	"_id": "852edac5-e0a7-46ad-b326-330904c18567",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Reconocimiento del grado de discapacidad",
-	"＄domain": "Model.FPMN.Procedure",
-	"category": "Model.FPMN.Procedure.Category.SocialService",
-	"documentation": "Obtener, previo examen, un dictamen técnico facultativo en el que se reconoce el grado de discapacidad.",
-	"mission": "Regular el procedimiento para el reconocimiento, declaración y cualificación del grado de discapacidad.",
-	"regulatoryRefs": "Orden del 25 de noviembre de 2015 por la que se regula el procedimiento para el reconocimiento, declaración y cualificación del grao de discapacidad, y la organización y funcionamiento de los órganos técnicos competentes (DOG nº 236 del 11 de diciembre de 2015)."
-},
-{
-	"_id": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"prevPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
-	"language": "english",
-	"name": "Booked workshop notification",
-	"documentation": "• The administrator will add the booking information to an email – The email includes the workshop information day/time, workshop location.\n• The administrator sends the email to the user’s email address which was entered onto the form.",
-	"＄domain": "Model.FPMN.Phase"
-},
-{
 	"_id": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"notation": "Model.Notation.FPMN",
-	"version": 1,
 	"created": {
 		"$date": "2019-02-12T09:57:41.145Z"
 	},
-	"lastModified": {
-		"$date": "2019-02-12T09:57:41.145Z"
-	},
-	"language": "italian",
+	"notation": "Model.Notation.FPMN",
 	"name": "Iscrizione al nido d'infanzia",
-	"documentation": null,
+	"language": "italian",
 	"team": {
 		"owner": [
 			"25272"
@@ -1890,11 +2310,15 @@
 			"25272"
 		],
 		"editor": [
-			"25272"
+			"25298"
 		],
 		"observer": []
 	},
-	"＄domain": "Model.FPMN.Diagram"
+	"lastModified": {
+		"$date": "2019-02-12T09:57:41.145Z"
+	},
+	"＄domain": "Model.FPMN.Diagram",
+	"version": 1
 },
 {
 	"_id": "86bcbc36-49c7-4ea7-a10b-4650d20b1db6",
@@ -1905,6 +2329,16 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
 	"sourceNodeId": "aab4f2a4-d82c-405f-a02a-8736eeead84d",
 	"targetNodeId": "ee6f4899-e6e8-4317-8561-4b467fc960ff"
+},
+{
+	"_id": "86ff4ec0-de7d-4feb-8bd4-02767643ba1c",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "943d4c6d-9df8-4da6-96e4-29c77d08a09e",
+	"targetNodeId": "2103f72a-4f49-40b2-9da6-5c56e0626fd1"
 },
 {
 	"_id": "87e8ab79-930b-4a75-a75c-06744f176e07",
@@ -1927,6 +2361,16 @@
 	"targetNodeId": "67cc12ec-5da8-424f-a357-8f73b8d3e302"
 },
 {
+	"_id": "88ecdf20-7bb2-402f-9c67-aed1b869d643",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"sourceNodeId": "61d4daa8-fa1e-4d36-84a8-fb1bb06e4cdb",
+	"targetNodeId": "ca6bd15d-dcf8-46e7-bd93-c20747d8f5c4"
+},
+{
 	"_id": "8ba5cea4-ec7f-4bd2-91fd-9b7565c9b8e8",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -1947,9 +2391,35 @@
 	],
 	"name": "Interaction Start",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00"
+},
+{
+	"_id": "91047456-ac71-490e-a535-709cfb534a04",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"institution": "Comune di Trento",
+	"eServiceId": "6",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm"
+	],
+	"incomingIds": [
+		"e0a4b920-669a-47bb-9849-8c4a43cbc43e",
+		"ccc686d1-c6bd-4fa4-a77f-df59ad4b1873",
+		"e0a4b920-669a-47bb-9849-8c4a43cbc43e",
+		"5bed2e83-6f28-4d58-bfe5-8a273e0e0789"
+	],
+	"name": "Trasmissione documentazione integrativa",
+	"outgoingIds": [
+		"de8a7491-cda1-4349-ab75-a83ad35b6def"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "92accf20-6852-4802-b7b4-10b196623c93",
@@ -1962,12 +2432,22 @@
 	"targetNodeId": "16741c5e-f994-4471-bfcd-0babde1956b1"
 },
 {
+	"_id": "92ca868c-d36a-4831-bfec-e6b151a60afd",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "76fc58b9-b0bb-41cc-a9e3-3efab94f28f2",
+	"targetNodeId": "6796d3bb-bcb6-4466-bc53-ee2f314c00ee"
+},
+{
 	"_id": "9332c239-9a5d-49f5-a738-31d1880b7b46",
 	"hidden": false,
 	"collapsed": false,
 	"name": "SI",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "0afc8978-2858-470f-bab6-1eb86c26995a"
 },
@@ -1975,7 +2455,7 @@
 	"_id": "9376086c-8c54-4880-ba55-36bbd588d08f",
 	"name": "No",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "3d9cbc62-589d-48bb-a80d-1bb1f2ac64f8"
 },
@@ -1996,20 +2476,66 @@
 		"04d18182-f90c-4b35-9a61-5f2483931ce3"
 	],
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f"
 },
 {
-	"_id": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"language": "spanish",
-	"category": "Model.FPMN.Procedure.Category.SocialService",
-	"name": "Ayudas individuales para personas con discapacidad",
-	"documentation": "As solicitudes virán acompañadas da seguinte documentación:\n        a) Anexo IV debidamente cuberto, no caso de que a persoa solicitante desexe actuar por medio de representante.\n        b) Proxecto de intervención detallado segundo o modelo do anexo VIII, que conteña os seguintes datos mínimos:\n            1º. Entidade prestadora do servizo. Para poder optar á subvención ao abeiro desta orde, a entidade/profesional autónomo prestador do servizo de promoción da autonomía persoal deberá de figurar no Rexistro de Entidades Prestadoras de Servizos Sociais (RUEPSS), segundo se dispoña na normativa reguladora da autorización e acreditación destes servizos, cuxo responsable é a Consellería de Política Social. Para estes efectos será suficiente con que a inscrición no RUEPSS se leve a cabo con anterioridade ao prazo sinalado no artigo 17.2 desta orde.\n            2º. Orzamento detallado do gasto que se vai realizar, segundo o custo unitario establecido no artigo 5 desta orde.\n            3º. Período de duración das intervencións e calendario programado.\n            4º. Servizos e prestacións que se axustarán ás necesidades de atención da persoa solicitante.\n            5º. Entidade/profesional prestador do servizo.\n        c) Declaración do conxunto de todas as axudas solicitadas ou concedidas para a mesma actuación ou gasto procedentes de calquera Administración pública ou ente público ou privado, no espazo destinado a esta finalidade que figura no propio modelo de solicitude (anexo III).\n        d) Autorización, segundo o anexo IX, do cónxuxe da persoa solicitante ou parella de feito, no caso de réxime matrimonial de gananciais, así como das persoas a cargo da persoa solicitante, para a consulta pola Dirección Xeral de Maiores e Persoas con Discapacidade dos seus datos sobre identidade, residencia, renda (IRPF) e de toda clase de pensións e prestacións sociais percibidas. Caso contrario, deberán presentar a documentación relacionada con esta información, que, neste caso, será copia do DNI, certificado de residencia, copia da declaración do IRPF, certificado de pensións emitido polo Instituto Nacional da Seguridade Social, declaración de toda clase de pensións e prestacións sociais percibidas.\n        e) Se é o caso, a xustificación da necesidade do transporte adaptado ou asistido para o goce doutro servizo/prestación social, ou como medio de asistencia ao traballo ou a unha actividade formativa non obrigatoria do Sistema público educativo cando non se enmarque dentro do ámbito das competencias propias do Sistema educativo, de conformidade co previsto no artigo 4.1, segundo o tipo de actuación para a cal se solicita a axuda.\n        f) A información relativa aos indicadores comúns de execución sobre participantes aos cales se refire o anexo I do Regulamento (UE) nº 1304/2013, do Parlamento Europeo e do Consello, do 17 de setembro de 2013, relativo ao Fondo Social Europeo, segundo o modelo do anexo VI.",
-	"mission": "Esta orden tiene por objeto establecer las bases reguladoras de la convocatoria pública para la concesión de ayudas individuales destinadas a la adquisición de servicios de promoción de la autonomía personal, así como la adquisición de servicios complementarios de asistencia personal, para personas con discapacidad empadronadas en un municipio de la Comunidad Autónoma de Galicia, en régimen de concurrencia competitiva y de carácter no periódico. The purpose of this aid is to cooperate in certain expenditure, with effect from 1 January 2017, intended to:\n\nA) To facilitate the acquisition of services to promote personal autonomy.\n\nB) Facilitate the acquisition of complementary services of personal assistance.\n\nOnly actions carried out between 1 January and 30 November 2017 may be financed for this call. ",
-	"regulatoryRefs": "Orden de 30 de marzo de 2017 por la que se establecen las bases reguladoras que regirán la concesión de ayudas individuales destinadas a la adquisición de servicios de promoción de la autonomía personal, así como a la adquisición de servicios complementarios de asistencia personal, a personas con discapacidad, cofinanciadas por el Fondo Social Europeo en el marco del programa operativo FSE Galicia 2014-2020, y se procede a su convocatoria para el año 2017 (DOG nº 71 del 11 de abril de 2017).",
-	"＄domain": "Model.FPMN.Procedure"
+	"_id": "943d4c6d-9df8-4da6-96e4-29c77d08a09e",
+	"hidden": false,
+	"incomingIds": [
+		"b3250d74-161f-49ca-9cb6-5ffdc30d5569",
+		"349fc05c-7047-44f7-92d9-06ff2e2d29de"
+	],
+	"collapsed": false,
+	"responsible": "Model.FPMN.Interaction.Subject.PublicBody",
+	"name": "La Commissione CPC valuta la documentazione completa, da integrare o rileva contrasti normativi?",
+	"outgoingIds": [
+		"f84e2b4c-6a48-42c8-89cc-8856f161f223",
+		"30ac26a7-d0ad-4cf7-a73b-6734b6ceb979",
+		"f84e2b4c-6a48-42c8-89cc-8856f161f223",
+		"ee24bcb6-cc2d-454c-944a-068d4992fd94",
+		"86ff4ec0-de7d-4feb-8bd4-02767643ba1c"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
+},
+{
+	"_id": "947dabca-570d-403a-bcd0-45772982726c",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813",
+	"sourceNodeId": "a366893d-50b1-40f8-be7f-bc763ad3e892",
+	"targetNodeId": "97d7659c-ce84-4a8c-a531-b493c9b69870"
+},
+{
+	"_id": "95a95277-e17f-46f1-bfa1-87150bf8efe1",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "6dfe4e87-a6b0-473e-bac9-cc76d4da1cac",
+	"targetNodeId": "548c601b-5341-4ac3-8fa1-0325f8a90407"
+},
+{
+	"_id": "95ed24b7-e125-4289-b600-e1e9709962eb",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Interaction Start",
+	"outgoingIds": [
+		"006084e6-0188-4481-95a5-7bae312d4415",
+		"b3250d74-161f-49ca-9cb6-5ffdc30d5569",
+		"349fc05c-7047-44f7-92d9-06ff2e2d29de"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
 },
 {
 	"_id": "96951ff6-dbe1-493e-962f-47cfd8f0aab5",
@@ -2068,8 +2594,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
+	"documentation": "Il richiedente per accedere alla sala deve recarsi in Circoscrizione in orario di ufficio a ritirare le chiavi della sala. Dopo il ritiro, il richiedente può accedere alla sala nel giorno e nell'orario indicato",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -2078,10 +2605,10 @@
 	"incomingIds": [
 		"fcb16c26-bd0f-45a3-b301-bac2f2ff3823"
 	],
+	"name": "Ritiro chiavi e utilizzo sala",
 	"outgoingIds": [
 		"bc498912-d95c-4791-864c-989d3c5ee250"
 	],
-	"name": "Ritiro chiavi e utilizzo sala",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -2094,6 +2621,22 @@
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"sourceNodeId": "eab8d4a7-21b0-4da1-a5da-02922a9be2a5",
 	"targetNodeId": "d04f86a3-e5f9-41da-b0f9-dadbf5824c1e"
+},
+{
+	"_id": "97d7659c-ce84-4a8c-a531-b493c9b69870",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"7fb4a2f7-e6e1-4a1e-b1fc-cba46becc69e",
+		"336162e5-48f0-4ea1-9f21-ee8d057760d4",
+		"947dabca-570d-403a-bcd0-45772982726c"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813"
 },
 {
 	"_id": "98ae9140-4c2c-4e49-86cb-3a20f6320dc9",
@@ -2114,13 +2657,13 @@
 },
 {
 	"_id": "994142be-d49b-404d-885a-1b739c476b7d",
+	"sourceNodeId": "d5dd7288-909e-47cf-b44c-826a7dcbb48e",
+	"name": "Interaction Sequence",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
 	"language": "italian",
-	"name": "Interaction Sequence",
+	"targetNodeId": "63d1759e-461e-4a0f-ae27-97af0bff5608",
 	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc",
-	"sourceNodeId": "cb71624d-445a-4a79-b9af-e380920b485f",
-	"targetNodeId": "63d1759e-461e-4a0f-ae27-97af0bff5608"
+	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc"
 },
 {
 	"_id": "99a8d8d1-5523-4788-8984-d30084752948",
@@ -2142,7 +2685,7 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f"
 },
@@ -2165,20 +2708,6 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
-	"_id": "9afaceba-3a10-48a3-9a57-f22e7a74ff03",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction End",
-	"＄domain": "Model.FPMN.Interaction.End",
-	"incomingIds": [
-		"b004e46d-25ac-4ebc-a2a7-a109421b3e35"
-	],
-	"phaseFailure": false,
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f"
-},
-{
 	"_id": "9afe8d49-5068-4397-8ec0-e41e84dd52b3",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -2191,16 +2720,6 @@
 	"width": 24,
 	"height": 24,
 	"parentId": "a83d2730-337c-4e3c-947f-e4d913fb72a6"
-},
-{
-	"_id": "9b0b57d8-d869-40ee-aae6-a66b237916bf",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"sourceNodeId": "cfbe378f-9855-47b6-8254-8caa4b116565",
-	"targetNodeId": "339fbda5-f019-423e-b412-40c9ae0b0d60"
 },
 {
 	"_id": "9b443e0f-d520-432e-8a26-2cf6c0f7cd94",
@@ -2237,12 +2756,22 @@
 	]
 },
 {
+	"_id": "9dda3a20-d94d-4239-a578-64fd3bc6791f",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "76fc58b9-b0bb-41cc-a9e3-3efab94f28f2",
+	"targetNodeId": "2103f72a-4f49-40b2-9da6-5c56e0626fd1"
+},
+{
 	"_id": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"nextPhaseId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"prevPhaseId": "c12c96d2-9c41-412e-9c7c-ec72282c9a56",
 	"name": "Comunicazione e pagamento",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Phase",
 	"parentId": "635dae74-4215-4092-9613-b8f34c05ce68"
 },
@@ -2251,8 +2780,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
+	"documentation": "Nel caso in cui la verifica ha esito negativo, è necessario che il Segretario di Circoscrizione mandi la richiesta di risarcimento tramite Spazi Comuni la quale genera una mail che verrà spedita al richiedente",
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -2261,24 +2791,13 @@
 	"incomingIds": [
 		"c8ec8db3-4ae8-4d8d-97a3-988895156b87"
 	],
+	"name": "Richiesta di risarcimento",
 	"outgoingIds": [
 		"30b1581b-5689-417f-947f-6d66a1342345",
 		"99a8d8d1-5523-4788-8984-d30084752948"
 	],
-	"name": "Richiesta di risarcimento",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
-},
-{
-	"_id": "9fcc79fd-0cb2-405a-8cdb-8d8352e515d8",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"prevPhaseId": "3fc55a43-c2a4-4409-8a87-4c243fbdefc1",
-	"nextPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
-	"language": "spanish",
-	"name": "Comprobación de datos",
-	"documentation": "Para a tramitación deste procedemento consultaranse automaticamente os datos incluídos nos seguintes documentos elaborados polas administracións públicas:\n\na) Documento nacional de identidade (DNI), ou número de identificación de estranxeiro (NIE), segundo proceda, relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nb) Certificado de empadroamento relativo á persoa solicitante e, se for o caso, á que a acompaña: cónxuxe, parella de feito ou relación análoga á conxugal, filla ou fillo con discapacidade ou outra persoa.\n\nc) Declaración do imposto da renda das persoas físicas correspondente ao último período en que se presente a solicitude ou certificado das pensións outorgadas polo INSS ou pola Xunta de Galicia, da persoa solicitante e da acompañante, se for o caso.\n\nd) Certificado do grao de discapacidade do fillo ou filla da persoa solicitante, se o dito certificado foi expedido pola Xunta de Galicia.\n\nNo caso de que as persoas interesadas ou acompañantes se opoñan a esta consulta deberán indicalo no cadro habilitado no modelo de solicitude ou nos anexos II ou III, segundo de que se trate, e achegar os documentos correspondentes.\n\nExcepcionalmente, no caso de que algunha circunstancia imposibilitase a obtención dos citados datos poderase solicitar ás persoas interesadas a presentación dos documentos correspondentes.",
-	"＄domain": "Model.FPMN.Phase"
 },
 {
 	"_id": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
@@ -2305,6 +2824,25 @@
 	},
 	"＄domain": "Model.FPMN.Diagram",
 	"version": "1.1"
+},
+{
+	"_id": "a366893d-50b1-40f8-be7f-bc763ad3e892",
+	"hidden": false,
+	"incomingIds": [
+		"a7909936-b9b9-4cf1-912b-6ea5a84605fa"
+	],
+	"collapsed": false,
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"outgoingIds": [
+		"29d01e69-8c92-4a8d-a800-114e7a06cf51",
+		"7fb4a2f7-e6e1-4a1e-b1fc-cba46becc69e",
+		"947dabca-570d-403a-bcd0-45772982726c"
+	],
+	"name": "Successivo subentro o integrazione di nuove imprese in cantiere?",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813"
 },
 {
 	"_id": "a3a19530-b22a-484b-9bfe-95d82634b844",
@@ -2363,15 +2901,14 @@
 	]
 },
 {
-	"_id": "a63a968b-71b8-4137-aa7e-69a855e29868",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"prevPhaseId": "6a72f3a9-18c8-424e-9b27-121ee004f45d",
-	"nextPhaseId": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
-	"language": "spanish",
-	"name": "Resolución",
-	"documentation": "El órgano instructor de los expedientes será la Subdirección General de Dependencia y Valoración de la Discapacidad de la Dirección General de Mayores y Personas con Discapacidad.\n\nLas unidades administrativas receptoras remitirán las solicitudes recibidas a la unidad administrativa encargada de la instrucción del expediente para que compruebe si la solicitud o documentación presentada reúne los requisitos exigidos en esta orden y, en el supuesto de que se observe algún defecto o sea incompleta la documentación, de conformidad con lo dispuesto en el artículo 68 de la Ley 39/2015, de 1 de octubre, requerirán a la persona interesada la para que en un plazo de 10 días hábiles subsane la falta o presente los documentos preceptivos, con la advertencia de que, si así no lo hiciese, se considerará desistido de su petición, después de la resolución, que deberá ser dictada en los términos previstos en el artículo 21 de dicha ley.\n\nEl órgano instructor formulará propuesta de resolución, previo informe de la Comisión de Valoración según lo dispuesto en los artículos siguientes, y la elevará al órgano competente para resolver.\n\nUna vez emitido el informe de la comisión, la Subdirección General de la Dependencia y Valoración de la Discapacidad elevará la propuesta de resolución a la persona titular del órgano de dirección con competencias en materia de dependencia de la Consellería de Política Social, en quien se delega la competencia para resolver la concesión o denegación de la ayuda solicitada al amparo de esta orden.",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "a55d7f2b-30e2-47d0-a293-08f0d19af63a",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "52b055c1-980d-4737-b7be-c48704ce0f26",
+	"targetNodeId": "2103f72a-4f49-40b2-9da6-5c56e0626fd1"
 },
 {
 	"_id": "a66534ca-8713-4081-986b-14a1b48c9414",
@@ -2429,6 +2966,16 @@
 	"parentId": "98c30c00-45a3-4bb9-b4c9-b64c6d3b7458"
 },
 {
+	"_id": "a7909936-b9b9-4cf1-912b-6ea5a84605fa",
+	"sourceNodeId": "f78aeece-c223-4b68-9b87-336ed4098c4b",
+	"name": "Interaction Sequence",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"targetNodeId": "a366893d-50b1-40f8-be7f-bc763ad3e892",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813"
+},
+{
 	"_id": "a83d2730-337c-4e3c-947f-e4d913fb72a6",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -2470,9 +3017,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
-	"documentation": "Nel caso in cui il/la richiedente sia il tutore/affidatario del bambino da iscrivere, si prega di prendere appuntamento presso gli uffici del Servizio Istruzione per la compilazione della domanda di iscrizione.",
+	"documentation": "I tutori o genitori affidatari che vogliono iscrivere il/la bambino/a devono fissare un appuntamento presso gli uffici del Servizio Istruzione al fine di compilare la domanda.",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -2501,6 +3048,16 @@
 	"documentation": "Una volta individuato lo spazio, il passo successivo sarà quello di richiedere formalmente la concessione dell’occupazione di suolo pubblico per l’organizzazione di eventi e manifestazioni temporanee e degli ulteriori adempimenti necessari in base alle caratteristiche dell'evento.  Sono inoltre necessari una serie di ulteriori adempimenti che coinvolgono altri Enti (Questura, Polizia Amministrativa provinciale, APSS, SIAE, ecc.). Attenzione: alcuni di questi adempimenti sono assolutamente obbligatori, altri invece sono opzionali in quanto dipendono dalla tipologia di evento che si intende organizzare.\nL'assolvimento di tutti gli adempimenti è a carico del richiedente."
 },
 {
+	"_id": "ae8d6aed-3e55-4478-8ae0-09ea9b3b60ae",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "6a8be30e-8555-47d9-84df-e27af5e8b0ad",
+	"sourceNodeId": "45917795-068b-41fe-b95f-4e76ec07592b",
+	"targetNodeId": "181cdb6b-77ac-4ee5-9351-aa0f981aafb7"
+},
+{
 	"_id": "ae9b965e-32ca-4195-9a6e-57f635e1ea9b",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -2511,24 +3068,30 @@
 	"targetNodeId": "c9b55b45-2a40-4c3f-ad7c-b94ab7e202c2"
 },
 {
-	"_id": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Resolución, notificación y terminación",
-	"＄domain": "Model.FPMN.Phase",
-	"parentId": "852edac5-e0a7-46ad-b326-330904c18567",
-	"prevPhaseId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"documentation": "El dictamen técnico facultativo formulado tras el reconocimiento es notificado a la persona interesada quien puede interponer reclamación previa si así lo considera."
-},
-{
-	"_id": "af138569-36ba-4fd5-8558-c4649bd8cee1",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"parentId": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"prevPhaseId": "33a64c9b-e68f-4fc3-9321-aa7386ce1409",
-	"language": "spanish",
-	"name": "Confirmación das prazas e adxudicación definitiva",
-	"documentation": "Unha vez notificada a concesión da praza, para poder facer uso dela, as persoas beneficiarias teñen a obriga de confirmar por escrito, e no prazo que se lles indique na resolución de concesión, a súa aceptación xunto co xustificante de ter remitido á dirección do balneario, por xiro postal ou outros medios, a cantidade de 30 euros en concepto de reserva de praza.\n\nNo suposto de que non se cumpran as condicións establecidas no parágrafo anterior, non se formalizará a adxudicación definitiva da praza e entenderase que se renuncia a ela, e poderase outorgar esa praza vacante a outra persoa da lista de espera.\n\nNingunha persoa solicitante que se beneficiase dalgunha quenda deste programa poderá participar en ningunha outra, nin en calidade de acompañante, agás que se trate dunha praza para a que non haxa ningunha outra persoa adxudicataria.",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"created": {
+		"$date": "2019-02-14T12:53:09.452Z"
+	},
+	"notation": "Model.Notation.FPMN",
+	"name": "Domanda per il rilascio delle autorizzazioni e pareri in materia di tutela del paesaggio di competenza della CPC (Commissione per la pianificazione territoriale e il paesaggio della comunità)",
+	"language": "italian",
+	"team": {
+		"owner": [
+			"25272"
+		],
+		"reviewer": [
+			"25298"
+		],
+		"editor": [
+			"27169"
+		],
+		"observer": []
+	},
+	"lastModified": {
+		"$date": "2019-02-14T12:53:09.452Z"
+	},
+	"＄domain": "Model.FPMN.Diagram",
+	"version": 1
 },
 {
 	"_id": "af91fa2d-1842-4f00-9701-756b46bf7459",
@@ -2557,40 +3120,6 @@
 	"documentation": "Procedura per organizzare un evento o una manifestazione in città"
 },
 {
-	"_id": "b004e46d-25ac-4ebc-a2a7-a109421b3e35",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
-	"sourceNodeId": "53aac759-ff7b-467b-b4bc-516e351dd61c",
-	"targetNodeId": "9afaceba-3a10-48a3-9a57-f22e7a74ff03"
-},
-{
-	"_id": "b0df7c8b-6d12-4147-9055-0565a812be5e",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"sourceNodeId": "339fbda5-f019-423e-b412-40c9ae0b0d60",
-	"targetNodeId": "34d1d74d-8408-4907-89ce-4b195ae2a8aa"
-},
-{
-	"_id": "b120a49c-b650-4717-b20f-1f253800ad12",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "NO",
-	"＄domain": "Model.FPMN.Label",
-	"hidden": false,
-	"collapsed": false,
-	"x": 0,
-	"y": 0,
-	"width": 24,
-	"height": 24,
-	"parentId": "37468185-2858-4351-9dfb-860b33b788fc"
-},
-{
 	"_id": "b139d71d-08c3-4240-b4d5-b8097eca879a",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -2599,6 +3128,16 @@
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"sourceNodeId": "260beb4f-8a57-4813-bb8f-2cee7ac264f3",
 	"targetNodeId": "b2b2779e-46f6-435d-b13e-5e0d08e086c5"
+},
+{
+	"_id": "b17af645-c023-4abf-b99d-20551bcf18f2",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Contrasti normativi",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "f84e2b4c-6a48-42c8-89cc-8856f161f223"
 },
 {
 	"_id": "b2410272-90e6-43ed-b659-bf8674134552",
@@ -2665,7 +3204,7 @@
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -2692,14 +3231,14 @@
 	"targetNodeId": "e295b14f-5201-48d6-8e68-5ce767027544"
 },
 {
-	"_id": "b4e110d5-4608-4075-81f4-bb9a586dfb21",
-	"designId": "195d68a0-b425-42f4-9b7d-669c5ca698ec",
-	"parentId": "94ea6b36-76ce-437d-8f7b-21194acbdfce",
-	"prevPhaseId": "a63a968b-71b8-4137-aa7e-69a855e29868",
-	"language": "spanish",
-	"name": "Notificación de resoluciones",
-	"documentation": "El plazo máximo para dictar y notificar a los interesados la resolución expresa será de tres meses, contados desde el día siguiente a la finalización del plazo de presentación de solicitudes.\n\nLas notificaciones de resoluciones y actos administrativos se practicarán preferentemente por medios electrónicos y, en todo caso, cuando las personas interesadas resulten obligadas a recibirlas por esta vía. Las personas interesadas que no estén obligadas a recibir notificaciónes electrónicas podrán decidir y comunicar en cualquier momento que las notificaciones sucesivas se practiquen o dejen de practicar por medios electrónicos.\n\nLas notificaciones electrónicas se realizarán mediante el Sistema de notificación electrónica de Galicia-Notifica disponible a través de la sede electrónica de la Xunta de Galicia (https://sede.xunta.gal). Este sistema remitirá a las personas interesadas avisos de la puesta a disposición de las notificaciones, mediante un correo electrónico dirigido a la cuenta de correo que conste en la solicitud a efectos de notificación. Estos avisos no tendrán, en ningún caso, efectos de notificación practicada y su falta no impedirá que la notificación sea considerada plenamente válida.\n\nLas notificaciones por medios electrónicos se entenderán practicadas en el momento en que se produzca el acceso a su contenido. Cuando la notificación por medios electrónicos sea de carácter obligatorio, o fuese expresamente elegida por el interesado, se entenderá rechazada cuando hayan transcurrido diez días naturales desde la puesta a disposición de la notificación sin que se acceda a su contenido.\n\nSe el envío de la notificación electrónica no es posible por problemas técnicos, la Administración general y del sector público autonómico de Galicia practicará la notificación por los medios previstos en la normativa reguladora del procedimiento administrativo común",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "b50b4fcd-aac4-4574-a6b6-50abb7e9540f",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "6796d3bb-bcb6-4466-bc53-ee2f314c00ee",
+	"targetNodeId": "f31b3864-8147-4de9-b5b7-01860aa39f5f"
 },
 {
 	"_id": "b56282ee-6b96-47c0-89f6-bb3adce02c3c",
@@ -2735,6 +3274,19 @@
 	"mission": "Lo scopo è quello di supportare chiunque (privati, cittadini o associazioni) desideri organizzare un evento in città nella corretta formulazione della richiesta di rilascio di concessione temporanea dello spazio pubblico che dovrà ospitare l'evento e di tutti gli ulteriori adempimenti necessari in base alle caratteristiche dell'evento (musica, cibo e bevande, vendita al dettaglio di prodotti, ecc.)."
 },
 {
+	"_id": "bac9e6de-ac35-47f1-b2e7-fe09a82307ba",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Interaction Start",
+	"outgoingIds": [
+		"e433e0b1-0901-469c-977c-e81a87cbbb75"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6"
+},
+{
 	"_id": "bae7d0e8-ebfd-4c25-bc77-ba71527bdb52",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"language": "italian",
@@ -2761,17 +3313,18 @@
 	"channels": [
 		"Model.FPMN.Interaction.Channel.EForm"
 	],
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"incomingIds": [
 		"f5c40f81-45c8-41fe-bd36-0eaf3358fa51"
 	],
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"documentation": "Il richiedente deve inserire i dati di fatturazione in Spazi Comuni ossia:\n- Cognome e Nome oppure Ragione Sociale\n- Codice Fiscale / P. IVA\n- Indirizzo",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"name": "Inserimento dati di fatturazione",
 	"outgoingIds": [
 		"70ba3551-0758-406b-81ff-41374ea7a782"
 	],
+	"name": "Inserimento dati di fatturazione",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Task",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
 },
@@ -2790,8 +3343,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
+	"documentation": "Il richiedente effettua il pagamento per il risarcimento del danno",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -2801,16 +3355,16 @@
 		"30b1581b-5689-417f-947f-6d66a1342345",
 		"99a8d8d1-5523-4788-8984-d30084752948"
 	],
+	"name": "Pagamento",
 	"outgoingIds": [
 		"dfaa87f7-7708-43d4-8f2d-70992a11a594"
 	],
-	"name": "Pagamento",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "bdde95f8-57db-46af-ba41-030ab7aac716",
-	"language": "it",
+	"language": "italian",
 	"parentId": "c12c96d2-9c41-412e-9c7c-ec72282c9a56",
 	"phaseFailure": false,
 	"incomingIds": [
@@ -2830,28 +3384,9 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "1b4b9a81-ef78-4daa-8633-da7744629f1d"
-},
-{
-	"_id": "c04333f3-a4d1-4cf2-aa0e-9b6b8893edec",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Aprobación o rechazo",
-	"＄domain": "Model.FPMN.Interaction.Decision",
-	"incomingIds": [
-		"6d578903-2dad-4f44-8c08-dcf163dab7fb"
-	],
-	"outgoingIds": [
-		"0d3e56f4-c530-4c39-afc6-2107bfe8736d",
-		"37468185-2858-4351-9dfb-860b33b788fc"
-	],
-	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "aea504bc-1016-4abe-bb7f-138f9e2542d0",
-	"documentation": "Dictamen técnico facultativo notificado a la persona interesada"
 },
 {
 	"_id": "c0620a5a-294b-4505-82a7-69d3c7aef02d",
@@ -2873,7 +3408,7 @@
 	"prevPhaseId": "28bf1ea9-4fa2-41e5-88f2-637a28c44f00",
 	"name": "Scelta e prenotazione sala",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Phase",
 	"parentId": "635dae74-4215-4092-9613-b8f34c05ce68"
 },
@@ -2909,6 +3444,20 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336"
 },
 {
+	"_id": "c55cecfc-5ff5-4ecd-bf29-18a2c1fbdbd1",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"336162e5-48f0-4ea1-9f21-ee8d057760d4"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813"
+},
+{
 	"_id": "c5960018-5fe7-494b-8466-7f64eed50e24",
 	"designId": "af91fa2d-1842-4f00-9701-756b46bf7459",
 	"language": "italian",
@@ -2921,6 +3470,16 @@
 	"width": 24,
 	"height": 24,
 	"parentId": "e5a3c8a5-04eb-48e5-a69a-c93ea609e901"
+},
+{
+	"_id": "c6670da4-9487-4686-a87d-c6b0f0a3a02f",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"sourceNodeId": "ca6bd15d-dcf8-46e7-bd93-c20747d8f5c4",
+	"targetNodeId": "15d9afd9-ad0e-40c0-b60a-2dcfbfba93c5"
 },
 {
 	"_id": "c7b27cc2-ce6f-4803-80d3-8a869798b274",
@@ -2948,6 +3507,20 @@
 	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1",
 	"sourceNodeId": "6dd81c59-fe6c-44bf-b646-3eea0b43fd6e",
 	"targetNodeId": "f74b85f5-d986-40fa-994d-c2cecba83f94"
+},
+{
+	"_id": "c7ddbca6-3648-4e96-b8cd-8500455b17c1",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"fe19c57a-ab88-479e-ad7c-28e54e7e46d0"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6"
 },
 {
 	"_id": "c830a32c-5fea-41de-b03f-6114d6f7a5af",
@@ -2985,12 +3558,12 @@
 },
 {
 	"_id": "c8e372b3-988e-47e6-8d8f-700b542580eb",
-	"sourceNodeId": "5569dab7-d701-4ac1-a20c-070c39ba02d0",
+	"sourceNodeId": "2cd8bf27-0327-43b1-8ff4-bc7fc0e09d0a",
 	"name": "Interaction Sequence",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
-	"targetNodeId": "fd50320c-eae2-42ec-adde-70277025412f",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"targetNodeId": "fd50320c-eae2-42ec-adde-70277025412f",
 	"parentId": "76a011f2-f19a-4062-8a4b-00aa38db0cae"
 },
 {
@@ -3009,7 +3582,7 @@
 	"collapsed": false,
 	"name": "Tutore/affidatario",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "c83dff9c-2090-4274-b61e-d06cf01a9b0a"
 },
@@ -3033,22 +3606,47 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
+},
+{
+	"_id": "ca6bd15d-dcf8-46e7-bd93-c20747d8f5c4",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"documentation": "Il pagamento può essere effettuato tramite bonifico bancario sulle coordinate bancarie del Comune di Trento (http://www.comune.trento.it/Comunicazione/In-evidenza/Modalita-di-pagamento). Copia del bonifico allegata al modulo digitale prima della trasmissione della richiesta.",
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "italian",
+	"parentId": "4ddbaaea-dcb4-44df-8444-c69476d98217",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.Payment"
+	],
+	"incomingIds": [
+		"88ecdf20-7bb2-402f-9c67-aed1b869d643"
+	],
+	"name": "Pagamento e trasmissione ricevuta",
+	"outgoingIds": [
+		"c6670da4-9487-4686-a87d-c6b0f0a3a02f"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "cb71624d-445a-4a79-b9af-e380920b485f",
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
-	"documentation": "La domanda di iscrizione al nido d'infanzia deve essere presentata dal 1° settembre al 30 aprile precedenti l'anno educativo che decorre dal 1° settembre al 31 luglio.\n\nÈ possibile presentare domanda sia per il servizio di nido a tempo pieno che per quello a tempo parziale, indicando in entrambi i casi al massimo due preferenze.\nLa prima scelta, nel caso della domanda a tempo pieno, è vincolata alla residenza del bambino ed effettuata fra i nidi collocati nella propria area di utenza, mentre la scelta dei nidi d'infanzia a tempo parziale è libera rispetto alle strutture disponibili.\n\nPer presentare la domanda occorre indicare:\n- la situazione economica del nucleo familiare attraverso l'attestazione ICEF rilasciata da un Caf abilitato\n- il/i nido/i prescelto/i\n- la disponibilità a essere chiamato anche in corso d'anno. ",
+	"documentation": "Dal 1° settembre al 30 aprile precedenti l'anno educativo che decorre dal 1° settembre al 31 luglio è possibile presentare la domanda di iscrizione al nido utilizzando la modulistica digitale pubblicata sullo Sportello Online del Comune di Trento, oppure recandosi presso il Servizio Istruzione del Comune di Trento e compilando il modulo in formato cartaceo.\n\nÈ possibile presentare domanda per il servizio di nido:\n- a tempo pieno\n- a tempo parziale\n- sia a tempo pieno che a tempo parziale\n\nPer ciascun tipo di servizio si possono indicare al massimo due preferenze\n- Per la domanda a tempo pieno la prima scelta è però vincolata alla residenza del bambino e può essere effettuata fra i nidi collocati nella propria area di utenza\n- Per la domanda a tempo parziale la scelta dei nidi d'infanzia è libera tra tutte le strutture disponibili\n\nNella domanda occorre indicare:\n- la situazione economica del nucleo familiare attraverso l'attestazione ICEF rilasciata da un Caf abilitato\n- il/i nido/i prescelto/i (indicando gli eventuali servizi opzionali disponibili di cui si vuole usufruire)\n- l'eventuale disponibilità a essere chiamato anche in corso d'anno.\n\nSono inoltre richieste informazioni relative al nucleo familiare del bambino e alla condizione lavorativa dei genitori per assegnare i punteggi e stilare la graduatoria per l'accesso al servizio.",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc",
 	"institution": "Comune di Trento",
+	"eServiceId": "2",
 	"channels": [
-		"Model.FPMN.Interaction.Channel.EForm"
+		"Model.FPMN.Interaction.Channel.EForm",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
 	],
 	"incomingIds": [
 		"34297dad-8f1b-4733-af58-9baef3bd957d",
@@ -3057,7 +3655,7 @@
 	"outgoingIds": [
 		"994142be-d49b-404d-885a-1b739c476b7d"
 	],
-	"name": "Compilazione della domanda di iscrizione",
+	"name": "Domanda di iscrizione al nido",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -3086,14 +3684,28 @@
 	"parentId": "c12c96d2-9c41-412e-9c7c-ec72282c9a56"
 },
 {
-	"_id": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"nextPhaseId": "f330df6e-b2ab-493c-af69-a5f44f38071e",
-	"language": "english",
-	"name": "Workshop application",
-	"documentation": "The user will complete the online form by entering required information into the form. The required information is:\n\n• Title, First name, Last name.\n• Contact details: Telephone Number and Email Address. These are required in order to allocate a booking to the user, and to contact them to inform them of their place, or to advise of a change to their booking.\n• Postal address (this should be in standardised BS7666 format).\n\nThe user will then see the range of Parenting Skills workshops available on each day and select 3 day/time options which are suitable for them.\n\nOnce all required information is entered, the user will then be allowed to submit the form.",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "cceb564f-9d4f-445a-8a9d-820da78490cb",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"documentation": "L'Amministrazione comunica l'avvio del procedimento al tecnico incaricato, se delegato espressamente dal titolare al momento della presentazione dell'istanza, oppure al titolare ed al tecnico incaricato.",
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "italian",
+	"parentId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.OrdinaryMail"
+	],
+	"incomingIds": [
+		"e433e0b1-0901-469c-977c-e81a87cbbb75"
+	],
+	"name": "Comunicazione avvio del procedimento",
+	"outgoingIds": [
+		"fe19c57a-ab88-479e-ad7c-28e54e7e46d0"
+	],
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "cf512c73-11bd-4ab5-b965-5cf6707a13b7",
@@ -3104,32 +3716,18 @@
 	],
 	"name": "Interaction Start",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "1b4b9a81-ef78-4daa-8633-da7744629f1d"
 },
 {
-	"_id": "cfbe378f-9855-47b6-8254-8caa4b116565",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Reconocimiento",
-	"＄domain": "Model.FPMN.Interaction.Task",
-	"incomingIds": [
-		"37f147df-4661-4a0e-b050-5765991ca03f"
-	],
-	"outgoingIds": [
-		"9b0b57d8-d869-40ee-aae6-a66b237916bf"
-	],
-	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
-	"hidden": false,
-	"collapsed": false,
-	"parentId": "64e90f07-379b-4942-bdc0-56b8f49e3216",
-	"documentation": "El órgano de valoración y asesoramiento territorial comunica a la persona interesada: día, franja horaria y lugar en que se realizará el reconocimiento. Podría ser también citado por medios telemáticos.",
-	"institution": "Xunta",
-	"channels": [
-		"Model.FPMN.Interaction.Channel.FaceToFace"
-	]
+	"_id": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"nextPhaseId": "6a8be30e-8555-47d9-84df-e27af5e8b0ad",
+	"name": "Richiesta elenchi e pagamento",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "e93128cc-ef96-4c1c-bbdc-afc761ebc0b2"
 },
 {
 	"_id": "d04f86a3-e5f9-41da-b0f9-dadbf5824c1e",
@@ -3141,7 +3739,7 @@
 	],
 	"name": "Interaction End",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6"
 },
@@ -3196,7 +3794,7 @@
 	],
 	"name": "Interaction Start",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "44a74d61-c644-449c-956b-40cd73bbf88e"
 },
@@ -3209,36 +3807,6 @@
 	"parentId": "44a74d61-c644-449c-956b-40cd73bbf88e",
 	"sourceNodeId": "7fbdd93f-6227-40e6-bce2-1a17c01dfd7d",
 	"targetNodeId": "f379fddf-01e1-418d-97e5-1be82a7f6430"
-},
-{
-	"_id": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"notation": "Model.Notation.FPMN",
-	"version": 1.0,
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2018-01-01T12:00:00.000Z"
-	},
-	"language": "english",
-	"name": "Parenting Skills Workshop",
-	"documentation": "Parenting skills workshop's procedure.",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"civil servant 1"
-		],
-		"observers": [
-			"citizen 1",
-			"citizen 2"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
 },
 {
 	"_id": "d3b0ddbe-ade3-4ee9-8ec8-ea671d5cb650",
@@ -3278,6 +3846,29 @@
 	"version": "0.2"
 },
 {
+	"_id": "d5dd7288-909e-47cf-b44c-826a7dcbb48e",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"994142be-d49b-404d-885a-1b739c476b7d"
+	],
+	"name": "Dal 1° settembre al 30 aprile precedenti il periodo di erogazione del servizio ",
+	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "cb71624d-445a-4a79-b9af-e380920b485f"
+},
+{
+	"_id": "d794a571-2a7a-44f8-bffe-31703675911f",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Contrasti normativi",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "53d0fa48-3798-4d28-8567-a24699758f19"
+},
+{
 	"_id": "d84fb9c1-f6d5-411e-93e0-d89ea32ec149",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
 	"language": "italian",
@@ -3286,6 +3877,33 @@
 	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc",
 	"sourceNodeId": "0e153686-1d65-4e24-85f6-14aa662fc87b",
 	"targetNodeId": "ef1107f2-af2a-4409-b06d-fdcad766e2f4"
+},
+{
+	"_id": "d985dfb8-a552-4d3f-9c2a-238bd32efcce",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"documentation": "Presentabile dal titolare del permesso di costruire/SCIA ovvero dal professionista incaricato dei lavori da parte del titolare del permesso di costruire entro due anni dal rilascio del permesso di costruire o dalla data di formazione del titolo edilizio per silenzio assenso.",
+	"language": "italian",
+	"parentId": "4a0924c9-c1db-44af-992c-cade7dd03813",
+	"institution": "Comune di Trento",
+	"eServiceId": "5",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm",
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"818ed5ab-1349-495d-8cac-1094556f2567"
+	],
+	"outgoingIds": [
+		"726df261-da57-4df0-84ec-534ddaf61dbb",
+		"a7909936-b9b9-4cf1-912b-6ea5a84605fa"
+	],
+	"name": "Trasmissione comunicazione inizio lavori",
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"＄domain": "Model.FPMN.Interaction.Task"
 },
 {
 	"_id": "da4716e9-36f4-45e9-bc7d-12430f6d3c27",
@@ -3306,19 +3924,9 @@
 	],
 	"name": "Interaction Start",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Start",
 	"parentId": "76a011f2-f19a-4062-8a4b-00aa38db0cae"
-},
-{
-	"_id": "da6a8b5e-bf77-4788-9f04-8567fa7f179f",
-	"designId": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"language": "spanish",
-	"name": "Interaction Sequence",
-	"＄domain": "Model.FPMN.Interaction.Sequence",
-	"parentId": "40aa36fd-dba9-432d-856c-92a38244ef2f",
-	"sourceNodeId": "3835aaa4-ec4e-4774-9e6f-76fabed8ce0e",
-	"targetNodeId": "53aac759-ff7b-467b-b4bc-516e351dd61c"
 },
 {
 	"_id": "db433f60-4ed4-42cb-a907-90a8951b4c85",
@@ -3329,6 +3937,16 @@
 	"parentId": "ae2255ec-bfb5-4f1c-b99d-538b2c61d336",
 	"sourceNodeId": "29791e42-61d1-491d-ab89-4ee1c133ef28",
 	"targetNodeId": "5053c96f-5ed5-4088-a0ce-3a716e0dc3b0"
+},
+{
+	"_id": "dca98af0-e029-4e21-8e07-846c8d7edd21",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "2103f72a-4f49-40b2-9da6-5c56e0626fd1",
+	"targetNodeId": "7ea5fc31-cdd6-49c3-b0df-ef57cc5cda3f"
 },
 {
 	"_id": "ddbc2507-80a0-4042-96a1-a81e6184a29d",
@@ -3346,9 +3964,19 @@
 	"collapsed": false,
 	"name": "NO",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "c8ec8db3-4ae8-4d8d-97a3-988895156b87"
+},
+{
+	"_id": "de8a7491-cda1-4349-ab75-a83ad35b6def",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "91047456-ac71-490e-a535-709cfb534a04",
+	"targetNodeId": "76fc58b9-b0bb-41cc-a9e3-3efab94f28f2"
 },
 {
 	"_id": "dead2d9f-fc69-4c06-a16c-68fe5c33553f",
@@ -3409,67 +4037,14 @@
 	"targetNodeId": "a3b1120c-04f3-49b8-86e1-dd4cec4c9324"
 },
 {
-	"_id": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"notation": "Model.Notation.FPMN",
-	"version": 1.0,
-	"created": {
-		"$date": "2016-01-01T00:00:00.000Z"
-	},
-	"lastModified": {
-		"$date": "2018-01-01T12:00:00.000Z"
-	},
-	"language": "spanish",
-	"name": "Programa Benestar en Balnearios",
-	"documentation": "Procedimiento para el programa Benestar en Balnearios.",
-	"team": {
-		"owner": [
-			"civil servant 1"
-		],
-		"reviewer": [
-			"civil servant 1"
-		],
-		"editor": [
-			"25204",
-			"civil servant 1"
-		],
-		"observers": [
-			"citizen 1",
-			"citizen 2"
-		],
-		"observer": [
-			"25204"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
-},
-{
-	"_id": "e59287e6-ff46-46f2-948b-450bd7bc9d9e",
-	"notation": "Model.Notation.FPMN",
-	"version": "1",
-	"created": {
-		"$date": "2018-09-23T22:22:40.220Z"
-	},
-	"lastModified": {
-		"$date": "2018-09-23T22:22:40.220Z"
-	},
-	"language": "spanish",
-	"name": "Recoñecemento do grao de discapacidade",
-	"team": {
-		"owner": [
-			"25204"
-		],
-		"reviewer": [
-			"25204"
-		],
-		"editor": [
-			"25204"
-		],
-		"observer": [
-			"25111",
-			"25204"
-		]
-	},
-	"＄domain": "Model.FPMN.Diagram"
+	"_id": "e433e0b1-0901-469c-977c-e81a87cbbb75",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6",
+	"sourceNodeId": "bac9e6de-ac35-47f1-b2e7-fe09a82307ba",
+	"targetNodeId": "cceb564f-9d4f-445a-8a9d-820da78490cb"
 },
 {
 	"_id": "e5a3c8a5-04eb-48e5-a69a-c93ea609e901",
@@ -3503,13 +4078,22 @@
 	]
 },
 {
-	"_id": "e90e443d-d2ed-4fd8-a681-0a181ff34625",
-	"designId": "e46da25d-d043-4bc4-a3d4-3d366dfc476c",
-	"language": "spanish",
-	"category": "Model.FPMN.Procedure.Category.Health",
-	"name": "Programa Benestar en Balnearios",
-	"documentation": "A estadía inclúe os seguintes servizos e prestacións:\n\na) Aloxamento e manutención en réxime de pensión completa e en cuartos dobres, de uso compartido.\n\nb) Tratamentos termais, coas indicacións terapéuticas que figuran para cada balneario no anexo IV que comprenderán:\n\n1º. O recoñecemento médico, ao ingresar no balneario, para a prescrición do tratamento.\n\n2º. O tratamento termal básico que, en cada caso, prescriba o persoal médico do balneario.\n\n3º. O seguimento médico do tratamento.\n\nc) Programa de actividades de animación sociocultural que se leve a cabo no establecemento hoteleiro ou termal.\n\nd) Póliza colectiva de seguro turístico.",
-	"mission": "1. O obxecto desta orde é a oferta de prazas para as estadías e o tratamento termal dentro do programa de Benestar en balnearios 2017 e proceder á súa convocatoria. \n2. Para tal efecto enténdense por establecementos balnearios aqueles que dispoñen de augas mineromedicinais declaradas de utilidade pública segundo o artigo 2 do Decreto 402/1996, do 31 de outubro, polo que se aproba o Regulamento de aproveitamento de augas mineromedicinais, termais e dos establecementos balnearios da Comunidade Autónoma de Galicia.",
+	"_id": "e839e2d4-5695-4dbe-831d-b557eade8d99",
+	"hidden": false,
+	"collapsed": false,
+	"name": "NO",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "0b81a318-ebc4-446c-b161-22ba04c91b4f"
+},
+{
+	"_id": "e93128cc-ef96-4c1c-bbdc-afc761ebc0b2",
+	"name": "Richiesta rilascio elenchi titoli edilizi",
+	"waitingTime": "30 giorni",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"category": "Model.FPMN.Procedure.Category.Construction",
 	"＄domain": "Model.FPMN.Procedure"
 },
 {
@@ -3544,7 +4128,7 @@
 	],
 	"name": "è necessaria la consultazione diretta in ufficio?",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Decision",
 	"parentId": "a6e63c35-97d5-46f5-b1ff-5772060113a5"
 },
@@ -3553,8 +4137,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
+	"documentation": "Il richiedente effettua il pagamento nelle modalità indicate nella mail ricevuta dal Segretario di Circoscrizione. \nLa ricevuta del pagamento va trasmessa via posta elettronica alla Circoscrizione",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "9e5b1858-ec6c-49b5-be08-077611e94ed6",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -3564,11 +4149,11 @@
 	"incomingIds": [
 		"2b8ec09d-865d-4224-96dd-13a42981edc6"
 	],
+	"name": "Pagamento ed invio ricevuta",
 	"outgoingIds": [
 		"ec8a5844-f21f-4753-9d48-9edd353325a0",
 		"97cef1d4-476a-47c3-ad42-9c3f87a45364"
 	],
-	"name": "Pagamento ed invio ricevuta",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -3654,7 +4239,7 @@
 	],
 	"name": "Genitore o tutore/affidatario?",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Decision",
 	"parentId": "603da4ef-12b1-4c4f-830f-dad8a641d8bc"
 },
@@ -3663,8 +4248,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
+	"documentation": "Dopo il suo utilizzo il richiedente, deve riconsegnare le chiavi in Circoscrizione ",
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -3673,11 +4259,11 @@
 	"incomingIds": [
 		"bc498912-d95c-4791-864c-989d3c5ee250"
 	],
+	"name": "Riconsegna chiavi",
 	"outgoingIds": [
 		"fccea112-a017-4d01-a89e-7a1efedcce7e",
 		"fccea112-a017-4d01-a89e-7a1efedcce7e"
 	],
-	"name": "Riconsegna chiavi",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -3721,9 +4307,10 @@
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "a6e63c35-97d5-46f5-b1ff-5772060113a5",
 	"institution": "Comune",
+	"eServiceId": "12",
 	"channels": [
 		"Model.FPMN.Interaction.Channel.EForm",
 		"Model.FPMN.Interaction.Channel.FaceToFace"
@@ -3731,10 +4318,10 @@
 	"incomingIds": [
 		"f14295c9-e1da-46c0-9ff2-e58da377b274"
 	],
+	"name": "Presentazione richiesta",
 	"outgoingIds": [
 		"3a6d2145-754a-40b1-be56-468b2e903445"
 	],
-	"name": "Presentazione richiesta",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -3755,20 +4342,24 @@
 	"collapsed": false,
 	"name": "SI",
 	"designId": "a13de8db-13f6-4e27-b7dc-9185a7a5ee9d",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Label",
 	"parentId": "16754307-f979-4d37-a690-07cd64af71b0"
 },
 {
-	"_id": "f330df6e-b2ab-493c-af69-a5f44f38071e",
-	"designId": "d2c43fe1-2127-4969-8c07-5b1479c44ba2",
-	"parentId": "33f60d00-79d5-4d8f-89cc-166ab4577b97",
-	"prevPhaseId": "cda56bd7-331a-4d8a-a374-1c15bfdfab1b",
-	"nextPhaseId": "85434b0c-548b-41eb-ba7c-44ceed8ce9a7",
-	"language": "english",
-	"name": "Workshop booking",
-	"documentation": "• The administrator receives the user’s submitted form.\n• The administrator assesses the user’s day and time requirements, and will look to book the user’s first available preference.\n• The administrator will add the user’s details to the available workshop.\n• The administrator books the user onto a course session.",
-	"＄domain": "Model.FPMN.Phase"
+	"_id": "f31b3864-8147-4de9-b5b7-01860aa39f5f",
+	"phaseFailure": true,
+	"hidden": false,
+	"incomingIds": [
+		"2eadb3e4-8bf0-4e23-9068-d006eecd5225",
+		"b50b4fcd-aac4-4574-a6b6-50abb7e9540f"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0"
 },
 {
 	"_id": "f379fddf-01e1-418d-97e5-1be82a7f6430",
@@ -3776,7 +4367,7 @@
 	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
 	"collapsed": false,
 	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
-	"language": "it",
+	"language": "italian",
 	"parentId": "44a74d61-c644-449c-956b-40cd73bbf88e",
 	"institution": "Comune",
 	"channels": [
@@ -3830,8 +4421,9 @@
 	"hidden": false,
 	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
 	"collapsed": false,
+	"documentation": "In caso di verifica andata a buon fine o di risarcimento del danno, il Segretario o un suo delegato chiude la procedura",
 	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
-	"language": "it",
+	"language": "italian",
 	"parentId": "61e1b5c9-953c-453a-90ff-0c774a2d674f",
 	"institution": "Comune di Trento",
 	"channels": [
@@ -3843,11 +4435,11 @@
 		"30b1581b-5689-417f-947f-6d66a1342345",
 		"dfaa87f7-7708-43d4-8f2d-70992a11a594"
 	],
+	"name": "Chiusura della procedura",
 	"outgoingIds": [
 		"e7d56a24-fe60-4d77-80ff-0742af1fcbe6",
 		"6b00756c-ebca-4708-9b5f-b2195460553b"
 	],
-	"name": "Chiusura della procedura",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
 	"＄domain": "Model.FPMN.Interaction.Task"
 },
@@ -3864,6 +4456,31 @@
 	"hidden": false,
 	"collapsed": false,
 	"parentId": "44c73747-4ab2-47b6-b775-bfda07a7c6b1"
+},
+{
+	"_id": "f78aeece-c223-4b68-9b87-336ed4098c4b",
+	"hidden": false,
+	"collapsed": false,
+	"documentation": "entro due anni dal rilascio del permesso di costruire o dalla data di formazione del titolo edilizio per silenzio assenso.",
+	"name": "Entro 2 anni dal rilascio del permesso di costruire",
+	"outgoingIds": [
+		"726df261-da57-4df0-84ec-534ddaf61dbb",
+		"a7909936-b9b9-4cf1-912b-6ea5a84605fa"
+	],
+	"designId": "66cceaa4-fdbc-45df-8eb2-a237f0c5b4c8",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "d985dfb8-a552-4d3f-9c2a-238bd32efcce"
+},
+{
+	"_id": "f84e2b4c-6a48-42c8-89cc-8856f161f223",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "7265083b-f1d7-4b95-9f4e-abe1a7f86bb0",
+	"sourceNodeId": "943d4c6d-9df8-4da6-96e4-29c77d08a09e",
+	"targetNodeId": "4b0966a7-d53c-41dd-a495-e5f1c2d48498"
 },
 {
 	"_id": "f9d6508c-4f7e-402b-b104-d86e2c6e01ed",
@@ -3897,12 +4514,13 @@
 	"_id": "fc001f78-d1e4-40c5-9fbf-326ddfe01e21",
 	"hidden": false,
 	"collapsed": false,
-	"name": "Entro 5 giorni prima della data dell'evento",
+	"documentation": "La richiesta deve essere fatta entro i 5 giorni antecedenti la data dell'evento in programma",
 	"outgoingIds": [
 		"cc902eab-ce4b-485e-8887-690e8511df0b"
 	],
+	"name": "Entro 5 giorni prima della data dell'evento",
 	"designId": "d599305a-3c9a-4271-a8b4-c148d2f60f2b",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
 	"parentId": "658e6362-cb77-405d-a91c-7163c1f8151b"
 },
@@ -3960,7 +4578,7 @@
 	"collapsed": false,
 	"name": "Interaction End",
 	"designId": "85627424-00d1-4671-a1e1-0c807fb8d758",
-	"language": "it",
+	"language": "italian",
 	"＄domain": "Model.FPMN.Interaction.End",
 	"parentId": "76a011f2-f19a-4062-8a4b-00aa38db0cae"
 },
@@ -3974,5 +4592,1209 @@
 	"sourceNodeId": "data-data-data-011a6fbd-1978-4cb9-a7ff-1b13485762c1",
 	"targetNodeId": "data-data-data-data-data-data-data-data-data-59a5659d-baad-4355-88de-d252adb08554",
 	"＄ignore": true
+},
+{
+	"_id": "fe19c57a-ab88-479e-ad7c-28e54e7e46d0",
+	"designId": "af4fa989-8aea-42ac-8905-68ba1d7a5ee6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "23b14dbe-9a95-4215-8989-8a06aeabc4a6",
+	"sourceNodeId": "cceb564f-9d4f-445a-8a9d-820da78490cb",
+	"targetNodeId": "c7ddbca6-3648-4e96-b8cd-8500455b17c1"
+},
+{
+	"_id": "1b245944-1b8d-41b1-adf4-2ffc04b9b760",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Interaction Start",
+	"outgoingIds": [
+		"dfd4eb8b-e09f-4240-9bc1-ead85069a12f"
+	],
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917"
+},
+{
+	"_id": "dfd4eb8b-e09f-4240-9bc1-ead85069a12f",
+	"designId": "14baae77-55e3-45af-a30a-64f876033e5f",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "d0251024-e9f5-43d5-8ddc-76fb2b304917",
+	"sourceNodeId": "1b245944-1b8d-41b1-adf4-2ffc04b9b760",
+	"targetNodeId": "7fa1585e-c0f6-4614-9a38-12483a245d14"
+},
+{
+	"_id": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"notation": "Model.Notation.FPMN",
+	"version": 1,
+	"created": {
+		"$date": "2019-04-05T06:55:39.431Z"
+	},
+	"lastModified": {
+		"$date": "2019-04-05T06:55:39.431Z"
+	},
+	"language": "italian",
+	"name": "Svolgere il ruolo di scrutatore di seggio elettorale",
+	"documentation": null,
+	"team": {
+		"owner": [
+			"25272"
+		],
+		"reviewer": [
+			"25272"
+		],
+		"editor": [
+			"25298"
+		],
+		"observer": []
+	},
+	"＄domain": "Model.FPMN.Diagram"
+},
+{
+	"_id": "fa561a18-f7e5-4259-9ce2-6c9d1540cc90",
+	"name": "Svolgere il ruolo di scrutatore di seggio elettorale",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Procedure"
+},
+{
+	"_id": "b1a89317-3038-4733-8f5f-e06ba625ec36",
+	"nextPhaseId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"name": "Iscrizione all'albo",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "fa561a18-f7e5-4259-9ce2-6c9d1540cc90"
+},
+{
+	"_id": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"nextPhaseId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"prevPhaseId": "b1a89317-3038-4733-8f5f-e06ba625ec36",
+	"name": "Dichiarazione di disponibilità a svolgere l'incarico",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "fa561a18-f7e5-4259-9ce2-6c9d1540cc90"
+},
+{
+	"_id": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"prevPhaseId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"name": "Comunicazione nomina e svolgimento incarico",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "fa561a18-f7e5-4259-9ce2-6c9d1540cc90"
+},
+{
+	"_id": "bb7afa33-51a2-4389-bcc7-217f148e01f4",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"3207935a-7e72-4e8c-bbed-677a7fe8b66f"
+	],
+	"name": "Interaction Start",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36"
+},
+{
+	"_id": "fa0390b3-dcda-460f-af39-b4537079f3ea",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "it",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36",
+	"institution": "Comune di Trento",
+	"eServiceId": "15",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"5b6a5928-728f-4ed7-b071-c3cd75559420"
+	],
+	"outgoingIds": [],
+	"name": "Iscrizione all'albo",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "b261269a-c788-450a-8675-4a00fddd4f51",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"765d434c-9773-4acf-9be1-7455ec6a302e"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36"
+},
+{
+	"_id": "192f1a80-dbea-4202-b53a-6263030c90e2",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"765d434c-9773-4acf-9be1-7455ec6a302e"
+	],
+	"name": "entro il 30 novembre 2018",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "fa0390b3-dcda-460f-af39-b4537079f3ea"
+},
+{
+	"_id": "89e53605-d297-4370-9406-d5b016636c73",
+	"hidden": false,
+	"incomingIds": [
+		"3207935a-7e72-4e8c-bbed-677a7fe8b66f"
+	],
+	"collapsed": false,
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"outgoingIds": [
+		"5b6a5928-728f-4ed7-b071-c3cd75559420",
+		"d6acefee-cd43-473e-bc2e-c970b0042d31"
+	],
+	"name": "Possiedi i requisiti?",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36"
+},
+{
+	"_id": "7b2270f1-b79a-4fbb-904e-860166e7e640",
+	"phaseFailure": true,
+	"hidden": false,
+	"incomingIds": [
+		"d6acefee-cd43-473e-bc2e-c970b0042d31"
+	],
+	"collapsed": false,
+	"name": "Non è possibile iscriversi all'albo",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36"
+},
+{
+	"_id": "3207935a-7e72-4e8c-bbed-677a7fe8b66f",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36",
+	"sourceNodeId": "bb7afa33-51a2-4389-bcc7-217f148e01f4",
+	"targetNodeId": "89e53605-d297-4370-9406-d5b016636c73"
+},
+{
+	"_id": "5b6a5928-728f-4ed7-b071-c3cd75559420",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36",
+	"sourceNodeId": "89e53605-d297-4370-9406-d5b016636c73",
+	"targetNodeId": "fa0390b3-dcda-460f-af39-b4537079f3ea"
+},
+{
+	"_id": "d6acefee-cd43-473e-bc2e-c970b0042d31",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36",
+	"sourceNodeId": "89e53605-d297-4370-9406-d5b016636c73",
+	"targetNodeId": "7b2270f1-b79a-4fbb-904e-860166e7e640"
+},
+{
+	"_id": "765d434c-9773-4acf-9be1-7455ec6a302e",
+	"sourceNodeId": "192f1a80-dbea-4202-b53a-6263030c90e2",
+	"name": "Interaction Sequence",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"targetNodeId": "b261269a-c788-450a-8675-4a00fddd4f51",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "b1a89317-3038-4733-8f5f-e06ba625ec36"
+},
+{
+	"_id": "5927ea77-f465-425d-8569-8c60cbf84147",
+	"hidden": false,
+	"collapsed": false,
+	"name": "No",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "d6acefee-cd43-473e-bc2e-c970b0042d31"
+},
+{
+	"_id": "1b238118-1f9f-4a4d-8b0d-8728e308f5bd",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Sì",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "5b6a5928-728f-4ed7-b071-c3cd75559420"
+},
+{
+	"_id": "2b40e6cf-9543-42d9-a964-5c997d82ae7f",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"408a6ada-5291-4abf-a54e-5aa7bd62f0db"
+	],
+	"outgoingIds": [
+		"61485713-03f7-4fcc-a7b3-40e1f049c6ef"
+	],
+	"name": "Avviso richiesta disponibilità per elezioni",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "58117924-de71-491f-bae6-7641795b5f63",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"408a6ada-5291-4abf-a54e-5aa7bd62f0db"
+	],
+	"name": "Interaction Start",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046"
+},
+{
+	"_id": "9d8faf46-8bd9-45ae-ab02-45373fb1a96a",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "it",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"institution": "Comune di Trento",
+	"eServiceId": "18",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm"
+	],
+	"incomingIds": [
+		"cdbd29f3-80f0-427c-881f-ad3214e415ff"
+	],
+	"outgoingIds": [
+		"96f510a9-45b4-4944-ba66-4dbba0944821"
+	],
+	"name": "Dichiarazione disponibilità",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "195d3198-ffd6-4e03-812f-3953115e92d5",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "it",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.FaceToFace",
+		"Model.FPMN.Interaction.Channel.Phone"
+	],
+	"incomingIds": [
+		"6d5f0e3e-ee3d-4cd7-9387-62c39b55ddb7"
+	],
+	"outgoingIds": [
+		"ec91df20-4cc0-485c-8bfe-0b6dda774fa1"
+	],
+	"name": "Dichiarazione disponibilità per sostituzioni",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "dcb178df-dd4e-413c-9262-a70ef1aa0935",
+	"hidden": false,
+	"incomingIds": [
+		"61485713-03f7-4fcc-a7b3-40e1f049c6ef"
+	],
+	"collapsed": false,
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"outgoingIds": [
+		"cdbd29f3-80f0-427c-881f-ad3214e415ff",
+		"6d5f0e3e-ee3d-4cd7-9387-62c39b55ddb7"
+	],
+	"name": "Ti sei iscritto all'albo entro il 30 novembre 2018?",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046"
+},
+{
+	"_id": "7216f96b-724d-416c-8853-1eea1406bdd3",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"96f510a9-45b4-4944-ba66-4dbba0944821"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046"
+},
+{
+	"_id": "3367030b-3d84-442b-b626-a1887f6d5d3d",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"ec91df20-4cc0-485c-8bfe-0b6dda774fa1"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046"
+},
+{
+	"_id": "408a6ada-5291-4abf-a54e-5aa7bd62f0db",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"sourceNodeId": "58117924-de71-491f-bae6-7641795b5f63",
+	"targetNodeId": "2b40e6cf-9543-42d9-a964-5c997d82ae7f"
+},
+{
+	"_id": "61485713-03f7-4fcc-a7b3-40e1f049c6ef",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"sourceNodeId": "2b40e6cf-9543-42d9-a964-5c997d82ae7f",
+	"targetNodeId": "dcb178df-dd4e-413c-9262-a70ef1aa0935"
+},
+{
+	"_id": "cdbd29f3-80f0-427c-881f-ad3214e415ff",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"sourceNodeId": "dcb178df-dd4e-413c-9262-a70ef1aa0935",
+	"targetNodeId": "9d8faf46-8bd9-45ae-ab02-45373fb1a96a"
+},
+{
+	"_id": "6d5f0e3e-ee3d-4cd7-9387-62c39b55ddb7",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046",
+	"sourceNodeId": "dcb178df-dd4e-413c-9262-a70ef1aa0935",
+	"targetNodeId": "195d3198-ffd6-4e03-812f-3953115e92d5"
+},
+{
+	"_id": "96f510a9-45b4-4944-ba66-4dbba0944821",
+	"sourceNodeId": "6a3fd822-7a4d-4cc6-b5bf-c183c8cc6d90",
+	"name": "Interaction Sequence",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"targetNodeId": "7216f96b-724d-416c-8853-1eea1406bdd3",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046"
+},
+{
+	"_id": "ec91df20-4cc0-485c-8bfe-0b6dda774fa1",
+	"sourceNodeId": "ed3d9df7-2041-4d24-bf3a-85a781255e13",
+	"name": "Interaction Sequence",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"targetNodeId": "3367030b-3d84-442b-b626-a1887f6d5d3d",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dac8b495-0052-4a67-9e0e-958649a95046"
+},
+{
+	"_id": "911c8232-060b-49eb-afd6-f8bc59f94717",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Sì",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "cdbd29f3-80f0-427c-881f-ad3214e415ff"
+},
+{
+	"_id": "88080f96-e4b1-4b48-83a1-085bb2ebe3de",
+	"hidden": false,
+	"collapsed": false,
+	"name": "No",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "6d5f0e3e-ee3d-4cd7-9387-62c39b55ddb7"
+},
+{
+	"_id": "8c819a88-6836-4793-80a4-8dc912c751cf",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"68e10e69-40a5-430e-834a-9368252281be"
+	],
+	"name": "Interaction Start",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906"
+},
+{
+	"_id": "aef6def9-cc82-4ff0-a492-1ac200d954cc",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.RegisteredMail"
+	],
+	"incomingIds": [
+		"68e10e69-40a5-430e-834a-9368252281be"
+	],
+	"outgoingIds": [
+		"1b20c8be-8499-411f-aa4e-ac2cd1041ab8"
+	],
+	"name": "Comunicazione nomina con messo notificatore",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "6a3fd822-7a4d-4cc6-b5bf-c183c8cc6d90",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"96f510a9-45b4-4944-ba66-4dbba0944821"
+	],
+	"name": "dal 2 al 20 aprile 2019",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "9d8faf46-8bd9-45ae-ab02-45373fb1a96a"
+},
+{
+	"_id": "ed3d9df7-2041-4d24-bf3a-85a781255e13",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"ec91df20-4cc0-485c-8bfe-0b6dda774fa1"
+	],
+	"name": "dal 2 al 20 aprile 2019",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "195d3198-ffd6-4e03-812f-3953115e92d5"
+},
+{
+	"_id": "e5580b0b-ee67-4d21-a473-62d37466bc7a",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"institution": "Comune d Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"1b20c8be-8499-411f-aa4e-ac2cd1041ab8"
+	],
+	"outgoingIds": [],
+	"name": "Svolgimento incarico presso il seggio",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "bd1141be-afaf-405d-8f54-b2ef57a3fb23",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.Payment"
+	],
+	"incomingIds": [
+		"f90d60c7-3056-45a5-94cc-d27f07332c73"
+	],
+	"outgoingIds": [
+		"865135d8-bc31-4e84-ab2a-4af252076ecc"
+	],
+	"name": "Accredito compenso",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "33326162-0a2e-4a24-8bd0-d17d56b99496",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"865135d8-bc31-4e84-ab2a-4af252076ecc"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906"
+},
+{
+	"_id": "525cfa9a-fdb0-4fab-bcd5-68a4bec9f2ec",
+	"hidden": false,
+	"collapsed": false,
+	"name": "25-26 maggio 2019",
+	"outgoingIds": [
+		"f90d60c7-3056-45a5-94cc-d27f07332c73"
+	],
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "e5580b0b-ee67-4d21-a473-62d37466bc7a"
+},
+{
+	"_id": "68e10e69-40a5-430e-834a-9368252281be",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"sourceNodeId": "8c819a88-6836-4793-80a4-8dc912c751cf",
+	"targetNodeId": "aef6def9-cc82-4ff0-a492-1ac200d954cc"
+},
+{
+	"_id": "1b20c8be-8499-411f-aa4e-ac2cd1041ab8",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"sourceNodeId": "aef6def9-cc82-4ff0-a492-1ac200d954cc",
+	"targetNodeId": "e5580b0b-ee67-4d21-a473-62d37466bc7a"
+},
+{
+	"_id": "f90d60c7-3056-45a5-94cc-d27f07332c73",
+	"sourceNodeId": "525cfa9a-fdb0-4fab-bcd5-68a4bec9f2ec",
+	"name": "Interaction Sequence",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "it",
+	"targetNodeId": "bd1141be-afaf-405d-8f54-b2ef57a3fb23",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906"
+},
+{
+	"_id": "865135d8-bc31-4e84-ab2a-4af252076ecc",
+	"designId": "830be9af-48ce-4f1d-9494-7676c109fd88",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e31477a5-1eb2-4e4e-a83a-4137368f4906",
+	"sourceNodeId": "bd1141be-afaf-405d-8f54-b2ef57a3fb23",
+	"targetNodeId": "33326162-0a2e-4a24-8bd0-d17d56b99496"
+},
+{
+	"_id": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"created": {
+		"$date": "2019-04-05T08:15:32.400Z"
+	},
+	"notation": "Model.Notation.FPMN",
+	"name": " Svolgere il ruolo di presidente di seggio elettorale",
+	"language": "italian",
+	"team": {
+		"owner": [
+			"25272"
+		],
+		"reviewer": [
+			"25272"
+		],
+		"editor": [
+			"25298"
+		],
+		"observer": []
+	},
+	"lastModified": {
+		"$date": "2019-04-05T08:15:32.400Z"
+	},
+	"＄domain": "Model.FPMN.Diagram",
+	"version": 1
+},
+{
+	"_id": "39454f25-8a0c-4c6d-9024-2be6d491f985",
+	"name": "Svolgere il ruolo di presidente di seggio",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Procedure"
+},
+{
+	"_id": "e4b0f27c-9eec-42b4-bade-5886815b53f4",
+	"nextPhaseId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"name": "Iscrizione all'albo",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "39454f25-8a0c-4c6d-9024-2be6d491f985"
+},
+{
+	"_id": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"prevPhaseId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"name": "Comunicazione nomina e svolgimento incarico",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "39454f25-8a0c-4c6d-9024-2be6d491f985"
+},
+{
+	"_id": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"nextPhaseId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"prevPhaseId": "e4b0f27c-9eec-42b4-bade-5886815b53f4",
+	"name": "Dichiarazione di disponibilità a svolgere l'incarico",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Phase",
+	"parentId": "39454f25-8a0c-4c6d-9024-2be6d491f985"
+},
+{
+	"_id": "c8d53040-aa8c-439d-a15c-f259833c3b46",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"e867d64a-2e72-42ec-bb78-718696a599f8"
+	],
+	"name": "Interaction Start",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4"
+},
+{
+	"_id": "2cbecc2b-6682-4213-ba5c-8c9da118f9e8",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"0fb30123-d3a8-4181-aa17-c79a9fdba0a2"
+	],
+	"name": "Interaction Start",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c"
+},
+{
+	"_id": "6a5386b5-20f2-4703-9ce7-53530b3fc434",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"2d537d04-e168-4345-9a0c-710d60408e28",
+		"fdff257d-6a18-4cb2-80b5-eaf23d742361"
+	],
+	"name": "Interaction Start",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Start",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed"
+},
+{
+	"_id": "5108625e-b0e0-42c3-94c5-7dbb7a115f73",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"86a35f8a-6508-4e6b-891a-de3beb8f3849"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4"
+},
+{
+	"_id": "2c8e1a1f-8e8d-4859-b7f0-5aa94424f71e",
+	"phaseFailure": true,
+	"hidden": false,
+	"incomingIds": [
+		"fe74ca31-af32-4310-b276-eb823b2fd746"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4"
+},
+{
+	"_id": "7a892f94-00c7-434d-a3a2-a71eb5194206",
+	"hidden": false,
+	"incomingIds": [
+		"e867d64a-2e72-42ec-bb78-718696a599f8"
+	],
+	"collapsed": false,
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"outgoingIds": [
+		"4ac7d491-f4df-41ed-9a17-9c48279b76ff",
+		"fe74ca31-af32-4310-b276-eb823b2fd746"
+	],
+	"name": "Possiedi i requisiti?",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Decision",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4"
+},
+{
+	"_id": "328b5365-32f3-476b-8103-dd7377b49cf9",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4",
+	"institution": "Comune di Trento",
+	"eServiceId": "16",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"4ac7d491-f4df-41ed-9a17-9c48279b76ff"
+	],
+	"outgoingIds": [],
+	"name": "Iscrizione all'albo",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "23610550-7e7d-4f3e-99a3-0b03a7bdaac8",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EMail",
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"86a35f8a-6508-4e6b-891a-de3beb8f3849"
+	],
+	"name": "entro il 31 ottobre 2018",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "328b5365-32f3-476b-8103-dd7377b49cf9"
+},
+{
+	"_id": "04798ef8-c414-45be-a4ff-203d70249e3e",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"0fb30123-d3a8-4181-aa17-c79a9fdba0a2"
+	],
+	"outgoingIds": [
+		"6a013643-02d8-46b2-9948-b1cb6117d9dc"
+	],
+	"name": "Avviso richiesta disponibilità per elezioni",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "399d15de-78b7-4d6e-b0a5-e9d12e38755f",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"institution": "Comune di Trento",
+	"incomingIds": [
+		"6a013643-02d8-46b2-9948-b1cb6117d9dc"
+	],
+	"responsible": "Model.FPMN.Interaction.Subject.Citizen",
+	"outgoingIds": [
+		"aa1d43fd-d2d7-495f-97d0-f98c15aae952",
+		"c3a4b975-986f-4e53-b67b-101568a8f6e8"
+	],
+	"name": "Ti sei iscritto all'albo entro il 31 ottobre 2018?",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Decision"
+},
+{
+	"_id": "1132421c-c934-4a24-b850-d60aa9a3700a",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "it",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"institution": "Comune di Trento",
+	"eServiceId": "19",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.EForm"
+	],
+	"incomingIds": [
+		"aa1d43fd-d2d7-495f-97d0-f98c15aae952"
+	],
+	"outgoingIds": [],
+	"name": "Dichiarazione disponibilità",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "6135ec00-a697-4ac8-8446-ed0ffad232fe",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "it",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.FaceToFace",
+		"Model.FPMN.Interaction.Channel.Phone"
+	],
+	"incomingIds": [
+		"c3a4b975-986f-4e53-b67b-101568a8f6e8"
+	],
+	"outgoingIds": [],
+	"name": "Dichiarazione disponibilità per sostituzioni",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "5b8aa9d6-efb6-479e-8e47-e758e8752b7e",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"be9e24e8-db68-48c1-8878-b43ccfad54a5"
+	],
+	"name": "dal 2 al 20 aprile 2019",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "1132421c-c934-4a24-b850-d60aa9a3700a"
+},
+{
+	"_id": "7bc6e9ca-bfd2-470d-851c-3e58c190e747",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"149e8b92-7d4c-4610-bcb7-b65b4d2da1ac"
+	],
+	"name": "dal 2 al 20 aprile 2019",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "6135ec00-a697-4ac8-8446-ed0ffad232fe"
+},
+{
+	"_id": "634f8b49-c083-4a44-b0fc-9ed56d8b9710",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"be9e24e8-db68-48c1-8878-b43ccfad54a5"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c"
+},
+{
+	"_id": "c64be496-97f9-4e70-a9a6-42a0b8bed427",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"149e8b92-7d4c-4610-bcb7-b65b4d2da1ac"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c"
+},
+{
+	"_id": "fb48232f-caad-449f-a985-8e162f057ef5",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.RegisteredMail"
+	],
+	"incomingIds": [
+		"2d537d04-e168-4345-9a0c-710d60408e28",
+		"fdff257d-6a18-4cb2-80b5-eaf23d742361"
+	],
+	"outgoingIds": [
+		"e4b2fee6-94b2-4a8d-8a22-dc6c35d87437"
+	],
+	"name": "Notifica con messo notificatore",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "c204a7ff-4d07-4dc7-b34e-809c2efe25b3",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.PublicBody",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.Citizen",
+	"language": "it",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.FaceToFace"
+	],
+	"incomingIds": [
+		"e4b2fee6-94b2-4a8d-8a22-dc6c35d87437"
+	],
+	"outgoingIds": [],
+	"name": "Svolgimento incarico presso il seggio",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "f9267eb7-363e-4021-9f12-a5301b68a374",
+	"hidden": false,
+	"interlocutor": "Model.FPMN.Interaction.Subject.Citizen",
+	"collapsed": false,
+	"initiator": "Model.FPMN.Interaction.Subject.PublicBody",
+	"language": "it",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"institution": "Comune di Trento",
+	"channels": [
+		"Model.FPMN.Interaction.Channel.Payment"
+	],
+	"incomingIds": [
+		"36c8e992-f911-4887-bb22-b7fe4e353a4a"
+	],
+	"outgoingIds": [
+		"b8b89fee-40d2-4c59-9550-6af5a8dab66b"
+	],
+	"name": "Accredito compenso",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"＄domain": "Model.FPMN.Interaction.Task"
+},
+{
+	"_id": "8b834aa7-7126-4f6d-a402-547d99727998",
+	"hidden": false,
+	"collapsed": false,
+	"outgoingIds": [
+		"36c8e992-f911-4887-bb22-b7fe4e353a4a"
+	],
+	"name": "25-26 maggio 2019",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.Task.Deadline",
+	"parentId": "c204a7ff-4d07-4dc7-b34e-809c2efe25b3"
+},
+{
+	"_id": "58e0c749-aae4-4479-8f0f-ecc5e9cb72c2",
+	"phaseFailure": false,
+	"hidden": false,
+	"incomingIds": [
+		"b8b89fee-40d2-4c59-9550-6af5a8dab66b"
+	],
+	"collapsed": false,
+	"name": "Interaction End",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Interaction.End",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed"
+},
+{
+	"_id": "e867d64a-2e72-42ec-bb78-718696a599f8",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4",
+	"sourceNodeId": "c8d53040-aa8c-439d-a15c-f259833c3b46",
+	"targetNodeId": "7a892f94-00c7-434d-a3a2-a71eb5194206"
+},
+{
+	"_id": "4ac7d491-f4df-41ed-9a17-9c48279b76ff",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4",
+	"sourceNodeId": "7a892f94-00c7-434d-a3a2-a71eb5194206",
+	"targetNodeId": "328b5365-32f3-476b-8103-dd7377b49cf9"
+},
+{
+	"_id": "fe74ca31-af32-4310-b276-eb823b2fd746",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4",
+	"sourceNodeId": "7a892f94-00c7-434d-a3a2-a71eb5194206",
+	"targetNodeId": "2c8e1a1f-8e8d-4859-b7f0-5aa94424f71e"
+},
+{
+	"_id": "80ee4750-1afd-4648-af51-3712e08bfffc",
+	"hidden": false,
+	"collapsed": false,
+	"name": "Sì",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "4ac7d491-f4df-41ed-9a17-9c48279b76ff"
+},
+{
+	"_id": "de12db08-4507-4b89-ad43-66ad21518cb4",
+	"hidden": false,
+	"collapsed": false,
+	"name": "No",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"＄domain": "Model.FPMN.Label",
+	"parentId": "fe74ca31-af32-4310-b276-eb823b2fd746"
+},
+{
+	"_id": "86a35f8a-6508-4e6b-891a-de3beb8f3849",
+	"sourceNodeId": "23610550-7e7d-4f3e-99a3-0b03a7bdaac8",
+	"name": "Interaction Sequence",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"targetNodeId": "5108625e-b0e0-42c3-94c5-7dbb7a115f73",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "e4b0f27c-9eec-42b4-bade-5886815b53f4"
+},
+{
+	"_id": "0fb30123-d3a8-4181-aa17-c79a9fdba0a2",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"sourceNodeId": "2cbecc2b-6682-4213-ba5c-8c9da118f9e8",
+	"targetNodeId": "04798ef8-c414-45be-a4ff-203d70249e3e"
+},
+{
+	"_id": "6a013643-02d8-46b2-9948-b1cb6117d9dc",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"sourceNodeId": "04798ef8-c414-45be-a4ff-203d70249e3e",
+	"targetNodeId": "399d15de-78b7-4d6e-b0a5-e9d12e38755f"
+},
+{
+	"_id": "aa1d43fd-d2d7-495f-97d0-f98c15aae952",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"sourceNodeId": "399d15de-78b7-4d6e-b0a5-e9d12e38755f",
+	"targetNodeId": "1132421c-c934-4a24-b850-d60aa9a3700a"
+},
+{
+	"_id": "c3a4b975-986f-4e53-b67b-101568a8f6e8",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "1ebabffa-02b1-4469-a700-e659a5b3f18c",
+	"sourceNodeId": "399d15de-78b7-4d6e-b0a5-e9d12e38755f",
+	"targetNodeId": "6135ec00-a697-4ac8-8446-ed0ffad232fe"
+},
+{
+	"_id": "be9e24e8-db68-48c1-8878-b43ccfad54a5",
+	"sourceNodeId": "5b8aa9d6-efb6-479e-8e47-e758e8752b7e",
+	"name": "Interaction Sequence",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"targetNodeId": "634f8b49-c083-4a44-b0fc-9ed56d8b9710",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "1132421c-c934-4a24-b850-d60aa9a3700a"
+},
+{
+	"_id": "149e8b92-7d4c-4610-bcb7-b65b4d2da1ac",
+	"sourceNodeId": "7bc6e9ca-bfd2-470d-851c-3e58c190e747",
+	"name": "Interaction Sequence",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"targetNodeId": "c64be496-97f9-4e70-a9a6-42a0b8bed427",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "6135ec00-a697-4ac8-8446-ed0ffad232fe"
+},
+{
+	"_id": "e4b2fee6-94b2-4a8d-8a22-dc6c35d87437",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"sourceNodeId": "fb48232f-caad-449f-a985-8e162f057ef5",
+	"targetNodeId": "c204a7ff-4d07-4dc7-b34e-809c2efe25b3"
+},
+{
+	"_id": "36c8e992-f911-4887-bb22-b7fe4e353a4a",
+	"sourceNodeId": "8b834aa7-7126-4f6d-a402-547d99727998",
+	"name": "Interaction Sequence",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "it",
+	"targetNodeId": "f9267eb7-363e-4021-9f12-a5301b68a374",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed"
+},
+{
+	"_id": "fdff257d-6a18-4cb2-80b5-eaf23d742361",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"sourceNodeId": "6a5386b5-20f2-4703-9ce7-53530b3fc434",
+	"targetNodeId": "fb48232f-caad-449f-a985-8e162f057ef5"
+},
+{
+	"_id": "b8b89fee-40d2-4c59-9550-6af5a8dab66b",
+	"designId": "196cc90e-6b2c-4a40-afbb-8d117a9967a6",
+	"language": "italian",
+	"name": "Interaction Sequence",
+	"＄domain": "Model.FPMN.Interaction.Sequence",
+	"parentId": "dc0fe82c-4b15-4c08-b8b2-19d8611e26ed",
+	"sourceNodeId": "f9267eb7-363e-4021-9f12-a5301b68a374",
+	"targetNodeId": "58e0c749-aae4-4479-8f0f-ecc5e9cb72c2"
 }]
 

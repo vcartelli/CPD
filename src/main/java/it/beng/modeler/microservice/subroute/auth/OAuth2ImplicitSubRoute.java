@@ -6,7 +6,7 @@ import io.vertx.core.http.HttpMethod;
 import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
-import io.vertx.ext.auth.oauth2.impl.AccessTokenImpl;
+import io.vertx.ext.auth.oauth2.impl.OAuth2TokenImpl;
 import io.vertx.ext.auth.oauth2.impl.OAuth2AuthProviderImpl;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -104,7 +104,7 @@ public final class OAuth2ImplicitSubRoute extends OAuth2SubRoute {
 
                           getOrCreateAccount(response.body(), provider, getOrCreateAccount -> {
                               if (getOrCreateAccount.succeeded()) {
-                                  final AccessToken user = new AccessTokenImpl((OAuth2AuthProviderImpl) oauth2Provider, hash);
+                                  final AccessToken user = new OAuth2TokenImpl((OAuth2AuthProviderImpl) oauth2Provider, hash);
                                   // add user to the session
                                   user.principal().put("account", getOrCreateAccount.result());
                                   user.principal().put("loginState", loginState);

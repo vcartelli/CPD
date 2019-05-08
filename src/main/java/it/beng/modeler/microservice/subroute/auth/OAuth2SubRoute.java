@@ -1,8 +1,6 @@
 package it.beng.modeler.microservice.subroute.auth;
 
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.json.JsonObject;
@@ -123,19 +121,22 @@ public abstract class OAuth2SubRoute extends SubRoute<OAuth2SubRoute.Config> {
 
     }
 
-    protected void getOrCreateAccount(final JsonObject userInfo, final String provider, AsyncHandler<JsonObject> handler) {
+    void getOrCreateAccount(final JsonObject userInfo, final String provider, AsyncHandler<JsonObject> handler) {
         if (userInfo == null || provider == null) {
             handler.handle(Future.failedFuture("cannot determine user info"));
+            return;
         }
 
         final Map<String, String> accountProvider = ACCOUNT_PROVIDERS.get(provider);
         if (accountProvider == null) {
             handler.handle(Future.failedFuture("cannot determine account provider"));
+            return;
         }
 
         final String id = userInfo.getString(accountProvider.get(ID), null);
         if (id == null) {
             handler.handle(Future.failedFuture("cannot determine user id"));
+            return;
         }
 
         mongodb.findOne(Domain.Collection.USERS, new JsonObject().put(ID, id)

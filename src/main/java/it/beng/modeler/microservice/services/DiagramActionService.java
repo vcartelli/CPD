@@ -21,7 +21,7 @@ public class DiagramActionService extends ActionService {
         registerIncomingAction(LoadDefinitionAction.TYPE, LoadDefinitionAction.class);
     }
 
-    public DiagramActionService(Vertx vertx) {
+    DiagramActionService(Vertx vertx) {
         super(vertx);
     }
 

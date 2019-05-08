@@ -1,7 +1,6 @@
 package it.beng.modeler.microservice.services;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.BridgeEvent;
@@ -21,14 +20,15 @@ public abstract class ActionService extends BridgeEventService {
 
     private static final Map<String, Class<? extends IncomingAction>> INCOMING_ACTIONS = new HashMap<>();
 
-    protected static void registerIncomingAction(String type, Class<? extends IncomingAction> actionClass) {
+    static void registerIncomingAction(String type, Class<? extends IncomingAction> actionClass) {
         INCOMING_ACTIONS.put(type, actionClass);
     }
 
-    protected static IncomingAction createIncomingAction(BridgeEvent event) {
+    private static IncomingAction createIncomingAction(BridgeEvent event) {
         JsonObject json = event.getRawMessage().getJsonObject("body");
         if (json == null) {
             EventBusUtils.fail(event, "illegal state: no json found in message body");
+            return null;
         }
         String type = json.getString("type");
         if (type == null) {
@@ -65,31 +65,26 @@ public abstract class ActionService extends BridgeEventService {
 
     protected static final MongoDB mongodb = cpd.dataDB();
 
-    private final Pattern publishAddressPattern;
+    private final String publishAddressRegex = "^" + address() + "::[a-z0-9]{8}-(?:[a-z0-9]{4}-){3}[a-z0-9]{12}$";
+    private final Pattern publishAddressPattern = Pattern.compile(publishAddressRegex);
 
-    public ActionService(Vertx vertx) {
+    ActionService(Vertx vertx) {
         super(vertx);
-        publishAddressPattern = Pattern.compile("^" + address() + "::[a-z0-9]{8}-(?:[a-z0-9]{4}-){3}[a-z0-9]{12}$");
     }
 
     protected abstract String address();
 
-    protected Pattern publishAddressPattern() {
-        return publishAddressPattern;
-    }
-
     @Override
     protected void init() {
-        vertx.eventBus().consumer(address(), (Message<JsonObject> message) -> {
-            message.reply(message.body());
-        });
+        vertx.eventBus().consumer(address(), message -> message.reply(message.body()));
     }
 
     @Override
     public Collection<PermittedOptions> inboundPermitted() {
         return Arrays.asList(
             new PermittedOptions().setAddress(address()),
-            new PermittedOptions().setAddressRegex(publishAddressPattern().toString()));
+            new PermittedOptions().setAddressRegex(publishAddressRegex)
+        );
     }
 
     @Override
@@ -103,7 +98,7 @@ public abstract class ActionService extends BridgeEventService {
         if (message == null) return false;
         String address = message.getString("address");
         if (address == null) return false;
-        if (publishAddressPattern().matcher(address).matches()) {
+        if (publishAddressPattern.matcher(address).matches()) {
             handlePublish(event);
             return true;
         } else if (address().equals(address)) {
@@ -115,11 +110,11 @@ public abstract class ActionService extends BridgeEventService {
 
     private void handlePublish(BridgeEvent event) {
         switch (event.type()) {
-            case PUBLISH:
-                process(event);
-                break;
             case SEND:
                 EventBusUtils.fail(event, "illegal state: cannot send messages over a publish/register address");
+                break;
+            case PUBLISH:
+                process(event);
                 break;
             case RECEIVE:
             case REGISTER:

@@ -120,7 +120,6 @@ public final class cpd {
         public static Integer port;
         public static String baseHref;
         public static String allowedOriginPattern;
-        public static Long simLagTime;
         public static List<String> subroutePaths = new LinkedList<>();
 
         public static void checkAndSetIfMainAdmin(JsonObject account) {
@@ -357,7 +356,6 @@ public final class cpd {
         cpd.server.port = node.getInteger("port", 8901);
         cpd.server.baseHref = checkBaseHref(node.getString("baseHref", "/"));
         cpd.server.allowedOriginPattern = node.getString("allowedOriginPattern");
-        cpd.server.simLagTime = node.getLong("simLagTime", -1L);
 
         /* server.secret */
         node = config.getJsonObject("server").getJsonObject("secret");

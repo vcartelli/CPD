@@ -175,11 +175,7 @@ public final class ModelerServerVerticle extends AbstractVerticle {
             .encodePrettily()
         );
 
-        router.route().handler(CSRFHandler.create(cpd.server.secret.csrf));
-
-        // qae jwt: {"typ":"JWT","alg":"HS256"}
-
-        // this must be declared here, before the body handler
+        // this must be declared here, after the session handler and before the body handler
         new EventBusSubRoute(vertx, router);
 
         // enable body handler for [POST] and [PUT] methods
@@ -188,6 +184,12 @@ public final class ModelerServerVerticle extends AbstractVerticle {
         router.route().method(HttpMethod.POST).handler(bodyHandler);
         router.route().method(HttpMethod.PUT).handler(bodyHandler);
         router.route().method(HttpMethod.DELETE).handler(bodyHandler);
+
+        // CSRF
+        router.route().handler(CSRFHandler.create(cpd.server.secret.csrf));
+
+        // JWT: {"typ":"JWT","alg":"HS256"}
+        // TODO: JWT
 
         // redirect base-href to app
         router.routeWithRegex(HttpMethod.GET, "^" + cpd.server.baseHref.replace("/", "\\/") + "?$").handler(context -> {

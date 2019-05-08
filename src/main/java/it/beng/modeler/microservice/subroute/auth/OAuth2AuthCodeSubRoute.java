@@ -4,6 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.oauth2.AccessToken;
+import io.vertx.ext.auth.oauth2.impl.OAuth2TokenImpl;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
@@ -35,7 +36,7 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
             this.oauth2ClientOptions.setUserInfoPath(oauth2Flow.getUserProfile);
         }
 
-        // NOTE: only Google auth code flow is supported at the moment
+        // NOTE: only Google and AAC auth code flow are supported at the moment
 
         // create OAuth2 handler
         OAuth2AuthHandler oAuth2Handler = OAuth2AuthHandler.create(oauth2Provider, cpd.oauth2.origin);
@@ -54,40 +55,39 @@ public final class OAuth2AuthCodeSubRoute extends OAuth2SubRoute {
         if (user == null) {
             context.next();
             return;
-        } else {
-
-            user.userInfo(userInfo -> {
-                if (userInfo.succeeded()) {
-                    logger.debug("user info: " + userInfo.result().encodePrettily());
-
-                    final JsonObject state = new JsonObject(
-                        base64.decode(context.session().remove("encodedState")));
-                    final JsonObject loginState = state.getJsonObject("loginState");
-                    final String provider = loginState.getString("provider");
-
-                    getOrCreateAccount(userInfo.result(), provider, readOrCreateUser -> {
-                        if (readOrCreateUser.succeeded()) {
-                            user.principal().put("account", readOrCreateUser.result());
-                            // redirect
-                            logger.debug(
-                                "auth_code flow user principal: " + context.user().principal().encodePrettily());
-                            try {
-                                AuthUtils.afterUserLogin(user);
-                            } catch (AccountNotFoundException e) {
-                                context.fail(e);
-                                return;
-                            }
-                            redirect(context, cpd.server.appPath(context) + loginState
-                                .getString("redirect"));
-                        } else {
-                            context.fail(readOrCreateUser.cause());
-                        }
-                    });
-                } else {
-                    context.setUser(null);
-                    context.fail(userInfo.cause());
-                }
-            });
         }
+
+        user.userInfo(userInfo -> {
+            if (userInfo.succeeded()) {
+                logger.debug("user info: " + userInfo.result().encodePrettily());
+
+                final JsonObject state = new JsonObject(
+                    base64.decode(context.session().remove("encodedState")));
+                final JsonObject loginState = state.getJsonObject("loginState");
+                final String provider = loginState.getString("provider");
+
+                getOrCreateAccount(userInfo.result(), provider, readOrCreateUser -> {
+                    if (readOrCreateUser.succeeded()) {
+                        user.principal().put("account", readOrCreateUser.result());
+                        // redirect
+                        logger.debug(
+                            "auth_code flow user principal: " + context.user().principal().encodePrettily());
+                        try {
+                            AuthUtils.afterUserLogin(user);
+                        } catch (AccountNotFoundException e) {
+                            context.fail(e);
+                            return;
+                        }
+                        redirect(context, cpd.server.appPath(context) + loginState
+                            .getString("redirect"));
+                    } else {
+                        context.fail(readOrCreateUser.cause());
+                    }
+                });
+            } else {
+                context.setUser(null);
+                context.fail(userInfo.cause());
+            }
+        });
     }
 }

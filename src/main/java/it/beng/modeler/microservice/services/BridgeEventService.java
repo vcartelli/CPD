@@ -17,7 +17,7 @@ public abstract class BridgeEventService {
 
     protected final Vertx vertx;
 
-    public BridgeEventService(Vertx vertx) {
+    BridgeEventService(Vertx vertx) {
         if (SERVICES.get(this.getClass()) != null) {
             throw new IllegalStateException("only one instance of " + this.getClass().getName() + " is allowed");
         }
@@ -30,15 +30,15 @@ public abstract class BridgeEventService {
         SERVICES.put(bridgeEventServiceClass, null);
     }
 
-    public static final void start(Vertx vertx) {
-        for (Class<? extends BridgeEventService> serviceClass : SERVICES.keySet()) {
+    public static void start(Vertx vertx) {
+        SERVICES.keySet().forEach(serviceClass -> {
             try {
                 serviceClass.getDeclaredConstructor(Vertx.class).newInstance(vertx);
             } catch (Exception e) {
-                logger.error("could not instantiate " + serviceClass.getName()
-                    + " because of " + e.getLocalizedMessage());
+                logger.error("could not instantiate " + serviceClass.getName() + " because of "
+                    + e.getLocalizedMessage());
             }
-        }
+        });
     }
 
     public static Collection<BridgeEventService> services() {

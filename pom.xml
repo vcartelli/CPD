@@ -1,12 +1,9 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>it.beng</groupId>
         <artifactId>microservice-stack</artifactId>
-        <version>1.8-SNAPSHOT</version>
+        <version>1.9-SNAPSHOT</version>
     </parent>
     <artifactId>cpd-server</artifactId>
     <packaging>jar</packaging>
@@ -68,50 +65,24 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <target name="copy and rename file">
-                                        <copy file="src/main/deploy-bundle/web/ROOT/en/index.html"
-                                              tofile="target/deploy-bundle/web/ROOT/en/docker.index.html" verbose="true"
-                                              failonerror="false"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/es/index.html"
-                                              tofile="target/deploy-bundle/web/ROOT/es/docker.index.html" verbose="true"
-                                              failonerror="false"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/it/index.html"
-                                              tofile="target/deploy-bundle/web/ROOT/it/docker.index.html" verbose="true"
-                                              failonerror="false"/>
-                                        <copy file="src/main/deploy-bundle/web/ROOT/gl/index.html"
-                                              tofile="target/deploy-bundle/web/ROOT/gl/docker.index.html" verbose="true"
-                                              failonerror="false"/>
-                                        <copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh"
-                                              verbose="true" overwrite="true"/>
-                                        <copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh"
-                                              verbose="true" overwrite="true"/>
-                                        <copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh"
-                                              verbose="true" overwrite="true"/>
-                                        <copy file="docker/docker.properties"
-                                              tofile="target/deploy-bundle/docker.properties" verbose="true"
-                                              overwrite="true" failonerror="false"/>
-                                        <copy file="docker/docker.oauth2providers.json"
-                                              tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true"
-                                              overwrite="true"/>
-                                        <copy file="docker/conf/docker.cluster.xml"
-                                              tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true"
-                                              overwrite="true"/>
-                                        <copy file="docker/conf/docker.config.json"
-                                              tofile="target/deploy-bundle/conf/docker.config.json" verbose="true"
-                                              overwrite="true"/>
-                                        <copy file="docker/web/assets/conf/docker.config.json"
-                                              tofile="target/deploy-bundle/web/assets/conf/docker.config.json"
-                                              verbose="true" overwrite="true"/>
-                                        <copy file="docker/web/assets/swagger/docker.private-API.json"
-                                              tofile="target/deploy-bundle/web/assets/swagger/docker.private-API.json"
-                                              verbose="true" overwrite="true"/>
-                                        <copy file="docker/web/swagger-ui/docker.swagger.json"
-                                              tofile="target/deploy-bundle/web/swagger-ui/docker.swagger.json"
-                                              verbose="true" overwrite="true"/>
+                                        <copy file="src/main/deploy-bundle/web/ROOT/en/index.html" tofile="target/deploy-bundle/web/ROOT/en/docker.index.html" verbose="true" failonerror="false" />
+                                        <copy file="src/main/deploy-bundle/web/ROOT/es/index.html" tofile="target/deploy-bundle/web/ROOT/es/docker.index.html" verbose="true" failonerror="false" />
+                                        <copy file="src/main/deploy-bundle/web/ROOT/it/index.html" tofile="target/deploy-bundle/web/ROOT/it/docker.index.html" verbose="true" failonerror="false" />
+                                        <copy file="src/main/deploy-bundle/web/ROOT/gl/index.html" tofile="target/deploy-bundle/web/ROOT/gl/docker.index.html" verbose="true" failonerror="false" />
+                                        <copy file="docker/start.sh" tofile="target/deploy-bundle/start.sh" verbose="true" overwrite="true" />
+                                        <copy file="docker/environment.sh" tofile="target/deploy-bundle/environment.sh" verbose="true" overwrite="true" />
+                                        <copy file="docker/configure.sh" tofile="target/deploy-bundle/configure.sh" verbose="true" overwrite="true" />
+                                        <copy file="docker/docker.properties" tofile="target/deploy-bundle/docker.properties" verbose="true" overwrite="true" failonerror="false" />
+                                        <copy file="docker/docker.oauth2providers.json" tofile="target/deploy-bundle/docker.oauth2providers.json" verbose="true" overwrite="true" />
+                                        <copy file="docker/conf/docker.cluster.xml" tofile="target/deploy-bundle/conf/docker.cluster.xml" verbose="true" overwrite="true" />
+                                        <copy file="docker/conf/docker.config.json" tofile="target/deploy-bundle/conf/docker.config.json" verbose="true" overwrite="true" />
+                                        <copy file="docker/web/assets/conf/docker.config.json" tofile="target/deploy-bundle/web/assets/conf/docker.config.json" verbose="true" overwrite="true" />
+                                        <copy file="docker/web/assets/swagger/docker.private-API.json" tofile="target/deploy-bundle/web/assets/swagger/docker.private-API.json" verbose="true" overwrite="true" />
+                                        <copy file="docker/web/swagger-ui/docker.swagger.json" tofile="target/deploy-bundle/web/swagger-ui/docker.swagger.json" verbose="true" overwrite="true" />
                                         <copy todir="target/deploy-bundle/dump" failonerror="false">
-                                            <fileset dir="dump"/>
+                                            <fileset dir="dump" />
                                         </copy>
-                                        <copy file="db-restore.sh" tofile="target/deploy-bundle/db-restore.sh"
-                                              verbose="true"/>
+                                        <copy file="db-restore.sh" tofile="target/deploy-bundle/db-restore.sh" verbose="true" />
                                     </target>
                                 </configuration>
                                 <goals>
@@ -177,6 +148,10 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-auth-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-auth-jwt</artifactId>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
