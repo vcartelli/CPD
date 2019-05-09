@@ -8,8 +8,8 @@ if [ "$PROFILE" != "develop" ] && [ "$PROFILE" != "production" ]; then
   exit 1
 fi;
 source version.sh
-cd "$(dirname "$0")"
-echo "starting $PROFILE compilation ($VERSION)..."
+cd "$(dirname '$0')"
+echo "starting profile '$PROFILE' compilation of version '$VERSION'..."
 mvn clean package -P $PROFILE
 echo "copying target jar to deploy-bundle..."
 cp target/cpd-server-$VERSION-fat.jar target/deploy-bundle/cpd-server.jar
